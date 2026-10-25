@@ -2,20 +2,13 @@
 title: TiDB & Haproxy / show processlist View real IP
 date: 2020-01-02T00:00:00+08:00
 lastmod: 2020-01-10T00:00:00+08:00
-categories:
-  - TiDB
-  - Software
-tags:
-  - TiDB
-  - Haproxy
-  - real server ip
-  - load balance
+tags: ["TiDB", "HAProxy", "real server ip", "load balance"]
 ---
 ## 0x00 - 背景
 
 高可用性（英语：high availability，缩写为 HA）测试 failpoint 场景，需要在服务前面添加 load balance 组件；比如 F5、LVS、Haproxy 等支持 TCP 协议的网络分发负载工具。
 
-之前有篇文档介绍 TiDB & Haproxy [HAproxy – Load Balance Service](/post/20170610-HAproxy "docs.tidb.cc HAproxy – Load Balance Service https://ap.tidb.cc/post/20170610-haproxy/") 使用姿势 / 但随后在运维期间遇见一些小问题；即 TiDB 部署在 Haproxy 后面无法通过 show processlist 查看 client 真实 IP 地址信息，每次 show processlist 看到的都是 Haproxy 主机信息。
+之前有篇文档介绍 TiDB & Haproxy [HAproxy – Load Balance Service](/post/20170610-haproxy/ "docs.tidb.cc HAproxy – Load Balance Service https://ap.tidb.cc/post/20170610-haproxy/") 使用姿势 / 但随后在运维期间遇见一些小问题；即 TiDB 部署在 Haproxy 后面无法通过 show processlist 查看 client 真实 IP 地址信息，每次 show processlist 看到的都是 Haproxy 主机信息。
 
 > Haproxy Proxy Architecture Overview
 
@@ -29,7 +22,7 @@ tags:
 | A | 10.0.1.4 | 外网 IP 为 138.x.x.x
 | B | 42.x.x.x | 客户端所在机器
 
-通过 [HAproxy – Load Balance Service](/post/20170610-HAproxy "docs.tidb.cc HAproxy – Load Balance Service https://ap.tidb.cc/post/20170610-haproxy/")文档中安装 haproxy ； yum install haproxy 并使用文档中的配置文件。
+通过 [HAproxy – Load Balance Service](/post/20170610-haproxy/ "docs.tidb.cc HAproxy – Load Balance Service https://ap.tidb.cc/post/20170610-haproxy/")文档中安装 haproxy ； yum install haproxy 并使用文档中的配置文件。
 
 Haproxy 配置文件栗子如下：
 

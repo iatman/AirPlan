@@ -1,0 +1,50 @@
+{{- $scheme := partial "theme-default.html" . -}}
+{{- $themeScript := resources.Get "js/theme.js" | minify | fingerprint -}}
+{{- $feedStyle := resources.Get "css/feed.css" | minify | fingerprint -}}
+{{- $pages := where .RegularPages "Section" "in" (slice "post" "look") -}}
+{{- if .IsHome -}}
+  {{- $pages = where .Site.RegularPages "Section" "in" (slice "post" "look") -}}
+{{- end -}}
+{{- $pages = first (.Site.Params.rssLimit | default 30) $pages.ByDate.Reverse -}}
+{{- $title := .Site.Title -}}
+{{- if not .IsHome -}}{{ $title = printf "%s · %s" .Title .Site.Title }}{{- end -}}
+{{- $feedURL := .Permalink -}}
+{{- with .OutputFormats.Get "RSS" -}}{{ $feedURL = .Permalink }}{{- end -}}
+{{- printf "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" | safeHTML -}}
+{{- printf "<?xml-stylesheet type=\"text/css\" href=\"%s\"?>\n" $feedStyle.RelPermalink | safeHTML -}}
+<rss data-theme="{{ $scheme }}" data-theme-default="{{ $scheme }}" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml">
+  <channel>
+    <title>{{ $title | htmlEscape | safeHTML }}</title>
+    <link>{{ .Permalink | htmlEscape | safeHTML }}</link>
+    <description>{{ .Site.Params.description | htmlEscape | safeHTML }}</description>
+    <language>{{ .Site.LanguageCode }}</language>
+    <generator>Hugo</generator>
+    {{ with .Site.Copyright }}<copyright>{{ . | htmlEscape | safeHTML }}</copyright>{{ end }}
+    {{ range first 1 $pages }}<lastBuildDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</lastBuildDate>{{ end }}
+    <atom:link href="{{ $feedURL | htmlEscape | safeHTML }}" rel="self" type="application/rss+xml" />
+    <h:script src="{{ $themeScript.RelPermalink }}" type="text/javascript" defer="defer"></h:script>
+    <h:header class="feed-header">
+      <h:nav><h:a href="{{ .Site.Home.Permalink | htmlEscape | safeHTML }}">首页</h:a><h:a href="{{ "archive/" | absURL | htmlEscape | safeHTML }}">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="{{ if eq $scheme "dark" }}true{{ else }}false{{ end }}" title="切换亮暗风格">亮 / 暗</h:button></h:nav>
+      <h:p class="feed-eyebrow">RSS / 全文订阅</h:p>
+      <h:h1>{{ $title | htmlEscape | safeHTML }}</h:h1>
+      <h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 {{ len $pages }} 篇文章的摘要，阅读器中可阅读文章全文。</h:p>
+      <h:a class="feed-address" href="{{ $feedURL | htmlEscape | safeHTML }}">{{ $feedURL | htmlEscape | safeHTML }}</h:a>
+      <h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p>
+    </h:header>
+    {{ range $pages }}
+    <item>
+      <title>{{ .Title | htmlEscape | safeHTML }}</title>
+      <link>{{ .Permalink | htmlEscape | safeHTML }}</link>
+      <guid isPermaLink="true">{{ .Permalink | htmlEscape | safeHTML }}</guid>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</pubDate>
+      {{ with .Site.Author.name }}<dc:creator>{{ . | htmlEscape | safeHTML }}</dc:creator>{{ end }}
+      {{ range .Params.tags }}<category>{{ . | htmlEscape | safeHTML }}</category>{{ end }}
+      <description>{{ partial "summary-text.html" . | truncate 180 | htmlEscape | safeHTML }}</description>
+      {{- $content := partial "rss-content.html" . }}
+      <content:encoded>{{ printf "<![CDATA[%s]]>" (replace $content "]]>" "]]]]><![CDATA[>") | safeHTML }}</content:encoded>
+      <h:time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "2006-01-02" }} · {{ .Section }}</h:time>
+      <h:a class="feed-article-title" href="{{ .Permalink | htmlEscape | safeHTML }}">{{ .Title | htmlEscape | safeHTML }}</h:a>
+    </item>
+    {{ end }}
+  </channel>
+</rss>

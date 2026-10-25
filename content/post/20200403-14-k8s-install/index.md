@@ -2,14 +2,7 @@
 title: K8S 安装记录 - 真神了
 date: 2020-04-03T00:00:00+08:00
 lastmod: 2020-04-03T00:00:00+08:00
-categories:
-  - software
-tags:
-  - Linux
-  - testing
-  - deploy
-  - K8S
-  - kubernetes
+tags: ["Linux", "testing", "Deploy", "Kubernetes"]
 ---
 ## 0x00 缘起
 

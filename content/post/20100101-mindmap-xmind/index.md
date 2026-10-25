@@ -2,11 +2,7 @@
 title: 是软体啦 - 思维导图三体之 xmind
 date: 2010-01-01T00:00:00+08:00
 lastmod: 2020-01-20T00:00:00+08:00
-categories:
-  - software
-tags:
-  - xmind
-  - mindmap
+tags: ["XMind", "mindmap"]
 ---
 ## 0x00 云
 

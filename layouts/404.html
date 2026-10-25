@@ -1,0 +1,49 @@
+{{- define "title" }}404 page not found - {{ .Site.Title }}{{ end -}}
+
+{{- define "content" -}}
+{{- $articles := slice -}}
+{{- range where .Site.RegularPages "Section" "in" (slice "post" "look") -}}
+  {{- $articles = $articles | append (dict "title" .Title "url" .RelPermalink) -}}
+{{- end -}}
+<link rel="stylesheet" href="{{ "css/404.css" | relURL }}">
+<div class="not-found">
+  <h1 class="error-emoji"></h1>
+  <p class="error-text">/* 404 page not found. */</p>
+  {{- with $articles }}
+    <section class="error-articles" aria-labelledby="error-articles-title">
+      <h2 id="error-articles-title">不妨看看这些文章</h2>
+      <ul id="error-random-articles">
+        {{- range first 5 (shuffle .) }}
+          <li><a href="{{ .url }}">{{ .title }}</a></li>
+        {{- end }}
+      </ul>
+    </section>
+  {{- end }}
+  <p class="error-link"><a href="{{ "/" | relLangURL }}">↑ Back Home ↑</a></p>
+</div>
+<script>
+(() => {
+  const emoji = ['\\(o_o)/', '(o^^)o', '(˚Δ˚)b', '(^-^*)', '(≥o≤)', '(^_^)b', '(·_·)', "(='X'=)", '(>_<)', '(;-;)', '\\(^Д^)/'];
+  document.querySelector('.error-emoji').textContent = emoji[Math.floor(Math.random() * emoji.length)];
+
+  const articles = {{ $articles }};
+  const list = document.getElementById('error-random-articles');
+  if (!list) return;
+  // Fisher–Yates: sample without replacement on each visit, including static hosting.
+  for (let i = articles.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [articles[i], articles[j]] = [articles[j], articles[i]];
+  }
+  const fragment = document.createDocumentFragment();
+  articles.slice(0, 5).forEach(article => {
+    const item = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = article.url;
+    link.textContent = article.title;
+    item.append(link);
+    fragment.append(item);
+  });
+  list.replaceChildren(fragment);
+})();
+</script>
+{{- end -}}

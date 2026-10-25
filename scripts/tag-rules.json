@@ -1,0 +1,28 @@
+{
+  "aliases": {
+    "tidb 2.0": "TiDB",
+    "k8s": "Kubernetes",
+    "kubernetes": "Kubernetes",
+    "troubleshooting": "Troubleshooting",
+    "deploy": "Deploy",
+    "monitoring": "Monitoring",
+    "haproxy": "HAProxy",
+    "starrocks": "StarRocks",
+    "tidb": "TiDB",
+    "s3": "S3",
+    "minio": "MinIO",
+    "json": "JSON",
+    "udf": "UDF",
+    "hugo": "Hugo",
+    "github actions": "GitHub Actions",
+    "ci cd": "CI/CD",
+    "alertmanager": "Alertmanager",
+    "node_exporter": "node_exporter",
+    "blackbox": "blackbox_exporter",
+    "teamviewer": "TeamViewer",
+    "screen": "Screen",
+    "xmind": "XMind",
+    "region spilt": "Region Split"
+  },
+  "remove": ["software", "look"]
+}

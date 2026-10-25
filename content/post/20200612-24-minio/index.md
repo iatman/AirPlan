@@ -2,11 +2,7 @@
 title: 软件测试 - S3 协议与 minio
 date: 2020-06-12T00:00:00+08:00
 lastmod: 2020-06-12T00:00:00+08:00
-categories:
-  - software
-tags:
-  - AirPlan
-  - minio
+tags: ["AirPlan", "MinIO"]
 ---
 ## 0x00 S3
 

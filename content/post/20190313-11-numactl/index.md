@@ -2,12 +2,7 @@
 title: 系统调优 - numactl cpubind 
 date: 2019-03-13T00:00:00+08:00
 lastmod: 2019-03-14T00:00:00+08:00
-categories:
-  - software
-tags:
-  - Linux
-  - AirPlan
-  - numactl
+tags: ["Linux", "AirPlan", "numactl"]
 ---
 ## 0x00 CCC
 

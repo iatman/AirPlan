@@ -1,0 +1,11 @@
+{{- /* Keep Hugo's existing social metadata, replacing descriptions that use
+     the already-flattened automatic Summary with the shared clean excerpt. */ -}}
+{{- $description := .Site.Params.description -}}
+{{- if .IsPage -}}{{ $description = partial "summary-text.html" . | truncate 160 }}{{- end -}}
+{{- with .Description -}}{{ $description = . }}{{- end -}}
+{{- $meta := partial "metadata/even-builtin.html" . -}}
+{{- $meta = replaceRE `<meta\b[^>]*(?:name|property|itemprop)="(?:og:description|twitter:description|description)"[^>]*>` "" $meta -}}
+{{ $meta | safeHTML }}
+<meta property="og:description" content="{{ $description }}">
+<meta name="twitter:description" content="{{ $description }}">
+<meta itemprop="description" content="{{ $description }}">

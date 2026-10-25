@@ -1,0 +1,11 @@
+{{- $light := resources.Get "branding/archive/archive-light.svg" | fingerprint -}}
+{{- $darkSource := resources.Get "branding/archive/archive-dark.png" -}}
+{{- $dark := $darkSource.Resize "800x webp q78" -}}
+{{- $darkRetina := $darkSource.Resize "1200x webp q78" -}}
+<style>
+.archive-intro-art { --archive-light-image: url('{{ $light.RelPermalink }}'); --archive-dark-image: url('{{ $dark.RelPermalink }}'); --archive-dark-retina: url('{{ $darkRetina.RelPermalink }}'); }
+</style>
+<header class="page-intro archive-intro">
+  <div class="archive-intro-art" aria-hidden="true"></div>
+  <div class="archive-intro-copy"><p class="eyebrow">TRACES OF THE JOURNEY</p><h1>行記</h1><p>技術與生活，皆是走過的路。循著路標，重訪某一程。</p></div>
+</header>

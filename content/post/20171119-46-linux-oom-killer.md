@@ -2,12 +2,7 @@
 title: Linux - OOM > out of memory
 date: 2017-11-19T00:00:00+08:00
 lastmod: 2018-05-22T00:00:00+08:00
-categories:
-  - Troubleshooting
-tags:
-  - Linux
-  - TiDB
-  - OOM
+tags: ["Linux", "TiDB", "OOM", "Troubleshooting"]
 ---
 ## 0x00 开头
 

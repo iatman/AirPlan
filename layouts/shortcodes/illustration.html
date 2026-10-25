@@ -1,0 +1,16 @@
+{{- $source := .Page.Resources.GetMatch (.Get "src") -}}
+{{- with $source -}}
+  {{- $small := .Resize "640x webp q82" -}}
+  {{- $medium := .Resize "960x webp q82" -}}
+  {{- $large := .Resize "1280x webp q82" -}}
+<figure class="about-illustration">
+  <img src="{{ $medium.RelPermalink }}"
+       srcset="{{ $small.RelPermalink }} 640w, {{ $medium.RelPermalink }} 960w, {{ $large.RelPermalink }} 1280w"
+       sizes="(max-width: 480px) calc(100vw - 36px), (max-width: 800px) calc(100vw - 48px), 800px"
+       width="{{ $large.Width }}" height="{{ $large.Height }}"
+       alt="{{ $.Get "alt" }}" loading="lazy" decoding="async">
+  <figcaption><strong>{{ $.Get "title" }}</strong>{{ with $.Get "caption" }}<span>{{ . }}</span>{{ end }}</figcaption>
+</figure>
+{{- else -}}
+  {{- errorf "Illustration not found: %s (%s)" (.Get "src") .Page.File.Path -}}
+{{- end -}}

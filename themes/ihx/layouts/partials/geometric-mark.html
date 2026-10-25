@@ -1,0 +1,26 @@
+{{/* Header only. Letter contours follow the supplied IHX reference; orbit is a true circle. */}}
+<svg class="geometric-mark" viewBox="0 -35 660 385" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="ihx-moon-rim" x1="560" y1="-25" x2="355" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8e958a" stop-opacity=".95"/>
+      <stop offset=".4" stop-color="#909b95" stop-opacity=".65"/>
+      <stop offset=".72" stop-color="#a6aea3" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#b5b9ac" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="ihx-letter-ink" x1="275" y1="130" x2="275" y2="334" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#131b1c"/><stop offset=".7" stop-color="#202a2c"/><stop offset="1" stop-color="#b4a78b"/></linearGradient>
+    <radialGradient id="ihx-letter-light" cx="0" cy="0" r="1" gradientTransform="translate(343 332) scale(43 32)" gradientUnits="userSpaceOnUse"><stop stop-color="#f5ddab" stop-opacity=".9"/><stop offset="1" stop-color="#d2ae72" stop-opacity="0"/></radialGradient>
+  </defs>
+  {{/* The lunar rim encloses the star, fading toward the lower left behind the letters. */}}
+  <circle class="mark-orbit" cx="465" cy="155" r="180" stroke="url(#ihx-moon-rim)" stroke-width="1.5"/>
+  <path class="mark-ray" d="M410 334L581 164" stroke="currentColor" stroke-width="2.4"/>
+  <g fill="#131b1c">
+    <circle cx="65" cy="137" r="20"/>
+    <path d="M20 194L80 171V278C80 310 49 333 12 334C40 330 43 318 43 293V204Z"/>
+    <path d="M431 208H484L616 334H562Z"/>
+  </g>
+  <path d="M153 55L195 31V191C225 158 257 144 289 145C341 146 371 177 371 223V334H329V219C329 175 310 157 279 157C249 157 219 175 195 203V334H153Z" fill="url(#ihx-letter-ink)"/>
+  <path d="M12 334C91 334 121 272 153 234C191 188 226 151 279 151" stroke="#70736b" stroke-width="1.2"/>
+  <path class="mark-star" d="M600 87C600 132 594 142 568 145C594 148 600 158 600 203C602 158 608 148 634 145C608 142 602 132 600 87Z" fill="currentColor"/>
+  <path class="mark-horizon" d="M12 335H616" stroke="currentColor" stroke-width="1"/>
+  <path d="M300 300H382V335H300Z" fill="url(#ihx-letter-light)"/>
+</svg>

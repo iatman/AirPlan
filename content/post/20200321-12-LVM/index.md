@@ -2,11 +2,7 @@
 title: Linux - 可大可小的 LVM
 date: 2020-03-21T00:00:00+08:00
 lastmod: 2020-03-22T00:00:00+08:00
-categories:
-  - software
-tags:
-  - Linux
-  - LVM
+tags: ["Linux", "LVM"]
 ---
 ## 0x00 理由
 

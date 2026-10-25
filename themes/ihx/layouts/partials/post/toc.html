@@ -1,0 +1,3 @@
+{{ if and (or .Params.toc (and .Site.Params.toc (ne .Params.toc false))) (findRE `<a href` .TableOfContents) }}
+<details class="post-toc" id="post-toc" open><summary class="post-toc-title">此篇路標 <span aria-hidden="true">⌄</span></summary><div class="post-toc-content always-active">{{ .TableOfContents }}</div></details>
+{{ end }}

@@ -2,12 +2,7 @@
 title: 监控架构 - 那些年我们举报的神马
 date: 2017-06-05T00:00:00+08:00
 lastmod: 2020-01-20T00:00:00+08:00
-categories:
-  - Monitoring
-tags:
-  - Deploy
-  - AlertManager
-  - Prometheus
+tags: ["Deploy", "Alertmanager", "Prometheus", "Monitoring"]
 ---
 ## 创业
 
@@ -232,7 +227,7 @@ tags:
   - 参考：[slack_config](https://prometheus.io/docs/alerting/configuration/#slack_config)
   - 参考：[slack_api](https://api.slack.com/docs/message-attachments)
   - 参考：AlertManager config 示例 [Example](https://github.com/prometheus/alertmanager#example)
-  - alertmanger 配置文件说明阅读 [监控架构 - 专业打小报告好多年](/post/20170604-AlertManager "ap.tidb.cc tidb alertmanager")
+  - alertmanger 配置文件说明阅读 [监控架构 - 专业打小报告好多年](/post/20170604-alertmanager/ "ap.tidb.cc tidb alertmanager")
 
 - 以下内容保存为 `alertmanager.yml` 文件，AlertManager 启动时指定该配置文件启动
 

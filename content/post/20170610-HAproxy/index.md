@@ -2,12 +2,7 @@
 title: 负载均衡 - HAProxy & TiDB 配合食用
 date: 2017-06-10T00:00:00+08:00
 lastmod: 2020-01-20T00:00:00+08:00
-categories:
-  - software
-tags:
-  - TiDB
-  - HAProxy
-  - AirPlan
+tags: ["TiDB", "HAProxy", "AirPlan"]
 ---
 ## 0x01 介绍
 

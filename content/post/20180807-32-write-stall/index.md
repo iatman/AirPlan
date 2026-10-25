@@ -2,13 +2,11 @@
 title: School - TiKV write stall
 date: 2018-08-07T00:00:00+08:00
 lastmod: 2018-08-07T00:00:00+08:00
-categories:
-  - troubleshooting
-tags:
-  - TiDB 2.0
-  - server is busy
-  - write stall
+tags: ["TiDB", "server is busy", "write stall", "Troubleshooting"]
 ---
+
+> 适用版本：TiDB 2.0。
+
 ## 0x00 告警
 
 - TiDB 与 TiKV 出现大量 backoff；触发 backoff 告警阈值

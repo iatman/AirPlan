@@ -2,11 +2,7 @@
 title: 纸上谈兵-存算分离 FE 灾难恢复
 date: 2024-10-31T00:00:00+08:00
 lastmod: 2024-10-31T00:00:00+08:00
-categories:
-  - StarRocks
-tags:
-  - FE
-  - minio
+tags: ["FE", "MinIO", "StarRocks"]
 ---
 
 ## 0x00 概览

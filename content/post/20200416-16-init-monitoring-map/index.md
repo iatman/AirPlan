@@ -2,13 +2,7 @@
 title: 沙盘点将 - TiDB 监控知识初始化
 date: 2020-04-16T00:00:00+08:00
 lastmod: 2020-04-16T00:00:00+08:00
-categories:
-  - TiDB
-  - monitoring
-tags:
-  - TiDB
-  - performance
-  - monitoring
+tags: ["TiDB", "performance", "Monitoring"]
 ---
 ## 0x00 点点滴滴
 
@@ -20,7 +14,7 @@ tags:
 
 ![监控架构](./monitoring-ace.png "ap.tidb.cc tidb metrics")
 
-Grafana Prometheus 的监控平台架构本次不在多说了，这部分内容可以看浏览下以往文档[站内分类 - monitoring](/categories/monitoring/)
+Grafana Prometheus 的监控平台架构本次不在多说了，这部分内容可以看浏览下以往文档[站内分类 - monitoring](/tags/monitoring/)
 
 ### 那些事
 

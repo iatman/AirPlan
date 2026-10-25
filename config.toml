@@ -1,11 +1,11 @@
 baseURL = "https://atman.ihx.cc/"
-languageCode = "en"
-defaultContentLanguage = "en"                             # en / zh-cn / ... (This field determines which i18n file to use)
-title = "AirPlan - A biger solution"
+languageCode = "zh-CN"
+defaultContentLanguage = "zh-cn"                             # en / zh-cn / ... (This field determines which i18n file to use)
+title = "atman · ihx.cc | AirPlan - A biger solution"
 preserveTaxonomyNames = true
 enableRobotsTXT = true
 enableEmoji = true
-theme = "even"
+theme = "ihx" # 单一本地主题，内置亮色与暗色风格
 enableGitInfo = false # use git commit log to generate lastmod record # 可根据 Git 中的提交生成最近更新记录。
 
 # Syntax highlighting by Chroma. NOTE: Don't enable `highlightInClient` and `chroma` at the same time!
@@ -18,7 +18,7 @@ hasCJKLanguage = true     # has chinese/japanese/korean ? # 自动检测是否�
 paginate = 15                                              # 首页每页显示的文章数
 disqusShortname = ""      # disqus_shortname
 googleAnalytics = ""      # UA-XXXXXXXX-X
-copyright = "DataBase - biger.cc"            # default: author.name ↓        # 默认为下面配置的author.name ↓
+copyright = "DataBase - Atman as @man"            # default: author.name ↓        # 默认为下面配置的author.name ↓
 
 [author]                  # essential                     # 必需
   name = "Atman"
@@ -31,39 +31,29 @@ copyright = "DataBase - biger.cc"            # default: author.name ↓        #
 [[menu.main]]             # config your menu              # 配置目录
   name = "Archive"
   weight = 10
-  identifier = "自制饭"
-  url = "/post/"
-[[menu.main]]            
-  name = "Look"
-  weight = 20
-  identifier = "大眼看世界"
-  url = "/look/"
-[[menu.main]]
-  name = "Tags"
-  weight = 30
-  identifier = "tags"
-  url = "/tags/"
-[[menu.main]]
-  name = "Categories"
-  weight = 40
-  identifier = "categories"
-  url = "/categories/"
+  identifier = "archive"
+  url = "/archive/"
+
+[taxonomies]
+  tag = "tags"
 
 [params]
+  colorScheme = "dark"    # 默认风格：dark / light；访客手动选择后优先使用本地偏好
+  rssLimit = 30            # 最近 30 篇文章，浏览器展示摘要，阅读器提供全文
   version = "4.x"           # Used to give a friendly message when you have an incompatible update
   debug = false             # If true, load `eruda.min.js`. See https://github.com/liriliri/eruda
 
-  since = "2014"            # Site creation time          # 站点建立时间
+  since = "2009"            # Site creation time          # 站点建立时间
   # use public git repo url to link lastmod git commit, enableGitInfo should be true.
   # 指定 git 仓库地址，可以生成指向最近更新的 git commit 的链接，需要将 enableGitInfo 设置成 true.
   gitRepo = ""
 
   # site info (optional)                                  # 站点信息（可选，不需要的可以直接注释掉）
-  logoTitle = "@man"        # default: the title value    # 默认值: 上面设置的title值
+  logoTitle = "atman"        # default: the title value    # 默认值: 上面设置的title值
   keywords = ["TiDB", "AirPlan","TiDB OPS","tidb-operator","2pc","raft","databases","mysql","htap","StarRocks","OLAP","OLTP","HTAP"]
-  description = "A biger solution -- @man"
+  description = "君子不器，日日自新。一處關於技術、生活與自我探索的行記。"
 
-  # paginate of archives, tags and categories             # 归档、标签、分类每页显示的文章数目，建议修改为一个较大的值
+  # paginate of archives and tags             # 归档、标签每页显示的文章数目，建议修改为一个较大的值
   archivePaginate = 35
 
   # show 'xx Posts In Total' in archive page ?            # 是否在归档页显示文章的总数
@@ -92,7 +82,7 @@ copyright = "DataBase - biger.cc"            # default: author.name ↓        #
 
   postMetaInFooter = true   # contain author, lastMod, markdown link, license           # 包含作者，上次修改时间，markdown链接，许可信息
   linkToMarkDown = false    # Only effective when hugo will output .md files.           # 链接到markdown原始文件（仅当允许hugo生成markdown文件时有效）
-  contentCopyright = '<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a> ｜ 本文不带任何官方色彩，最终解释权归本站所有'     # e.g. '<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>'
+  contentCopyright = '<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>'     # e.g. '<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>'
 
   changyanAppid = ""        # Changyan app id             # 畅言
   changyanAppkey = ""       # Changyan app key
@@ -106,8 +96,8 @@ copyright = "DataBase - biger.cc"            # default: author.name ↓        #
 
   # Link custom CSS and JS assets
   #   (relative to /static/css and /static/js respectively)
-  customCSS = []
-  customJS = []
+  customCSS = ["code-wrap.css", "back-to-top.css"]
+  customJS = ["code-wrap.js", "back-to-top.js"]
 
   uglyURLs = false          # please keep same with uglyurls setting
 
@@ -185,7 +175,7 @@ copyright = "DataBase - biger.cc"            # default: author.name ↓        #
     #d-facebook = "http://localhost:1313"
     #e-linkedin = "http://localhost:1313"
     #f-google = "http://localhost:1313"
-    g-github = "https://github.com/BigerCAP/TiDB-AirPlan/issues"
+    g-github = "https://github.com/"
     #h-weibo = "http://localhost:1313"
     #i-zhihu = "http://localhost:1313"
     #j-douban = "http://localhost:1313"

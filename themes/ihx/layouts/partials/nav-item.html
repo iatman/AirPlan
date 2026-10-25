@@ -1,0 +1,4 @@
+<a class="nav-swap{{ if .active }} is-active{{ end }}" href="{{ .url | safeURL }}" aria-label="{{ .label }}"{{ if .active }} aria-current="page"{{ end }}>
+  <span class="nav-label">{{ .label }}</span>
+  <span class="nav-art nav-art-{{ .icon }}" aria-hidden="true"></span>
+</a>

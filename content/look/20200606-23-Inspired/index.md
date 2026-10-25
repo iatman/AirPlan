@@ -2,11 +2,7 @@
 title: Product manager / 涉猎围观
 date: 2020-06-06T00:00:00+08:00
 lastmod: 2020-06-06T00:00:00+08:00
-categories: 
-  - Look
-tags:
-  - Product manager
-  - Book
+tags: ["Product manager", "Book"]
 ---
 ## 0x00 inspired-启示录
 

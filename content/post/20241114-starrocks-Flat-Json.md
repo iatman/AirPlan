@@ -2,11 +2,7 @@
 title: StarRocks Flat Json 物化列验证
 date: 2024-11-14T00:00:00+08:00
 lastmod: 2024-11-14T00:00:00+08:00
-categories: 
-  - StarRocks
-tags:
-  - StarRocks
-  - Json
+tags: ["StarRocks", "JSON"]
 ---
 
 ## 0x00 概要

@@ -1,0 +1,11 @@
+{{- /* Hugo's automatic Summary has already flattened Chroma's line-number
+     gutter into text. Strip only the generated gutter spans from HTML first. */ -}}
+{{- $html := .Content -}}
+{{- with .Params.summary -}}{{ $html = . | markdownify }}{{- end -}}
+{{- $html = replaceRE `(?s)<span\b[^>]*\bclass=["'](?:lnt|ln)["'][^>]*>.*?</span>` "" $html -}}
+{{- /* Separate block elements before stripping tags, preserving code text. */ -}}
+{{- $html = replaceRE `(?i)</(?:p|div|pre|blockquote|h[1-6]|li|tr)>` "$0 " $html -}}
+{{- $text := $html | plainify | htmlUnescape -}}
+{{- $text = replaceRE `[\x00-\x08\x0B\x0C\x0E-\x1F\x{FFFE}\x{FFFF}]` "" $text -}}
+{{- $text = trim (replaceRE `\s+` " " $text) " " -}}
+{{- return $text -}}

@@ -2,10 +2,7 @@
 title: 九死一生 - 运维小技巧
 date: 2020-07-02T00:00:00+08:00
 lastmod: 2020-07-03T00:00:00+08:00
-categories:
-  - troubleshooting
-tags:
-  - AirPlan
+tags: ["AirPlan", "Troubleshooting"]
 ---
 ## 0x00 陷入江局
 

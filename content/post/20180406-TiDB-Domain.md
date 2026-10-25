@@ -2,11 +2,7 @@
 title: 测试域名代替 IP 部署 TiDB
 date: 2018-04-06T00:00:00+08:00
 lastmod: 2020-01-20T00:00:00+08:00
-categories: 
-  - TiDB
-tags:
-  - Deploy
-  - Domain
+tags: ["Deploy", "Domain", "TiDB"]
 ---
 ## 0x00 假设
 

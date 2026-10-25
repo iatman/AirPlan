@@ -2,12 +2,7 @@
 title: TiDB 4.0 新特性 
 date: 2020-05-04T00:00:00+08:00
 lastmod: 2020-05-04T00:00:00+08:00
-categories:
-  - TiDB
-tags:
-  - keyvis
-  - K8S
-  - HTAP
+tags: ["keyvis", "Kubernetes", "HTAP", "TiDB"]
 ---
 ## 0x00 Live
 

@@ -2,11 +2,7 @@
 title: TiKV 磁盘空间回收步骤记录
 date: 2018-05-03T00:00:00+08:00
 lastmod: 2020-01-20T00:00:00+08:00
-categories:
-  - Troubleshooting
-tags:
-  - TiKV
-  - Disk
+tags: ["TiKV", "Disk", "Troubleshooting"]
 ---
 ## 0x00 前景介绍
 

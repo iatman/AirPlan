@@ -2,11 +2,7 @@
 title: Flink Connector 组件功能学习与测试
 date: 2023-09-28T00:00:00+08:00
 lastmod: 2023-09-28T00:00:00+08:00
-categories:
-  - software
-tags:
-  - Flink
-  - StarRocks
+tags: ["Flink", "StarRocks"]
 ---
 
 挑选安装版本跳过

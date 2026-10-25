@@ -2,10 +2,7 @@
 title: School - TiDB Region Spilt
 date: 2018-08-24T00:00:00+08:00
 lastmod: 2018-08-24T00:00:00+08:00
-categories:
-  - troubleshooting
-tags:
-  - region spilt
+tags: ["Region Split", "Troubleshooting"]
 ---
 ## 0x00 元
 

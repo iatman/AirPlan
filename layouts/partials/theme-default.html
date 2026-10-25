@@ -1,0 +1,5 @@
+{{- $scheme := .Site.Params.colorScheme | default "dark" | lower -}}
+{{- if not (in (slice "light" "dark") $scheme) -}}
+  {{- errorf "params.colorScheme must be light or dark, got %q" $scheme -}}
+{{- end -}}
+{{- return $scheme -}}

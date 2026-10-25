@@ -2,12 +2,7 @@
 title: Linux - Transfer.sh 一键文件服务器
 date: 2017-08-09T00:00:00+08:00
 lastmod: 2020-01-21T00:00:00+08:00
-categories:
-  - software
-tags:
-  - Linux
-  - Transfer
-  - AirPlan
+tags: ["Linux", "Transfer", "AirPlan"]
 ---
 ## 0x00 起源
 

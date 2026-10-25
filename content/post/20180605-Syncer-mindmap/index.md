@@ -2,11 +2,7 @@
 title: 总结 - Syncer 助力思维成长
 date: 2018-06-05T00:00:00+08:00
 lastmod: 2020-01-20T00:00:00+08:00
-categories:
-  - Troubleshooting
-tags:
-  - Syncer
-  - enterprise tools
+tags: ["Syncer", "enterprise tools", "Troubleshooting"]
 ---
 ## 0x00 背景
 
@@ -57,7 +53,7 @@ tags:
   - Sycner [同步前的一些检查项](https://github.com/pingcap/docs-cn/blob/master/tools/syncer.md#syncer-%E5%90%8C%E6%AD%A5%E5%89%8D%E6%A3%80%E6%9F%A5) ：检查上下游之间的参数是否符合需求
   - Syncer [监控项 / 告警项配置](https://github.com/pingcap/docs-cn/blob/master/tools/syncer.md#%E7%9B%91%E6%8E%A7%E6%96%B9%E6%A1%88) ：设置这个可以观察 Syncer 运行状态
   - Syncer 数据同步不正常，应当先检查 [配置文件](https://github.com/pingcap/docs-cn/blob/master/tools/syncer.md#%E5%90%AF%E5%8A%A8-syncer) 与 [route-rule](https://github.com/pingcap/docs-cn/blob/master/tools/syncer.md#%E6%8C%87%E5%AE%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8C%E6%AD%A5)，检查这些是否与期望相等
-  - Syncer [启动方式与守护进程](../Docs/180323-Systemd-Syncer.md)
+  - Syncer [启动方式与守护进程](/post/20180323-systemd-syncer/)
 
 ### 上下游 schema 不一致场景
 

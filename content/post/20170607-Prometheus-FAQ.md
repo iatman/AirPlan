@@ -2,12 +2,7 @@
 title: 监控架构 - TIDB 监控运维 FAQ
 date: 2017-06-07T00:00:00+08:00
 lastmod: 2020-01-23T00:00:00+08:00
-categories:
-  - Monitoring
-tags:
-  - Prometheus
-  - Grafana
-  - TiDB
+tags: ["Prometheus", "Grafana", "TiDB", "Monitoring"]
 ---
 ## 0x00 唠叨
 

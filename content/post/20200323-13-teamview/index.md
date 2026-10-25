@@ -2,10 +2,7 @@
 title: 使用软件时强制升级的设计
 date: 2020-03-23 12:40:52
 updated: 2020-03-23 21:40:52
-categories:
-  - software
-tags:
-  - teamviewer
+tags: ["TeamViewer"]
 ---
 ## 0x00 看到
 

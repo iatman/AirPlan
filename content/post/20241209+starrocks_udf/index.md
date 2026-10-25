@@ -2,11 +2,7 @@
 title: StarRocks UDF 开发并测试
 date: 2024-12-09T00:00:00+08:00
 lastmod: 2024-12-09T00:00:00+08:00
-categories:
-  - StarRocks
-tags:
-  - StarRocks
-  - udf
+tags: ["StarRocks", "UDF"]
 ---  
 
 > 在线 [Java 代码编译验证](https://onecompiler.com/java/432mabfyh)  

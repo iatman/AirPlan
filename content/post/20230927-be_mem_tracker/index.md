@@ -2,12 +2,7 @@
 title: StarRocks BE 进程内存线程占用比例
 date: 2023-09-27T00:00:00+08:00
 lastmod: 2023-09-27T00:00:00+08:00
-categories:
-  - software
-tags:
-  - StarRocks
-  - BE
-  - Memory
+tags: ["StarRocks", "BE", "Memory"]
 ---
 
 

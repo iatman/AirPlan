@@ -2,11 +2,7 @@
 title: 纸上谈兵 - TiDB 性能调优
 date: 2020-03-11T00:00:00+08:00
 lastmod: 2020-03-12T00:00:00+08:00
-categories:
-  - TiDB
-tags:
-  - TiDB
-  - performance
+tags: ["TiDB", "performance"]
 ---
 ## 0x00 缘 妙不可言
 

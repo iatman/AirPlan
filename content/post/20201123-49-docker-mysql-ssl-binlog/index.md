@@ -2,11 +2,7 @@
 title: Docker - MySQL SSL & Binlog
 date: 2020-11-23T00:00:00+08:00
 lastmod: 2020-11-23T00:00:00+08:00
-categories:
-  - software
-tags:
-  - Linux
-  - Docker
+tags: ["Linux", "Docker"]
 ---
 ## 0x00 init
 

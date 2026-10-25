@@ -25,7 +25,9 @@ jobs:
         extended: true
 
     - name: Build
-      run: hugo --minify
+      run: |
+        hugo --minify
+        python3 scripts/check_site.py public
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
@@ -34,4 +36,4 @@ jobs:
         publish_branch: gh-pages
         publish_dir: ./public
         user_name: 'AP-actions[bot]'
-        user_email: 'ap@biger.cc'
+        user_email: 'github-actions[bot]@users.noreply.github.com'

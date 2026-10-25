@@ -2,11 +2,7 @@
 title: TiDB - CDC RC1 测试
 date: 2020-06-01T00:00:00+08:00
 lastmod: 2020-06-01T00:00:00+08:00
-categories:
-  - TiDB
-tags:
-  - AirPlan
-  - CDC
+tags: ["AirPlan", "CDC", "TiDB"]
 ---
 ## 0x00 CDC
 

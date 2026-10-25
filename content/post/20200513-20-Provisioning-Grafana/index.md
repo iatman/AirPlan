@@ -2,12 +2,7 @@
 title: 监控组件 - Provisioning Grafana
 date: 2020-05-13T00:00:00+08:00
 lastmod: 2020-05-14T00:00:00+08:00
-categories:
-  - monitoring
-tags:
-  - Linux
-  - AirPlan
-  - Grafana
+tags: ["Linux", "AirPlan", "Grafana", "Monitoring"]
 ---
 ## 0x00 话不多说
 

@@ -2,10 +2,7 @@
 title: TiDB 4.0 -- keyvis-diagnostics
 date: 2020-05-21T00:00:00+08:00
 lastmod: 2020-05-21T00:00:00+08:00
-categories:
-  - TiDB
-tags:
-  - keyvis
+tags: ["keyvis", "TiDB"]
 ---
 ## 0x00 KeyVis
 

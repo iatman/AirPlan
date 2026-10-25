@@ -2,11 +2,11 @@
 title: School - TiDB 根据 PK 查询不到数据
 date: 2018-08-03T00:00:00+08:00
 lastmod: 2020-08-03T00:00:00+08:00
-categories:
-  - troubleshooting
-tags:
-  - TiDB 2.0
+tags: ["TiDB", "Troubleshooting"]
 ---
+
+> 适用版本：TiDB 2.0。
+
 ## 0x00 复古文档
 
 根据 PK 查询不不到数据、根据其他索引字段可以查询到数据、根据 count 确认不同字段下数据量一致；

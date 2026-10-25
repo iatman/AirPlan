@@ -1,0 +1,29 @@
+{{- $scheme := partial "theme-default.html" . -}}
+<!DOCTYPE html>
+<html lang="zh-Hans" data-theme="{{ $scheme }}" data-theme-default="{{ $scheme }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="{{ $scheme }}">
+  <meta name="theme-color" content="{{ if eq $scheme "dark" }}#111917{{ else }}#e6e3d9{{ end }}">
+  <script>{{ (resources.Get "js/theme.js").Content | safeJS }}</script>
+  <title>{{ block "title" . }}{{ if not .IsHome }}{{ .Title }} · {{ end }}{{ .Site.Title }}{{ end }}</title>
+  {{ partial "head.html" . }}
+</head>
+<body class="ihx {{ if .IsHome }}is-home{{ else if eq .Layout "archive" }}is-archive{{ else if .IsPage }}is-article{{ else }}is-list{{ end }}">
+  <a class="skip-link" href="#main">跳至正文</a>
+  <div class="container" id="mobile-panel">
+    {{ if not .Params.hideHeaderAndFooter }}
+      <header id="header" class="header">{{ partial "header.html" . }}</header>
+    {{ end }}
+    <main id="main" class="main" tabindex="-1">
+      <div class="content-wrapper"><div id="content" class="content">{{ if eq .Layout "archive" }}{{ partial "archive-intro.html" . }}{{ end }}{{ block "content" . }}{{ end }}</div>{{ partial "comments.html" . }}</div>
+    </main>
+    {{ if not .Params.hideHeaderAndFooter }}<footer id="footer" class="footer">{{ partial "footer.html" . }}</footer>{{ end }}
+  </div>
+  <button type="button" class="back-to-top" id="back-to-top-control" aria-label="返回顶部" aria-hidden="true" tabindex="-1" title="返回顶部">
+    <i class="iconfont icon-up" aria-hidden="true"></i><span class="back-to-top-label">返回顶部</span>
+  </button>
+  {{ partial "scripts.html" . }}
+</body>
+</html>

@@ -2,11 +2,7 @@
 title: School - Binlog & TSO
 date: 2018-10-29T00:00:00+08:00
 lastmod: 2018-10-29T00:00:00+08:00
-categories:
-  - troubleshooting
-tags:
-  - Binlog
-  - TSO
+tags: ["Binlog", "TSO", "Troubleshooting"]
 ---
 ## 0x00 事前
 

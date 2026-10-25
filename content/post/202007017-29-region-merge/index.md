@@ -2,11 +2,7 @@
 title: TiDB - PD Region Merge 食草兽
 date: 2020-07-17T00:00:00+08:00
 lastmod: 2020-07-18T00:00:00+08:00
-categories:
-  - TiDB
-tags:
-  - AirPlan
-  - PD
+tags: ["AirPlan", "PD", "TiDB"]
 ---
 ## 0x00 开始
 

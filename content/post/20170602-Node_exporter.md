@@ -2,11 +2,7 @@
 title: 监控架构 - Node_exporter 系统监控组件
 date: 2017-06-02T00:00:00+08:00
 lastmod: 2020-01-20T00:00:00+08:00
-categories:
-  - Monitoring
-tags:
-  - Node_exporter
-  - Prometheus
+tags: ["node_exporter", "Prometheus", "Monitoring"]
 ---
 ## 0x00 起源
 
@@ -71,7 +67,7 @@ ksmd | Exposes kernel and system statistics from `/sys/kernel/mm/ksm`. | Linux
 logind | Exposes session counts from [logind](http://www.freedesktop.org/wiki/Software/systemd/logind/). | Linux
 meminfo\_numa | Exposes memory statistics from `/proc/meminfo_numa`. | Linux
 mountstats | Exposes filesystem statistics from `/proc/self/mountstats`. Exposes detailed NFS client statistics. | Linux
-ntp | Exposes local NTP daemon health to check [time](./docs/TIME.md) | _any_
+ntp | Exposes local NTP daemon health to check [time](https://github.com/prometheus/node_exporter/blob/master/docs/TIME.md) | _any_
 qdisc | Exposes [queuing discipline](https://en.wikipedia.org/wiki/Network_scheduler#Linux_kernel) statistics | Linux
 runit | Exposes service status from [runit](http://smarden.org/runit/). | _any_
 supervisord | Exposes service status from [supervisord](http://supervisord.org/). | _any_

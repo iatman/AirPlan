@@ -2,11 +2,7 @@
 title: AP - TiSpark 服务安装 部署 测试
 date: 2018-04-16T00:00:00+08:00
 lastmod: 2020-01-26T00:00:00+08:00
-categories:
-  - TiSpark
-tags:
-  - Deploy
-  - Zeppelin
+tags: ["Deploy", "Zeppelin", "TiSpark"]
 ---
 ## 0x00 介绍
 

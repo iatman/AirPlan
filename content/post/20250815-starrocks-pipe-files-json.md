@@ -2,12 +2,7 @@
 title: 通过 pipes 配合 insert into select files 增量导入
 date: 2025-08-15T00:00:00+08:00
 lastmod: 2025-08-15T00:00:00+08:00
-categories:
-  - software
-tags:
-  - S3
-  - starrocks
-  - files
+tags: ["S3", "StarRocks", "files"]
 ---
 
 ## 测试目的 

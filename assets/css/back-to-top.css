@@ -1,0 +1,60 @@
+/* The distinct ID keeps even's legacy jQuery controller off this button. */
+#back-to-top-control {
+  display: inline-flex !important;
+  position: fixed;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 7px 15px;
+  border: 1px solid #e5ddd7;
+  border-radius: 24px;
+  background: #f8f5ec;
+  color: #66564e;
+  box-shadow: 0 3px 14px rgba(52, 73, 94, .12);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, -24px);
+  transition: opacity 180ms ease, transform 220ms ease, visibility 220ms,
+    color 150ms, border-color 150ms, background-color 150ms;
+}
+#back-to-top-control.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+#back-to-top-control:hover {
+  color: #c05b4d;
+  border-color: #c05b4d;
+  background: #fff;
+}
+#back-to-top-control:focus-visible {
+  outline: 2px solid #c05b4d;
+  outline-offset: 3px;
+}
+#back-to-top-control .icon-up {
+  font-size: 19px;
+  line-height: 1;
+}
+#back-to-top-control.is-visible .icon-up {
+  animation: back-to-top-nudge 420ms ease-out;
+}
+@keyframes back-to-top-nudge {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #back-to-top-control { transition: none; }
+  #back-to-top-control.is-visible .icon-up { animation: none; }
+}

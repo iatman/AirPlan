@@ -1,0 +1,397 @@
+{
+  "scope": "Top-level lists under 花 and 阅 in weekly Look posts; not a complete or verified library.",
+  "files": [
+    {
+      "file": "content/look/260111-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "夜班 Heldin (2025)",
+          "paper_urls": [],
+          "rating": 8.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "花",
+          "title": "三级警戒 Code 3 (2025)",
+          "paper_urls": [],
+          "rating": 8.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "《Performant Synchronization in Geo-Distributed Databases》",
+          "paper_urls": [
+            "https://arxiv.org/html/2511.22444"
+          ],
+          "rating": null,
+          "review_status": "needs-review"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260119-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "阳光普照 陽光普照 (2019)",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "花",
+          "title": "喜丧 (2015)",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "《FalconFS: Distributed File System for Large-Scale Deep Learning Pipeline 》",
+          "paper_urls": [
+            "https://arxiv.org/abs/2507.10367"
+          ],
+          "rating": null,
+          "review_status": "needs-review"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260126-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "海市蜃楼 (2025)",
+          "paper_urls": [],
+          "rating": 8.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "花",
+          "title": "血，总是热的 (1983)",
+          "paper_urls": [],
+          "rating": 8.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "无",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "skip-empty"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260201-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "诡才之道 鬼才之道 (2024)",
+          "paper_urls": [],
+          "rating": 8.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "花",
+          "title": "闪闪的红星 (1974)",
+          "paper_urls": [],
+          "rating": 8.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "无",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "skip-empty"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260208-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "意外制造公司 De Surprise (2015)",
+          "paper_urls": [],
+          "rating": 8.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "花",
+          "title": "意外 (2009)",
+          "paper_urls": [],
+          "rating": 7.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "无",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "skip-empty"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260215-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "超异能族 무빙 (2023)",
+          "paper_urls": [],
+          "rating": 8.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "《超越百岁》",
+          "paper_urls": [],
+          "rating": 2.0,
+          "review_status": "needs-review"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260223-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "东北警察故事 3",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "像哲学家一样生活 (2018)",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "咸的玩笑 (2025)",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "needs-review"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260302-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "镖人：风起大漠 (2026)",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "花",
+          "title": "飞驰人生3 (2026)",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "别笑！这才是中国法律史 2012",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "needs-review"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260309-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "匿杀 (2025)",
+          "paper_urls": [],
+          "rating": 4.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "花",
+          "title": "关你茶室 (2025)",
+          "paper_urls": [],
+          "rating": 6.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "《OceanBase Bacchus: a High-Performance and Scalable Cloud-Native Shared Storage Architecture for Multi-Cloud》",
+          "paper_urls": [
+            "https://arxiv.org/abs/2602.23571"
+          ],
+          "rating": null,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "《A Tree-Structured Two-Phase Commit Framework for OceanBase: Optimizing Scalability and Consistency》",
+          "paper_urls": [
+            "https://arxiv.org/abs/2603.00866"
+          ],
+          "rating": null,
+          "review_status": "needs-review"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260316-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "闪灵 The Shining (1980)",
+          "paper_urls": [],
+          "rating": 5.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "花",
+          "title": "临时劫案 臨時劫案 (2024)",
+          "paper_urls": [],
+          "rating": 8.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "《世界上最简单的会计书》 2013",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "needs-review"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260323-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "中国奇谭 (2023) & 中国奇谭2 (2026)",
+          "paper_urls": [],
+          "rating": 5.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "花",
+          "title": "听说 聽說 (2009)",
+          "paper_urls": [],
+          "rating": 8.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "无",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "skip-empty"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260330-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "首尔之春 서울의 봄 (2023)",
+          "paper_urls": [],
+          "rating": 8.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "《ByteHouse: ByteDance's Cloud-Native Data Warehouse for Real-Time Multimodal Data Analytics》",
+          "paper_urls": [
+            "https://arxiv.org/abs/2602.08226"
+          ],
+          "rating": null,
+          "review_status": "needs-review"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260405-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "强风吹拂 風が強く吹いている (2018)",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "无",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "skip-empty"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260420-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "爆弹 爆弾 (2025)",
+          "paper_urls": [],
+          "rating": 7.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "https://www.allthingsdistributed.com/2026/04/s3-files-and-the-changing-face-of-s3.html",
+          "paper_urls": [],
+          "rating": null,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "《DySkew: Dynamic Data Redistribution for Skew-Resilient Snowpark UDF Execution》",
+          "paper_urls": [
+            "https://arxiv.org/abs/2604.13034"
+          ],
+          "rating": null,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "《BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding》",
+          "paper_urls": [
+            "https://arxiv.org/html/1810.04805"
+          ],
+          "rating": null,
+          "review_status": "needs-review"
+        }
+      ]
+    },
+    {
+      "file": "content/look/260427-w.md",
+      "items": [
+        {
+          "section": "花",
+          "title": "百米。 ひゃくえむ。 (2025)",
+          "paper_urls": [],
+          "rating": 8.0,
+          "review_status": "needs-review"
+        },
+        {
+          "section": "阅",
+          "title": "《Matryoshka Representation Learning》",
+          "paper_urls": [
+            "https://arxiv.org/abs/2205.13147"
+          ],
+          "rating": null,
+          "review_status": "needs-review"
+        }
+      ]
+    }
+  ]
+}

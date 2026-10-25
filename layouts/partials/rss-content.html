@@ -1,0 +1,29 @@
+{{- /* Resolve relative media and article links for readers outside this site. */ -}}
+{{- $html := .Content | replaceRE `[\x00-\x08\x0B\x0C\x0E-\x1F\x{FFFE}\x{FFFF}]` "" -}}
+{{- /* RSS readers do not use the site's Chroma stylesheet. Keep the source
+     code verbatim in a plain pre/code block, without its line-number table
+     and per-token highlighting spans. The final pre is the source column. */ -}}
+{{- $highlights := findRE `(?s)<div class="highlight">\s*<div class="chroma">.*?</div>\s*</div>|<div class="highlight">.*?</div>` $html | uniq -}}
+{{- range $highlights -}}
+  {{- $block := . -}}
+  {{- $pres := findRE `(?s)<pre\b[^>]*>.*?</pre>` $block -}}
+  {{- with $pres -}}
+    {{- $pre := index . (sub (len .) 1) -}}
+    {{- $code := replaceRE `(?s)^<pre\b[^>]*>(.*)</pre>$` `$1` $pre -}}
+    {{- $code = replaceRE `(?s)<span\b[^>]*\bclass=["'](?:lnt|ln)["'][^>]*>.*?</span>` "" $code -}}
+    {{- $code = replaceRE `</?span\b[^>]*>` "" $code -}}
+    {{- $html = replace $html $block (printf "<pre>%s</pre>" $code) -}}
+  {{- end -}}
+{{- end -}}
+{{- $base := urls.Parse .Permalink -}}
+{{- range (findRE `(href|src|poster)="[^"]+"` $html | uniq) -}}
+  {{- $attribute := . -}}
+  {{- $name := replaceRE `^([^=]+)=.*$` `$1` $attribute -}}
+  {{- $value := replaceRE `^[^=]+="(.*)"$` `$1` $attribute | htmlUnescape -}}
+  {{- $url := urls.Parse $value -}}
+  {{- if not $url.IsAbs -}}
+    {{- $absolute := $base.ResolveReference $url -}}
+    {{- $html = replace $html $attribute (printf `%s="%s"` $name ($absolute.String | htmlEscape)) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $html -}}

@@ -1,0 +1,102 @@
+{{- define "title" }}{{ .Title }} - {{ .Site.Title }}{{ end -}}
+
+{{- define "content" }}
+{{- $pages := (where .Site.RegularPages "Section" "in" (slice "post" "look")).ByDate.Reverse }}
+{{- $tags := newScratch }}
+{{- range $pages }}
+  {{- range .GetTerms "tags" }}
+    {{- $entry := $tags.Get .RelPermalink }}
+    {{- $count := 1 }}
+    {{- with $entry }}{{ $count = add .count 1 }}{{ end }}
+    {{- $tags.Set .RelPermalink (dict "title" .LinkTitle "url" .RelPermalink "count" $count) }}
+  {{- end }}
+{{- end }}
+{{- $archiveCSS := resources.Get "css/archive.css" | minify | fingerprint -}}
+{{- $archiveJS := resources.Get "js/archive.js" | minify | fingerprint -}}
+{{- $initialYear := now.Format "2006" -}}
+{{- $initialPages := where $pages "Section" "__empty__" -}}
+{{- with $pages.GroupByDate "2006" -}}
+  {{- $initialYear = (index . 0).Key -}}
+  {{- $initialPages = (index . 0).Pages -}}
+{{- end -}}
+<link rel="stylesheet" href="{{ $archiveCSS.RelPermalink }}" integrity="{{ $archiveCSS.Data.Integrity }}">
+<section id="archive" class="archive">
+  <div class="archive-tabs" role="tablist" aria-label="归档浏览方式">
+    <button type="button" id="archive-tab-heatmap" role="tab" aria-controls="archive-panel-heatmap" aria-selected="true" tabindex="0" data-archive-view="heatmap">热力图</button>
+    <button type="button" id="archive-tab-tags" role="tab" aria-controls="archive-panel-tags" aria-selected="false" tabindex="-1" data-archive-view="tags">标签</button>
+  </div>
+  <section class="archive-panel archive-heatmap-panel" id="archive-panel-heatmap" role="tabpanel" aria-labelledby="archive-tab-heatmap" tabindex="0">
+    <div class="heatmap-heading">
+      <div><p class="heatmap-eyebrow">PUBLISH ACTIVITY / 落笔的日子</p><p class="heatmap-summary" id="archive-heatmap-summary">{{ $initialYear }} 年 · {{ len $initialPages }} 篇行记 · {{ len ($initialPages.GroupByDate "2006-01-02") }} 个记录日</p></div>
+      <label class="heatmap-year-control"><span class="heatmap-year-label">年份</span><select id="archive-heatmap-year" aria-label="热力图年份">
+        {{- range $pages.GroupByDate "2006" }}<option value="{{ .Key }}">{{ .Key }}</option>{{ end }}
+        {{- if not $pages }}<option value="{{ now.Format "2006" }}">{{ now.Format "2006" }}</option>{{ end }}
+      </select></label>
+    </div>
+    <div class="heatmap-scroll" tabindex="0" role="group" aria-label="年度文章热力图，窄屏可左右滚动">
+      {{ partial "archive/heatmap.html" (dict "year" $initialYear "pages" $pages) }}
+    </div>
+    <div class="heatmap-footer"><span class="heatmap-instruction">点击日期，重访当日行记<span class="heatmap-mobile-hint"> · 左右滑动查看全年</span></span><div class="heatmap-legend" aria-label="每日文章数，由少到多"><span>少</span>{{ range seq 0 4 }}<span class="heatmap-swatch" data-level="{{ . }}" aria-hidden="true"></span>{{ end }}<span>多</span></div></div>
+  </section>
+  <section class="archive-panel archive-tags-panel" id="archive-panel-tags" role="tabpanel" aria-labelledby="archive-tab-tags" tabindex="0" hidden>
+  <nav class="archive-filters" aria-label="按标签筛选文章">
+    <a class="archive-filter" href="{{ .RelPermalink }}" data-archive-tag="" aria-current="true">全部 <span>{{ len $pages }}</span></a>
+    {{- $sortedTags := sort (sort ($tags.Values) "title") "count" "desc" }}
+    {{- range where $sortedTags "count" "ge" 2 }}
+      <a class="archive-filter" href="{{ .url }}" data-archive-tag="{{ .url }}">{{ .title }} <span>{{ .count }}</span></a>
+    {{- end }}
+    {{- $moreTags := where $sortedTags "count" "lt" 2 }}
+    {{- with $moreTags }}
+      <details class="archive-more-tags">
+        <summary class="archive-filter">更多标签 <span>{{ len . }}</span></summary>
+        <div class="archive-extra-tags">
+          {{- range . }}
+            <a class="archive-filter" href="{{ .url }}" data-archive-tag="{{ .url }}">{{ .title }} <span>{{ .count }}</span></a>
+          {{- end }}
+        </div>
+      </details>
+    {{- end }}
+  </nav>
+  </section>
+  <noscript><style>#archive .archive-tabs, #archive .heatmap-year-control { display: none; } #archive .archive-tags-panel[hidden] { display: block !important; }</style></noscript>
+  <div class="archive-selection"><p class="archive-filter-status" role="status" aria-live="polite" aria-atomic="true"></p><button class="archive-clear-filter" type="button" hidden>查看全部 <span aria-hidden="true">↗</span></button></div>
+  {{- if .Site.Params.showArchiveCount }}
+    <div class="archive-title">
+      <span class="archive-post-counter">
+        {{ T "archiveCounter" (len $pages) }}
+      </span>
+    </div>
+  {{- end }}
+
+  <div class="archive-layout">
+  <div class="archive-results">
+    {{- range $pages.GroupByDate "2006" }}
+      <section class="archive-year-group" aria-label="{{ .Key }}">
+        <div class="collection-title">
+          <h2 class="archive-year" id="archive-year-{{ .Key }}">{{ .Key }}</h2>
+        </div>
+        {{- range .Pages }}
+          {{- $articleTags := slice }}
+          {{- range .GetTerms "tags" }}{{ $articleTags = $articleTags | append .RelPermalink }}{{ end }}
+          <div class="archive-post" id="archive-post-{{ .File.UniqueID }}" data-archive-date="{{ .Date.Format "2006-01-02" }}" data-archive-tags="{{ $articleTags | jsonify }}">
+            <span class="archive-post-time">{{ .Date.Format "01-02" }}</span>
+            <span class="archive-post-title">
+              <a href="{{ .RelPermalink }}" class="archive-post-link">{{ .Title }}</a>
+            </span>
+          </div>
+        {{- end }}
+      </section>
+    {{- end }}
+  </div>
+  <nav class="archive-year-toc post-toc" aria-labelledby="archive-year-toc-title">
+    <h2 class="post-toc-title" id="archive-year-toc-title">按年尋跡</h2>
+    <ul>
+      {{- range $pages.GroupByDate "2006" }}
+        <li><a href="#archive-year-{{ .Key }}" data-archive-year="{{ .Key }}"><span>{{ .Key }}</span><small class="archive-year-count">{{ len .Pages }}</small></a></li>
+      {{- end }}
+    </ul>
+  </nav>
+  </div>
+</section>
+<script src="{{ $archiveJS.RelPermalink }}" integrity="{{ $archiveJS.Data.Integrity }}" defer></script>
+{{- end }}

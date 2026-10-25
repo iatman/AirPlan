@@ -2,11 +2,7 @@
 title: TiDB - Backup/Restore 测试
 date: 2020-06-17T00:00:00+08:00
 lastmod: 2020-06-18T00:00:00+08:00
-categories:
-  - TiDB
-tags:
-  - AirPlan
-  - BR
+tags: ["AirPlan", "BR", "TiDB"]
 ---
 ## 0x00 BR
 

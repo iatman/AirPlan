@@ -2,11 +2,7 @@
 title: Raft 多数派选举策略
 date: 2020-05-09T00:00:00+08:00
 lastmod: 2020-05-09T00:00:00+08:00
-categories: 
-  - Look
-tags:
-  - Raft
-  - Paper
+tags: ["Raft", "Paper"]
 ---
 ## 0x00 Look
 

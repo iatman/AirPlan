@@ -2,13 +2,7 @@
 title: Linux - Systemd & Syncer 相爱相杀
 date: 2018-03-23T00:00:00+08:00
 lastmod: 2020-01-26T00:00:00+08:00
-categories: 
-  - TiDB
-  - software
-tags:
-  - Linux
-  - Syncer
-  - Systemd
+tags: ["Linux", "Syncer", "Systemd", "TiDB"]
 ---
 ## 0x00 缘来
 
@@ -180,7 +174,7 @@ tags:
 
 - 按照官方文档配置告警信息 [Syncer](https://github.com/pingcap/docs-cn/blob/master/tools/syncer.md) 传送门
 
-- 进程退出告警，可添加 [Blackbox](../Monitor/180323-AlertManager-安装部署.md) 组件，监听业务端口状态。
+- 进程退出告警，可添加 [Blackbox](/post/20170603-blackbox_exporter/) 组件，监听业务端口状态。
 
 ## 0x04 FAQ
 

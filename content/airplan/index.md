@@ -64,7 +64,7 @@ lastmod: 2018-01-28T21:41:52+08:00
 
 ### 监控
 
-- 围观站内文档 [Monitoring](/categories/monitoring/ "ap.tidb.cc 提供") ，提供部分参考意义
+- 围观站内文档 [Monitoring](/tags/monitoring/ "ap.tidb.cc 提供") ，提供部分参考意义
 
 ## 0x04 数据生态
 

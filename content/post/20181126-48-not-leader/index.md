@@ -2,12 +2,7 @@
 title: School - TiKV not leader
 date: 2018-11-26T00:00:00+08:00
 lastmod: 2018-11-26T00:00:00+08:00
-categories:
-  - troubleshooting
-tags:
-  - not leader
-  - server is busy
-  - prevote
+tags: ["not leader", "server is busy", "prevote", "Troubleshooting"]
 ---
 ## 0x00 监控
 

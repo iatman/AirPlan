@@ -2,12 +2,7 @@
 title: TiDB - 2PC & Backoff
 date: 2019-06-05T00:00:00+08:00
 lastmod: 2019-06-06T00:00:00+08:00
-categories:
-  - TiDB
-tags:
-  - AirPlan
-  - 2PC
-  - backoff
+tags: ["AirPlan", "2PC", "backoff", "TiDB"]
 ---
 ## 0x00 源
 

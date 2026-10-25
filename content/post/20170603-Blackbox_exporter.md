@@ -2,13 +2,7 @@
 title: 监控架构 - Blackbox_exporter 主动探测端口服务状态
 date: 2017-06-03T00:00:00+08:00
 lastmod: 2020-01-20T00:00:00+08:00
-categories:
-  - Monitoring
-tags:
-  - Deploy
-  - AlertManager
-  - Prometheus
-  - Blackbox
+tags: ["Deploy", "Alertmanager", "Prometheus", "blackbox_exporter", "Monitoring"]
 ---
 ## 0x00
 

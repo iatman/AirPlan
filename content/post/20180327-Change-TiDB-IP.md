@@ -2,10 +2,7 @@
 title: 测试在线修改 TiDB Cluster 组件 IP 地址
 date: 2018-03-27T00:00:00+08:00
 lastmod: 2020-01-20T00:00:00+08:00
-categories:
-  - TiDB
-tags:
-  - Deploy
+tags: ["Deploy", "TiDB"]
 ---
 ## 0x00 背景
 

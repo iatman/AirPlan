@@ -2,12 +2,7 @@
 title: TiDB 监控架构：Prometheus + Grafana
 date: 2017-06-01T00:00:00+08:00
 lastmod: 2020-01-23T00:00:00+08:00
-categories:
-  - Monitoring
-tags:
-  - Prometheus
-  - Grafana
-  - TiDB
+tags: ["Prometheus", "Grafana", "TiDB", "Monitoring"]
 ---
 ## 0x00 背影
 

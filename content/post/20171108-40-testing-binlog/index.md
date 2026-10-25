@@ -2,13 +2,7 @@
 title: TiDB - Binlog 数据同步架构测试
 date: 2017-10-08T00:00:00+08:00
 lastmod: 2017-11-20T00:00:00+08:00
-categories:
-  - TiDB
-tags:
-  - Binlog
-  - testing
-  - etcd-ctl
-  - pd-ctl
+tags: ["Binlog", "testing", "etcd-ctl", "pd-ctl", "TiDB"]
 ---
 ## 0x00 测试
 

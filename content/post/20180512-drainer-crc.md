@@ -2,12 +2,7 @@
 title: Drainer & Binlog crc mismatch
 date: 2018-05-12T00:00:00+08:00
 lastmod: 2018-05-22T00:00:00+08:00
-categories:
-  - Troubleshooting
-tags:
-  - Binlog
-  - Drainer
-  - PUMP
+tags: ["Binlog", "Drainer", "PUMP", "Troubleshooting"]
 ---
 ## 0x00 借口
 

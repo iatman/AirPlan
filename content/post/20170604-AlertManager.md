@@ -2,12 +2,7 @@
 title: 监控架构 - 专业打小报告好多年
 date: 2017-06-04T00:00:00+08:00
 lastmod: 2020-01-20T00:00:00+08:00
-categories:
-  - Monitoring
-tags:
-  - Deploy
-  - AlertManager
-  - Prometheus
+tags: ["Deploy", "Alertmanager", "Prometheus", "Monitoring"]
 ---
 ## 骑士
 
@@ -150,12 +145,12 @@ receivers:                        # 接收器根
   - `curl -H "Content-Type: application/json" -d ‘[{"labels":{"alertname":"TestAlert1"}}]’ http://180.76.154.185:9093/api/v1/alerts`
 - 启动 停止管理
   - 自动化部署的 AlertManager，启动停止脚本位于 `{{deploy_dir}}/scripts` 目录中
-  - 手动部署的，参考 [通过 systemd 守护 syncer 进程启动](../Docs/180323-Systemd-Syncer) 文档
+  - 手动部署的，参考 [通过 systemd 守护 syncer 进程启动](/post/20180323-systemd-syncer/) 文档
 
 ## 友人
 
 ### 组件部署
 
 - 使用 2018 年 3 月 22 日以后的 [TiDB-Ansible](https://github.com/pingcap/tidb-ansible/blob/master/deploy.yml) 可以自动部署 AlertManager 组件
-- 也可按照参考 [通过 systemd 守护 syncer 进程启动](/post/20180323-Systemd-Syncer/ "ap.tidb.cc syncer systemd") 方案手动部署 AlertManager 组件
+- 也可按照参考 [通过 systemd 守护 syncer 进程启动](/post/20180323-systemd-syncer/ "ap.tidb.cc syncer systemd") 方案手动部署 AlertManager 组件
   - AlertManager 下载 [传送门](https://prometheus.io/download/) ，AlertManager 项目库 [传送门](https://github.com/prometheus/alertmanager)

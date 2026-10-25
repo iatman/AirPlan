@@ -37,3 +37,13 @@ config.codekit3
 ### Sass ###
 .sass-cache/
 *.css.map
+
+# Hugo generated image cache
+/resources/_gen/
+
+# Local build and tool artifacts
+.hugo_build.lock
+/public/
+node_modules/
+__pycache__/
+*.py[cod]

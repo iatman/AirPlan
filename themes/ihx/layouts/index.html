@@ -1,0 +1,40 @@
+{{ define "content" }}
+<section class="ihx-hero" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="eyebrow-rule"></span><span class="theme-copy-dark">ATMAN / 行路的人</span><span class="theme-copy-light">IHX / OBSERVE · EXPLORE · BECOME</span></p>
+    <div class="hero-construction">{{ partial "euclidean-study.html" . }}</div>
+    <h1 id="hero-title"><span class="theme-copy-dark">心有所向，<br><em>仗劍走天涯。</em></span><span class="theme-copy-light">虽千万人 吾往矣</em></span></h1>
+    <p class="hero-description"><span class="theme-copy-dark">以自我為起點，以知識為階梯。<br>記技術，記山海，也記每一次重新認識自己。</span><span class="theme-copy-light">以理性理解世界，以實踐更新自己。<br>記錄系統的秩序，也探索生活的可能。</span></p>
+    <div class="hero-actions"><a class="primary-link" href="{{ "archive/" | relURL }}"><span class="theme-copy-dark">翻開行記</span><span class="theme-copy-light">探索行記</span> <span aria-hidden="true">↗</span></a><a class="quiet-link" href="{{ "about/" | relURL }}">關於此間 <span aria-hidden="true">→</span></a></div>
+  </div>
+  {{ partial "geometric-field.html" . }}
+  <div class="hero-query" aria-hidden="true">
+    <div class="hero-query-heading"><span class="query-dot"></span><span>notebook.sql</span><span class="query-mode">READ ONLY</span></div>
+    <pre><code><span class="query-keyword">SELECT</span> title, published_at
+<span class="query-keyword">FROM</span> post
+<span class="query-keyword">UNION ALL</span>
+<span class="query-keyword">SELECT</span> title, published_at
+<span class="query-keyword">FROM</span> look
+<span class="query-keyword">ORDER BY</span> published_at <span class="query-keyword">DESC</span>;</code></pre>
+    <div class="hero-query-footer"><span>{{ len (where .Site.RegularPages "Section" "in" (slice "post" "look")) }} records</span><span>持續更新中</span></div>
+  </div>
+  <div class="hero-side-note" aria-hidden="true">君子不器・日日自新</div>
+  {{ partial "landscape.html" . }}
+  <div class="hero-bottom"><span>A LIFE IN BECOMING</span><span>始於 {{ .Site.Params.since }} <b>·</b> {{ len (where .Site.RegularPages "Section" "in" (slice "post" "look")) }} 篇行記</span></div>
+</section>
+<section class="ihx-journal" aria-labelledby="journal-title">
+  <div class="section-heading"><div><p class="eyebrow">NOTES ALONG THE WAY</p><h2 id="journal-title">近來行記<span> / </span></h2></div><a class="quiet-link" href="{{ "archive/" | relURL }}">全部行記 <span aria-hidden="true">↗</span></a></div>
+  {{ $pages := where (where .Site.RegularPages "Section" "in" (slice "post" "look")) ".Params.hiddenfromhomepage" "!=" true }}
+  {{ $paginator := .Paginate $pages.ByDate.Reverse }}
+  <div id="posts" class="posts">
+    {{ range $paginator.Pages }}
+    <article class="journal-entry">
+      <time class="journal-date" datetime="{{ .Date.Format "2006-01-02" }}"><strong>{{ .Date.Format "02" }}</strong><span>{{ .Date.Format "2006.01" }}</span></time>
+      <div class="journal-body"><div class="journal-kicker"><span>{{ if eq .Section "look" }}見聞隨記{{ else }}技術筆記{{ end }}</span><span class="journal-reading">{{ .ReadingTime }} 分鐘閱讀</span></div><h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3><p>{{ partial "summary-text.html" . | truncate 115 }}</p><div class="journal-tags">{{ range first 3 (.GetTerms "tags") }}<a href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div></div>
+      <a class="journal-arrow" href="{{ .RelPermalink }}" aria-label="阅读 {{ .Title }}">↗</a>
+    </article>
+    {{ end }}
+  </div>
+  <nav class="pagination" aria-label="文章分页">{{ with $paginator.Prev }}<a class="prev" href="{{ .URL }}">← 上一頁</a>{{ end }}<span class="page-position">{{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}</span>{{ with $paginator.Next }}<a class="next" href="{{ .URL }}">下一頁 →</a>{{ end }}</nav>
+</section>
+{{ end }}
