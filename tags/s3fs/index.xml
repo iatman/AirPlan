@@ -1,1 +1,44 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>s3fs on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/s3fs/</link><description>Recent content in s3fs on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Mon, 27 Jun 2016 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/s3fs/index.xml" rel="self" type="application/rss+xml"/><item><title>用 s3fs 挂载云储存服务器</title><link>https://atman.ihx.cc/post/20160627-s3fs/</link><pubDate>Mon, 27 Jun 2016 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20160627-s3fs/</guid><description>用 s3fs 挂载云储存服务器 s3fs 是把 Amazon S3 存储服务挂载到本地硬盘或者服务器上的程序，大部分云存储和 S3 兼容， 只需要修改 s3fs 一行代码，它就能挂载到服务器上。 服</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>s3fs · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/s3fs/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Mon, 27 Jun 2016 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/s3fs/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>s3fs · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 1 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/s3fs/index.xml">https://atman.ihx.cc/tags/s3fs/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>用 s3fs 挂载云储存服务器</title><link>https://atman.ihx.cc/post/20160627-s3fs/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20160627-s3fs/</guid><pubDate>Mon, 27 Jun 2016 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>S3</category><category>s3fs</category><description>用 s3fs 挂载云储存服务器 s3fs 是把 Amazon S3 存储服务挂载到本地硬盘或者服务器上的程序，大部分云存储和 S3 兼容， 只需要修改 s3fs 一行代码，它就能挂载到服务器上。 服务器操作系统是 Centos 6.4 64 位，自带的 fuse 版本比较老，用不了新的 s3fs，所以第一件事就是： yum remove fuse fuse* …</description><content:encoded><![CDATA[<h2 id="用-s3fs-挂载云储存服务器">用 s3fs 挂载云储存服务器</h2>
+<p>s3fs 是把 Amazon S3 存储服务挂载到本地硬盘或者服务器上的程序，大部分云存储和 S3 兼容，
+只需要修改 s3fs 一行代码，它就能挂载到服务器上。</p>
+<p>服务器操作系统是 Centos 6.4 64 位，自带的 fuse 版本比较老，用不了新的 s3fs，所以第一件事就是：</p>
+<p><code>yum remove fuse fuse* fuse-devel</code></p>
+<p>安装 s3fs 过程中可能需要的包：</p>
+<p><code>gcc libstdc++-devel gcc-c++ curl curl* curl-devel libxml2 libxml2* libxml2-devel openssl-devel mailcap</code></p>
+<p>开始安装新版本 fuse：</p>
+<pre><code class="language-bash" data-lang="bash">wget http://sourceforge.net/projects/fuse/files/latest/download?source=files
+tar -xzvf fuse-2.9.3.tar.gz
+cd fuse-2.9.3
+./configure --prefix=/usr
+make
+make install
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig/
+ldconfig
+modprobe fuse #可能提示有错误，不管
+pkg-config --modversion fuse
+</code></pre><p>接着在服务器上装 s3fs：</p>
+<pre><code class="language-bash" data-lang="bash">wget https://code.google.com/p/s3fs/downloads/detail?name=s3fs-1.74.tar.gz
+
+tar -xvf s3fs-1.74.tar.gz
+cd s3fs-1.74
+
+vim src/s3fs.cpp
+</code></pre><p>在这个 <code>src/s3fs.cpp</code> 中查找下面那行的内容：</p>
+<pre><code class="language-bash" data-lang="bash">std::string host             = &#34;http://s3.amazonaws.com&#34;;
+</code></pre><p>把 <code>s3.amazonaws.com</code> 替换成 你需要的地址，然后再编译：</p>
+<pre><code class="language-bash" data-lang="bash">./configure --prefix=/usr
+make
+make install
+</code></pre><p>建立密匙文件：</p>
+<pre><code class="language-bash" data-lang="bash">vim ~/.passwd-s3fs
+
+#文件中内容如下：
+AccessKeyID:AccessSecretKey
+</code></pre><p>保存后，设置其权限：</p>
+<pre><code class="language-bash" data-lang="bash">chmod 600 ~/.passwd-s3fs
+</code></pre><p>万事俱备，挂载命令如下：</p>
+<pre><code class="language-bash" data-lang="bash">s3fs bucket 要挂的目录 -ouse_cache=/tmp
+</code></pre><p>如果想开机自动挂载，那就修改 / etc/fstab，最下面加一行：</p>
+<pre><code class="language-bash" data-lang="bash">s3fs bucket 要挂的目录 fuse allow_other 0 0
+</code></pre><p>挂载以后的好处就是方便，cp mv 之类的命令总比 s3cmd 来的简单。</p>
+]]></content:encoded><h:time datetime="2016-06-27T00:00:00+08:00">2016-06-27 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20160627-s3fs/">用 s3fs 挂载云储存服务器</h:a></item></channel></rss>

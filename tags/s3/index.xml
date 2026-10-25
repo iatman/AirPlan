@@ -1,1 +1,432 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>S3 on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/s3/</link><description>Recent content in S3 on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Fri, 15 Aug 2025 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/s3/index.xml" rel="self" type="application/rss+xml"/><item><title>通过 pipes 配合 insert into select files 增量导入</title><link>https://atman.ihx.cc/post/20250815-starrocks-pipe-files-json/</link><pubDate>Fri, 15 Aug 2025 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20250815-starrocks-pipe-files-json/</guid><description>测试目的 json 文件数据导入到 StarRocks 数据指定表并按列存储字段 json 文件所在 s3 目录新增文件后，数据库自动导入新增文件 json 文件数据避免重复 测试过程 部署 1 套 v3.3.14 版本</description></item><item><title>用 s3cmd 挂载云储存服务器</title><link>https://atman.ihx.cc/post/20160627-s3cmd/</link><pubDate>Mon, 27 Jun 2016 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20160627-s3cmd/</guid><description>用 s3cmd 挂载云储存服务器 s3cmd 是亚马逊 s3 的一个命令行工具，稍作修改可以用在国内的云存储。服务器 Centos，如果有 epel 源 的话，可以直接 yum install s3cmd 或者直接去</description></item><item><title>用 s3fs 挂载云储存服务器</title><link>https://atman.ihx.cc/post/20160627-s3fs/</link><pubDate>Mon, 27 Jun 2016 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20160627-s3fs/</guid><description>用 s3fs 挂载云储存服务器 s3fs 是把 Amazon S3 存储服务挂载到本地硬盘或者服务器上的程序，大部分云存储和 S3 兼容， 只需要修改 s3fs 一行代码，它就能挂载到服务器上。 服</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>S3 · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/s3/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Fri, 15 Aug 2025 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/s3/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>S3 · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 3 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/s3/index.xml">https://atman.ihx.cc/tags/s3/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>通过 pipes 配合 insert into select files 增量导入</title><link>https://atman.ihx.cc/post/20250815-starrocks-pipe-files-json/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20250815-starrocks-pipe-files-json/</guid><pubDate>Fri, 15 Aug 2025 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>S3</category><category>StarRocks</category><category>files</category><description>测试目的 json 文件数据导入到 StarRocks 数据指定表并按列存储字段 json 文件所在 s3 目录新增文件后，数据库自动导入新增文件 json 文件数据避免重复 测试过程 部署 1 套 v3.3.14 版本 StarRocks 集群（单节点 FE、BE） pipes 功能请看官网文档 异步调度工具 支持分辨数据目录内文件的变更状态 files …</description><content:encoded><![CDATA[<h2 id="测试目的">测试目的 </h2>
+<ol>
+<li>json 文件数据导入到 StarRocks 数据指定表并按列存储字段</li>
+<li>json 文件所在 s3 目录新增文件后，数据库自动导入新增文件</li>
+<li>json 文件数据避免重复</li>
+</ol>
+<h2 id="测试过程">测试过程</h2>
+<ol>
+<li>部署 1 套 v3.3.14 版本 StarRocks 集群（单节点 FE、BE）
+<ol>
+<li>pipes 功能请看<a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/CREATE_PIPE/">官网文档</a>
+<ol>
+<li>异步调度工具</li>
+<li>支持分辨数据目录内文件的变更状态</li>
+</ol>
+</li>
+<li>files 表函数功能<a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-functions/table-functions/files/">官网文档</a>
+<ol>
+<li>支持 S3 对象存储、NFS、Hdfs、本地文件</li>
+<li>支持 导入和导出</li>
+<li>支持 orc、parquet、csv、avro 格式</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>部署 1 套 Minio 服务（本地 binary 启动）</li>
+</ol>
+<h3 id="测试数据样本">测试数据样本</h3>
+<ol>
+<li>csv 文件数据样本，保存到部署 StarRocks 的节点 1 份</li>
+</ol>
+<pre><code class="language-json" data-lang="json">{&#34;category&#34;:&#34;C++&#34;,&#34;author&#34;:&#34;avc&#34;,&#34;title&#34;:&#34;C++ primer&#34;,&#34;price&#34;:89.5}
+{&#34;category&#34;:&#34;Java&#34;,&#34;author&#34;:&#34;avc&#34;,&#34;title&#34;:&#34;Effective Java&#34;,&#34;price&#34;:95}
+{&#34;category&#34;:&#34;Linux&#34;,&#34;author&#34;:&#34;avc&#34;,&#34;title&#34;:&#34;Linux kernel&#34;,&#34;price&#34;:195}
+</code></pre><ol start="2">
+<li>需要处理 S3 目录如下场景</li>
+</ol>
+<ul>
+<li>单个目录下可能存在多种文件格式</li>
+<li>单个目录或多个目录存在多个文件（每隔数秒新增 1 个文件）</li>
+<li>目录内已有文件可能存在更新（文件大小的变化）</li>
+</ul>
+<h3 id="starrocks-验证">StarRocks 验证</h3>
+<ol>
+<li>新建数据表，采用 duplicate key 表是为了验证多次创建任务对数据的影响</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">create database test;
+
+CREATE TABLE test.`ooojson` (
+    `category` varchar(100) NOT NULL COMMENT &#34;&#34;,
+    `author` varchar(1048) NULL COMMENT &#34;&#34;,
+    `dt` datetime NULL COMMENT &#34;&#34; -- 写文档是后加的内容，实际验证时未添加
+  ) ENGINE=OLAP 
+  DUPLICATE KEY(category);
+</code></pre><ol start="2">
+<li>使用 select files 基于本地文件测试读取
+<ul>
+<li>更多使用姿势参考 <a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-functions/table-functions/files/">https://docs.starrocks.io/zh/docs/sql-reference/sql-functions/table-functions/files/</a></li>
+<li>json 数据按照 csv 文件放在 /opt/ 目录下</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">SELECT  get_json_string($1,&#34;$.category&#34;) as category,get_json_string($1,&#34;$.author&#34;) as author  FROM FILES
+(
+    &#34;path&#34; = &#34;file:///opt/ooojson.csv&#34;,
+    &#34;format&#34; = &#34;csv&#34;,
+    &#34;csv.column_separator&#34;=&#34;\\x014f&#34;  -- 声明 1 个不存在的分隔符，避免 json 中 \\t 的关键词，导致 json 数据被分割
+    --&#34;csv.enclose&#34;=&#39;&#34;&#39;, 不要声明这个，这个会强制格式掉 json 里的双引号，导致 json 格式不合法
+    --&#34;csv.skip_header&#34;=&#34;1&#34;, -- 如果第一行不是 header，这个参数可忽略
+    -- &#34;csv.escape&#34;=&#34;\\&#34; -- 配合 pipe 使用时存在已知 bug，SQL 格式化丢失 1 个反斜线
+);
+</code></pre><pre><code class="language-sql" data-lang="sql">mysql&gt; 
+mysql&gt; SELECT  get_json_string($1,&#34;$.category&#34;) as category,get_json_string($1,&#34;$.author&#34;) as author  FROM FILES
+    -&gt; (
+    -&gt;     &#34;path&#34; = &#34;file:///opt/ooojson.csv&#34;,
+    -&gt;     &#34;format&#34; = &#34;csv&#34;,
+    -&gt;     &#34;csv.column_separator&#34;=&#34;\\x014f&#34;
+    -&gt;     --&#34;csv.enclose&#34;=&#39;&#34;&#39;,
+    -&gt;     --&#34;csv.skip_header&#34;=&#34;1&#34;
+    -&gt; );
++----------+--------+
+| category | author |
++----------+--------+
+| C++      | avc    |
+| Java     | avc    |
+| Linux    | avc    |
++----------+--------+
+3 rows in set (0.11 sec)
+</code></pre><ol start="3">
+<li>测试将数据配合 insert into 写入到目标表（test.ooojson)
+<ol>
+<li>通过 show load 可以跟踪到该 ETL 任务执行成功</li>
+</ol>
+</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">insert into test.ooojson(category,author)
+
+SELECT  get_json_string($1,&#34;$.category&#34;) as category,get_json_string($1,&#34;$.author&#34;) as author  FROM FILES
+(
+    &#34;path&#34; = &#34;file:///opt/ooojson.csv&#34;,
+    &#34;format&#34; = &#34;csv&#34;,
+    &#34;csv.column_separator&#34;=&#34;\\x014f&#34;  -- 声明 1 个不存在的分隔符，避免 json 中 \\t 的关键词，导致 json 数据被分割
+    --&#34;csv.enclose&#34;=&#39;&#34;&#39;, 不要声明这个，这个会强制格式掉 json 里的双引号，导致 json 格式不合法
+    --&#34;csv.skip_header&#34;=&#34;1&#34;, -- 如果第一行不是 header，这个参数可忽略
+    -- &#34;csv.escape&#34;=&#34;\\&#34; -- 配合 pipe 使用时存在已知 bug，SQL 格式化丢失 1 个反斜线
+);
+</code></pre><ol start="4">
+<li>通过 pipe 循环写入（此时需要使用到 minio）
+<ul>
+<li>语法参考：https://docs.starrocks.io/zh/docs/loading/s3/</li>
+</ul>
+</li>
+<li>创建 pipe 能力，如下方式确定数据范围【如果变化就导入，如果无任何变化不会触发导入】
+<ul>
+<li><code>&quot;path&quot; = &quot;s3://ooopipe/ooojson.csv&quot;,</code> 这个只会监控 ooojson 单个文件，不会判断其他文件</li>
+<li><code>&quot;path&quot; = &quot;s3://ooopipe/ooo*.csv&quot;,</code> 这种会监控 ooo 开头的文件</li>
+<li><code>&quot;path&quot; = &quot;s3://ooopipe/*.csv&quot;,</code>  这会监控所有 csv 结尾的文件</li>
+<li>支持使用通配符匹配路径，比如： <code>&quot;path&quot; = &quot;s3://abc*/dt=*/ooopipe/*.csv&quot;</code></li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">CREATE or replace PIPE user_pipess
+PROPERTIES
+(
+    &#34;AUTO_INGEST&#34; = &#34;TRUE&#34;,
+    &#34;POLL_INTERVAL&#34;=&#34;3&#34; -- 间隔 3 秒捕获 1 次，默认是 300 秒 1 次；频率越快、compact 成本越大
+)
+AS
+INSERT INTO ooojson
+SELECT  get_json_string($1,&#34;$.category&#34;) as category,get_json_string($1,&#34;$.author&#34;) as author  FROM FILES
+(
+    &#34;path&#34; = &#34;s3://ooopipe/ooo*.csv&#34;,
+    &#34;format&#34; = &#34;csv&#34;,
+    &#34;csv.column_separator&#34;=&#34;\\x014f&#34;,
+    &#34;aws.s3.enable_ssl&#34; = &#34;false&#34;,
+    &#34;aws.s3.endpoint&#34; = &#34;http://127.0.0.1:9000&#34;,
+    &#34;aws.s3.access_key&#34; = &#34;minioadmin&#34;,
+    &#34;aws.s3.secret_key&#34; = &#34;minioadmin&#34;
+);
+</code></pre><ol start="6">
+<li>查看 pipe 异步任务执行状态
+<ul>
+<li>通过 show pipes 查看任务运行状态‘</li>
+<li>或者 <code>select * from information_schema.pipe_files</code> 查看文件导入历史记录</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">
+mysql&gt; show pipes\G;
+*************************** 1. row ***************************
+DATABASE_NAME: test
+      PIPE_ID: 278645
+    PIPE_NAME: user_pipess
+        STATE: RUNNING
+   TABLE_NAME: test.ooojson
+  LOAD_STATUS: {&#34;loadedFiles&#34;:3,&#34;loadedBytes&#34;:627,&#34;loadingFiles&#34;:0,&#34;lastLoadedTime&#34;:&#34;2025-08-14 15:52:37&#34;}
+   LAST_ERROR: NULL
+ CREATED_TIME: 2025-08-14 15:52:35
+1 row in set (0.00 sec)
+
+-- 通过 meta 数据库查看
+mysql&gt; select * from information_schema.pipe_files \G;
+*************************** 10. row ***************************
+         JobId: 278650
+         Label: pipe-user_pipess-task-278647-0
+         State: FINISHED
+      Progress: ETL:100%; LOAD:100%
+          Type: INSERT
+      Priority: NORMAL
+      ScanRows: 9
+  FilteredRows: 0
+UnselectedRows: 0
+      SinkRows: 9
+       EtlInfo: NULL
+      TaskInfo: resource:N/A; timeout(s):3600; max_filter_ratio:0.0
+      ErrorMsg: NULL
+    CreateTime: 2025-08-14 15:52:37
+  EtlStartTime: 2025-08-14 15:52:37
+ EtlFinishTime: 2025-08-14 15:52:37
+ LoadStartTime: 2025-08-14 15:52:37
+LoadFinishTime: 2025-08-14 15:52:37
+   TrackingSQL: 
+    JobDetails: {&#34;All backends&#34;:{&#34;a4ec15ee-78e3-11f0-a387-260aca8fc881&#34;:[10001]},&#34;FileNumber&#34;:3,&#34;FileSize&#34;:627,&#34;InternalTableLoadBytes&#34;:193,&#34;InternalTableLoadRows&#34;:9,&#34;ScanBytes&#34;:666,&#34;ScanRows&#34;:9,&#34;TaskNumber&#34;:1,&#34;Unfinished backends&#34;:{&#34;a4ec15ee-78e3-11f0-a387-260aca8fc881&#34;:[]}}
+     Warehouse: 
+10 rows in set (0.01 sec)
+</code></pre><ol start="7">
+<li>pipe 已知信息
+<ol>
+<li>以官网文档为准 <a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/CREATE_PIPE/">官网文档</a></li>
+<li>当 S3 一次新增多个文件时候
+<ol>
+<li>默认：文件个数不大于 BATCH_FILES = 256 个，文件大小不超过 BATCH_SIZE = 1GB 的时候，多个文件会占用 1 个 insert into select 导入能力加载到数据库</li>
+<li>当新增文件体量超过如上任意条件时，会切分成多个 pipe 任务导入；参考：<code>fe/fe-core/src/main/java/com/starrocks/load/pipe/FilePipeSource.java</code>
+<ol>
+<li>假设新增 100 个文件，总加起来不超过 1G ，会使用 1 个 task 并发；path 可以设置一次导入多个文件</li>
+<li>假设新增 50 个文件 &amp;&amp; 超过 1G ，会使用多个 task 并发</li>
+<li>假设新增 500 个文件 &amp;&amp; 不超过 1G ，会使用多个 task 并发</li>
+<li>并发个数被 FE 参数管理：<code>task_runs_concurrency=4</code> ；参考：<code>fe/fe-core/src/main/java/com/starrocks/scheduler/TaskRunScheduler.java</code></li>
+</ol>
+</li>
+</ol>
+</li>
+<li>pipe 任务与数据导入
+<ol>
+<li>可查看：<code>fe/fe-core/src/main/java/com/starrocks/load/pipe/Pipe.java</code></li>
+<li>任务删除后，已经导入的记录会被删除</li>
+<li>重新创建任务，会使用 files() 函数内的 path 信息重新匹配，数据可能存在重复导入
+<ol>
+<li>当 sink table 是 primary key 表时，该行为可以保证最终幂等性，但是数据加载占用的资源不会忽略</li>
+<li>当 sink table 是 duplicate key 表时，该行为导致数据重复导入，数据会出现重复</li>
+</ol>
+</li>
+<li>数据表删除时，pipe 任务会联动删除</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>pipe 相关资料
+<ul>
+<li><a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/SHOW_PIPES/">SHOW PIPES</a></li>
+<li><a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/CREATE_PIPE/">CREATE PIPE</a></li>
+<li><a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/ALTER_PIPE/">ALTER PIPE</a></li>
+<li><a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/DROP_PIPE/">DROP PIPE</a></li>
+<li><a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/SUSPEND_or_RESUME_PIPE/">SUSPEND or RESUME PIPE</a></li>
+<li><a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/RETRY_FILE/">RETRY FILE</a></li>
+</ul>
+</li>
+</ol>
+]]></content:encoded><h:time datetime="2025-08-15T00:00:00+08:00">2025-08-15 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20250815-starrocks-pipe-files-json/">通过 pipes 配合 insert into select files 增量导入</h:a></item><item><title>用 s3fs 挂载云储存服务器</title><link>https://atman.ihx.cc/post/20160627-s3fs/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20160627-s3fs/</guid><pubDate>Mon, 27 Jun 2016 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>S3</category><category>s3fs</category><description>用 s3fs 挂载云储存服务器 s3fs 是把 Amazon S3 存储服务挂载到本地硬盘或者服务器上的程序，大部分云存储和 S3 兼容， 只需要修改 s3fs 一行代码，它就能挂载到服务器上。 服务器操作系统是 Centos 6.4 64 位，自带的 fuse 版本比较老，用不了新的 s3fs，所以第一件事就是： yum remove fuse fuse* …</description><content:encoded><![CDATA[<h2 id="用-s3fs-挂载云储存服务器">用 s3fs 挂载云储存服务器</h2>
+<p>s3fs 是把 Amazon S3 存储服务挂载到本地硬盘或者服务器上的程序，大部分云存储和 S3 兼容，
+只需要修改 s3fs 一行代码，它就能挂载到服务器上。</p>
+<p>服务器操作系统是 Centos 6.4 64 位，自带的 fuse 版本比较老，用不了新的 s3fs，所以第一件事就是：</p>
+<p><code>yum remove fuse fuse* fuse-devel</code></p>
+<p>安装 s3fs 过程中可能需要的包：</p>
+<p><code>gcc libstdc++-devel gcc-c++ curl curl* curl-devel libxml2 libxml2* libxml2-devel openssl-devel mailcap</code></p>
+<p>开始安装新版本 fuse：</p>
+<pre><code class="language-bash" data-lang="bash">wget http://sourceforge.net/projects/fuse/files/latest/download?source=files
+tar -xzvf fuse-2.9.3.tar.gz
+cd fuse-2.9.3
+./configure --prefix=/usr
+make
+make install
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig/
+ldconfig
+modprobe fuse #可能提示有错误，不管
+pkg-config --modversion fuse
+</code></pre><p>接着在服务器上装 s3fs：</p>
+<pre><code class="language-bash" data-lang="bash">wget https://code.google.com/p/s3fs/downloads/detail?name=s3fs-1.74.tar.gz
+
+tar -xvf s3fs-1.74.tar.gz
+cd s3fs-1.74
+
+vim src/s3fs.cpp
+</code></pre><p>在这个 <code>src/s3fs.cpp</code> 中查找下面那行的内容：</p>
+<pre><code class="language-bash" data-lang="bash">std::string host             = &#34;http://s3.amazonaws.com&#34;;
+</code></pre><p>把 <code>s3.amazonaws.com</code> 替换成 你需要的地址，然后再编译：</p>
+<pre><code class="language-bash" data-lang="bash">./configure --prefix=/usr
+make
+make install
+</code></pre><p>建立密匙文件：</p>
+<pre><code class="language-bash" data-lang="bash">vim ~/.passwd-s3fs
+
+#文件中内容如下：
+AccessKeyID:AccessSecretKey
+</code></pre><p>保存后，设置其权限：</p>
+<pre><code class="language-bash" data-lang="bash">chmod 600 ~/.passwd-s3fs
+</code></pre><p>万事俱备，挂载命令如下：</p>
+<pre><code class="language-bash" data-lang="bash">s3fs bucket 要挂的目录 -ouse_cache=/tmp
+</code></pre><p>如果想开机自动挂载，那就修改 / etc/fstab，最下面加一行：</p>
+<pre><code class="language-bash" data-lang="bash">s3fs bucket 要挂的目录 fuse allow_other 0 0
+</code></pre><p>挂载以后的好处就是方便，cp mv 之类的命令总比 s3cmd 来的简单。</p>
+]]></content:encoded><h:time datetime="2016-06-27T00:00:00+08:00">2016-06-27 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20160627-s3fs/">用 s3fs 挂载云储存服务器</h:a></item><item><title>用 s3cmd 挂载云储存服务器</title><link>https://atman.ihx.cc/post/20160627-s3cmd/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20160627-s3cmd/</guid><pubDate>Mon, 27 Jun 2016 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>S3</category><category>s3cmd</category><description>用 s3cmd 挂载云储存服务器 s3cmd 是亚马逊 s3 的一个命令行工具，稍作修改可以用在国内的云存储。服务器 Centos，如果有 epel 源 的话，可以直接 yum install s3cmd 或者直接去 SF 下载，传送 s3cmd Projects 解压软件包，执行 ./s3cmd --configure， …</description><content:encoded><![CDATA[<h2 id="用-s3cmd-挂载云储存服务器">用 s3cmd 挂载云储存服务器</h2>
+<p>s3cmd 是亚马逊 s3 的一个命令行工具，稍作修改可以用在国内的云存储。服务器 Centos，如果有 <strong>epel 源</strong> 的话，可以直接</p>
+<p><code>yum install s3cmd</code></p>
+<p>或者直接去 SF 下载，传送 <a href="http://sourceforge.net/projects/s3tools/files/s3cmd/">s3cmd Projects</a><br>
+解压软件包，执行 <code>./s3cmd --configure</code>，如果没有 <code>python-dateutil</code>，就会报以下错误。</p>
+<pre><code class="language-bash" data-lang="bash">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ImportError trying to import dateutil.parser.
+Please install the python dateutil module:
+$ sudo apt-get install python-dateutil
+  or
+$ sudo yum install python-dateutil
+  or
+$ pip install python-dateutil
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+</code></pre><p>我系统 centos，这时候执行 yum install python-dateutil，然后在测试。<br>
+yum install 安装此软件的，然后：</p>
+<pre><code class="language-bash" data-lang="bash">s3cmd --configure
+</code></pre><p>用源码包安装的，需要去软件解压目录执行, 类似 windows 下的免安装绿色软件。</p>
+<pre><code class="language-bash" data-lang="bash">./s3cmd --configure
+</code></pre><pre><code class="language-bash" data-lang="bash">Enter new values or accept defaults in brackets with Enter.
+Refer to user manual for detailed description of all options.
+
+Access key and Secret key are your identifiers for Amazon S3. Leave them empty for using the env variables.
+Access Key: 这里输入 AK
+Secret Key: 这里输入 SK
+Default Region [US]: CN  #默认美国市区，可更改
+
+Encryption password is used to protect your files from reading
+by unauthorized persons while in transfer to S3
+Encryption password: 	# 我理解为一种链接对话加密
+Path to GPG program [/usr/bin/gpg]: GPG 路劲，没修过可直接回车
+
+When using secure HTTPS protocol all communication with Amazon S3
+servers is protected from 3rd party eavesdropping. This method is
+slower than plain HTTP, and can only be proxied with Python 2.7 or newer
+Use HTTPS protocol [No]:  是否使用 https，默认 NO
+
+On some networks all internet access must go through a HTTP proxy.
+Try setting it here if you can&#39;t connect to S3 directly
+HTTP Proxy server name:  是否使用代理，默认空
+
+New settings:
+  Access Key: 显示你的 AK
+  Secret Key: 显示你的 SK
+  Default Region: CN
+  Encryption password:
+  Path to GPG program: /usr/bin/gpg
+  Use HTTPS protocol: False
+  HTTP Proxy server name:
+  HTTP Proxy server port: 0
+
+Test access with supplied credentials? [Y/n] n	# 是否测试这个链接
+
+Save settings? [y/N] y		# 是否保存文件
+Configuration saved to &#39;/root/.s3cfg&#39;		# 保存文件地址
+</code></pre><p>按照提示，填入密匙，其它选项一路默认回车即可，后面问是不是要测试连接的时候选 No（因为 s3cmd 在修改前默认连接是亚马逊 s3），<br>
+然后保存，程序会在用户跟目录下生成一个隐藏文件，我们要修改这个配置文件：</p>
+<pre><code class="language-bash" data-lang="bash">vim ~/.s3cfg
+</code></pre><p>找到 &ldquo;host_base =&rdquo; 和 &ldquo;host_bucket =&rdquo; 这两行，修改至如下：</p>
+<pre><code class="language-bash" data-lang="bash">host_base = s3.domain.com
+host_bucket = %(bucket)s.s3.domain.com
+</code></pre><p>好了，现在试试 s3cmd 的一个常用命令：</p>
+<pre><code class="language-bash" data-lang="bash">s3cmd ls
+</code></pre><hr>
+<p>如果可以看见你在对象云存储里建立的容器，那表示配置成功，另外一些常用的命令如下，用 <strong>s3cmd &ndash;help</strong> 可以查看</p>
+<table>
+<thead>
+<tr>
+<th>动作</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>创建容器</td>
+<td>s3cmd mb s3://BUCKET</td>
+</tr>
+<tr>
+<td>删除容器</td>
+<td>s3cmd rb s3://BUCKET</td>
+</tr>
+<tr>
+<td>查看容器内的文件</td>
+<td>s3cmd ls s3://BUCKET/path/</td>
+</tr>
+<tr>
+<td>查看所有容器内的所有文件，我测试过只能显示一层目录</td>
+<td>s3cmd la</td>
+</tr>
+<tr>
+<td>把文件从本地上传至云存储的命令</td>
+<td>s3cmd put FILE [FILE&hellip;] s3://BUCKET[/PREFIX]</td>
+</tr>
+<tr>
+<td>从云存储下载文件到本地</td>
+<td>s3cmd get s3://BUCKET/OBJECT LOCAL_FILE</td>
+</tr>
+<tr>
+<td>删除容器内的特定文件</td>
+<td>s3cmd del s3://BUCKET/OBJECT</td>
+</tr>
+<tr>
+<td>如果要删除容器类的整个目录，<!-- raw HTML omitted --> 可以加参数 -r -f</td>
+<td>s3cmd del -r -f s3:// 容器 / 目录 /</td>
+</tr>
+<tr>
+<td>查看容器所占空间</td>
+<td>s3cmd du [s3://BUCKET[/PREFIX]]</td>
+</tr>
+<tr>
+<td>查看容器或者文件的属性</td>
+<td>s3cmd info s3://BUCKET[/OBJECT]</td>
+</tr>
+<tr>
+<td>云存储中的文件复制命令</td>
+<td>s3cmd cp s3://BUCKET1/OBJECT1 s3://BUCKET2[/OBJECT2]</td>
+</tr>
+<tr>
+<td>移动文件</td>
+<td>s3cmd mv s3://BUCKET1/OBJECT1 s3://BUCKET2[/OBJECT2]</td>
+</tr>
+<tr>
+<td>把本地目录同步到云存储或者从云存储同步到本地</td>
+<td>s3cmd sync LOCAL_DIR s3://BUCKET[/PREFIX] <strong>\or</strong> s3://BUCKET[/PREFIX] LOCAL_DIR</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote>
+<p>常用的命令如下，复杂一点的可以去啃 s3cmd 官方文档。</p>
+</blockquote>
+<ul>
+<li>
+<p>同步本地至云存储，并在云端删除已经从本地删除的文件</p>
+<p><code>s3cmd sync --delete-removed /path/ s3://bucket/path/</code></p>
+</li>
+<li>
+<p>如果怕错删除，可以再加参数 &ndash;dry-run，它只列出 &ndash;delet-removed 将要删除的文件，但并不会真正的删除</p>
+<p><code>s3cmd sync --dry-run --delete-removed /path/ s3://bucket/path/</code></p>
+</li>
+<li>
+<p>sync 命令默认是要校检本地文件和云存储中文件的 md5 值的，如果不想校检只同步新文件，可以加 &ndash;skip-existing</p>
+<p><code>s3cmd sync --skip-existing /path/ s3://bucket/path/</code></p>
+</li>
+<li>
+<p>还有 &ndash;exclude（不包含） 和 &ndash;include（包含）参数</p>
+<p><code>s3cmd sync --exclude '*.txt' --include 'dir2/*' . s3://bucket/path/</code></p>
+</li>
+<li>
+<p>云存储可以用来存储网站上的静态内容的：.css、.js、.jpg 一类。这类文件加入 Cache-Control header 可以减少请求数量和流量，参数是 &ndash;add-header，命令如下：</p>
+<p><code>s3cmd put --add-header='Cache-Control:max-age=31536000' -M -r jpg_folder s3://domain.com/</code></p>
+</li>
+<li>
+<p>如果想进一步降低流量消耗，可以考虑 gzip 压缩 css 和 js 文件，毕竟流量在云存储里是算钱的，但貌似云存储服务器端并不支持 gzip 压缩，<br>
+所以我们要预先压缩文件。我的做法是先 &ldquo;gzip -9&rdquo; 压缩 css 文件得到 *.css.gz ，<br>
+再批量重命名 *.css.gz 为 *.css，最后上传 *.css 文件。这时需要给已经压缩过的文件加 Content-encoding header，<br>
+否则浏览器读不出来，命令如下：</p>
+<p><code>s3cmd put --add-header='Cache-Control:max-age=31536000' --add-header='Content-encoding:gzip' -M *.css s3://domain.com/css/</code></p>
+</li>
+</ul>
+]]></content:encoded><h:time datetime="2016-06-27T00:00:00+08:00">2016-06-27 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20160627-s3cmd/">用 s3cmd 挂载云储存服务器</h:a></item></channel></rss>

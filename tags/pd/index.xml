@@ -1,1 +1,342 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PD on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/pd/</link><description>Recent content in PD on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Fri, 17 Jul 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/pd/index.xml" rel="self" type="application/rss+xml"/><item><title>TiDB - PD Region Merge 食草兽</title><link>https://atman.ihx.cc/post/202007017-29-region-merge/</link><pubDate>Fri, 17 Jul 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/202007017-29-region-merge/</guid><description>0x00 开始 Region Merge 是否要开启 观察 pd dashboard 中 region health 中 empty-region-count 信息； 如该数值大于 store * 100 ，建议开启 Region Merge 如该数值大于 store * 1000 ，建议调整 Region Merge 阈值「或者检查是否开启了 Region Mer</description></item><item><title>序列化事物 ID 策略 - TSO</title><link>https://atman.ihx.cc/post/20190201-5-pd-tso/</link><pubDate>Fri, 01 Feb 2019 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20190201-5-pd-tso/</guid><description>0x00 院子 MySQL 有个东东的叫 GTID（GTID = server_uuid:transaction_id）；它在 Binlog 文件中大概长这样【3E11FA55-7</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>PD · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/pd/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Fri, 17 Jul 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/pd/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>PD · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 2 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/pd/index.xml">https://atman.ihx.cc/tags/pd/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>TiDB - PD Region Merge 食草兽</title><link>https://atman.ihx.cc/post/202007017-29-region-merge/</link><guid isPermaLink="true">https://atman.ihx.cc/post/202007017-29-region-merge/</guid><pubDate>Fri, 17 Jul 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>AirPlan</category><category>PD</category><category>TiDB</category><description>0x00 开始 Region Merge 是否要开启 观察 pd dashboard 中 region health 中 empty-region-count 信息； 如该数值大于 store * 100 ，建议开启 Region Merge 如该数值大于 store * 1000 ，建议调整 Region Merge 阈值「或者检查是否开启了 Region …</description><content:encoded><![CDATA[<h2 id="0x00-开始">0x00 开始</h2>
+<ul>
+<li>Region Merge 是否要开启
+<ul>
+<li>观察 pd dashboard 中  region health 中 empty-region-count 信息；
+<ul>
+<li>如该数值大于 store * 100 ，建议开启 Region Merge</li>
+<li>如该数值大于 store * 1000 ，建议调整 Region Merge 阈值「或者检查是否开启了 Region Merge」</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://atman.ihx.cc/post/202007017-29-region-merge/pd-dashboard.png" alt="pd-dashboard" loading="lazy" decoding="async">
+</p>
+<ul>
+<li>Region Merge 功能由来
+<ul>
+<li>频繁 delete 历史数据会删除 region 内数据；循环一段时间之后 region 只留下了 region meta 信息</li>
+<li>region group 信息需要 raft 状态机维护「raft cpu」；当 empty-region 过多会产生不必要的 region 心跳消耗</li>
+<li>开启 Region Merge 可以降低 raft cpu 消耗，同时减少 coprocessor cpu 扫描数据请求「delete 一批数据之后，还剩下 1000 数据，这些数据随机分布在 800 个 region 中，执行 sum/count 时就要向这 800 region 发起请求统计数据；合并之后只需要 1 个 region 请求」</li>
+</ul>
+</li>
+</ul>
+<h3 id="regions-info">Regions info</h3>
+<pre><code class="language-json" data-lang="json">{
+  &#34;count&#34;: 168,   // 集群中 Region 总数量
+  &#34;regions&#34;: [
+    {
+      &#34;id&#34;: 241,  // Region id
+      &#34;start_key&#34;: &#34;7480000000000000FF565F728000000000FF03F07A0000000000FA&#34;,
+      &#34;end_key&#34;: &#34;7480000000000000FF565F728000000000FF0B07BE0000000000FA&#34;,
+      &#34;epoch&#34;: {
+        &#34;conf_ver&#34;: 5,
+        &#34;version&#34;: 46
+      },
+      &#34;peers&#34;: [  // Region 成员信息
+        {
+          &#34;id&#34;: 242,
+          &#34;store_id&#34;: 1
+        },
+        {
+          &#34;id&#34;: 243,
+          &#34;store_id&#34;: 4
+        },
+        {
+          &#34;id&#34;: 244,
+          &#34;store_id&#34;: 5
+        }
+      ],
+      &#34;leader&#34;: {
+        &#34;id&#34;: 244,  // Reigon 成员中 leader id「角色」
+        &#34;store_id&#34;: 5
+      },
+      &#34;written_bytes&#34;: 0,
+      &#34;read_bytes&#34;: 0,
+      &#34;written_keys&#34;: 0,
+      &#34;read_keys&#34;: 0,
+      &#34;approximate_size&#34;: 99,     // Region 大小
+      &#34;approximate_keys&#34;: 478217  // Region Key-Values 数量
+    },
+  ... ... 省略其他信息
+</code></pre><h3 id="empty-region">empty-region</h3>
+<pre><code class="language-golang" data-lang="golang">// EmptyRegionApproximateSize is the region approximate size of an empty region
+// (heartbeat size &lt;= 1MB).
+const EmptyRegionApproximateSize = 1
+
+...-跳过部分信息-...
+
+// 判断 region approximate size 小于等于 1mb ，定义为 empty-region
+if region.GetApproximateSize() &lt;= core.EmptyRegionApproximateSize {
+    r.stats[EmptyRegion][regionID] = region
+    peerTypeIndex |= EmptyRegion
+  }
+
+...-跳过部分信息-...
+
+// 定义 pd_checker_event_count 监控
+var (
+  checkerCounter = prometheus.NewCounterVec(
+    prometheus.CounterOpts{
+      Namespace: &#34;pd&#34;,
+      Subsystem: &#34;checker&#34;,
+      Name:      &#34;event_count&#34;,
+      Help:      &#34;Counter of checker events.&#34;,
+    }, []string{&#34;type&#34;, &#34;name&#34;})
+)
+
+func init() {
+  prometheus.MustRegister(checkerCounter)
+}
+
+...-跳过部分信息-...
+
+// 详情见 server/schedule/checker/merge_checker.go
+// 调用 mergecheck function ，监控系统记录 +1 调用
+// 通过 prometheus count 方式统计该信息
+checkerCounter.WithLabelValues(&#34;merge_checker&#34;, &#34;check&#34;).Inc()
+
+
+...-跳过部分信息-...
+
+// Region Merge 还需要检测其他累计十几项内容
+// 可在 server/schedule/checker/merge_checker.go 查看
+</code></pre><h2 id="0x01-开启">0x01 开启</h2>
+<blockquote>
+<p>Region Merge 参数</p>
+</blockquote>
+<ul>
+<li>开启 <a href="https://docs.pingcap.com/zh/tidb/stable/massive-regions-best-practices#%E6%96%B9%E6%B3%95%E4%BA%94%E5%BC%80%E5%90%AF-region-merge">官网文档-Region Merge 功能</a>
+<ul>
+<li>通过 pd-ctl 工具调整以下参数</li>
+<li>merge-schedule-limit  为 0 情况下为关闭状态</li>
+</ul>
+</li>
+<li>region size 与 region keys 两条阈值互相满足的 region 会被列入 Region Merge 需求范围，只满足一项不会被 merge 操作。</li>
+<li>merge-schedule-limit 调度速度，围观官网文档 <a href="https://docs.pingcap.com/zh/tidb/stable/pd-scheduling-best-practices#region-merge-%E9%80%9F%E5%BA%A6%E6%85%A2">Region Merge 速度慢</a></li>
+</ul>
+<pre><code class="language-json" data-lang="json">// max-merge-region-size 单位 MB；
+// 监控上参考“ tikv 总存储量「未压缩」/ tikv 总 region peer 数量”；得到平均 peer 大小
+// prometheus 查看 sum(pd_scheduler_store_status{ type=&#34;region_size&#34;}) / sum(pd_scheduler_store_status{ type=&#34;region_count&#34;}) ；得到单位为 MB
+&gt;&gt; pd-ctl config set max-merge-region-size 20
+
+// max-merge-region-keys 单位 KV 数量；监控获取获取不到
+&gt;&gt; pd-ctl config set max-merge-region-keys 200000
+
+&gt;&gt; pd-ctl config set merge-schedule-limit 8
+</code></pre><blockquote>
+<p>校验集群需要 Region Merge 数据量</p>
+</blockquote>
+<ul>
+<li>pd-ctl 工具获取：size &amp; keys 范围一下 region 数量
+<ul>
+<li>首先检测 linux 系统是否安装了 jq 工具</li>
+<li>替换 approximate_size 与 approximate_keys 后的数值</li>
+<li>校验后带入到 pd-ctl config set 中</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-json" data-lang="json">./pd-ctl --pd &#39;http://10.0.0.1:2379&#39; -d region | jq &#34;.regions | map(select(.approximate_size &lt; 20 and .approximate_keys &lt; 200000)) | length&#34;
+</code></pre><h2 id="0x02-运维">0x02 运维</h2>
+<blockquote>
+<p>可在 server/schedule/checker/merge_checker.go 查看</p>
+</blockquote>
+<ol start="0">
+<li>Region Merge 预检查
+<ul>
+<li>见 checker role 内容</li>
+</ul>
+</li>
+<li>确认 reigon 大小是否满足 merge 阈值参数</li>
+<li>确认 region 相邻关系，相邻的两个 region 消消乐合并为一个</li>
+<li>「潜规则」region leader 必须在相同一个台机器
+<ul>
+<li>snapshot + add peer ；schedule region</li>
+<li>schedule ：transfer leader</li>
+</ul>
+</li>
+<li>merge region；生成新的 region</li>
+<li>新 region 升级为 region group
+<ul>
+<li>+1 follower</li>
+<li>+1 follower</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>checker role</li>
+</ul>
+<blockquote>
+<p>监控图位于 pd dashboard &ndash; scheduler &ndash; 末尾右下角
+<img src="https://atman.ihx.cc/post/202007017-29-region-merge/pdchecker.png" alt="pd region merge checker" loading="lazy" decoding="async">
+</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>num</th>
+<th>checker</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>recently-start</td>
+<td>判断启动时间是否超过 GetSplitMergeInterval 时间 //<!-- raw HTML omitted --> PD 初始化启动后 etcd meta 信息中 region size 为 0 ，此时默认跳过 region merge；<!-- raw HTML omitted --> region size &gt; 0 &amp; &lt;= 1mb 同时满足 region keys &amp; region size 时会进行 merge</td>
+</tr>
+<tr>
+<td>2</td>
+<td>recently-split</td>
+<td>不懂是个啥</td>
+</tr>
+<tr>
+<td>3</td>
+<td>check</td>
+<td>默认属性：检查 region 各种状态、tikv 存储环境等</td>
+</tr>
+<tr>
+<td>4</td>
+<td>skip</td>
+<td>PD 初始化启动后 etcd meta 信息中 region size 为 0 ，此时默认跳过 region merge</td>
+</tr>
+<tr>
+<td>5</td>
+<td>no-need</td>
+<td>// region is not small enough</td>
+</tr>
+<tr>
+<td>6</td>
+<td>special-peer</td>
+<td>// skip region has down peers or pending peers or learner peers</td>
+</tr>
+<tr>
+<td>7</td>
+<td>abnormal-replica</td>
+<td>// IsRegionReplicated checks if a region is fully replicated. When placement rules is enabled, its peers should fit corresponding rules. When placement rules is disabled, it should have enough replicas and no any learner peer.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>hot-region</td>
+<td>// skip hot reigon</td>
+</tr>
+<tr>
+<td>9</td>
+<td>no-target</td>
+<td>没有注释，理解是没有相邻的两个 region 可以用于 merge / 两个 region 的 start end key 不相邻</td>
+</tr>
+<tr>
+<td>10</td>
+<td>new-operator</td>
+<td>默认属性：创建一个 operator merge 操作，合并相邻的两个 region</td>
+</tr>
+<tr>
+<td>11</td>
+<td>larger-source</td>
+<td>region 大于 target ，谁是reigon ？ 谁是 target ？// 没追到谁是谁</td>
+</tr>
+</tbody>
+</table>
+<h3 id="emmm">emmm</h3>
+<ul>
+<li>try tips
+<ul>
+<li><a href="https://docs.pingcap.com/zh/tidb/stable/pd-scheduling-best-practices#region-merge-%E9%80%9F%E5%BA%A6%E6%85%A2">Region Merge 速度慢</a></li>
+<li><a href="https://docs.pingcap.com/zh/tidb/stable/pd-configuration-file#schedule">PD schedule 配置说明</a></li>
+</ul>
+</li>
+</ul>
+<p>从底层往上观察 TiDB cluster 各组件监控，与 region merge 慢或者不工作场景排查时可能相关的内容「仅描述各组件涉及 region merge 相关内容」：</p>
+<ul>
+<li>磁盘性能 IOPS：io util 不超过 70% &amp; iops 读写能力大于 40000 iops</li>
+<li>TiKV thread cpu「监控」
+<ul>
+<li>RAFT ：默认值为 2 * cpu vcore；region group 状态维护，数据写入与读取</li>
+<li>apply ：默认值为 2 * cpu vcore；region 合并写入更新至新 region group</li>
+<li>snapshot：默认值 1 * cpu vcore；在 region leader 上创建全量数据副本，协助 grpc 发送新机器</li>
+<li>GRPC：默认值 4 * cpu vcore；协助 snapshot 发送新机器</li>
+</ul>
+</li>
+<li>2PC Backoff「region 变动而出现的 tidb - tikv 之间交互增加」
+<ul>
+<li>not leader；leader 位置有变动或者 leader 还未选举成功</li>
+<li>region miss；根据 region cache 未命中读取到数据</li>
+<li>或许还有其他，详情见 tidb dashboard &ndash; kv error &ndash; resolve lock</li>
+</ul>
+</li>
+<li>PD schedule「region 调度相关」
+<ul>
+<li>Region merge check</li>
+<li>Region schedule / Leader Schedule</li>
+</ul>
+</li>
+<li>PD ctl
+<ul>
+<li>检查 max-merge-region 相关的参数是否开启</li>
+<li>检查 max-merge-region 中的 size &amp; keys 是否可以命中到数据</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x03-其他">0x03 其他</h2>
+<p><a href="https://docs.pingcap.com/zh/tidb/stable/pd-control#operator-check--show--add--remove">operator [check | show | add | remove]</a> 是 <a href="https://docs.pingcap.com/zh/tidb/stable/release-2.0.1#pd">2.0 时代</a>加入功能，当时需要人工使用 <code>pd-ctl operator add region merge</code> ，后续逐渐优化到了根据阈值自动处理 region merge。未来可期</p>
+<blockquote>
+<p>手工操作思路</p>
+</blockquote>
+<p>查询 Region size 低于 xx MB 的数量以及 Region id；需要使用 pd-api「http://ip:2379/pdapi/v1/regions」 获取所有 Regions 信息，然后分析 approximate_size 低于 xx MB 的 Region ID</p>
+<p>使用 <a href="https://docs.pingcap.com/zh/tidb/stable/pd-control#region-sibling-region_id">region sibling &lt;region_id&gt;</a> 查询 Region 相邻的 Region<br>
+<code>&gt;&gt; region sibling 2</code></p>
+<p>使用 merge-region &lt;source_region_id&gt; &lt;target_region_id&gt; 功能合并 “小 Region” 和“邻居 Region”<br>
+<code>operator add merge-region 1 2     // 将 Region 1 与 Region 2 合并</code></p>
+<p><img src="https://atman.ihx.cc/global/helpertools.jpg" alt="help-tools-man" loading="lazy" decoding="async">
+</p>
+]]></content:encoded><h:time datetime="2020-07-17T00:00:00+08:00">2020-07-17 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/202007017-29-region-merge/">TiDB - PD Region Merge 食草兽</h:a></item><item><title>序列化事物 ID 策略 - TSO</title><link>https://atman.ihx.cc/post/20190201-5-pd-tso/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20190201-5-pd-tso/</guid><pubDate>Fri, 01 Feb 2019 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>TSO</category><category>PD</category><category>TiDB</category><description>0x00 院子 MySQL 有个东东的叫 GTID（GTID = server_uuid:transaction_id）；它在 Binlog 文件中大概长这样【3E11FA55-71CA-99E1-9E10-C80AA9444562:10】.用于管理 MySQL 事物的状态和校验数据在事物之间的正确性。 TiDB 数据库有个类似的东东，由 PD 组件管理和发 …</description><content:encoded><![CDATA[<h2 id="0x00-院子">0x00 院子</h2>
+<p>MySQL 有个东东的叫 GTID（GTID = server_uuid:transaction_id）；它在 Binlog 文件中大概长这样【3E11FA55-71CA-99E1-9E10-C80AA9444562:10】.用于管理 MySQL 事物的状态和校验数据在事物之间的正确性。</p>
+<p>TiDB 数据库有个类似的东东，由 PD 组件管理和发放。它叫做 TSO（timestamp oracle），长成这样的一个东东【395181938313123110】，是由 physical time + logical time 信息组合计算得到的东东。</p>
+<blockquote>
+<p>PD 的 TSO 使用的是中心式的混合逻辑时钟。PD 通过集成了 etcd ，保证了持久化数据的强一致性并且可以做到 auto failover，解决了集中式服务带来的单点故障问题。<br>
+<img src="https://atman.ihx.cc/post/20190201-5-pd-tso/pd-auto-failover.png" alt="pd-auto-failover" title="ap.tidb.cc 序列化事物 ID 策略 - TSO" loading="lazy" decoding="async">
+<br>
+其使用 64 位表示一个时间，其中低 18 位代表逻辑时钟部分，剩余部分代表物理时钟部分，其结构如下图所示。由于其逻辑部分为 18 位，因此理论上每秒可以分配时间戳为 218 * 1000 = 262144000 个，即每秒可以产生 2.6 亿个时间戳。<br>
+<img src="https://atman.ihx.cc/post/20190201-5-pd-tso/tso.png" alt="tso" title="ap.tidb.cc 序列化事物 ID 策略 - TSO" loading="lazy" decoding="async">
+</p>
+</blockquote>
+<h3 id="灌水">灌水</h3>
+<p>分布式数据库要实现全局一致性快照，需要解决不同节点之间时钟一致的问题。工业界目前有3种解决方案：</p>
+<ol>
+<li>全局集中式授时服务，对网络要求比较高，不能跨地域，理论上可以做到外部一致性【TSO 家族】</li>
+<li>混合逻辑时钟（HLC），可以保证同一个进程内部事件的时钟顺序，但是解决不了系统外事件发生的逻辑前后顺序与物理时间前后顺序的一致性，因此做不到 Linearizability，也就做不到外部一致性【比如隔壁小强家】</li>
+<li>Google 的物理时钟 Turetime API，可以做到外部一致性，同时能做到全球化部署【土豪专属：卫星 GPS + 原子钟（硬件设备）】</li>
+</ol>
+<h2 id="0x01-院中">0x01 院中</h2>
+<blockquote>
+<p>本文没 TSO 原理，聊聊使用场景就好了。</p>
+</blockquote>
+<ul>
+<li><input disabled="" type="checkbox"> 放空</li>
+</ul>
+<h2 id="0x02-烧水">0x02 烧水</h2>
+<ul>
+<li>
+<p>通过 tso 解析为物理时间</p>
+<ul>
+<li>通过 pd-ctl 工具可以解析 tso 信息，并且可以得到 logic 位置点</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">&gt;&gt; tso 395181938313123110
+
+system:  2017-10-09 05:50:59 +0800 CST
+logic:  120102
+</code></pre></li>
+<li>
+<p>通过物理时间模糊计算 TSO 范围</p>
+<ul>
+<li><code>timestamp * (2^18*10^3)</code> 可以得到一个模糊的 TSO</li>
+<li>比如 <code>1588232534 * (2^18*10^3) = 416345629392896000</code></li>
+<li>linux 命令可以用 <code>date -d '01/12/2019 07:21:22' +&quot;%s&quot;</code></li>
+<li>macos 可以用 <code>date -j -f &quot;%Y-%m-%d %H:%M:%S&quot; &quot;2019-01-13 18:02:00&quot; &quot;+%s&quot;</code></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://atman.ihx.cc/global/helpertools.jpg" alt="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+]]></content:encoded><h:time datetime="2019-02-01T00:00:00+08:00">2019-02-01 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20190201-5-pd-tso/">序列化事物 ID 策略 - TSO</h:a></item></channel></rss>

@@ -1,1 +1,908 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>metastore on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/metastore/</link><description>Recent content in metastore on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Wed, 18 Oct 2023 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/metastore/index.xml" rel="self" type="application/rss+xml"/><item><title>HMS 服务上一些基础信息</title><link>https://atman.ihx.cc/post/20231018-hms-not/</link><pubDate>Wed, 18 Oct 2023 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20231018-hms-not/</guid><description>获取表/分区最后变更时间 https://stackoverflow.com/questions/41468759/how-can-i-find-last-modified-timestamp-for-a-table-in-hive 1 2 3 4 time_column=`beeline --hivevar db=hiveDatabase --hivevar tab=hiveTable --silent=true --showHeader=false --outputformat=tsv2 -e &amp;#39;show create table ${db}.${tab}&amp;#39; | egrep &amp;#39;transient_lastDdlTime&amp;#39;` time_value=`echo $time_column | sed &amp;#39;s/[|,)]//g&amp;#39; | awk -F &amp;#39;=&amp;#39; &amp;#39;{print $2}&amp;#39; | sed &amp;#34;s/&amp;#39;//g&amp;#34;` tran_date=`date -d @$time_value +&amp;#39;%Y-%m-%d %H:%M:%S&amp;#39;` echo $tran_date Spark 介绍的 desc EXTENDED 语法 https://spark.apache.org/docs/3.0.0/sql-ref-syntax-aux-describe-table.html 获取表最后变更</description></item><item><title>快速启动最小环境 Hive + Hive metastore</title><link>https://atman.ihx.cc/post/20231016-quick-hms/</link><pubDate>Mon, 16 Oct 2023 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20231016-quick-hms/</guid><description>镜像来自：https://hub.docker.com/r/apache/hive 1 docker pull apache/hive /opt/apache-hive-3.1.2-bin/hive313 信息是先启动一个 docker run，然后 docker cp hive4:/opt/hive/conf ./ 修改 hive-site 配置</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>metastore · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/metastore/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Wed, 18 Oct 2023 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/metastore/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>metastore · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 2 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/metastore/index.xml">https://atman.ihx.cc/tags/metastore/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>HMS 服务上一些基础信息</title><link>https://atman.ihx.cc/post/20231018-hms-not/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20231018-hms-not/</guid><pubDate>Wed, 18 Oct 2023 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Hive</category><category>metastore</category><description>获取表/分区最后变更时间 https://stackoverflow.com/questions/41468759/how-can-i-find-last-modified-timestamp-for-a-table-in-hive time_column=`beeline --hivevar db=hiveDatabase --hivevar …</description><content:encoded><![CDATA[<h2 id="获取表分区最后变更时间">获取表/分区最后变更时间</h2>
+<p><a href="https://stackoverflow.com/questions/41468759/how-can-i-find-last-modified-timestamp-for-a-table-in-hive">https://stackoverflow.com/questions/41468759/how-can-i-find-last-modified-timestamp-for-a-table-in-hive</a></p>
+<pre><code class="language-fallback" data-lang="fallback">time_column=`beeline --hivevar db=hiveDatabase --hivevar tab=hiveTable --silent=true --showHeader=false --outputformat=tsv2 -e &#39;show create table ${db}.${tab}&#39; | egrep &#39;transient_lastDdlTime&#39;`
+time_value=`echo $time_column | sed &#39;s/[|,)]//g&#39; | awk -F &#39;=&#39; &#39;{print $2}&#39; | sed &#34;s/&#39;//g&#34;`
+tran_date=`date -d @$time_value +&#39;%Y-%m-%d %H:%M:%S&#39;`
+echo $tran_date
+</code></pre><p>Spark 介绍的 <code>desc EXTENDED</code> 语法
+<a href="https://spark.apache.org/docs/3.0.0/sql-ref-syntax-aux-describe-table.html">https://spark.apache.org/docs/3.0.0/sql-ref-syntax-aux-describe-table.html</a></p>
+<h3 id="获取表最后变更时间">获取表最后变更时间</h3>
+<p>通过 <code>describe EXTENDED hi.b;</code> 主要是获取 transient_lastDdlTime 信息，信息为 1697625441 ，Wed Oct 18 18:37:21 CST 2023</p>
+<pre><code class="language-sql" data-lang="sql">describe EXTENDED hi.b;
+INFO  : Compiling command(queryId=hive_20231018105446_67d4e24f-745e-48fd-9823-142890a854a4): describe EXTENDED hi.b
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Semantic Analysis Completed (retrial = false)
+INFO  : Returning Hive schema: Schema(fieldSchemas:[FieldSchema(name:col_name, type:string, comment:from deserializer), FieldSchema(name:data_type, type:string, comment:from deserializer), FieldSchema(name:comment, type:string, comment:from deserializer)], properties:null)
+INFO  : Completed compiling command(queryId=hive_20231018105446_67d4e24f-745e-48fd-9823-142890a854a4); Time taken: 0.018 seconds
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Executing command(queryId=hive_20231018105446_67d4e24f-745e-48fd-9823-142890a854a4): describe EXTENDED hi.b
+INFO  : Starting task [Stage-0:DDL] in serial mode
+INFO  : Completed executing command(queryId=hive_20231018105446_67d4e24f-745e-48fd-9823-142890a854a4); Time taken: 0.031 seconds
+INFO  : OK
+INFO  : Concurrency mode is disabled, not creating a lock manager
++-----------------------------+----------------------------------------------------+----------+
+|          col_name           |                     data_type                      | comment  |
++-----------------------------+----------------------------------------------------+----------+
+| a                           | int                                                |          |
+| dt                          | string                                             | 日期分区     |
+|                             | NULL                                               | NULL     |
+| # Partition Information     | NULL                                               | NULL     |
+| # col_name                  | data_type                                          | comment  |
+| dt                          | string                                             | 日期分区     |
+|                             | NULL                                               | NULL     |
+| Detailed Table Information  | Table(tableName:b, dbName:hi, owner:hive, createTime:1697625441, lastAccessTime:0, retention:0, sd:StorageDescriptor(cols:[FieldSchema(name:a, type:int, comment:null), FieldSchema(name:dt, type:string, comment:日期分区)], location:file:/user/hive/warehouse/hi.db/b, inputFormat:org.apache.hadoop.mapred.TextInputFormat, outputFormat:org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat, compressed:false, numBuckets:-1, serdeInfo:SerDeInfo(name:null, serializationLib:org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe, parameters:{serialization.format=1}), bucketCols:[], sortCols:[], parameters:{}, skewedInfo:SkewedInfo(skewedColNames:[], skewedColValues:[], skewedColValueLocationMaps:{}), storedAsSubDirectories:false), partitionKeys:[FieldSchema(name:dt, type:string, comment:日期分区)], parameters:{totalSize=5, numRows=1, rawDataSize=4, COLUMN_STATS_ACCURATE={\&#34;BASIC_STATS\&#34;:\&#34;true\&#34;}, numFiles=1, numPartitions=1, transient_lastDdlTime=1697625441, bucketing_version=2}, viewOriginalText:null, viewExpandedText:null, tableType:MANAGED_TABLE, rewriteEnabled:false, catName:hive, ownerType:USER) |          |
++-----------------------------+----------------------------------------------------+----------+
+8 rows selected (0.074 seconds)
+</code></pre><h3 id="获取分区表最后变更时间">获取分区表最后变更时间</h3>
+<p>通过 <code>describe EXTENDED hi.b partition(dt=1);</code> 主要是获取 transient_lastDdlTime 信息，信息为 1697625501，Wed Oct 18 18:38:21 CST 2023</p>
+<pre><code class="language-sql" data-lang="sql">
+describe EXTENDED hi.b partition(dt=1);
+INFO  : Compiling command(queryId=hive_20231018105439_d1fbfd98-88cd-4d45-917e-3126d86f48e7): describe EXTENDED hi.b partition(dt=1)
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Semantic Analysis Completed (retrial = false)
+INFO  : Returning Hive schema: Schema(fieldSchemas:[FieldSchema(name:col_name, type:string, comment:from deserializer), FieldSchema(name:data_type, type:string, comment:from deserializer), FieldSchema(name:comment, type:string, comment:from deserializer)], properties:null)
+INFO  : Completed compiling command(queryId=hive_20231018105439_d1fbfd98-88cd-4d45-917e-3126d86f48e7); Time taken: 0.092 seconds
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Executing command(queryId=hive_20231018105439_d1fbfd98-88cd-4d45-917e-3126d86f48e7): describe EXTENDED hi.b partition(dt=1)
+INFO  : Starting task [Stage-0:DDL] in serial mode
+INFO  : Completed executing command(queryId=hive_20231018105439_d1fbfd98-88cd-4d45-917e-3126d86f48e7); Time taken: 0.031 seconds
+INFO  : OK
+INFO  : Concurrency mode is disabled, not creating a lock manager
++---------------------------------+----------------------------------------------------+----------+
+|            col_name             |                     data_type                      | comment  |
++---------------------------------+----------------------------------------------------+----------+
+| a                               | int                                                |          |
+| dt                              | string                                             | 日期分区     |
+|                                 | NULL                                               | NULL     |
+| # Partition Information         | NULL                                               | NULL     |
+| # col_name                      | data_type                                          | comment  |
+| dt                              | string                                             | 日期分区     |
+|                                 | NULL                                               | NULL     |
+| Detailed Partition Information  | Partition(values:[1], dbName:hi, tableName:b, createTime:0, lastAccessTime:0, sd:StorageDescriptor(cols:[FieldSchema(name:a, type:int, comment:null), FieldSchema(name:dt, type:string, comment:日期分区)], location:file:/user/hive/warehouse/hi.db/b/dt=1, inputFormat:org.apache.hadoop.mapred.TextInputFormat, outputFormat:org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat, compressed:false, numBuckets:-1, serdeInfo:SerDeInfo(name:null, serializationLib:org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe, parameters:{serialization.format=1}), bucketCols:[], sortCols:[], parameters:{}, skewedInfo:SkewedInfo(skewedColNames:[], skewedColValues:[], skewedColValueLocationMaps:{}), storedAsSubDirectories:false), parameters:{totalSize=5, numRows=1, rawDataSize=4, COLUMN_STATS_ACCURATE={&#34;BASIC_STATS&#34;:&#34;true&#34;,&#34;COLUMN_STATS&#34;:{&#34;a&#34;:&#34;true&#34;}}, numFiles=1, transient_lastDdlTime=1697625501}, catName:hive) |          |
++---------------------------------+----------------------------------------------------+----------+
+8 rows selected (0.165 seconds)
+</code></pre><h2 id="hms-313-所有表结构">HMS 3.1.3 所有表结构</h2>
+<p>共计 73 张</p>
+<pre><code class="language-SQL" data-lang="SQL">CREATE TABLE public.&#34;CDS&#34; (
+	&#34;CD_ID&#34; int8 NOT NULL,
+	CONSTRAINT &#34;CDS_pkey&#34; PRIMARY KEY (&#34;CD_ID&#34;)
+);
+CREATE TABLE public.&#34;CTLGS&#34; (
+	&#34;CTLG_ID&#34; int8 NOT NULL,
+	&#34;NAME&#34; varchar(256) NULL,
+	&#34;DESC&#34; varchar(4000) NULL,
+	&#34;LOCATION_URI&#34; varchar(4000) NOT NULL,
+	CONSTRAINT &#34;CTLGS_NAME_key&#34; UNIQUE (&#34;NAME&#34;),
+	CONSTRAINT &#34;CTLGS_pkey&#34; PRIMARY KEY (&#34;CTLG_ID&#34;)
+);
+CREATE TABLE public.&#34;DELEGATION_TOKENS&#34; (
+	&#34;TOKEN_IDENT&#34; varchar(767) NOT NULL,
+	&#34;TOKEN&#34; varchar(767) NULL,
+	CONSTRAINT &#34;DELEGATION_TOKENS_pkey&#34; PRIMARY KEY (&#34;TOKEN_IDENT&#34;)
+);
+CREATE TABLE public.&#34;GLOBAL_PRIVS&#34; (
+	&#34;USER_GRANT_ID&#34; int8 NOT NULL,
+	&#34;CREATE_TIME&#34; int8 NOT NULL,
+	&#34;GRANT_OPTION&#34; int2 NOT NULL,
+	&#34;GRANTOR&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;GRANTOR_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PRINCIPAL_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PRINCIPAL_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;USER_PRIV&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;AUTHORIZER&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;GLOBALPRIVILEGEINDEX&#34; UNIQUE (&#34;AUTHORIZER&#34;, &#34;PRINCIPAL_NAME&#34;, &#34;PRINCIPAL_TYPE&#34;, &#34;USER_PRIV&#34;, &#34;GRANTOR&#34;, &#34;GRANTOR_TYPE&#34;),
+	CONSTRAINT &#34;GLOBAL_PRIVS_pkey&#34; PRIMARY KEY (&#34;USER_GRANT_ID&#34;)
+);
+CREATE TABLE public.&#34;KEY_CONSTRAINTS&#34; (
+	&#34;CHILD_CD_ID&#34; int8 NULL,
+	&#34;CHILD_INTEGER_IDX&#34; int8 NULL,
+	&#34;CHILD_TBL_ID&#34; int8 NULL,
+	&#34;PARENT_CD_ID&#34; int8 NULL,
+	&#34;PARENT_INTEGER_IDX&#34; int8 NOT NULL,
+	&#34;PARENT_TBL_ID&#34; int8 NOT NULL,
+	&#34;POSITION&#34; int8 NOT NULL,
+	&#34;CONSTRAINT_NAME&#34; varchar(400) NOT NULL,
+	&#34;CONSTRAINT_TYPE&#34; int2 NOT NULL,
+	&#34;UPDATE_RULE&#34; int2 NULL,
+	&#34;DELETE_RULE&#34; int2 NULL,
+	&#34;ENABLE_VALIDATE_RELY&#34; int2 NOT NULL,
+	&#34;DEFAULT_VALUE&#34; varchar(400) NULL,
+	CONSTRAINT &#34;KEY_CONSTRAINTS_pkey&#34; PRIMARY KEY (&#34;CONSTRAINT_NAME&#34;, &#34;POSITION&#34;)
+);
+CREATE INDEX &#34;CONSTRAINTS_CONSTRAINT_TYPE_INDEX&#34; ON public.&#34;KEY_CONSTRAINTS&#34; USING btree (&#34;CONSTRAINT_TYPE&#34;);
+CREATE INDEX &#34;CONSTRAINTS_PARENT_TBLID_INDEX&#34; ON public.&#34;KEY_CONSTRAINTS&#34; USING btree (&#34;PARENT_TBL_ID&#34;);
+CREATE TABLE public.&#34;MASTER_KEYS&#34; (
+	&#34;KEY_ID&#34; serial4 NOT NULL,
+	&#34;MASTER_KEY&#34; varchar(767) NULL,
+	CONSTRAINT &#34;MASTER_KEYS_pkey&#34; PRIMARY KEY (&#34;KEY_ID&#34;)
+);
+CREATE TABLE public.&#34;METASTORE_DB_PROPERTIES&#34; (
+	&#34;PROPERTY_KEY&#34; varchar(255) NOT NULL,
+	&#34;PROPERTY_VALUE&#34; varchar(1000) NOT NULL,
+	&#34;DESCRIPTION&#34; varchar(1000) NULL,
+	CONSTRAINT &#34;PROPERTY_KEY_PK&#34; PRIMARY KEY (&#34;PROPERTY_KEY&#34;)
+);
+CREATE TABLE public.&#34;MV_CREATION_METADATA&#34; (
+	&#34;MV_CREATION_METADATA_ID&#34; int8 NOT NULL,
+	&#34;CAT_NAME&#34; varchar(256) NOT NULL,
+	&#34;DB_NAME&#34; varchar(128) NOT NULL,
+	&#34;TBL_NAME&#34; varchar(256) NOT NULL,
+	&#34;TXN_LIST&#34; text NULL,
+	&#34;MATERIALIZATION_TIME&#34; int8 NOT NULL,
+	CONSTRAINT &#34;MV_CREATION_METADATA_PK&#34; PRIMARY KEY (&#34;MV_CREATION_METADATA_ID&#34;)
+);
+CREATE INDEX &#34;MV_UNIQUE_TABLE&#34; ON public.&#34;MV_CREATION_METADATA&#34; USING btree (&#34;TBL_NAME&#34;, &#34;DB_NAME&#34;);
+CREATE TABLE public.&#34;NOTIFICATION_LOG&#34; (
+	&#34;NL_ID&#34; int8 NOT NULL,
+	&#34;EVENT_ID&#34; int8 NOT NULL,
+	&#34;EVENT_TIME&#34; int4 NOT NULL,
+	&#34;EVENT_TYPE&#34; varchar(32) NOT NULL,
+	&#34;CAT_NAME&#34; varchar(256) NULL,
+	&#34;DB_NAME&#34; varchar(128) NULL,
+	&#34;TBL_NAME&#34; varchar(256) NULL,
+	&#34;MESSAGE&#34; text NULL,
+	&#34;MESSAGE_FORMAT&#34; varchar(16) NULL,
+	CONSTRAINT &#34;NOTIFICATION_LOG_pkey&#34; PRIMARY KEY (&#34;NL_ID&#34;)
+);
+CREATE TABLE public.&#34;NOTIFICATION_SEQUENCE&#34; (
+	&#34;NNI_ID&#34; int8 NOT NULL,
+	&#34;NEXT_EVENT_ID&#34; int8 NOT NULL,
+	CONSTRAINT &#34;NOTIFICATION_SEQUENCE_pkey&#34; PRIMARY KEY (&#34;NNI_ID&#34;)
+);
+CREATE TABLE public.&#34;NUCLEUS_TABLES&#34; (
+	&#34;CLASS_NAME&#34; varchar(128) NOT NULL,
+	&#34;TABLE_NAME&#34; varchar(128) NOT NULL,
+	&#34;TYPE&#34; varchar(4) NOT NULL,
+	&#34;OWNER&#34; varchar(2) NOT NULL,
+	&#34;VERSION&#34; varchar(20) NOT NULL,
+	&#34;INTERFACE_NAME&#34; varchar(255) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;NUCLEUS_TABLES_pkey&#34; PRIMARY KEY (&#34;CLASS_NAME&#34;)
+);
+CREATE TABLE public.&#34;PARTITION_EVENTS&#34; (
+	&#34;PART_NAME_ID&#34; int8 NOT NULL,
+	&#34;CAT_NAME&#34; varchar(256) NULL,
+	&#34;DB_NAME&#34; varchar(128) NULL,
+	&#34;EVENT_TIME&#34; int8 NOT NULL,
+	&#34;EVENT_TYPE&#34; int4 NOT NULL,
+	&#34;PARTITION_NAME&#34; varchar(767) NULL,
+	&#34;TBL_NAME&#34; varchar(256) NULL,
+	CONSTRAINT &#34;PARTITION_EVENTS_pkey&#34; PRIMARY KEY (&#34;PART_NAME_ID&#34;)
+);
+CREATE INDEX &#34;PARTITIONEVENTINDEX&#34; ON public.&#34;PARTITION_EVENTS&#34; USING btree (&#34;PARTITION_NAME&#34;);
+CREATE TABLE public.&#34;ROLES&#34; (
+	&#34;ROLE_ID&#34; int8 NOT NULL,
+	&#34;CREATE_TIME&#34; int8 NOT NULL,
+	&#34;OWNER_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;ROLE_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;ROLEENTITYINDEX&#34; UNIQUE (&#34;ROLE_NAME&#34;),
+	CONSTRAINT &#34;ROLES_pkey&#34; PRIMARY KEY (&#34;ROLE_ID&#34;)
+);
+CREATE TABLE public.&#34;SEQUENCE_TABLE&#34; (
+	&#34;SEQUENCE_NAME&#34; varchar(255) NOT NULL,
+	&#34;NEXT_VAL&#34; int8 NOT NULL,
+	CONSTRAINT &#34;SEQUENCE_TABLE_pkey&#34; PRIMARY KEY (&#34;SEQUENCE_NAME&#34;)
+);
+CREATE TABLE public.&#34;SERDES&#34; (
+	&#34;SERDE_ID&#34; int8 NOT NULL,
+	&#34;NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;SLIB&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	&#34;DESCRIPTION&#34; varchar(4000) NULL,
+	&#34;SERIALIZER_CLASS&#34; varchar(4000) NULL,
+	&#34;DESERIALIZER_CLASS&#34; varchar(4000) NULL,
+	&#34;SERDE_TYPE&#34; int4 NULL,
+	CONSTRAINT &#34;SERDES_pkey&#34; PRIMARY KEY (&#34;SERDE_ID&#34;)
+);
+CREATE TABLE public.&#34;SKEWED_STRING_LIST&#34; (
+	&#34;STRING_LIST_ID&#34; int8 NOT NULL,
+	CONSTRAINT &#34;SKEWED_STRING_LIST_pkey&#34; PRIMARY KEY (&#34;STRING_LIST_ID&#34;)
+);
+CREATE TABLE public.&#34;TYPES&#34; (
+	&#34;TYPES_ID&#34; int8 NOT NULL,
+	&#34;TYPE_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;TYPE1&#34; varchar(767) NULL DEFAULT NULL::character varying,
+	&#34;TYPE2&#34; varchar(767) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;TYPES_pkey&#34; PRIMARY KEY (&#34;TYPES_ID&#34;),
+	CONSTRAINT &#34;UNIQUE_TYPE&#34; UNIQUE (&#34;TYPE_NAME&#34;)
+);
+CREATE TABLE public.&#34;VERSION&#34; (
+	&#34;VER_ID&#34; int8 NOT NULL,
+	&#34;SCHEMA_VERSION&#34; varchar(127) NOT NULL,
+	&#34;VERSION_COMMENT&#34; varchar(255) NOT NULL,
+	CONSTRAINT &#34;VERSION_pkey&#34; PRIMARY KEY (&#34;VER_ID&#34;)
+);
+CREATE TABLE public.aux_table (
+	mt_key1 varchar(128) NOT NULL,
+	mt_key2 int8 NOT NULL,
+	mt_comment varchar(255) NULL,
+	CONSTRAINT aux_table_pkey PRIMARY KEY (mt_key1, mt_key2)
+);
+CREATE TABLE public.compaction_queue (
+	cq_id int8 NOT NULL,
+	cq_database varchar(128) NOT NULL,
+	cq_table varchar(128) NOT NULL,
+	cq_partition varchar(767) NULL,
+	cq_state bpchar(1) NOT NULL,
+	cq_type bpchar(1) NOT NULL,
+	cq_tblproperties varchar(2048) NULL,
+	cq_worker_id varchar(128) NULL,
+	cq_start int8 NULL,
+	cq_run_as varchar(128) NULL,
+	cq_highest_write_id int8 NULL,
+	cq_meta_info bytea NULL,
+	cq_hadoop_job_id varchar(32) NULL,
+	CONSTRAINT compaction_queue_pkey PRIMARY KEY (cq_id)
+);
+CREATE TABLE public.completed_compactions (
+	cc_id int8 NOT NULL,
+	cc_database varchar(128) NOT NULL,
+	cc_table varchar(128) NOT NULL,
+	cc_partition varchar(767) NULL,
+	cc_state bpchar(1) NOT NULL,
+	cc_type bpchar(1) NOT NULL,
+	cc_tblproperties varchar(2048) NULL,
+	cc_worker_id varchar(128) NULL,
+	cc_start int8 NULL,
+	cc_end int8 NULL,
+	cc_run_as varchar(128) NULL,
+	cc_highest_write_id int8 NULL,
+	cc_meta_info bytea NULL,
+	cc_hadoop_job_id varchar(32) NULL,
+	CONSTRAINT completed_compactions_pkey PRIMARY KEY (cc_id)
+);
+CREATE TABLE public.completed_txn_components (
+	ctc_txnid int8 NOT NULL,
+	ctc_database varchar(128) NOT NULL,
+	ctc_table varchar(256) NULL,
+	ctc_partition varchar(767) NULL,
+	ctc_timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	ctc_writeid int8 NULL,
+	ctc_update_delete bpchar(1) NOT NULL
+);
+CREATE INDEX completed_txn_components_index ON public.completed_txn_components USING btree (ctc_database, ctc_table, ctc_partition);
+CREATE TABLE public.hive_locks (
+	hl_lock_ext_id int8 NOT NULL,
+	hl_lock_int_id int8 NOT NULL,
+	hl_txnid int8 NOT NULL,
+	hl_db varchar(128) NOT NULL,
+	hl_table varchar(128) NULL,
+	hl_partition varchar(767) NULL DEFAULT NULL::character varying,
+	hl_lock_state bpchar(1) NOT NULL,
+	hl_lock_type bpchar(1) NOT NULL,
+	hl_last_heartbeat int8 NOT NULL,
+	hl_acquired_at int8 NULL,
+	hl_user varchar(128) NOT NULL,
+	hl_host varchar(128) NOT NULL,
+	hl_heartbeat_count int4 NULL,
+	hl_agent_info varchar(128) NULL,
+	hl_blockedby_ext_id int8 NULL,
+	hl_blockedby_int_id int8 NULL,
+	CONSTRAINT hive_locks_pkey PRIMARY KEY (hl_lock_ext_id, hl_lock_int_id)
+);
+CREATE INDEX hl_txnid_index ON public.hive_locks USING hash (hl_txnid);
+CREATE TABLE public.materialization_rebuild_locks (
+	mrl_txn_id int8 NOT NULL,
+	mrl_db_name varchar(128) NOT NULL,
+	mrl_tbl_name varchar(256) NOT NULL,
+	mrl_last_heartbeat int8 NOT NULL,
+	CONSTRAINT materialization_rebuild_locks_pkey PRIMARY KEY (mrl_txn_id)
+);
+CREATE TABLE public.min_history_level (
+	mhl_txnid int8 NOT NULL,
+	mhl_min_open_txnid int8 NOT NULL,
+	CONSTRAINT min_history_level_pkey PRIMARY KEY (mhl_txnid)
+);
+CREATE INDEX min_history_level_idx ON public.min_history_level USING btree (mhl_min_open_txnid);
+CREATE TABLE public.next_compaction_queue_id (
+	ncq_next int8 NOT NULL
+);
+CREATE TABLE public.next_lock_id (
+	nl_next int8 NOT NULL
+);
+CREATE TABLE public.next_txn_id (
+	ntxn_next int8 NOT NULL
+);
+CREATE TABLE public.next_write_id (
+	nwi_database varchar(128) NOT NULL,
+	nwi_table varchar(256) NOT NULL,
+	nwi_next int8 NOT NULL
+);
+CREATE UNIQUE INDEX next_write_id_idx ON public.next_write_id USING btree (nwi_database, nwi_table);
+CREATE TABLE public.repl_txn_map (
+	rtm_repl_policy varchar(256) NOT NULL,
+	rtm_src_txn_id int8 NOT NULL,
+	rtm_target_txn_id int8 NOT NULL,
+	CONSTRAINT repl_txn_map_pkey PRIMARY KEY (rtm_repl_policy, rtm_src_txn_id)
+);
+CREATE TABLE public.runtime_stats (
+	rs_id int8 NOT NULL,
+	create_time int8 NOT NULL,
+	weight int8 NOT NULL,
+	payload bytea NULL,
+	CONSTRAINT runtime_stats_pkey PRIMARY KEY (rs_id)
+);
+CREATE INDEX idx_runtime_stats_create_time ON public.runtime_stats USING btree (create_time);
+CREATE TABLE public.txn_to_write_id (
+	t2w_txnid int8 NOT NULL,
+	t2w_database varchar(128) NOT NULL,
+	t2w_table varchar(256) NOT NULL,
+	t2w_writeid int8 NOT NULL
+);
+CREATE UNIQUE INDEX tbl_to_txn_id_idx ON public.txn_to_write_id USING btree (t2w_database, t2w_table, t2w_txnid);
+CREATE UNIQUE INDEX tbl_to_write_id_idx ON public.txn_to_write_id USING btree (t2w_database, t2w_table, t2w_writeid);
+CREATE TABLE public.txns (
+	txn_id int8 NOT NULL,
+	txn_state bpchar(1) NOT NULL,
+	txn_started int8 NOT NULL,
+	txn_last_heartbeat int8 NOT NULL,
+	txn_user varchar(128) NOT NULL,
+	txn_host varchar(128) NOT NULL,
+	txn_agent_info varchar(128) NULL,
+	txn_meta_info varchar(128) NULL,
+	txn_heartbeat_count int4 NULL,
+	txn_type int4 NULL,
+	CONSTRAINT txns_pkey PRIMARY KEY (txn_id)
+);
+CREATE TABLE public.write_set (
+	ws_database varchar(128) NOT NULL,
+	ws_table varchar(128) NOT NULL,
+	ws_partition varchar(767) NULL,
+	ws_txnid int8 NOT NULL,
+	ws_commit_id int8 NOT NULL,
+	ws_operation_type bpchar(1) NOT NULL
+);
+CREATE TABLE public.&#34;COLUMNS_V2&#34; (
+	&#34;CD_ID&#34; int8 NOT NULL,
+	&#34;COMMENT&#34; varchar(4000) NULL,
+	&#34;COLUMN_NAME&#34; varchar(767) NOT NULL,
+	&#34;TYPE_NAME&#34; text NULL,
+	&#34;INTEGER_IDX&#34; int4 NOT NULL,
+	CONSTRAINT &#34;COLUMNS_V2_pkey&#34; PRIMARY KEY (&#34;CD_ID&#34;, &#34;COLUMN_NAME&#34;),
+	CONSTRAINT &#34;COLUMNS_V2_CD_ID_fkey&#34; FOREIGN KEY (&#34;CD_ID&#34;) REFERENCES public.&#34;CDS&#34;(&#34;CD_ID&#34;) DEFERRABLE
+);
+CREATE TABLE public.&#34;DBS&#34; (
+	&#34;DB_ID&#34; int8 NOT NULL,
+	&#34;DESC&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	&#34;DB_LOCATION_URI&#34; varchar(4000) NOT NULL,
+	&#34;NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;OWNER_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;OWNER_TYPE&#34; varchar(10) NULL DEFAULT NULL::character varying,
+	&#34;CTLG_NAME&#34; varchar(256) NULL DEFAULT &#39;hive&#39;::character varying,
+	CONSTRAINT &#34;DBS_pkey&#34; PRIMARY KEY (&#34;DB_ID&#34;),
+	CONSTRAINT &#34;UNIQUE_DATABASE&#34; UNIQUE (&#34;NAME&#34;, &#34;CTLG_NAME&#34;),
+	CONSTRAINT &#34;DBS_FK1&#34; FOREIGN KEY (&#34;CTLG_NAME&#34;) REFERENCES public.&#34;CTLGS&#34;(&#34;NAME&#34;)
+);
+CREATE TABLE public.&#34;DB_PRIVS&#34; (
+	&#34;DB_GRANT_ID&#34; int8 NOT NULL,
+	&#34;CREATE_TIME&#34; int8 NOT NULL,
+	&#34;DB_ID&#34; int8 NULL,
+	&#34;GRANT_OPTION&#34; int2 NOT NULL,
+	&#34;GRANTOR&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;GRANTOR_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PRINCIPAL_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PRINCIPAL_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;DB_PRIV&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;AUTHORIZER&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;DBPRIVILEGEINDEX&#34; UNIQUE (&#34;AUTHORIZER&#34;, &#34;DB_ID&#34;, &#34;PRINCIPAL_NAME&#34;, &#34;PRINCIPAL_TYPE&#34;, &#34;DB_PRIV&#34;, &#34;GRANTOR&#34;, &#34;GRANTOR_TYPE&#34;),
+	CONSTRAINT &#34;DB_PRIVS_pkey&#34; PRIMARY KEY (&#34;DB_GRANT_ID&#34;),
+	CONSTRAINT &#34;DB_PRIVS_DB_ID_fkey&#34; FOREIGN KEY (&#34;DB_ID&#34;) REFERENCES public.&#34;DBS&#34;(&#34;DB_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;DB_PRIVS_N49&#34; ON public.&#34;DB_PRIVS&#34; USING btree (&#34;DB_ID&#34;);
+CREATE TABLE public.&#34;FUNCS&#34; (
+	&#34;FUNC_ID&#34; int8 NOT NULL,
+	&#34;CLASS_NAME&#34; varchar(4000) NULL,
+	&#34;CREATE_TIME&#34; int4 NOT NULL,
+	&#34;DB_ID&#34; int8 NULL,
+	&#34;FUNC_NAME&#34; varchar(128) NULL,
+	&#34;FUNC_TYPE&#34; int4 NOT NULL,
+	&#34;OWNER_NAME&#34; varchar(128) NULL,
+	&#34;OWNER_TYPE&#34; varchar(10) NULL,
+	CONSTRAINT &#34;FUNCS_pkey&#34; PRIMARY KEY (&#34;FUNC_ID&#34;),
+	CONSTRAINT &#34;FUNCS_FK1&#34; FOREIGN KEY (&#34;DB_ID&#34;) REFERENCES public.&#34;DBS&#34;(&#34;DB_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;FUNCS_N49&#34; ON public.&#34;FUNCS&#34; USING btree (&#34;DB_ID&#34;);
+CREATE UNIQUE INDEX &#34;UNIQUEFUNCTION&#34; ON public.&#34;FUNCS&#34; USING btree (&#34;FUNC_NAME&#34;, &#34;DB_ID&#34;);
+CREATE TABLE public.&#34;FUNC_RU&#34; (
+	&#34;FUNC_ID&#34; int8 NOT NULL,
+	&#34;RESOURCE_TYPE&#34; int4 NOT NULL,
+	&#34;RESOURCE_URI&#34; varchar(4000) NULL,
+	&#34;INTEGER_IDX&#34; int4 NOT NULL,
+	CONSTRAINT &#34;FUNC_RU_pkey&#34; PRIMARY KEY (&#34;FUNC_ID&#34;, &#34;INTEGER_IDX&#34;),
+	CONSTRAINT &#34;FUNC_RU_FK1&#34; FOREIGN KEY (&#34;FUNC_ID&#34;) REFERENCES public.&#34;FUNCS&#34;(&#34;FUNC_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;FUNC_RU_N49&#34; ON public.&#34;FUNC_RU&#34; USING btree (&#34;FUNC_ID&#34;);
+CREATE TABLE public.&#34;I_SCHEMA&#34; (
+	&#34;SCHEMA_ID&#34; int8 NOT NULL,
+	&#34;SCHEMA_TYPE&#34; int4 NOT NULL,
+	&#34;NAME&#34; varchar(256) NULL,
+	&#34;DB_ID&#34; int8 NULL,
+	&#34;COMPATIBILITY&#34; int4 NOT NULL,
+	&#34;VALIDATION_LEVEL&#34; int4 NOT NULL,
+	&#34;CAN_EVOLVE&#34; bool NOT NULL,
+	&#34;SCHEMA_GROUP&#34; varchar(256) NULL,
+	&#34;DESCRIPTION&#34; varchar(4000) NULL,
+	CONSTRAINT &#34;I_SCHEMA_NAME_key&#34; UNIQUE (&#34;NAME&#34;),
+	CONSTRAINT &#34;I_SCHEMA_pkey&#34; PRIMARY KEY (&#34;SCHEMA_ID&#34;),
+	CONSTRAINT &#34;I_SCHEMA_DB_ID_fkey&#34; FOREIGN KEY (&#34;DB_ID&#34;) REFERENCES public.&#34;DBS&#34;(&#34;DB_ID&#34;)
+);
+CREATE TABLE public.&#34;ROLE_MAP&#34; (
+	&#34;ROLE_GRANT_ID&#34; int8 NOT NULL,
+	&#34;ADD_TIME&#34; int8 NOT NULL,
+	&#34;GRANT_OPTION&#34; int2 NOT NULL,
+	&#34;GRANTOR&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;GRANTOR_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PRINCIPAL_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PRINCIPAL_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;ROLE_ID&#34; int8 NULL,
+	CONSTRAINT &#34;ROLE_MAP_pkey&#34; PRIMARY KEY (&#34;ROLE_GRANT_ID&#34;),
+	CONSTRAINT &#34;USERROLEMAPINDEX&#34; UNIQUE (&#34;PRINCIPAL_NAME&#34;, &#34;ROLE_ID&#34;, &#34;GRANTOR&#34;, &#34;GRANTOR_TYPE&#34;),
+	CONSTRAINT &#34;ROLE_MAP_ROLE_ID_fkey&#34; FOREIGN KEY (&#34;ROLE_ID&#34;) REFERENCES public.&#34;ROLES&#34;(&#34;ROLE_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;ROLE_MAP_N49&#34; ON public.&#34;ROLE_MAP&#34; USING btree (&#34;ROLE_ID&#34;);
+CREATE TABLE public.&#34;SCHEMA_VERSION&#34; (
+	&#34;SCHEMA_VERSION_ID&#34; int8 NOT NULL,
+	&#34;SCHEMA_ID&#34; int8 NULL,
+	&#34;VERSION&#34; int4 NOT NULL,
+	&#34;CREATED_AT&#34; int8 NOT NULL,
+	&#34;CD_ID&#34; int8 NULL,
+	&#34;STATE&#34; int4 NOT NULL,
+	&#34;DESCRIPTION&#34; varchar(4000) NULL,
+	&#34;SCHEMA_TEXT&#34; text NULL,
+	&#34;FINGERPRINT&#34; varchar(256) NULL,
+	&#34;SCHEMA_VERSION_NAME&#34; varchar(256) NULL,
+	&#34;SERDE_ID&#34; int8 NULL,
+	CONSTRAINT &#34;SCHEMA_VERSION_SCHEMA_ID_VERSION_key&#34; UNIQUE (&#34;SCHEMA_ID&#34;, &#34;VERSION&#34;),
+	CONSTRAINT &#34;SCHEMA_VERSION_pkey&#34; PRIMARY KEY (&#34;SCHEMA_VERSION_ID&#34;),
+	CONSTRAINT &#34;SCHEMA_VERSION_CD_ID_fkey&#34; FOREIGN KEY (&#34;CD_ID&#34;) REFERENCES public.&#34;CDS&#34;(&#34;CD_ID&#34;),
+	CONSTRAINT &#34;SCHEMA_VERSION_SCHEMA_ID_fkey&#34; FOREIGN KEY (&#34;SCHEMA_ID&#34;) REFERENCES public.&#34;I_SCHEMA&#34;(&#34;SCHEMA_ID&#34;),
+	CONSTRAINT &#34;SCHEMA_VERSION_SERDE_ID_fkey&#34; FOREIGN KEY (&#34;SERDE_ID&#34;) REFERENCES public.&#34;SERDES&#34;(&#34;SERDE_ID&#34;)
+);
+CREATE TABLE public.&#34;SDS&#34; (
+	&#34;SD_ID&#34; int8 NOT NULL,
+	&#34;INPUT_FORMAT&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	&#34;IS_COMPRESSED&#34; bool NOT NULL,
+	&#34;LOCATION&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	&#34;NUM_BUCKETS&#34; int8 NOT NULL,
+	&#34;OUTPUT_FORMAT&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	&#34;SERDE_ID&#34; int8 NULL,
+	&#34;CD_ID&#34; int8 NULL,
+	&#34;IS_STOREDASSUBDIRECTORIES&#34; bool NOT NULL,
+	CONSTRAINT &#34;SDS_pkey&#34; PRIMARY KEY (&#34;SD_ID&#34;),
+	CONSTRAINT &#34;SDS_CD_ID_fkey&#34; FOREIGN KEY (&#34;CD_ID&#34;) REFERENCES public.&#34;CDS&#34;(&#34;CD_ID&#34;) DEFERRABLE,
+	CONSTRAINT &#34;SDS_SERDE_ID_fkey&#34; FOREIGN KEY (&#34;SERDE_ID&#34;) REFERENCES public.&#34;SERDES&#34;(&#34;SERDE_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;SDS_N49&#34; ON public.&#34;SDS&#34; USING btree (&#34;SERDE_ID&#34;);
+CREATE TABLE public.&#34;SD_PARAMS&#34; (
+	&#34;SD_ID&#34; int8 NOT NULL,
+	&#34;PARAM_KEY&#34; varchar(256) NOT NULL,
+	&#34;PARAM_VALUE&#34; text NULL,
+	CONSTRAINT &#34;SD_PARAMS_pkey&#34; PRIMARY KEY (&#34;SD_ID&#34;, &#34;PARAM_KEY&#34;),
+	CONSTRAINT &#34;SD_PARAMS_SD_ID_fkey&#34; FOREIGN KEY (&#34;SD_ID&#34;) REFERENCES public.&#34;SDS&#34;(&#34;SD_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;SD_PARAMS_N49&#34; ON public.&#34;SD_PARAMS&#34; USING btree (&#34;SD_ID&#34;);
+CREATE TABLE public.&#34;SERDE_PARAMS&#34; (
+	&#34;SERDE_ID&#34; int8 NOT NULL,
+	&#34;PARAM_KEY&#34; varchar(256) NOT NULL,
+	&#34;PARAM_VALUE&#34; text NULL,
+	CONSTRAINT &#34;SERDE_PARAMS_pkey&#34; PRIMARY KEY (&#34;SERDE_ID&#34;, &#34;PARAM_KEY&#34;),
+	CONSTRAINT &#34;SERDE_PARAMS_SERDE_ID_fkey&#34; FOREIGN KEY (&#34;SERDE_ID&#34;) REFERENCES public.&#34;SERDES&#34;(&#34;SERDE_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;SERDE_PARAMS_N49&#34; ON public.&#34;SERDE_PARAMS&#34; USING btree (&#34;SERDE_ID&#34;);
+CREATE TABLE public.&#34;SKEWED_COL_NAMES&#34; (
+	&#34;SD_ID&#34; int8 NOT NULL,
+	&#34;SKEWED_COL_NAME&#34; varchar(256) NULL DEFAULT NULL::character varying,
+	&#34;INTEGER_IDX&#34; int8 NOT NULL,
+	CONSTRAINT &#34;SKEWED_COL_NAMES_pkey&#34; PRIMARY KEY (&#34;SD_ID&#34;, &#34;INTEGER_IDX&#34;),
+	CONSTRAINT &#34;SKEWED_COL_NAMES_fkey&#34; FOREIGN KEY (&#34;SD_ID&#34;) REFERENCES public.&#34;SDS&#34;(&#34;SD_ID&#34;) DEFERRABLE
+);
+CREATE TABLE public.&#34;SKEWED_COL_VALUE_LOC_MAP&#34; (
+	&#34;SD_ID&#34; int8 NOT NULL,
+	&#34;STRING_LIST_ID_KID&#34; int8 NOT NULL,
+	&#34;LOCATION&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;SKEWED_COL_VALUE_LOC_MAP_pkey&#34; PRIMARY KEY (&#34;SD_ID&#34;, &#34;STRING_LIST_ID_KID&#34;),
+	CONSTRAINT &#34;SKEWED_COL_VALUE_LOC_MAP_fkey1&#34; FOREIGN KEY (&#34;SD_ID&#34;) REFERENCES public.&#34;SDS&#34;(&#34;SD_ID&#34;) DEFERRABLE,
+	CONSTRAINT &#34;SKEWED_COL_VALUE_LOC_MAP_fkey2&#34; FOREIGN KEY (&#34;STRING_LIST_ID_KID&#34;) REFERENCES public.&#34;SKEWED_STRING_LIST&#34;(&#34;STRING_LIST_ID&#34;) DEFERRABLE
+);
+CREATE TABLE public.&#34;SKEWED_STRING_LIST_VALUES&#34; (
+	&#34;STRING_LIST_ID&#34; int8 NOT NULL,
+	&#34;STRING_LIST_VALUE&#34; varchar(256) NULL DEFAULT NULL::character varying,
+	&#34;INTEGER_IDX&#34; int8 NOT NULL,
+	CONSTRAINT &#34;SKEWED_STRING_LIST_VALUES_pkey&#34; PRIMARY KEY (&#34;STRING_LIST_ID&#34;, &#34;INTEGER_IDX&#34;),
+	CONSTRAINT &#34;SKEWED_STRING_LIST_VALUES_fkey&#34; FOREIGN KEY (&#34;STRING_LIST_ID&#34;) REFERENCES public.&#34;SKEWED_STRING_LIST&#34;(&#34;STRING_LIST_ID&#34;) DEFERRABLE
+);
+CREATE TABLE public.&#34;SKEWED_VALUES&#34; (
+	&#34;SD_ID_OID&#34; int8 NOT NULL,
+	&#34;STRING_LIST_ID_EID&#34; int8 NOT NULL,
+	&#34;INTEGER_IDX&#34; int8 NOT NULL,
+	CONSTRAINT &#34;SKEWED_VALUES_pkey&#34; PRIMARY KEY (&#34;SD_ID_OID&#34;, &#34;INTEGER_IDX&#34;),
+	CONSTRAINT &#34;SKEWED_VALUES_fkey1&#34; FOREIGN KEY (&#34;STRING_LIST_ID_EID&#34;) REFERENCES public.&#34;SKEWED_STRING_LIST&#34;(&#34;STRING_LIST_ID&#34;) DEFERRABLE,
+	CONSTRAINT &#34;SKEWED_VALUES_fkey2&#34; FOREIGN KEY (&#34;SD_ID_OID&#34;) REFERENCES public.&#34;SDS&#34;(&#34;SD_ID&#34;) DEFERRABLE
+);
+CREATE TABLE public.&#34;SORT_COLS&#34; (
+	&#34;SD_ID&#34; int8 NOT NULL,
+	&#34;COLUMN_NAME&#34; varchar(767) NULL DEFAULT NULL::character varying,
+	&#34;ORDER&#34; int8 NOT NULL,
+	&#34;INTEGER_IDX&#34; int8 NOT NULL,
+	CONSTRAINT &#34;SORT_COLS_pkey&#34; PRIMARY KEY (&#34;SD_ID&#34;, &#34;INTEGER_IDX&#34;),
+	CONSTRAINT &#34;SORT_COLS_SD_ID_fkey&#34; FOREIGN KEY (&#34;SD_ID&#34;) REFERENCES public.&#34;SDS&#34;(&#34;SD_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;SORT_COLS_N49&#34; ON public.&#34;SORT_COLS&#34; USING btree (&#34;SD_ID&#34;);
+CREATE TABLE public.&#34;TBLS&#34; (
+	&#34;TBL_ID&#34; int8 NOT NULL,
+	&#34;CREATE_TIME&#34; int8 NOT NULL,
+	&#34;DB_ID&#34; int8 NULL,
+	&#34;LAST_ACCESS_TIME&#34; int8 NOT NULL,
+	&#34;OWNER&#34; varchar(767) NULL DEFAULT NULL::character varying,
+	&#34;OWNER_TYPE&#34; varchar(10) NULL DEFAULT NULL::character varying,
+	&#34;RETENTION&#34; int8 NOT NULL,
+	&#34;SD_ID&#34; int8 NULL,
+	&#34;TBL_NAME&#34; varchar(256) NULL DEFAULT NULL::character varying,
+	&#34;TBL_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;VIEW_EXPANDED_TEXT&#34; text NULL,
+	&#34;VIEW_ORIGINAL_TEXT&#34; text NULL,
+	&#34;IS_REWRITE_ENABLED&#34; bool NOT NULL DEFAULT false,
+	CONSTRAINT &#34;TBLS_pkey&#34; PRIMARY KEY (&#34;TBL_ID&#34;),
+	CONSTRAINT &#34;UNIQUETABLE&#34; UNIQUE (&#34;TBL_NAME&#34;, &#34;DB_ID&#34;),
+	CONSTRAINT &#34;TBLS_DB_ID_fkey&#34; FOREIGN KEY (&#34;DB_ID&#34;) REFERENCES public.&#34;DBS&#34;(&#34;DB_ID&#34;) DEFERRABLE,
+	CONSTRAINT &#34;TBLS_SD_ID_fkey&#34; FOREIGN KEY (&#34;SD_ID&#34;) REFERENCES public.&#34;SDS&#34;(&#34;SD_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;TBLS_N49&#34; ON public.&#34;TBLS&#34; USING btree (&#34;DB_ID&#34;);
+CREATE INDEX &#34;TBLS_N50&#34; ON public.&#34;TBLS&#34; USING btree (&#34;SD_ID&#34;);
+CREATE TABLE public.&#34;TBL_COL_PRIVS&#34; (
+	&#34;TBL_COLUMN_GRANT_ID&#34; int8 NOT NULL,
+	&#34;COLUMN_NAME&#34; varchar(767) NULL DEFAULT NULL::character varying,
+	&#34;CREATE_TIME&#34; int8 NOT NULL,
+	&#34;GRANT_OPTION&#34; int2 NOT NULL,
+	&#34;GRANTOR&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;GRANTOR_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PRINCIPAL_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PRINCIPAL_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;TBL_COL_PRIV&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;TBL_ID&#34; int8 NULL,
+	&#34;AUTHORIZER&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;TBL_COL_PRIVS_pkey&#34; PRIMARY KEY (&#34;TBL_COLUMN_GRANT_ID&#34;),
+	CONSTRAINT &#34;TBL_COL_PRIVS_TBL_ID_fkey&#34; FOREIGN KEY (&#34;TBL_ID&#34;) REFERENCES public.&#34;TBLS&#34;(&#34;TBL_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;TABLECOLUMNPRIVILEGEINDEX&#34; ON public.&#34;TBL_COL_PRIVS&#34; USING btree (&#34;AUTHORIZER&#34;, &#34;TBL_ID&#34;, &#34;COLUMN_NAME&#34;, &#34;PRINCIPAL_NAME&#34;, &#34;PRINCIPAL_TYPE&#34;, &#34;TBL_COL_PRIV&#34;, &#34;GRANTOR&#34;, &#34;GRANTOR_TYPE&#34;);
+CREATE INDEX &#34;TBL_COL_PRIVS_N49&#34; ON public.&#34;TBL_COL_PRIVS&#34; USING btree (&#34;TBL_ID&#34;);
+CREATE TABLE public.&#34;TBL_PRIVS&#34; (
+	&#34;TBL_GRANT_ID&#34; int8 NOT NULL,
+	&#34;CREATE_TIME&#34; int8 NOT NULL,
+	&#34;GRANT_OPTION&#34; int2 NOT NULL,
+	&#34;GRANTOR&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;GRANTOR_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PRINCIPAL_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PRINCIPAL_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;TBL_PRIV&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;TBL_ID&#34; int8 NULL,
+	&#34;AUTHORIZER&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;TBL_PRIVS_pkey&#34; PRIMARY KEY (&#34;TBL_GRANT_ID&#34;),
+	CONSTRAINT &#34;TBL_PRIVS_TBL_ID_fkey&#34; FOREIGN KEY (&#34;TBL_ID&#34;) REFERENCES public.&#34;TBLS&#34;(&#34;TBL_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;TABLEPRIVILEGEINDEX&#34; ON public.&#34;TBL_PRIVS&#34; USING btree (&#34;AUTHORIZER&#34;, &#34;TBL_ID&#34;, &#34;PRINCIPAL_NAME&#34;, &#34;PRINCIPAL_TYPE&#34;, &#34;TBL_PRIV&#34;, &#34;GRANTOR&#34;, &#34;GRANTOR_TYPE&#34;);
+CREATE INDEX &#34;TBL_PRIVS_N49&#34; ON public.&#34;TBL_PRIVS&#34; USING btree (&#34;TBL_ID&#34;);
+CREATE TABLE public.&#34;TYPE_FIELDS&#34; (
+	&#34;TYPE_NAME&#34; int8 NOT NULL,
+	&#34;COMMENT&#34; varchar(256) NULL DEFAULT NULL::character varying,
+	&#34;FIELD_NAME&#34; varchar(128) NOT NULL,
+	&#34;FIELD_TYPE&#34; varchar(767) NOT NULL,
+	&#34;INTEGER_IDX&#34; int8 NOT NULL,
+	CONSTRAINT &#34;TYPE_FIELDS_pkey&#34; PRIMARY KEY (&#34;TYPE_NAME&#34;, &#34;FIELD_NAME&#34;),
+	CONSTRAINT &#34;TYPE_FIELDS_TYPE_NAME_fkey&#34; FOREIGN KEY (&#34;TYPE_NAME&#34;) REFERENCES public.&#34;TYPES&#34;(&#34;TYPES_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;TYPE_FIELDS_N49&#34; ON public.&#34;TYPE_FIELDS&#34; USING btree (&#34;TYPE_NAME&#34;);
+CREATE TABLE public.txn_components (
+	tc_txnid int8 NOT NULL,
+	tc_database varchar(128) NOT NULL,
+	tc_table varchar(128) NULL,
+	tc_partition varchar(767) NULL DEFAULT NULL::character varying,
+	tc_operation_type bpchar(1) NOT NULL,
+	tc_writeid int8 NULL,
+	CONSTRAINT txn_components_tc_txnid_fkey FOREIGN KEY (tc_txnid) REFERENCES public.txns(txn_id)
+);
+CREATE INDEX tc_txnid_index ON public.txn_components USING hash (tc_txnid);
+CREATE TABLE public.&#34;BUCKETING_COLS&#34; (
+	&#34;SD_ID&#34; int8 NOT NULL,
+	&#34;BUCKET_COL_NAME&#34; varchar(256) NULL DEFAULT NULL::character varying,
+	&#34;INTEGER_IDX&#34; int8 NOT NULL,
+	CONSTRAINT &#34;BUCKETING_COLS_pkey&#34; PRIMARY KEY (&#34;SD_ID&#34;, &#34;INTEGER_IDX&#34;),
+	CONSTRAINT &#34;BUCKETING_COLS_SD_ID_fkey&#34; FOREIGN KEY (&#34;SD_ID&#34;) REFERENCES public.&#34;SDS&#34;(&#34;SD_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;BUCKETING_COLS_N49&#34; ON public.&#34;BUCKETING_COLS&#34; USING btree (&#34;SD_ID&#34;);
+CREATE TABLE public.&#34;DATABASE_PARAMS&#34; (
+	&#34;DB_ID&#34; int8 NOT NULL,
+	&#34;PARAM_KEY&#34; varchar(180) NOT NULL,
+	&#34;PARAM_VALUE&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;DATABASE_PARAMS_pkey&#34; PRIMARY KEY (&#34;DB_ID&#34;, &#34;PARAM_KEY&#34;),
+	CONSTRAINT &#34;DATABASE_PARAMS_DB_ID_fkey&#34; FOREIGN KEY (&#34;DB_ID&#34;) REFERENCES public.&#34;DBS&#34;(&#34;DB_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;DATABASE_PARAMS_N49&#34; ON public.&#34;DATABASE_PARAMS&#34; USING btree (&#34;DB_ID&#34;);
+CREATE TABLE public.&#34;IDXS&#34; (
+	&#34;INDEX_ID&#34; int8 NOT NULL,
+	&#34;CREATE_TIME&#34; int8 NOT NULL,
+	&#34;DEFERRED_REBUILD&#34; bool NOT NULL,
+	&#34;INDEX_HANDLER_CLASS&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	&#34;INDEX_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;INDEX_TBL_ID&#34; int8 NULL,
+	&#34;LAST_ACCESS_TIME&#34; int8 NOT NULL,
+	&#34;ORIG_TBL_ID&#34; int8 NULL,
+	&#34;SD_ID&#34; int8 NULL,
+	CONSTRAINT &#34;IDXS_pkey&#34; PRIMARY KEY (&#34;INDEX_ID&#34;),
+	CONSTRAINT &#34;UNIQUEINDEX&#34; UNIQUE (&#34;INDEX_NAME&#34;, &#34;ORIG_TBL_ID&#34;),
+	CONSTRAINT &#34;IDXS_INDEX_TBL_ID_fkey&#34; FOREIGN KEY (&#34;INDEX_TBL_ID&#34;) REFERENCES public.&#34;TBLS&#34;(&#34;TBL_ID&#34;) DEFERRABLE,
+	CONSTRAINT &#34;IDXS_ORIG_TBL_ID_fkey&#34; FOREIGN KEY (&#34;ORIG_TBL_ID&#34;) REFERENCES public.&#34;TBLS&#34;(&#34;TBL_ID&#34;) DEFERRABLE,
+	CONSTRAINT &#34;IDXS_SD_ID_fkey&#34; FOREIGN KEY (&#34;SD_ID&#34;) REFERENCES public.&#34;SDS&#34;(&#34;SD_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;IDXS_N49&#34; ON public.&#34;IDXS&#34; USING btree (&#34;ORIG_TBL_ID&#34;);
+CREATE INDEX &#34;IDXS_N50&#34; ON public.&#34;IDXS&#34; USING btree (&#34;INDEX_TBL_ID&#34;);
+CREATE INDEX &#34;IDXS_N51&#34; ON public.&#34;IDXS&#34; USING btree (&#34;SD_ID&#34;);
+CREATE TABLE public.&#34;INDEX_PARAMS&#34; (
+	&#34;INDEX_ID&#34; int8 NOT NULL,
+	&#34;PARAM_KEY&#34; varchar(256) NOT NULL,
+	&#34;PARAM_VALUE&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;INDEX_PARAMS_pkey&#34; PRIMARY KEY (&#34;INDEX_ID&#34;, &#34;PARAM_KEY&#34;),
+	CONSTRAINT &#34;INDEX_PARAMS_INDEX_ID_fkey&#34; FOREIGN KEY (&#34;INDEX_ID&#34;) REFERENCES public.&#34;IDXS&#34;(&#34;INDEX_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;INDEX_PARAMS_N49&#34; ON public.&#34;INDEX_PARAMS&#34; USING btree (&#34;INDEX_ID&#34;);
+CREATE TABLE public.&#34;MV_TABLES_USED&#34; (
+	&#34;MV_CREATION_METADATA_ID&#34; int8 NOT NULL,
+	&#34;TBL_ID&#34; int8 NOT NULL,
+	CONSTRAINT &#34;MV_TABLES_USED_FK1&#34; FOREIGN KEY (&#34;MV_CREATION_METADATA_ID&#34;) REFERENCES public.&#34;MV_CREATION_METADATA&#34;(&#34;MV_CREATION_METADATA_ID&#34;) DEFERRABLE,
+	CONSTRAINT &#34;MV_TABLES_USED_FK2&#34; FOREIGN KEY (&#34;TBL_ID&#34;) REFERENCES public.&#34;TBLS&#34;(&#34;TBL_ID&#34;) DEFERRABLE
+);
+CREATE TABLE public.&#34;PARTITIONS&#34; (
+	&#34;PART_ID&#34; int8 NOT NULL,
+	&#34;CREATE_TIME&#34; int8 NOT NULL,
+	&#34;LAST_ACCESS_TIME&#34; int8 NOT NULL,
+	&#34;PART_NAME&#34; varchar(767) NULL DEFAULT NULL::character varying,
+	&#34;SD_ID&#34; int8 NULL,
+	&#34;TBL_ID&#34; int8 NULL,
+	CONSTRAINT &#34;PARTITIONS_pkey&#34; PRIMARY KEY (&#34;PART_ID&#34;),
+	CONSTRAINT &#34;UNIQUEPARTITION&#34; UNIQUE (&#34;PART_NAME&#34;, &#34;TBL_ID&#34;),
+	CONSTRAINT &#34;PARTITIONS_SD_ID_fkey&#34; FOREIGN KEY (&#34;SD_ID&#34;) REFERENCES public.&#34;SDS&#34;(&#34;SD_ID&#34;) DEFERRABLE,
+	CONSTRAINT &#34;PARTITIONS_TBL_ID_fkey&#34; FOREIGN KEY (&#34;TBL_ID&#34;) REFERENCES public.&#34;TBLS&#34;(&#34;TBL_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;PARTITIONS_N49&#34; ON public.&#34;PARTITIONS&#34; USING btree (&#34;TBL_ID&#34;);
+CREATE INDEX &#34;PARTITIONS_N50&#34; ON public.&#34;PARTITIONS&#34; USING btree (&#34;SD_ID&#34;);
+CREATE TABLE public.&#34;PARTITION_KEYS&#34; (
+	&#34;TBL_ID&#34; int8 NOT NULL,
+	&#34;PKEY_COMMENT&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	&#34;PKEY_NAME&#34; varchar(128) NOT NULL,
+	&#34;PKEY_TYPE&#34; varchar(767) NOT NULL,
+	&#34;INTEGER_IDX&#34; int8 NOT NULL,
+	CONSTRAINT &#34;PARTITION_KEYS_pkey&#34; PRIMARY KEY (&#34;TBL_ID&#34;, &#34;PKEY_NAME&#34;),
+	CONSTRAINT &#34;PARTITION_KEYS_TBL_ID_fkey&#34; FOREIGN KEY (&#34;TBL_ID&#34;) REFERENCES public.&#34;TBLS&#34;(&#34;TBL_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;PARTITION_KEYS_N49&#34; ON public.&#34;PARTITION_KEYS&#34; USING btree (&#34;TBL_ID&#34;);
+CREATE TABLE public.&#34;PARTITION_KEY_VALS&#34; (
+	&#34;PART_ID&#34; int8 NOT NULL,
+	&#34;PART_KEY_VAL&#34; varchar(256) NULL DEFAULT NULL::character varying,
+	&#34;INTEGER_IDX&#34; int8 NOT NULL,
+	CONSTRAINT &#34;PARTITION_KEY_VALS_pkey&#34; PRIMARY KEY (&#34;PART_ID&#34;, &#34;INTEGER_IDX&#34;),
+	CONSTRAINT &#34;PARTITION_KEY_VALS_PART_ID_fkey&#34; FOREIGN KEY (&#34;PART_ID&#34;) REFERENCES public.&#34;PARTITIONS&#34;(&#34;PART_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;PARTITION_KEY_VALS_N49&#34; ON public.&#34;PARTITION_KEY_VALS&#34; USING btree (&#34;PART_ID&#34;);
+CREATE TABLE public.&#34;PARTITION_PARAMS&#34; (
+	&#34;PART_ID&#34; int8 NOT NULL,
+	&#34;PARAM_KEY&#34; varchar(256) NOT NULL,
+	&#34;PARAM_VALUE&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;PARTITION_PARAMS_pkey&#34; PRIMARY KEY (&#34;PART_ID&#34;, &#34;PARAM_KEY&#34;),
+	CONSTRAINT &#34;PARTITION_PARAMS_PART_ID_fkey&#34; FOREIGN KEY (&#34;PART_ID&#34;) REFERENCES public.&#34;PARTITIONS&#34;(&#34;PART_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;PARTITION_PARAMS_N49&#34; ON public.&#34;PARTITION_PARAMS&#34; USING btree (&#34;PART_ID&#34;);
+CREATE TABLE public.&#34;PART_COL_PRIVS&#34; (
+	&#34;PART_COLUMN_GRANT_ID&#34; int8 NOT NULL,
+	&#34;COLUMN_NAME&#34; varchar(767) NULL DEFAULT NULL::character varying,
+	&#34;CREATE_TIME&#34; int8 NOT NULL,
+	&#34;GRANT_OPTION&#34; int2 NOT NULL,
+	&#34;GRANTOR&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;GRANTOR_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PART_ID&#34; int8 NULL,
+	&#34;PRINCIPAL_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PRINCIPAL_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PART_COL_PRIV&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;AUTHORIZER&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;PART_COL_PRIVS_pkey&#34; PRIMARY KEY (&#34;PART_COLUMN_GRANT_ID&#34;),
+	CONSTRAINT &#34;PART_COL_PRIVS_PART_ID_fkey&#34; FOREIGN KEY (&#34;PART_ID&#34;) REFERENCES public.&#34;PARTITIONS&#34;(&#34;PART_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;PARTITIONCOLUMNPRIVILEGEINDEX&#34; ON public.&#34;PART_COL_PRIVS&#34; USING btree (&#34;AUTHORIZER&#34;, &#34;PART_ID&#34;, &#34;COLUMN_NAME&#34;, &#34;PRINCIPAL_NAME&#34;, &#34;PRINCIPAL_TYPE&#34;, &#34;PART_COL_PRIV&#34;, &#34;GRANTOR&#34;, &#34;GRANTOR_TYPE&#34;);
+CREATE INDEX &#34;PART_COL_PRIVS_N49&#34; ON public.&#34;PART_COL_PRIVS&#34; USING btree (&#34;PART_ID&#34;);
+CREATE TABLE public.&#34;PART_COL_STATS&#34; (
+	&#34;CS_ID&#34; int8 NOT NULL,
+	&#34;CAT_NAME&#34; varchar(256) NULL DEFAULT NULL::character varying,
+	&#34;DB_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;TABLE_NAME&#34; varchar(256) NULL DEFAULT NULL::character varying,
+	&#34;PARTITION_NAME&#34; varchar(767) NULL DEFAULT NULL::character varying,
+	&#34;COLUMN_NAME&#34; varchar(767) NULL DEFAULT NULL::character varying,
+	&#34;COLUMN_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PART_ID&#34; int8 NOT NULL,
+	&#34;LONG_LOW_VALUE&#34; int8 NULL,
+	&#34;LONG_HIGH_VALUE&#34; int8 NULL,
+	&#34;DOUBLE_LOW_VALUE&#34; float8 NULL,
+	&#34;DOUBLE_HIGH_VALUE&#34; float8 NULL,
+	&#34;BIG_DECIMAL_LOW_VALUE&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	&#34;BIG_DECIMAL_HIGH_VALUE&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	&#34;NUM_NULLS&#34; int8 NOT NULL,
+	&#34;NUM_DISTINCTS&#34; int8 NULL,
+	&#34;BIT_VECTOR&#34; bytea NULL,
+	&#34;AVG_COL_LEN&#34; float8 NULL,
+	&#34;MAX_COL_LEN&#34; int8 NULL,
+	&#34;NUM_TRUES&#34; int8 NULL,
+	&#34;NUM_FALSES&#34; int8 NULL,
+	&#34;LAST_ANALYZED&#34; int8 NOT NULL,
+	CONSTRAINT &#34;PART_COL_STATS_pkey&#34; PRIMARY KEY (&#34;CS_ID&#34;),
+	CONSTRAINT &#34;PART_COL_STATS_fkey&#34; FOREIGN KEY (&#34;PART_ID&#34;) REFERENCES public.&#34;PARTITIONS&#34;(&#34;PART_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;PART_COL_STATS_N49&#34; ON public.&#34;PART_COL_STATS&#34; USING btree (&#34;PART_ID&#34;);
+CREATE INDEX &#34;PCS_STATS_IDX&#34; ON public.&#34;PART_COL_STATS&#34; USING btree (&#34;CAT_NAME&#34;, &#34;DB_NAME&#34;, &#34;TABLE_NAME&#34;, &#34;COLUMN_NAME&#34;, &#34;PARTITION_NAME&#34;);
+CREATE TABLE public.&#34;PART_PRIVS&#34; (
+	&#34;PART_GRANT_ID&#34; int8 NOT NULL,
+	&#34;CREATE_TIME&#34; int8 NOT NULL,
+	&#34;GRANT_OPTION&#34; int2 NOT NULL,
+	&#34;GRANTOR&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;GRANTOR_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PART_ID&#34; int8 NULL,
+	&#34;PRINCIPAL_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PRINCIPAL_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;PART_PRIV&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;AUTHORIZER&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	CONSTRAINT &#34;PART_PRIVS_pkey&#34; PRIMARY KEY (&#34;PART_GRANT_ID&#34;),
+	CONSTRAINT &#34;PART_PRIVS_PART_ID_fkey&#34; FOREIGN KEY (&#34;PART_ID&#34;) REFERENCES public.&#34;PARTITIONS&#34;(&#34;PART_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;PARTPRIVILEGEINDEX&#34; ON public.&#34;PART_PRIVS&#34; USING btree (&#34;AUTHORIZER&#34;, &#34;PART_ID&#34;, &#34;PRINCIPAL_NAME&#34;, &#34;PRINCIPAL_TYPE&#34;, &#34;PART_PRIV&#34;, &#34;GRANTOR&#34;, &#34;GRANTOR_TYPE&#34;);
+CREATE INDEX &#34;PART_PRIVS_N49&#34; ON public.&#34;PART_PRIVS&#34; USING btree (&#34;PART_ID&#34;);
+CREATE TABLE public.&#34;TABLE_PARAMS&#34; (
+	&#34;TBL_ID&#34; int8 NOT NULL,
+	&#34;PARAM_KEY&#34; varchar(256) NOT NULL,
+	&#34;PARAM_VALUE&#34; text NULL,
+	CONSTRAINT &#34;TABLE_PARAMS_pkey&#34; PRIMARY KEY (&#34;TBL_ID&#34;, &#34;PARAM_KEY&#34;),
+	CONSTRAINT &#34;TABLE_PARAMS_TBL_ID_fkey&#34; FOREIGN KEY (&#34;TBL_ID&#34;) REFERENCES public.&#34;TBLS&#34;(&#34;TBL_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;TABLE_PARAMS_N49&#34; ON public.&#34;TABLE_PARAMS&#34; USING btree (&#34;TBL_ID&#34;);
+CREATE TABLE public.&#34;TAB_COL_STATS&#34; (
+	&#34;CS_ID&#34; int8 NOT NULL,
+	&#34;CAT_NAME&#34; varchar(256) NULL DEFAULT NULL::character varying,
+	&#34;DB_NAME&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;TABLE_NAME&#34; varchar(256) NULL DEFAULT NULL::character varying,
+	&#34;COLUMN_NAME&#34; varchar(767) NULL DEFAULT NULL::character varying,
+	&#34;COLUMN_TYPE&#34; varchar(128) NULL DEFAULT NULL::character varying,
+	&#34;TBL_ID&#34; int8 NOT NULL,
+	&#34;LONG_LOW_VALUE&#34; int8 NULL,
+	&#34;LONG_HIGH_VALUE&#34; int8 NULL,
+	&#34;DOUBLE_LOW_VALUE&#34; float8 NULL,
+	&#34;DOUBLE_HIGH_VALUE&#34; float8 NULL,
+	&#34;BIG_DECIMAL_LOW_VALUE&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	&#34;BIG_DECIMAL_HIGH_VALUE&#34; varchar(4000) NULL DEFAULT NULL::character varying,
+	&#34;NUM_NULLS&#34; int8 NOT NULL,
+	&#34;NUM_DISTINCTS&#34; int8 NULL,
+	&#34;BIT_VECTOR&#34; bytea NULL,
+	&#34;AVG_COL_LEN&#34; float8 NULL,
+	&#34;MAX_COL_LEN&#34; int8 NULL,
+	&#34;NUM_TRUES&#34; int8 NULL,
+	&#34;NUM_FALSES&#34; int8 NULL,
+	&#34;LAST_ANALYZED&#34; int8 NOT NULL,
+	CONSTRAINT &#34;TAB_COL_STATS_pkey&#34; PRIMARY KEY (&#34;CS_ID&#34;),
+	CONSTRAINT &#34;TAB_COL_STATS_fkey&#34; FOREIGN KEY (&#34;TBL_ID&#34;) REFERENCES public.&#34;TBLS&#34;(&#34;TBL_ID&#34;) DEFERRABLE
+);
+CREATE INDEX &#34;TAB_COL_STATS_IDX&#34; ON public.&#34;TAB_COL_STATS&#34; USING btree (&#34;CAT_NAME&#34;, &#34;DB_NAME&#34;, &#34;TABLE_NAME&#34;, &#34;COLUMN_NAME&#34;);
+CREATE INDEX &#34;TAB_COL_STATS_N49&#34; ON public.&#34;TAB_COL_STATS&#34; USING btree (&#34;TBL_ID&#34;);
+CREATE TABLE public.&#34;WM_MAPPING&#34; (
+	&#34;MAPPING_ID&#34; int8 NOT NULL,
+	&#34;RP_ID&#34; int8 NOT NULL,
+	&#34;ENTITY_TYPE&#34; varchar(128) NOT NULL,
+	&#34;ENTITY_NAME&#34; varchar(128) NOT NULL,
+	&#34;POOL_ID&#34; int8 NULL,
+	&#34;ORDERING&#34; int4 NULL,
+	CONSTRAINT &#34;UNIQUE_WM_MAPPING&#34; UNIQUE (&#34;RP_ID&#34;, &#34;ENTITY_TYPE&#34;, &#34;ENTITY_NAME&#34;),
+	CONSTRAINT &#34;WM_MAPPING_pkey&#34; PRIMARY KEY (&#34;MAPPING_ID&#34;)
+);
+CREATE TABLE public.&#34;WM_POOL&#34; (
+	&#34;POOL_ID&#34; int8 NOT NULL,
+	&#34;RP_ID&#34; int8 NOT NULL,
+	&#34;PATH&#34; varchar(1024) NOT NULL,
+	&#34;ALLOC_FRACTION&#34; float8 NULL,
+	&#34;QUERY_PARALLELISM&#34; int4 NULL,
+	&#34;SCHEDULING_POLICY&#34; varchar(1024) NULL,
+	CONSTRAINT &#34;UNIQUE_WM_POOL&#34; UNIQUE (&#34;RP_ID&#34;, &#34;PATH&#34;),
+	CONSTRAINT &#34;WM_POOL_pkey&#34; PRIMARY KEY (&#34;POOL_ID&#34;)
+);
+CREATE TABLE public.&#34;WM_POOL_TO_TRIGGER&#34; (
+	&#34;POOL_ID&#34; int8 NOT NULL,
+	&#34;TRIGGER_ID&#34; int8 NOT NULL,
+	CONSTRAINT &#34;WM_POOL_TO_TRIGGER_pkey&#34; PRIMARY KEY (&#34;POOL_ID&#34;, &#34;TRIGGER_ID&#34;)
+);
+CREATE TABLE public.&#34;WM_RESOURCEPLAN&#34; (
+	&#34;RP_ID&#34; int8 NOT NULL,
+	&#34;NAME&#34; varchar(128) NOT NULL,
+	&#34;QUERY_PARALLELISM&#34; int4 NULL,
+	&#34;STATUS&#34; varchar(20) NOT NULL,
+	&#34;DEFAULT_POOL_ID&#34; int8 NULL,
+	CONSTRAINT &#34;UNIQUE_WM_RESOURCEPLAN&#34; UNIQUE (&#34;NAME&#34;),
+	CONSTRAINT &#34;WM_RESOURCEPLAN_pkey&#34; PRIMARY KEY (&#34;RP_ID&#34;)
+);
+CREATE TABLE public.&#34;WM_TRIGGER&#34; (
+	&#34;TRIGGER_ID&#34; int8 NOT NULL,
+	&#34;RP_ID&#34; int8 NOT NULL,
+	&#34;NAME&#34; varchar(128) NOT NULL,
+	&#34;TRIGGER_EXPRESSION&#34; varchar(1024) NULL DEFAULT NULL::character varying,
+	&#34;ACTION_EXPRESSION&#34; varchar(1024) NULL DEFAULT NULL::character varying,
+	&#34;IS_IN_UNMANAGED&#34; int2 NOT NULL DEFAULT 0,
+	CONSTRAINT &#34;UNIQUE_WM_TRIGGER&#34; UNIQUE (&#34;RP_ID&#34;, &#34;NAME&#34;),
+	CONSTRAINT &#34;WM_TRIGGER_pkey&#34; PRIMARY KEY (&#34;TRIGGER_ID&#34;)
+);
+ALTER TABLE public.&#34;WM_MAPPING&#34; ADD CONSTRAINT &#34;WM_MAPPING_FK1&#34; FOREIGN KEY (&#34;RP_ID&#34;) REFERENCES public.&#34;WM_RESOURCEPLAN&#34;(&#34;RP_ID&#34;) DEFERRABLE;
+ALTER TABLE public.&#34;WM_MAPPING&#34; ADD CONSTRAINT &#34;WM_MAPPING_FK2&#34; FOREIGN KEY (&#34;POOL_ID&#34;) REFERENCES public.&#34;WM_POOL&#34;(&#34;POOL_ID&#34;) DEFERRABLE;
+ALTER TABLE public.&#34;WM_POOL&#34; ADD CONSTRAINT &#34;WM_POOL_FK1&#34; FOREIGN KEY (&#34;RP_ID&#34;) REFERENCES public.&#34;WM_RESOURCEPLAN&#34;(&#34;RP_ID&#34;) DEFERRABLE;
+ALTER TABLE public.&#34;WM_POOL_TO_TRIGGER&#34; ADD CONSTRAINT &#34;WM_POOL_TO_TRIGGER_FK1&#34; FOREIGN KEY (&#34;POOL_ID&#34;) REFERENCES public.&#34;WM_POOL&#34;(&#34;POOL_ID&#34;) DEFERRABLE;
+ALTER TABLE public.&#34;WM_POOL_TO_TRIGGER&#34; ADD CONSTRAINT &#34;WM_POOL_TO_TRIGGER_FK2&#34; FOREIGN KEY (&#34;TRIGGER_ID&#34;) REFERENCES public.&#34;WM_TRIGGER&#34;(&#34;TRIGGER_ID&#34;) DEFERRABLE;
+ALTER TABLE public.&#34;WM_RESOURCEPLAN&#34; ADD CONSTRAINT &#34;WM_RESOURCEPLAN_FK1&#34; FOREIGN KEY (&#34;DEFAULT_POOL_ID&#34;) REFERENCES public.&#34;WM_POOL&#34;(&#34;POOL_ID&#34;) DEFERRABLE;
+ALTER TABLE public.&#34;WM_TRIGGER&#34; ADD CONSTRAINT &#34;WM_TRIGGER_FK1&#34; FOREIGN KEY (&#34;RP_ID&#34;) REFERENCES public.&#34;WM_RESOURCEPLAN&#34;(&#34;RP_ID&#34;) DEFERRABLE;```
+</code></pre>]]></content:encoded><h:time datetime="2023-10-18T00:00:00+08:00">2023-10-18 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20231018-hms-not/">HMS 服务上一些基础信息</h:a></item><item><title>快速启动最小环境 Hive + Hive metastore</title><link>https://atman.ihx.cc/post/20231016-quick-hms/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20231016-quick-hms/</guid><pubDate>Mon, 16 Oct 2023 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Hive</category><category>metastore</category><description>镜像来自：https://hub.docker.com/r/apache/hive docker pull apache/hive /opt/apache-hive-3.1.2-bin/hive313 信息是先启动一个 docker run，然后 docker cp hive4:/opt/hive/conf ./ 修改 hive-site 配置文增加以下信 …</description><content:encoded><![CDATA[<p>镜像来自：<code>https://hub.docker.com/r/apache/hive</code></p>
+<pre><code class="language-fallback" data-lang="fallback">docker pull apache/hive
+</code></pre><p><code>/opt/apache-hive-3.1.2-bin/hive313</code>  信息是先启动一个 docker run，然后 <code>docker cp hive4:/opt/hive/conf ./</code></p>
+<p>修改 hive-site 配置文增加以下信息，开启 hive metastore events 功能</p>
+<pre><code class="language-bash" data-lang="bash">&lt;property&gt;
+    &lt;name&gt;hive.metastore.event.db.notification.api.auth&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;hive.metastore.notifications.add.thrift.objects&lt;/name&gt;
+    &lt;value&gt;true&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;hive.metastore.alter.notifications.basic&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;hive.metastore.dml.events&lt;/name&gt;
+    &lt;value&gt;true&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;hive.metastore.transactional.event.listeners&lt;/name&gt;
+    &lt;value&gt;org.apache.hive.hcatalog.listener.DbNotificationListener&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;hive.metastore.event.db.listener.timetolive&lt;/name&gt;
+    &lt;value&gt;172800s&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;hive.metastore.server.max.message.size&lt;/name&gt;
+    &lt;value&gt;858993459&lt;/value&gt;
+&lt;/property&gt;
+</code></pre><p>启动 hive-metastore</p>
+<pre><code class="language-bash" data-lang="bash">docker run -d -p 9083:9083 -v /opt/apache-hive-3.1.2-bin/hive313:/opt/hive/conf --env SERVICE_NAME=metastore --name hive4 apache/hive:3.1.3
+
+docker exec -it -u 0 hive4 mkdir -p /user/hive/warehouse/ &amp;&amp; docker exec -it -u 0 hive4 chown hive: /user/hive/warehouse/
+
+必须执行上述目录的创建，否则提示报错  
+Error: Error while processing statement: FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.DDLTask. MetaException(message:Unable to create database path file:/user/hive/warehouse/hi.db, failed to create database hi) (state=08S01,code=1)
+</code></pre><p>启动 hive-server2</p>
+<pre><code class="language-bash" data-lang="bash">docker run -d -p 10000:10000 -p 10002:10002  \
+-v /opt/apache-hive-3.1.2-bin/hive313:/opt/hive/conf --env SERVICE_NAME=hiveserver2 \
+--env SERVICE_OPTS=&#34;-Dhive.metastore.uris=thrift://127.0.0.1:9083&#34; \
+--env IS_RESUME=&#34;true&#34; \
+--name hive5 apache/hive:3.1.3
+
+// 127.0.0.1:9083 可以换成 docker hive-metastore 所在机器 IP 地址
+
+docker exec -it -u 0 hive5 mkdir /home/hive &amp;&amp; docker exec -it -u 0 hive5 chown hive: /home/hive
+// 必须执行上述目录的创建，不创建该目录无法执行 beeline 连接
+docker exec -it hive5 beeline -u &#39;jdbc:hive2://localhost:10000/&#39;
+</code></pre><p>创建 hive catalogs</p>
+<pre><code class="language-sql" data-lang="sql">CREATE EXTERNAL CATALOG hive4
+PROPERTIES(
+   &#34;type&#34;=&#34;hive&#34;, 
+   &#34;hive.metastore.uris&#34;=&#34;thrift://127.0.0.1:9083&#34;,
+    &#34;enable_hms_events_incremental_sync&#34; = &#34;true&#34;
+);
+</code></pre><ol>
+<li>
+<p>能验证 db / table 元数据同步</p>
+</li>
+<li>
+<p>无法验证数据查询，因为这种方式 hive 不是基于 hdfs 启动的数据。StarRcoks BE 无法获取底层文件的信息，报错如下</p>
+<pre><code class="language-fallback" data-lang="fallback">mysql&gt; select count(*) from hive5.hi.a;
+
+ERROR 1064 (HY000): Failed to get remote files, msg: com.starrocks.connector.exception.StarRocksConnectorException: Failed to get hive remote file&#39;s metadata on path: RemotePathKey{path=&#39;file:/user/hive/warehouse/hi.db/a&#39;, isRecursive=true}. msg: File /user/hive/warehouse/hi.db/a does not exist
+</code></pre></li>
+</ol>
+]]></content:encoded><h:time datetime="2023-10-16T00:00:00+08:00">2023-10-16 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20231016-quick-hms/">快速启动最小环境 Hive + Hive metastore</h:a></item></channel></rss>

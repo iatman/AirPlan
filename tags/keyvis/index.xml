@@ -1,1 +1,269 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>keyvis on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/keyvis/</link><description>Recent content in keyvis on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Thu, 21 May 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/keyvis/index.xml" rel="self" type="application/rss+xml"/><item><title>TiDB 4.0 -- keyvis-diagnostics</title><link>https://atman.ihx.cc/post/20200521-21-keyvis/</link><pubDate>Thu, 21 May 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200521-21-keyvis/</guid><description>0x00 KeyVis 不介绍这个功能来历了，贴点资料大家看下开心阅读 Cloud Bigtable【官方提供多国语言】 Key Visualizer 概览 Key Visualizer 使用入门 Key Visualizer 探索热图 Key Visualizer 热图模式 Key Visualizer 指标</description></item><item><title>TiDB 4.0 新特性</title><link>https://atman.ihx.cc/post/20200504-19-tidb4.0/</link><pubDate>Mon, 04 May 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200504-19-tidb4.0/</guid><description>0x00 Live 最近几周 TiDB 官方搞了好多次直播，一直在宣传 TiDB 4.0 版本的新特性，本文汇总下 4.0 特色功能；数据来源于 TiDB bilibili 直播、官网文档、用户微信群、公众号等几个地</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>keyvis · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/keyvis/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Thu, 21 May 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/keyvis/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>keyvis · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 2 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/keyvis/index.xml">https://atman.ihx.cc/tags/keyvis/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>TiDB 4.0 -- keyvis-diagnostics</title><link>https://atman.ihx.cc/post/20200521-21-keyvis/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200521-21-keyvis/</guid><pubDate>Thu, 21 May 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>keyvis</category><category>TiDB</category><description>0x00 KeyVis 不介绍这个功能来历了，贴点资料大家看下开心阅读 Cloud Bigtable【官方提供多国语言】 Key Visualizer 概览 Key Visualizer 使用入门 Key Visualizer 探索热图 Key Visualizer 热图模式 Key Visualizer 指标 Key Visualizer …</description><content:encoded><![CDATA[<h2 id="0x00-keyvis">0x00 KeyVis</h2>
+<blockquote>
+<p>不介绍这个功能来历了，贴点资料大家看下开心阅读</p>
+</blockquote>
+<ul>
+<li>Cloud Bigtable【官方提供多国语言】
+<ul>
+<li><a href="https://cloud.google.com/bigtable/docs/keyvis-overview">Key Visualizer 概览</a></li>
+<li><a href="https://cloud.google.com/bigtable/docs/keyvis-getting-started">Key Visualizer 使用入门</a></li>
+<li><a href="https://cloud.google.com/bigtable/docs/keyvis-exploring-heatmaps">Key Visualizer 探索热图</a></li>
+<li><a href="https://cloud.google.com/bigtable/docs/keyvis-patterns">Key Visualizer 热图模式</a></li>
+<li><a href="https://cloud.google.com/bigtable/docs/keyvis-metrics">Key Visualizer 指标</a></li>
+<li><a href="https://cloud.google.com/bigtable/docs/keyvis-diagnostics">Key Visualizer 诊断消息</a></li>
+</ul>
+</li>
+<li>TiDB 4.0 新功能物料
+<ul>
+<li><a href="https://pingcap.com/docs-cn/dev/key-visualizer-monitoring-tool/">Key Visualizer 流量可视化</a></li>
+<li><a href="https://book.tidb.io/session3/chapter2/key-vis.html">tidb in action / 2.1 识别集群热点和业务访问模式</a>：</li>
+<li><a href="https://pingcap.com/blog-cn/tidb-4.0-key-visualizer/">TiDB 4.0 新特性前瞻（一）拍个 CT 诊断集群热点问题</a></li>
+<li><a href="https://pingcap.com/blog-cn/observability-of-distributed-system/">我眼中的分布式系统可观测性</a></li>
+</ul>
+</li>
+<li>数据业务场景 &ndash; <a href="https://asktug.com/t/topic/358">数据热点</a></li>
+</ul>
+<h2 id="0x01-研究">0x01 研究</h2>
+<blockquote>
+<p>from TiDB 官网：古代，医者看病讲究「望、闻、问、切」，通过病人的外部综合表现对病症做出判断。现代，CT 的发明使得人们可以使用 X 光穿透身体各组织内部，将整体的情况以图像的方式展现出来，医生可以根据这个信息快速地排查问题。CT 的出现不仅将诊断的效率提升到了新的高度，也给客观描述身体状态提供了一个标准，是医学史上重要的里程碑。</p>
+</blockquote>
+<p>关于功能测试和图案展现，可以围观上述 Bigtable 或者 TiDB 官方文档，现在我们研究下看到 key-vis 高亮之后的动作。</p>
+<p><img src="https://atman.ihx.cc/post/20200521-21-keyvis/bigtable-case.png" alt="bigtable-case 一张图" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>TiDB key vis 竖向是 「库 &gt; 表 &gt; 行」信息，横向是时间线，最新数据在右部显示，不断向左归拢消失。</p>
+</blockquote>
+<p>将「业务代码访问硬件资源上的 KV 数据」调度占用「场景形象化」，从观看 QPS / Duration 趋势图转换为 KV Block 「流量、次数」为基础的访问记录「Region」。</p>
+<p>该形象化记录“业务场景  &ndash;&gt; 执行动作（get、put、del、post）调用 KV 数据”，不断循环♻️运行后随着时间进度记录下的「流程链路」反应。</p>
+<p>「通过读文档看到」在大量业务场景的测试下并通过一系列的总结，数据反应基本组成以下几个特征图（不同业务特点下的反应）：</p>
+<ul>
+<li>自增 ID「三角斜线高亮」</li>
+<li>周期跑批「竖向的重复高亮，类似夜晚开车看路灯」</li>
+<li>局部小范围高亮「可能是小表热点（比如参数表）」</li>
+<li>局部大范围高亮「可能是业务大量增加」</li>
+<li>期望结果「明暗叠加 — 大范围下的模糊覆盖」</li>
+</ul>
+<p><img src="https://atman.ihx.cc/post/20200521-21-keyvis/tidb-keyvis.png" alt="tidb-keyvis 转载图片" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>from TiDB CTO Ed Huang : 现在如果有朋友问我，“这个业务适不适合 TiDB？”我只需要通过录制线上流量，或者搭建一个从集群，只需要把 KeyViz 的图给我看一眼，我甚至都不需要压力测试就能判断这个业务是否适合，而且即使不适合，我也能准确的给出修改建议，因为 KeyViz 的图对我的「假设」的可解释性有了很强的支持。</p>
+</blockquote>
+<h2 id="0x02-探探">0x02 探探</h2>
+<p>使用 Key vis 之前有几个疑问：</p>
+<ul>
+<li>Key vis 怎么做出来的？
+<ul>
+<li>TiKV 上报给 PD 的心跳信息包含了 KV 流量信息，通过 html + JS 解析 json 数据在浏览器展现</li>
+</ul>
+</li>
+<li>Key vis 高亮后 DBA 可以做什么？</li>
+<li>Key vis 高级功能使用方式？
+<ul>
+<li>一顿测试玩耍，暂未发现高级功能</li>
+</ul>
+</li>
+<li>人工怎么自定义 Key vis 亮暗走向？
+<ul>
+<li>见 <a href="https://atman.ihx.cc/post/20200521-21-keyvis/#pandadalao">0x03 Panda</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="高亮后">高亮后</h3>
+<p><img src="https://atman.ihx.cc/post/20200521-21-keyvis/bytesmin.png" alt="key vis tpch 高亮信息" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>上图是通过 tiup 部署了单节点 TiDB 集群，准备了 100 workhouse 数据，使用 tpch 单线程压测时出现的场景<br>
+当 key viz 出现「黄色高亮区域」之后：怎么找到这个数据？怎么找到相应 SQL 或者业务逻辑信息？然后怎么解决它呢？</p>
+</blockquote>
+<p>和以前一样，我们需要先获取到 QPS、Slow query、duration 等数据库信息和硬件 CPU、IOPS、带宽等信息综合判断目前 TiDB 集群负载和业务压力「这一步看起来是必不可少的」。</p>
+<p>有了以上信息后，放在以前 DBA 会想办法「找到最慢或者影响最大」的 SQL 语句，然后加索引或者通知业务调整流量压力。现在 DBA 可以进一步看到 「KV 数据」 的访问次数、流量带宽信息，这可以进一步锁定业务出现问题的场景（然快速意味着拥有更多经验）。</p>
+<blockquote>
+<p>一般情况下：数据出现热点、业务流量暴涨都会出现高亮区域，这些相对来说正向问题，不排除产品有 BUG 出现计算错误、调度雪崩等场景。<br>
+流量暴涨场景：取决于业务对 schema 的设计是否有隐患「连续自增、小表热点、周期热点、单表暴增」、机器资源是否充足「换更好的硬件是最好的调优方式&ndash;鲁迅说的」</p>
+</blockquote>
+<p>有了经验值「做一些特定场景的测试，然后看 key vis 的断层，鉴该文档第一张图」之后，从两个方向交叉验证 TiDB 集群运行压力和高亮场景。</p>
+<p>然目前 Key Viz 提供的信息中无法直接关联到 「业务 SQL」，信息中还剩下 STARK KEY 可以使用</p>
+<ul>
+<li>
+<p>通过 <code>pd-ctl -u http://&lt;PD_ADDRESS&gt; region key &lt;KEY&gt;</code> 工具解析该 key region 位置，</p>
+<pre><code class="language-json" data-lang="json">[tmpuser@jumphost ~]$ tiup ctl pd -u http://172.16.4.51:14379 region key 7480000000000000ff515f728000000000ff044d060000000000fa
+Starting component `ctl`: /home/tmpuser/.tiup/components/ctl/v4.0.0-rc.2/ctl pd -u http://172.16.4.51:14379 region key 7480000000000000ff515f728000000000ff044d060000000000fa
+{
+  &#34;id&#34;: 240,
+  &#34;start_key&#34;: &#34;7480000000000000FF515F728000000000FF044D060000000000FA&#34;,
+  &#34;end_key&#34;: &#34;7480000000000000FF515F728000000000FF0B649B0000000000FA&#34;,
+  &#34;epoch&#34;: {
+    &#34;conf_ver&#34;: 1,
+    &#34;version&#34;: 40
+  },
+  &#34;peers&#34;: [
+    {
+      &#34;id&#34;: 241,
+      &#34;store_id&#34;: 1
+    }
+  ],
+  &#34;leader&#34;: {
+    &#34;id&#34;: 241,
+    &#34;store_id&#34;: 1
+  },
+  &#34;written_bytes&#34;: 0,
+  &#34;read_bytes&#34;: 1168682168,
+  &#34;written_keys&#34;: 0,
+  &#34;read_keys&#34;: 5399413,
+  &#34;approximate_size&#34;: 100,
+  &#34;approximate_keys&#34;: 498011
+}
+</code></pre></li>
+<li>
+<p>通过 <a href="https://github.com/pingcap/tidb/blob/master/docs/tidb_http_api.md" title="文档第 5 条啊">curl http://{TiDBIP}:10080/regions/{regionID}</a> 可以反解析到该 region 属于那张表。</p>
+<ul>
+<li>然后可以做 <a href="https://pingcap.com/docs-cn/stable/pd-control/#operator-show--add--remove"><code>pd-ctl operator add split-region 1 --policy=approximate</code></a>，或者修改 <a href="https://pingcap.com/docs-cn/stable/tidb-specific-system-variables/#shard_row_id_bits"><code>shard_row_id_bits=4</code></a>，或者查阅 <a href="https://pingcap.com/docs-cn/stable/sql-statements/sql-statement-split-region/#split-region-%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3">Split Region 使用文档</a></li>
+</ul>
+<pre><code class="language-json" data-lang="json">[tmpuser@jumphost ~]$ curl http://172.16.4.51:14080/regions/240
+{
+&#34;region_id&#34;: 240,
+&#34;start_key&#34;: &#34;dIAAAAAAAABRX3KAAAAAAARNBg==&#34;,
+&#34;end_key&#34;: &#34;dIAAAAAAAABRX3KAAAAAAAtkmw==&#34;,
+&#34;frames&#34;: [
+  {
+  &#34;db_name&#34;: &#34;tpch&#34;,
+  &#34;table_name&#34;: &#34;lineitem&#34;,
+  &#34;table_id&#34;: 81,
+  &#34;is_record&#34;: true,
+  &#34;record_id&#34;: 281862
+  }
+]
+</code></pre></li>
+</ul>
+<p>如果当前通过 key viz 看横向尾部持续高亮：可以开启 general log 获取目前正在运行的 SQL 「slow query 不等于读取高亮 KV 数据，比如小表热点」；和业务开发一起聊下「业务代码逻辑」确认下目前正在执行的操作，同时看下 slow query 是否有关于该表的信息。</p>
+<blockquote>
+<p>截图中有个 <code>row_5397937</code> 上是 TiDB rowid（TiDB 特产）信息，可在数据库中执行 <code>select * from tech.lineitem where _tidb_rowid = 5397937</code> 查看；这有助于你和开发一起聊业务代码逻辑。</p>
+</blockquote>
+<pre><code class="language-sql" data-lang="sql">(root@127.0.0.1) [tpch]&gt;select * from lineitem where _tidb_rowid = 5397937;
++------------+-----------+-----------+--------------+------------+-----------------+------------+-------+--------------+--------------+------------+--------------+---------------+-------------------+------------+-----------------------+
+| L_ORDERKEY | L_PARTKEY | L_SUPPKEY | L_LINENUMBER | L_QUANTITY | L_EXTENDEDPRICE | L_DISCOUNT | L_TAX | L_RETURNFLAG | L_LINESTATUS | L_SHIPDATE | L_COMMITDATE | L_RECEIPTDATE | L_SHIPINSTRUCT    | L_SHIPMODE | L_COMMENT             |
++------------+-----------+-----------+--------------+------------+-----------------+------------+-------+--------------+--------------+------------+--------------+---------------+-------------------+------------+-----------------------+
+|    5372642 |    106219 |      8730 |            4 |      39.00 |        47783.19 |       0.10 |  0.08 | A            | F            | 1994-02-07 | 1994-03-28   | 1994-02-16    | DELIVER IN PERSON | RAIL       | e evenly carefully un |
++------------+-----------+-----------+--------------+------------+-----------------+------------+-------+--------------+--------------+------------+--------------+---------------+-------------------+------------+-----------------------+
+1 row in set (0.00 sec)
+</code></pre><h2 id="0x03-新知识">0x03 新知识</h2>
+<blockquote>
+<p>学习 key viz 期间遇见的新知识点，耳目一新的视角</p>
+</blockquote>
+<h3 id="pandadalao">Pandadalao</h3>
+<p>源代码存放在 Github <a href="https://github.com/andylokandy/drawvis" title="TiDB key-vis pandadalao">andylokandy/drawvis</a></p>
+<p><img src="https://atman.ihx.cc/post/20200521-21-keyvis/TiDB-Dashboard.png" alt="key-vis 作图" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>作图思路</p>
+</blockquote>
+<p>计算 d2.jpg 图片高度然后表里插入相应高度的数据：图片高度 == 数据库中的行数，假设图片 1000px 高度，在数据库插入 1000 行数据。</p>
+<p>然后从左向右、从上向下扫描黑色和白色；将竖着的黑色和白色映射为 Y 坐标，与数据库中 1 - 1000 行对应。</p>
+<p>扫描到白色情况下【链接到数据库】疯狂更新 Y 坐标对应行的数据，遇见黑色的情况停止增删改查。</p>
+<p>从左向右间隔 60s 执行一次，随着时间的流失，逐渐在 key-vis 上展现出来一张由高亮热点数据和暗部冷数据组成的图案。</p>
+<h3 id="know">Know</h3>
+<blockquote>
+<p>复制于：<a href="https://pingcap.com/blog-cn/observability-of-distributed-system/">我眼中的分布式系统可观测性</a><br>
+在过去，一个物理机器的状态确实可以通过几个监控指标描述，但是随着我们的系统越来越复杂，我们的观测对象正渐渐的从「Infrastructure」转到「应用」，观察行为本身从「Monitoring（监控）」到「Observability（观测）」。<br>
+虽然看上去这两者只是文字上的差别，但是请仔细思考背后的含义。关于这个话题，我很喜欢引用下面这张图：</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20200521-21-keyvis/9-coordinate-drawing-2.png" alt="key-vis 作图" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>回到数据库的世界，TiDB KeyViz 的意义在于，就像上面提到的，这个工具不仅仅是一个监控工具，而且它能以一个非常低门槛且形象的方式让架构师具象化的看到自己对于业务的「假设」是否符合预期，这些「假设」不一定是能够通过监控反映的，以获得对业务更深刻的 Insight。</p>
+</blockquote>
+<h2 id="0x04-臆测">0x04 臆测</h2>
+<blockquote>
+<p>正向循环♻️体系</p>
+</blockquote>
+<p>TiDB 官方文档将 key viz 比喻为医疗行业 CT、核磁共振、X 光 等高精尖机器；现实中医生使用这些工具获取身体断层扫描资料做交叉对比，靠自身医学经验判断该目标是否身陷某种疾病，当有诊断目标后通过血常规、局部微创等进一步确定患者症状。</p>
+<p>目前 key viz 依据业务场景可以生成众多现象（图片），剩下的就是汇聚更多的场景 （ 业务逻辑 &amp; 数据结构 &amp; 读写频率 &amp; 修复方案 ）即可智能提出解决方案，毕竟 核磁、CT 等已经做到智能化识别肿瘤、病毒扩散等。</p>
+<p>上述文档中已知的几种类型图可转换为特征（医生知识库），根据 QPS、硬件资源占用 综合推算出目前机器可运行业务峰值扭矩，超过后会导致拐点出现断崖式下降。</p>
+<blockquote>
+<p>CT(Computed Tomography)，即电子计算机断层扫描，它是利用精确准直的 X 线束、γ射线、超声波等，与灵敏度极高的探测器一同围绕人体的某一部位作一个接一个的断面扫描，具有扫描时间快，图像清晰等特点，可用于多种疾病的检查；根据所采用的射线不同可分为：X 射线 CT（X-CT）以及γ射线 CT（γ-CT) 等。它根据人体不同组织对 X 线的吸收与透过率的不同，应用灵敏度极高的仪器对人体进行测量，然后将测量所获取的数据输入电子计算机，电子计算机对数据进行处理后，就可摄下人体被检查部位的断面或立体的图像，发现体内任何部位的细小病变。</p>
+<p>核磁共振 MRI 是一台巨大的圆筒状机器，能在受检者的周围制造一个强烈磁场区的环境，借由无线电波的脉冲撞击身体细胞中的氢原子核，改变身体内氢原子的排列，当氢原子再次进入适当的位置排列时，会发出无线电讯号，此讯号借由电脑的接收并加以分析及转换处理，可将身体构造及器官中的氢原子活动，转换成 2D 影像，因 MRI 运用了生化、物理特性来区分组织，获得的影像会比电脑断层更加详细。</p>
+</blockquote>
+<h3 id="无逻辑思考">无逻辑思考</h3>
+<p>现象 &ndash;&gt; 特征收集 &ndash;&gt;【初步判定 A &ndash;&gt; 收集依赖 B &ndash;&gt; 判定 A &ndash;&gt; 记录循环并继续判定 B （可能需要更高级专家会诊）】（直到解决循环中括号内疑问）&ndash;&gt; 解决整个问题并提出完整方案和后续优化建议</p>
+<p>这套过程基本上就是病人去医院后的流程</p>
+<p>现实例子： 头疼脑热（现象） &ndash;&gt; 根据特征现象送选 「脑科 or 感冒发烧」 &ndash;&gt; 【抽血化验、测体温 &ndash;&gt; 初步判定感冒了 &ndash;&gt; 等血常规结果发现是 各种减号  &ndash;&gt;  判定比较严重送去「传染科看是否为新冠病毒」 &ndash;&gt; 虚惊一场不是感冒，确认是新冠】 &ndash;&gt; 启动紧急预案&ndash;&gt; 检查接触并隔离人群 &ndash;&gt; 就地升华</p>
+<p>整个流程中：最大最长最复杂的是发现问题的过程，每次新工具的产生大家希望是发现更深刻的问题以及更快的发现核心问题，然感受到的是对被测介质加测更多的实验场景，导致被测介质不稳定从而爆发。那么怎么才能减少被测介质的实验场景或者减少被测介质焦作不安等煎熬心情呢？</p>
+<h3 id="展望理论">展望理论</h3>
+<blockquote>
+<p><a href="https://baike.baidu.com/item/%E5%B1%95%E6%9C%9B%E7%90%86%E8%AE%BA">展望理论</a>（prospect theory）也译作 “前景理论”</p>
+</blockquote>
+<p>有时参考点选择的不同甚至可以带来<a href="https://baike.baidu.com/item/%E6%A1%86%E6%9E%B6%E6%95%88%E5%BA%94/9738412">框架效应</a>，即同样的意思用收益型结果来表述，还是用损失型结果来表述，会影响人的选择。<br>
+比如有 100 个病人，用 (a)、(b) 两种治疗方案，可以将治疗结果表述为：方案 (a) 救活 50 人；方案 (b) 有 50% 的概率全部救活，50% 的概率无人救活；<br>
+也可以表述为：方案 (a) 死去 50 人；方案 (b) 有 50% 的概率无人死去，50% 的概率全部死去。</p>
+<p>多数人两次的选择是不一致的。因为第一种表述是以无人生还为参考点，每多救活一个人都是一种 “收益”；而第二种表述是以无人死去为参考点，每多死去一个人都是一种 “损失”。参考点选择不同改变了决策人的风险偏好，因而做出了不同选择。</p>
+]]></content:encoded><h:time datetime="2020-05-21T00:00:00+08:00">2020-05-21 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200521-21-keyvis/">TiDB 4.0 -- keyvis-diagnostics</h:a></item><item><title>TiDB 4.0 新特性</title><link>https://atman.ihx.cc/post/20200504-19-tidb4.0/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200504-19-tidb4.0/</guid><pubDate>Mon, 04 May 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>keyvis</category><category>Kubernetes</category><category>HTAP</category><category>TiDB</category><description>0x00 Live 最近几周 TiDB 官方搞了好多次直播，一直在宣传 TiDB 4.0 版本的新特性，本文汇总下 4.0 特色功能；数据来源于 TiDB bilibili 直播、官网文档、用户微信群、公众号等几个地方。 0x01 new bee 部分数据来源与官方文档 TiDB 4.0 新特性尝鲜指南 TiUP TiUP 从使用体验和官方文档介绍来看，是为 …</description><content:encoded><![CDATA[<h2 id="0x00-live">0x00 Live</h2>
+<p>最近几周 TiDB 官方搞了好多次直播，一直在宣传 TiDB 4.0 版本的新特性，本文汇总下 4.0 特色功能；数据来源于 TiDB bilibili 直播、官网文档、用户微信群、公众号等几个地方。</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/TiDB4.png" alt="TiDB 重点" loading="lazy" decoding="async">
+</p>
+<h2 id="0x01-new-bee">0x01 new bee</h2>
+<blockquote>
+<p>部分数据来源与官方文档 <a href="https://pingcap.com/blog-cn/tidb-4.0-new-features-tasting-guide/">TiDB 4.0 新特性尝鲜指南</a></p>
+</blockquote>
+<h3 id="tiup">TiUP</h3>
+<p><a href="https://tiup.io/">TiUP</a> 从使用体验和<a href="https://pingcap.com/docs-cn/stable/production-deployment-using-tiup/">官方文档</a>介绍来看，是为了替代 tidb-ansible 安装部署的新工具。tidb-ansible 依赖与 ansible &amp; ansible-playbook 程序才能使用，如果没有较好的 Linux 基础，使用 ansible 时会有很多不明所以的地方。官方写了个 TiUP 工具简化这部分工作内容，复制之前 tidb-ansible 的经验在不同场景下反复折腾了几个小时，部分情况下比 tidb-ansible 好用，但自定义场景时没有 tidb-ansible 灵活。见仁见智看各位老板怎么使用了。</p>
+<h3 id="tidb-operator">TiDB-operator</h3>
+<p><a href="https://github.com/pingcap/tidb-operator">TiDB-operator</a> 其实是个老产品，但 GA 时间比较晚；而且从官方直播介绍时添加了不少新功能，所以作为 4.0 特色功能宣传也很赞。官网准备了丰富的文档 <a href="https://pingcap.com/docs-cn/tidb-in-kubernetes/stable/">TiDB in Kubernetes 用户文档</a>，折腾了许久按照网络文档搭建了一套 K8S 集群；如果要尝鲜 <a href="https://pingcap.com/docs-cn/tidb-in-kubernetes/stable/tidb-operator-overview/">tidb-operator 功能</a>，建议熟练运用 K8S 各种操作方式、网络插件理论、PVC / PV 场景、service / deployment 等知识。</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/tidb-operator-overview-1.1.png" alt="tidb-operator-overview" loading="lazy" decoding="async">
+</p>
+<h3 id="tiflash--htap">Tiflash / HTAP</h3>
+<p><a href="https://pingcap.com/docs-cn/stable/tiflash/tiflash-overview/">Tiflash</a> 是实现 HTAP 场景中重要的一步，做到了行列混存、数据自动同步、数据一致性、TP / AP 统一入口、为 SQL 优化器加了列存场景；关键的是以后报表运算不需要再做 ETL 平台同步数据了，只要多出几台服务器加入 TiDB 集群就实现了自动同步「机器可采用 SAS 15K 机械磁盘，进一步减少成本」，Tiflash 存储节点支持高可用。</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/htap.jpg" alt="HTAP" loading="lazy" decoding="async">
+</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/2-TiFlash.png" alt="Tiflash - tikv" loading="lazy" decoding="async">
+</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/3-TiFlash.png" alt="tikv-raft" loading="lazy" decoding="async">
+</p>
+<h3 id="br--cdc">BR / CDC</h3>
+<p>Backup / Restore 工具（简称 BR，目前官方暂无技术文档，有一篇博文<a href="https://pingcap.com/blog-cn/cluster-data-security-backup">如何做到 10T 集群数据安全备份、1GB/s 快速恢复？</a>）；从各种渠道收集该工具使用场景定位是快速备份、快速还原使用；使用 tikv-server 中的 raft 副本机制 + raft learner states 打造了 Backup 光速大亮数据快照备份功能。</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/raft-server-states.png" alt="raft-server-states" loading="lazy" decoding="async">
+</p>
+<p>Restore 是将 Backup 备份出来的数据还原到一个新的集群；不要问为啥不还原到当前集群，还是继续围观 BR 各种新 PR 吧。</p>
+<blockquote>
+<p>通过 TiUP 工具目前可以安装 BR 工具，需要提前准备好比较大的磁盘。Backup 备份让每个 TiKV-server 将备份文件存放在本机磁盘或者 S3 上，做好磁盘规划。</p>
+</blockquote>
+<p><a href="https://pingcap.com/docs-cn/stable/ticdc/ticdc-overview/">TiCDC</a> 通过拉取 TiKV 变更日志实现的 TiDB 增量数据同步工具；与大家用过的 TiDB-Binlog 场景重复，这个设计和场景应该是为了替代 TiDB-binlog 架构的。<br>
+之前 TiDB-binlog 是从 TiDB-server 绑定的 PUMP 组件收集 Binlog 数据，这会造成 TiDB-server 与 PUMP 产生状态依赖，同时 TiDB-server 如果损坏那么业务链接就会收到影响，且 PUMP 组件故障后也会丢失一部分 Binlog 信息，无法最小化修复这部分数据「需要重新做全量+增量」。<br>
+TiCDC 从 TiKV-server 中收集 change log 信息作为 Binlog 数据，通过封装整合数据然后传输到下游；单个 TiKV-server 出现问题也可以根据 PD-server 中的新信息去找到新的 region leader 继续工作。</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/cdc-architecture.png" alt="CDC" loading="lazy" decoding="async">
+</p>
+<h3 id="悲观锁">悲观锁</h3>
+<p>不过多介绍了，看官方文档吧；<a href="https://pingcap.com/docs-cn/stable/pessimistic-transaction/">TiDB 悲观事务模型</a></p>
+<h3 id="view--windows-function">view / windows function</h3>
+<blockquote>
+<p>与 mysql 基本一致</p>
+</blockquote>
+<h3 id="sql-hint--sql-plan-management">SQL Hint &amp; SQL Plan Management</h3>
+<blockquote>
+<p>暂未测试，放个 ToDo</p>
+</blockquote>
+<ul>
+<li><input disabled="" type="checkbox"> 测试 SQL Hint // 大概是 use index 或者 <code>/* ---- */</code> 加强版</li>
+<li><input disabled="" type="checkbox"> 测试 SQL Plan Management // 大概是索引走错救命稻草</li>
+</ul>
+<h3 id="dashboard">Dashboard</h3>
+<p>4.0 版本的 PD-server，通过浏览器访问 <code>http://&lt;PDIP&gt;:&lt;PDport&gt;/dashboard/#/overview</code> 可以看到各种新功能。比如快速抓火焰图（性能分析）、查看 key viz（热点可视化）、查看 slow query、日志搜索功能。</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/pd-dashboard.png" alt="pd-dashboard" loading="lazy" decoding="async">
+</p>
+<h2 id="0x02-tree">0x02 tree</h2>
+<h3 id="智能调度">智能调度</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 一种新奇的设计思路，暂无资料
+<ul>
+<li>通过将 follower read &amp; Hot region schedule &amp; Raft peer 结合起来一起食用</li>
+</ul>
+</li>
+</ul>
+<h3 id="dumplinglighting">Dumpling/Lighting</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 升级版的 mydumper 和 loader 场景</li>
+</ul>
+<h3 id="dm">DM</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 据说在做高可用和适配 K8S</li>
+</ul>
+]]></content:encoded><h:time datetime="2020-05-04T00:00:00+08:00">2020-05-04 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200504-19-tidb4.0/">TiDB 4.0 新特性</h:a></item></channel></rss>

@@ -1,1 +1,207 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Disk on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/disk/</link><description>Recent content in Disk on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Thu, 03 May 2018 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/disk/index.xml" rel="self" type="application/rss+xml"/><item><title>TiKV 磁盘空间回收步骤记录</title><link>https://atman.ihx.cc/post/20180503-disk-space-recovery/</link><pubDate>Thu, 03 May 2018 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20180503-disk-space-recovery/</guid><description>0x00 前景介绍 该版本文档内容适用于 TiKV 3.0 之前版本；不包含使用 TiKV Titan engine 架构的内容 TiKV 节点磁盘占用主要为以下三个目录 {{deploy_dir}}/log TiKV 日志目录，目前日志 GC 需要单独脚本操</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>Disk · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/disk/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Thu, 03 May 2018 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/disk/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>Disk · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 1 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/disk/index.xml">https://atman.ihx.cc/tags/disk/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>TiKV 磁盘空间回收步骤记录</title><link>https://atman.ihx.cc/post/20180503-disk-space-recovery/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20180503-disk-space-recovery/</guid><pubDate>Thu, 03 May 2018 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>TiKV</category><category>Disk</category><category>Troubleshooting</category><description>0x00 前景介绍 该版本文档内容适用于 TiKV 3.0 之前版本；不包含使用 TiKV Titan engine 架构的内容 TiKV 节点磁盘占用主要为以下三个目录 {{deploy_dir}}/log TiKV 日志目录，目前日志 GC 需要单独脚本操作 {{deploy_dir}}/data TiKV rocksDB 数据目录，用来存放 KV …</description><content:encoded><![CDATA[<h2 id="0x00-前景介绍">0x00 前景介绍</h2>
+<blockquote>
+<p>该版本文档内容适用于 TiKV 3.0 之前版本；不包含使用 TiKV Titan engine 架构的内容</p>
+</blockquote>
+<ul>
+<li>TiKV 节点磁盘占用主要为以下三个目录
+<ul>
+<li><code>{{deploy_dir}}/log</code>  TiKV 日志目录，目前日志 GC 需要单独脚本操作</li>
+<li><code>{{deploy_dir}}/data</code> TiKV rocksDB 数据目录，用来存放 KV 数据</li>
+<li><code>{{deploy_dir}}/data/snap</code> TiKV snap 数据目录，region 迁移时会先生成一个 snapshot 文件，然后通过网络传输到其他节点</li>
+</ul>
+</li>
+</ul>
+<h3 id="场景">场景</h3>
+<ul>
+<li>业务：持续写入数据，仅保留最近一月数据；要求快速回收磁盘空间或磁盘空间相对均匀</li>
+<li>集群：有数十台 TiKV ，每台 TiKV 磁盘大小仅为 500G</li>
+<li>现象：仅有三十几台 TiKV 磁盘占用超过 60%，其余 TiKV 在空跑状态；个别 TiKV 持续写入达到 90%</li>
+</ul>
+<h2 id="0x01---操作">0x01 - 操作</h2>
+<ul>
+<li>调整磁盘占用比较高得 store 权重，控制磁盘 TiKV 写入量。
+<ul>
+<li>release-2.0(RC &amp; GA) 之后，通过调整 store 权重，可以降低 leader 与 region 的数量，进而控制磁盘空间的占用率</li>
+<li>release-1.0 调整 store 权重，在不涉及 null region 时，可以控制磁盘空间占用率 (如果长期持续删除大量输出会造成 null region)</li>
+</ul>
+</li>
+<li>release-1.0 之前，通过下线方式控制磁盘空间占用</li>
+<li>本文中未涉及的信息点
+<ul>
+<li>TiKV <code>dynamic-level-bytes</code> 参数（动态管理 LSM 技术，配合 LSM compactions 食用）</li>
+<li>TiKV 2.0 版本 <code>use-delete-range</code> 参数</li>
+<li>2.0 版本 <code>region-merge</code> 功能（主动合并 table 纬度内 null region 或小于阈值参数的 region）</li>
+<li>修改 TiKV LSM 每层压缩参数，如：
+<ul>
+<li>no:     kNoCompression</li>
+<li>snappy: kSnappyCompression</li>
+<li>zlib:   kZlibCompression</li>
+<li>bzip2:  kBZip2Compression</li>
+<li>lz4:    kLZ4Compression</li>
+<li>lz4hc:  kLZ4HCCompression</li>
+<li>zstd:   kZSTD</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="调整-store-权重">调整 store 权重</h3>
+<p>通过 PD http API 快速查看集群内所有 Store 权重信息</p>
+<pre><code class="language-bash" data-lang="bash">curl http://10.10.10.15:2379/pd/api/v1/stores |  egrep &#39;(id|address|state_name|region_weight|available)&#39; | awk &#39;{if(NR%5!=0)ORS=&#34; &#34;; else ORS=&#34;\n&#34;}1&#39; | sed &#39;s/[ ][ ]*/  /g&#39; | sed &#39;s/&#34;//g&#39; | sort -nrk 8
+</code></pre><ul>
+<li>
+<p>通过 pd-ctl 工具调整 store 权重</p>
+<ul>
+<li>优势：使用 API 调用，操作方便，不涉及 store 上下线等危险操作</li>
+<li>缺点：当磁盘空间仅剩 50G 以内，且数据依旧高歌猛进写入时，无法使用；调整权重是使用 <code>balance-region-scheduler</code> 与 <code>balance-leader-scheduler</code> 调度器，需要一定的时间调度 region ，调度 region 需要额外的空间，写入 snapshot</li>
+</ul>
+</li>
+<li>
+<p>通过 pd-ctl 工具连接 PD Cluster</p>
+</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">./pd-ctl -u http://10.10.10.15:2379
+</code></pre><ul>
+<li>help store ，查看命令使用方法</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">» help store
+show the store status
+
+Usage:
+  pdctl store [delete|label|weight] &lt;store_id&gt;
+  store [command]
+
+Available Commands:
+  delete      delete the store
+  label       set a store&#39;s label value
+  weight      set a store&#39;s leader and region balance weight
+
+Use &#34;help store [command] &#34; for more information about a command.
+</code></pre><ul>
+<li>调整 store 194 节点的 leader 与 region 权重
+<ul>
+<li>权重可调范围 <code>0.000001 到 1</code> ，默认值为 1</li>
+<li>格式为： <code>store weight storeID leader权重 region权重</code></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">» store weight 194 0.1 0.1
+</code></pre><ul>
+<li>查看调整后结果</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">» store 194
+{
+  &#34;store&#34;: {
+    &#34;id&#34;: 194,
+    &#34;address&#34;: &#34;10.10.10.13:20160&#34;,
+    &#34;state&#34;: 0,
+    &#34;state_name&#34;: &#34;Up&#34;
+  },
+  &#34;status&#34;: {
+    &#34;capacity&#34;: &#34;500 GiB&#34;,
+    &#34;available&#34;: &#34;82 GiB&#34;,
+    &#34;leader_weight&#34;: 0.1,   # leader 权重
+    &#34;region_count&#34;: 31316,
+    &#34;region_weight&#34;: 0.1,   # region 权重
+    &#34;region_score&#34;: 313160,
+    &#34;start_ts&#34;: &#34;2018-04-22T08:05:13+08:00&#34;,
+    &#34;last_heartbeat_ts&#34;: &#34;2018-05-03T16:27:12.85852309+08:00&#34;,
+    &#34;uptime&#34;: &#34;272h21m59.85852309s&#34;
+  }
+}
+</code></pre><h3 id="添加-store-调度">添加 store 调度</h3>
+<blockquote>
+<p>添加指定 store <code>evict scheduler</code> ，控制该 store 在集群内 region leader 数量为 0 或者接近 0 值，不能控制该 store 是否增加成员副本。</p>
+</blockquote>
+<ul>
+<li>
+<p>通过 pd-ctl 工具调整 store 权重</p>
+<ul>
+<li>优势：该节点添加调度器后，该 store 不存在 region leader ，该单节点短暂挂掉或重启不影响集群读写（该方案可与 region weight 同时使用，不过该方案更多是用于重启 tikv ，业务不受影响场景）</li>
+<li>缺点：该调度器并不能控制空间使用状态</li>
+</ul>
+</li>
+<li>
+<p>添加调度器，将 store 194 上所有 leader 自动迁移到其他节点。10000 数量 leader 仅需 5 - 10 分钟</p>
+<ul>
+<li>该调度器添加后持续生效，需要删除调度器释放 store <code>evict scheduler</code> 状态</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">curl -X POST -d &#39;{&#34;name&#34;:&#34;evict-leader-scheduler&#34;,&#34;store_id&#34;: 194}&#39; &#34;http://10.10.10.15:2379/pd/api/v1/schedulers&#34;
+</code></pre><ul>
+<li>查看当前所有调度器</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash"># curl http://10.13.128.205:2379/pd/api/v1/schedulers
+
+[
+  &#34;evict-leader-scheduler-194&#34;,   # store 194 调度器
+  &#34;balance-region-scheduler&#34;,     # 默认调度器，region 均衡调度
+  &#34;balance-leader-scheduler&#34;,     # 默认调度器，leader 均衡调度
+  &#34;balance-hot-region-scheduler&#34;  # 默认调度器，热点调度
+]
+</code></pre><ul>
+<li>删除迁移 leader 调度器
+<ul>
+<li>删除后，该节点参与集群内 leader 调度</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">curl -X DELETE &#34;http://10.10.10.15:2379/pd/api/v1/schedulers/evict-leader-scheduler-194&#34;
+</code></pre><h3 id="下线-store">下线 Store</h3>
+<blockquote>
+<p>该方案可作为压轴方案 (集群内只有三台 TiKV 时，下线一台后，region 无处调度，但剩余两副本可继续维持集群使用)</p>
+</blockquote>
+<ul>
+<li>通过 pd-ctl 工具连接 PD Cluster</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">./pd-ctl -u http://10.10.10.15:2379
+</code></pre><ul>
+<li>help store ，查看命令使用方法</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">» help store
+show the store status
+
+Usage:
+  pdctl store [delete|label|weight] &lt;store_id&gt;
+  store [command]
+
+Available Commands:
+  delete      delete the store
+  label       set a store&#39;s label value
+  weight      set a store&#39;s leader and region balance weight
+
+Use &#34;help store [command] &#34; for more information about a command.
+</code></pre><ul>
+<li>通过 pd-ctl 删除 store 194 节点
+<ul>
+<li>节点会先进入 offline 状态，当该节点数据迁移完成后 (数据迁移与磁盘读写和其他 store 节点繁忙程度有关)</li>
+<li>节点进入 Tomestone 状态，此时可物理删除该节点数据 (<code>{{deploy_dir/data}}</code> 存放 rocksDB 数据)</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">» store delete 194
+</code></pre><ul>
+<li>查看调整后结果</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">» store 194
+{
+  &#34;store&#34;: {
+    &#34;id&#34;: 194,
+    &#34;address&#34;: &#34;10.10.10.13:20160&#34;,
+    &#34;state&#34;: 0,
+    &#34;state_name&#34;: &#34;Offline&#34;  # store 状态 ( UP 、Down 、Offline 、Tomestone)
+  },
+  &#34;status&#34;: {
+    &#34;capacity&#34;: &#34;500 GiB&#34;,
+    &#34;available&#34;: &#34;82 GiB&#34;,
+    &#34;leader_weight&#34;: 0.1,   # leader 权重
+    &#34;region_count&#34;: 31316,
+    &#34;region_weight&#34;: 0.1,   # region 权重
+    &#34;region_score&#34;: 313160,
+    &#34;start_ts&#34;: &#34;2018-04-22T08:05:13+08:00&#34;,
+    &#34;last_heartbeat_ts&#34;: &#34;2018-05-03T16:27:12.85852309+08:00&#34;,
+    &#34;uptime&#34;: &#34;272h21m59.85852309s&#34;
+  }
+}
+</code></pre>]]></content:encoded><h:time datetime="2018-05-03T00:00:00+08:00">2018-05-03 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20180503-disk-space-recovery/">TiKV 磁盘空间回收步骤记录</h:a></item></channel></rss>

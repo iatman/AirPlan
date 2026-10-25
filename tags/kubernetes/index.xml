@@ -1,1 +1,1012 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>kubernetes on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/kubernetes/</link><description>Recent content in kubernetes on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Wed, 08 Apr 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/kubernetes/index.xml" rel="self" type="application/rss+xml"/><item><title>K8S 安装记录 - PV &amp; PVC</title><link>https://atman.ihx.cc/post/20200408-15-k8s-pv/</link><pubDate>Wed, 08 Apr 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200408-15-k8s-pv/</guid><description>0x00 书接上回 友情提示：这是一篇非常水的文档，因为对 PV/PVC 理解层次太低；后续继续学习然后会重构文档内容 # 20200410 安装完 K8S 需要验证下 K8S 整体可用程度，在测试 POD</description></item><item><title>K8S 安装记录 - 真神了</title><link>https://atman.ihx.cc/post/20200403-14-k8s-install/</link><pubDate>Fri, 03 Apr 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200403-14-k8s-install/</guid><description>0x00 缘起 无它，就是学习学习，然后装逼用 0x01 准备 K8S 有一些要求限制，不按照处理是无法启动滴 以下内容随手复制的，非原创 关闭 swap 1 2 3 4 5 6 7 8 9 10 11 12 sed</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>Kubernetes · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/kubernetes/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Mon, 04 May 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/kubernetes/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>Kubernetes · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 3 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/kubernetes/index.xml">https://atman.ihx.cc/tags/kubernetes/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>TiDB 4.0 新特性</title><link>https://atman.ihx.cc/post/20200504-19-tidb4.0/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200504-19-tidb4.0/</guid><pubDate>Mon, 04 May 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>keyvis</category><category>Kubernetes</category><category>HTAP</category><category>TiDB</category><description>0x00 Live 最近几周 TiDB 官方搞了好多次直播，一直在宣传 TiDB 4.0 版本的新特性，本文汇总下 4.0 特色功能；数据来源于 TiDB bilibili 直播、官网文档、用户微信群、公众号等几个地方。 0x01 new bee 部分数据来源与官方文档 TiDB 4.0 新特性尝鲜指南 TiUP TiUP 从使用体验和官方文档介绍来看，是为 …</description><content:encoded><![CDATA[<h2 id="0x00-live">0x00 Live</h2>
+<p>最近几周 TiDB 官方搞了好多次直播，一直在宣传 TiDB 4.0 版本的新特性，本文汇总下 4.0 特色功能；数据来源于 TiDB bilibili 直播、官网文档、用户微信群、公众号等几个地方。</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/TiDB4.png" alt="TiDB 重点" loading="lazy" decoding="async">
+</p>
+<h2 id="0x01-new-bee">0x01 new bee</h2>
+<blockquote>
+<p>部分数据来源与官方文档 <a href="https://pingcap.com/blog-cn/tidb-4.0-new-features-tasting-guide/">TiDB 4.0 新特性尝鲜指南</a></p>
+</blockquote>
+<h3 id="tiup">TiUP</h3>
+<p><a href="https://tiup.io/">TiUP</a> 从使用体验和<a href="https://pingcap.com/docs-cn/stable/production-deployment-using-tiup/">官方文档</a>介绍来看，是为了替代 tidb-ansible 安装部署的新工具。tidb-ansible 依赖与 ansible &amp; ansible-playbook 程序才能使用，如果没有较好的 Linux 基础，使用 ansible 时会有很多不明所以的地方。官方写了个 TiUP 工具简化这部分工作内容，复制之前 tidb-ansible 的经验在不同场景下反复折腾了几个小时，部分情况下比 tidb-ansible 好用，但自定义场景时没有 tidb-ansible 灵活。见仁见智看各位老板怎么使用了。</p>
+<h3 id="tidb-operator">TiDB-operator</h3>
+<p><a href="https://github.com/pingcap/tidb-operator">TiDB-operator</a> 其实是个老产品，但 GA 时间比较晚；而且从官方直播介绍时添加了不少新功能，所以作为 4.0 特色功能宣传也很赞。官网准备了丰富的文档 <a href="https://pingcap.com/docs-cn/tidb-in-kubernetes/stable/">TiDB in Kubernetes 用户文档</a>，折腾了许久按照网络文档搭建了一套 K8S 集群；如果要尝鲜 <a href="https://pingcap.com/docs-cn/tidb-in-kubernetes/stable/tidb-operator-overview/">tidb-operator 功能</a>，建议熟练运用 K8S 各种操作方式、网络插件理论、PVC / PV 场景、service / deployment 等知识。</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/tidb-operator-overview-1.1.png" alt="tidb-operator-overview" loading="lazy" decoding="async">
+</p>
+<h3 id="tiflash--htap">Tiflash / HTAP</h3>
+<p><a href="https://pingcap.com/docs-cn/stable/tiflash/tiflash-overview/">Tiflash</a> 是实现 HTAP 场景中重要的一步，做到了行列混存、数据自动同步、数据一致性、TP / AP 统一入口、为 SQL 优化器加了列存场景；关键的是以后报表运算不需要再做 ETL 平台同步数据了，只要多出几台服务器加入 TiDB 集群就实现了自动同步「机器可采用 SAS 15K 机械磁盘，进一步减少成本」，Tiflash 存储节点支持高可用。</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/htap.jpg" alt="HTAP" loading="lazy" decoding="async">
+</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/2-TiFlash.png" alt="Tiflash - tikv" loading="lazy" decoding="async">
+</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/3-TiFlash.png" alt="tikv-raft" loading="lazy" decoding="async">
+</p>
+<h3 id="br--cdc">BR / CDC</h3>
+<p>Backup / Restore 工具（简称 BR，目前官方暂无技术文档，有一篇博文<a href="https://pingcap.com/blog-cn/cluster-data-security-backup">如何做到 10T 集群数据安全备份、1GB/s 快速恢复？</a>）；从各种渠道收集该工具使用场景定位是快速备份、快速还原使用；使用 tikv-server 中的 raft 副本机制 + raft learner states 打造了 Backup 光速大亮数据快照备份功能。</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/raft-server-states.png" alt="raft-server-states" loading="lazy" decoding="async">
+</p>
+<p>Restore 是将 Backup 备份出来的数据还原到一个新的集群；不要问为啥不还原到当前集群，还是继续围观 BR 各种新 PR 吧。</p>
+<blockquote>
+<p>通过 TiUP 工具目前可以安装 BR 工具，需要提前准备好比较大的磁盘。Backup 备份让每个 TiKV-server 将备份文件存放在本机磁盘或者 S3 上，做好磁盘规划。</p>
+</blockquote>
+<p><a href="https://pingcap.com/docs-cn/stable/ticdc/ticdc-overview/">TiCDC</a> 通过拉取 TiKV 变更日志实现的 TiDB 增量数据同步工具；与大家用过的 TiDB-Binlog 场景重复，这个设计和场景应该是为了替代 TiDB-binlog 架构的。<br>
+之前 TiDB-binlog 是从 TiDB-server 绑定的 PUMP 组件收集 Binlog 数据，这会造成 TiDB-server 与 PUMP 产生状态依赖，同时 TiDB-server 如果损坏那么业务链接就会收到影响，且 PUMP 组件故障后也会丢失一部分 Binlog 信息，无法最小化修复这部分数据「需要重新做全量+增量」。<br>
+TiCDC 从 TiKV-server 中收集 change log 信息作为 Binlog 数据，通过封装整合数据然后传输到下游；单个 TiKV-server 出现问题也可以根据 PD-server 中的新信息去找到新的 region leader 继续工作。</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/cdc-architecture.png" alt="CDC" loading="lazy" decoding="async">
+</p>
+<h3 id="悲观锁">悲观锁</h3>
+<p>不过多介绍了，看官方文档吧；<a href="https://pingcap.com/docs-cn/stable/pessimistic-transaction/">TiDB 悲观事务模型</a></p>
+<h3 id="view--windows-function">view / windows function</h3>
+<blockquote>
+<p>与 mysql 基本一致</p>
+</blockquote>
+<h3 id="sql-hint--sql-plan-management">SQL Hint &amp; SQL Plan Management</h3>
+<blockquote>
+<p>暂未测试，放个 ToDo</p>
+</blockquote>
+<ul>
+<li><input disabled="" type="checkbox"> 测试 SQL Hint // 大概是 use index 或者 <code>/* ---- */</code> 加强版</li>
+<li><input disabled="" type="checkbox"> 测试 SQL Plan Management // 大概是索引走错救命稻草</li>
+</ul>
+<h3 id="dashboard">Dashboard</h3>
+<p>4.0 版本的 PD-server，通过浏览器访问 <code>http://&lt;PDIP&gt;:&lt;PDport&gt;/dashboard/#/overview</code> 可以看到各种新功能。比如快速抓火焰图（性能分析）、查看 key viz（热点可视化）、查看 slow query、日志搜索功能。</p>
+<p><img src="https://atman.ihx.cc/post/20200504-19-tidb4.0/pd-dashboard.png" alt="pd-dashboard" loading="lazy" decoding="async">
+</p>
+<h2 id="0x02-tree">0x02 tree</h2>
+<h3 id="智能调度">智能调度</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 一种新奇的设计思路，暂无资料
+<ul>
+<li>通过将 follower read &amp; Hot region schedule &amp; Raft peer 结合起来一起食用</li>
+</ul>
+</li>
+</ul>
+<h3 id="dumplinglighting">Dumpling/Lighting</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 升级版的 mydumper 和 loader 场景</li>
+</ul>
+<h3 id="dm">DM</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 据说在做高可用和适配 K8S</li>
+</ul>
+]]></content:encoded><h:time datetime="2020-05-04T00:00:00+08:00">2020-05-04 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200504-19-tidb4.0/">TiDB 4.0 新特性</h:a></item><item><title>K8S 安装记录 - PV &amp; PVC</title><link>https://atman.ihx.cc/post/20200408-15-k8s-pv/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200408-15-k8s-pv/</guid><pubDate>Wed, 08 Apr 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>testing</category><category>Deploy</category><category>Kubernetes</category><description>0x00 书接上回 友情提示：这是一篇非常水的文档，因为对 PV/PVC 理解层次太低；后续继续学习然后会重构文档内容 # 20200410 安装完 K8S 需要验证下 K8S 整体可用程度，在测试 POD 的时候可能需要用到 PV / PVC，所以水了这篇文档。测试分两步走： 第一步是简单版的：配置 Pod 以使用 PersistentVolume 作为存 …</description><content:encoded><![CDATA[<h2 id="0x00-书接上回">0x00 书接上回</h2>
+<blockquote>
+<p>友情提示：这是一篇非常水的文档，因为对 PV/PVC 理解层次太低；后续继续学习然后会重构文档内容 # 20200410</p>
+</blockquote>
+<p>安装完 K8S 需要验证下 K8S 整体可用程度，在测试 POD 的时候可能需要用到 PV / PVC，所以水了这篇文档。测试分两步走：</p>
+<ol>
+<li>第一步是简单版的：<a href="https://kubernetes.io/zh/docs/tasks/configure-pod-container/configure-persistent-volume-storage/">配置 Pod 以使用 PersistentVolume 作为存储</a>【中文】
+<ul>
+<li>配置成功后可以访问 docker 容器 IP 地址，将会返回 <code>Hello from Kubernetes storage</code> 信息。由于上篇文档中使用的 Flannel 网络插件，注意不要使用 node_ip:port 方式访问</li>
+<li>要用 docker 容器 IP ，先查到 docker 容器所在位置，然后去相应 node 机器上访问</li>
+</ul>
+</li>
+<li>第二步是升级版的： wordpress mysql + service + deployment 案例。文档链接在这里：<a href="https://kubernetes.io/zh/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/">示例：使用 Persistent Volumes 部署 WordPress 和 MySQL</a>【中文】
+<ul>
+<li>本内容相比上面升级了 service 、deployment 概念 <del>个人认知：这是个类似于 ansible playbbok 的东东</del></li>
+<li>当测试发现 pod 删除不掉时可以先查询下 <code>kubectl get deployment</code> &amp; <code>kubectl get service</code> 信息</li>
+</ul>
+</li>
+</ol>
+<h2 id="0x01-概念">0x01 概念</h2>
+<blockquote>
+<p>官方建议先学习 POD ，我这里反其道而行之先学习存储；经验告诉我从下往上折腾坏的快、学的快、修不好就重搭建</p>
+</blockquote>
+<p>创建前可能需要阅读以下文档，了解下 PV 、PVC、Pod 关系（请不要完全套用 vmware、kvm、xen 那些经验理解，因为有个 emptydir 场景不合适）：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh/docs/concepts/storage/volumes/">Volume</a>【中文】
+<ul>
+<li>仅仅是数据盘，用来存数据的。不包含 vm 系统盘这个概念</li>
+</ul>
+</li>
+<li><a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent Volumes</a>【英文】
+<ul>
+<li>这个网上有中文版，对 PVC 流程的学习很重要，下文中我去盗两张图</li>
+</ul>
+</li>
+<li><a href="https://kubernetes.io/blog/2019/04/04/kubernetes-1.14-local-persistent-volumes-ga/">Kubernetes 1.14: Local Persistent Volumes GA</a>【英文】
+<ul>
+<li>介绍 local PV 这个场景</li>
+</ul>
+</li>
+</ul>
+<p>Persistent Volume(持久化卷) 简称 PV, 是一个 K8S 资源对象，我们可以单独创建一个 PV, 它不和 Pod 直接发生关系, 而是通过 Persistent Volume Claim, 简称 PVC 来实现动态绑定, 我们会在 Pod 定义里指定创建好的 PVC, 然后 PVC 会根据 Pod 的要求去自动绑定合适的 PV 给 Pod 使用.</p>
+<blockquote>
+<p>持久化卷下 PV 和 PVC 概念:</p>
+</blockquote>
+<p>Persistent Volume（PV）是由管理员设置的存储，它是群集的一部分。就像节点是集群中的资源一样，PV 也是集群中的资源。 PV 是 Volume 之类的卷插件，但具有独立于使用 PV 的 Pod 的生命周期。此 API 对象包含存储实现的细节，即 NFS、iSCSI 或特定于云供应商的存储系统</p>
+<p>PersistentVolumeClaim（PVC）是用户存储的请求。它与 Pod 相似。Pod 消耗节点资源，PVC 消耗 PV 资源。Pod 可以请求特定级别的资源（CPU 和内存）。PVC 声明可以请求特定的大小和访问模式（例如，可以以读 / 写一次或 只读多次模式挂载）</p>
+<blockquote>
+<p>写手胡说八道</p>
+</blockquote>
+<p>在不使用 emptydir 的场景下，个人理解：PV == VMware 存储池 / PVC == 虚拟机划分的那块精简盘</p>
+<h3 id="场景">场景</h3>
+<blockquote>
+<p>emptydir、hostpath、local volume 三种场景<br>
+课外阅读：<a href="https://stor.51cto.com/art/201812/588905.htm">Kubernetes 3种存储傻傻分不清楚！</a></p>
+</blockquote>
+<ul>
+<li>
+<p>emptydir</p>
+<p>理解 emptydir 最简单的场景就是 <code>docker run nginx</code>  某个服务，不指定 -v 参数映射物理机文件夹到容器中。这样该容器被 docker stop 后数据也就丢失了。<br>
+这种场景适合纯计算的场景，比如 nginx、httpd、PHP-FPM 等容器，只需要找个 ELK 实时收集日志就好了。</p>
+</li>
+<li>
+<p>hostpath</p>
+<p>hostpath 场景就是加了 -v 参数；物理机上有个文件夹，通过 -v 参数映射 <code>docker run nginx -v /data/web:/var/log/web/html</code>  这种，即使 docker stop 容器后，数据依旧存在。<br>
+这个场景适合简单存储，但对存储高可用性比较低的那种场景，因为系统挂了、数据就没了。
+<img src="https://atman.ihx.cc/post/20200408-15-k8s-pv/hostpath.png" alt="hostpath" loading="lazy" decoding="async">
+</p>
+</li>
+<li>
+<p>local pvc</p>
+<p>如果之前配置过 iscsi 或者 SAN 设备，local volume 就很好理解了。首先必须先把物理存储设备怼到某个 Linux 系统上，然后将这些设备分成 filesystem 、block store drive 两种使用模式。再然后给这些设备声明一个等级制度【高级 SSD、普通 SSD、普通存储、本地 SSD、块存储、网络存储（这些在共有云上很常见吧）】。当有人需要数据盘的时候，就从这个存储池划分大小，然后绑定到相应的容器上。<br>
+除本地存储场景外，docker 容器就可以做公有云虚拟机类似的<strong>系统盘带数据盘热漂移</strong>了。
+<img src="https://atman.ihx.cc/post/20200408-15-k8s-pv/localpvc.png" alt="local pvc" loading="lazy" decoding="async">
+</p>
+</li>
+</ul>
+<blockquote>
+<p>以上两站图片盗取 <a href="https://blog.csdn.net/bbwangj/article/details/82355337">Kubernetes - 持久化存储卷 PersistentVolume</a></p>
+</blockquote>
+<h2 id="0x02-操作">0x02 操作</h2>
+<p>暂时省略 2000 字 // 官方文档已经给出了 demo yaml</p>
+<h2 id="0x03-你想">0x03 你想</h2>
+<blockquote>
+<p>如果闲的无聊还想继续测试，可以玩下这个：<a href="https://www.linode.com/docs/kubernetes/deploy-minio-on-kubernetes-using-kubespray-and-ansible/">Deploy Minio on Kubernetes using Kubespray and Ansible</a>【英文】</p>
+</blockquote>
+<h2 id="0x04-faq">0x04 FAQ</h2>
+<p><a href="https://kubernetes.io/zh/docs/tasks/administer-cluster/change-default-storage-class/">改变默认 StorageClass</a></p>
+]]></content:encoded><h:time datetime="2020-04-08T00:00:00+08:00">2020-04-08 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200408-15-k8s-pv/">K8S 安装记录 - PV &amp; PVC</h:a></item><item><title>K8S 安装记录 - 真神了</title><link>https://atman.ihx.cc/post/20200403-14-k8s-install/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200403-14-k8s-install/</guid><pubDate>Fri, 03 Apr 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>testing</category><category>Deploy</category><category>Kubernetes</category><description>0x00 缘起 无它，就是学习学习，然后装逼用 0x01 准备 K8S 有一些要求限制，不按照处理是无法启动滴 以下内容随手复制的，非原创 关闭 swap sed -i 7,9s/0/1/g /usr/lib/sysctl.d/00-system.conf modprobe br_netfilter echo &amp;#39;vm.swappiness = 0&amp;#39; &amp;gt;&amp;gt; …</description><content:encoded><![CDATA[<h2 id="0x00-缘起">0x00 缘起</h2>
+<blockquote>
+<p>无它，就是学习学习，然后装逼用</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/global/helpertools.jpg" alt="无它，唯手熟尔" loading="lazy" decoding="async">
+</p>
+<h2 id="0x01-准备">0x01 准备</h2>
+<blockquote>
+<p>K8S 有一些要求限制，不按照处理是无法启动滴<br>
+以下内容随手复制的，非原创</p>
+</blockquote>
+<ul>
+<li>
+<p>关闭 swap</p>
+<pre><code class="language-bash" data-lang="bash">sed -i 7,9s/0/1/g /usr/lib/sysctl.d/00-system.conf
+
+modprobe br_netfilter
+
+echo &#39;vm.swappiness = 0&#39; &gt;&gt; /usr/lib/sysctl.d/00-system.conf
+
+swapoff -a
+
+sysctl -p /usr/lib/sysctl.d/00-system.conf
+
+echo “net.ipv4.ip_forward = 1” &gt;&gt; /etc/sysctl.conf &amp;&amp; sysctl -p
+# 开启 ipv4 forward
+</code></pre></li>
+<li>
+<p>关闭防火墙</p>
+<pre><code class="language-bash" data-lang="bash"># 关闭 selinux
+systemctl status firewalld
+systemctl status iptables
+</code></pre></li>
+</ul>
+<h2 id="0x02-docker-ce">0x02 Docker-ce</h2>
+<blockquote>
+<p>之前安装 docker 的时候都是 yum install docker，当时应该安装是 docker-io ，这是最早的版本。docker 估计是为了商业化，后来改造成了 docker-ce 和 docker-ee 两个版本
+Docker 社区版（CE）：为了开发人员或小团队创建基于容器的应用, 与团队成员分享和自动化的开发管道。docker-ce 提供了简单的安装和快速的安装，以便可以立即开始开发。docker-ce 集成和优化，基础设施。（免费）
+Docker 企业版（EE）：专为企业的发展和 IT 团队建立谁。docker-ee 为企业提供最安全的容器平台，以应用为中心的平台。（付费）</p>
+</blockquote>
+<ul>
+<li>
+<p>修改国内 aliyun yum 源</p>
+<pre><code class="language-bash" data-lang="bash">wget -O  /etc/yum.repos.d/docker-ce.repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+# 获取 aliyun yum 源
+
+yum install docker-ce-18.09.6*
+# TiDB operator 需要指定 docker 版本
+</code></pre></li>
+<li>
+<p>查看 yum 是否安装成功</p>
+<pre><code class="language-bash" data-lang="bash">[root@tmp49h ]# rpm -qa | grep docker
+docker-ce-cli-19.03.8-3.el7.x86_64
+docker-ce-18.09.6-3.el7.x86_64
+</code></pre></li>
+<li>
+<p>选配 / 设置 docker-registry-mirrors 为国内地址</p>
+<pre><code class="language-bash" data-lang="bash">tee /etc/docker/daemon.json &lt;&lt;-&#39;EOF&#39;
+{
+&#34;registry-mirrors&#34;: [&#34;https://kzflpq4b.mirror.aliyuncs.com&#34;]
+}
+EOF
+</code></pre></li>
+<li>
+<p>简单操作命令</p>
+<pre><code class="language-shell" data-lang="shell">systemctl enable docker
+# 添加开机启动
+
+systemctl start docker
+# 使用 systemd 启动 docker
+
+systemctl status docker
+# 查看 doker 运行状态
+</code></pre></li>
+<li>
+<p>查看 docker 版本信息</p>
+<pre><code class="language-bash" data-lang="bash">[root@tmp49h ]# docker version
+Client: Docker Engine - Community
+Version:           19.03.8
+API version:       1.39 (downgraded from 1.40)
+Go version:        go1.12.17
+Git commit:        afacb8b
+Built:             Wed Mar 11 01:27:04 2020
+OS/Arch:           linux/amd64
+Experimental:      false
+
+Server: Docker Engine - Community
+Engine:
+  Version:          18.09.6
+  API version:      1.39 (minimum version 1.12)
+  Go version:       go1.10.8
+  Git commit:       481bc77
+  Built:            Sat May  4 02:02:43 2019
+  OS/Arch:          linux/amd64
+  Experimental:     false
+</code></pre></li>
+<li>
+<p>简单 docker 命令</p>
+<pre><code class="language-bash" data-lang="bash">docker images
+
+docker pull xxxx:tag
+
+docker ps  / docker ps -a
+
+docker logs name
+
+docker rm -f name
+</code></pre></li>
+</ul>
+<h2 id="0x03-k8s">0x03 K8S</h2>
+<blockquote>
+<p>安装简单，关键是如何规避科学上网</p>
+</blockquote>
+<ul>
+<li>
+<p>安装 kubectl</p>
+<ul>
+<li>默认读取 $HOME/.kube/config 文件来操作 K8S 集群</li>
+</ul>
+<pre><code class="language-shell" data-lang="shell">curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.12.8/bin/linux/amd64/kubectl
+
+chmod 755 kubectl
+
+mv kubectl /use/bin/
+</code></pre></li>
+<li>
+<p>安装 helm</p>
+<ul>
+<li>注意：脚本中把 helm 默认放在了 <code>/usr/local/bin/</code>，如果脚本执行失败记得检查下</li>
+<li>PS ：可以把脚本下载到本地 helm.sh ，执行 sh -x helm.sh ，可以看到 debug 记录</li>
+<li>PPS：该脚本多次执行会报错，自身不带清理回收</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+</code></pre></li>
+<li>
+<p>安装 kube 套件</p>
+<ul>
+<li>如果安装出现 gpg 无效，诡异的是执行下 yum makecache 就好了</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">tee /etc/yum.repos.d/kubernets.repo &lt;&lt; EOF
+[Kubernetes]
+name=kubernetes 
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+gpgcheck=1
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg,https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg,https://mirrors.aliyun.com/kubernetes/yum/doc/apt-key.gpg
+EOF
+# 添加 yum 源
+
+yum makecache
+#创建yum元数据
+
+yum install -y kubelet kubeadm kubectl
+# 可选直接安装 kubectl ，也可以手动安装
+</code></pre></li>
+</ul>
+<h3 id="init">Init</h3>
+<blockquote>
+<p>这里有多种方案，均需要主机可以自由联网下载数据，比如：</p>
+<ul>
+<li>Docker 代理</li>
+<li>http / socket 代理</li>
+<li>指定 kubeadm 源</li>
+<li>iptable 转发 k8s.grc.io 域名到其他国内镜像源域名 / 搭建 DNS 做 cname 转发也可以</li>
+<li>私自搭建 docker hub / ~~ 奇技淫巧~~ 可以用于内网机器搭建 k8s 环境</li>
+</ul>
+<p>我是懒人，选择指定 kubeadm 源。会用到一个 <code>kubeadm config print init-default</code> 的命令</p>
+</blockquote>
+<ul>
+<li>
+<p>执行 kubeadm init 前建议先用 <code>kubeadm config images pull</code> 测试下是否可以获取镜像</p>
+<ul>
+<li>以下是失败案例，提示链接不到 <code>https://k8s.gcr.io/v2/</code> 仓库</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">[root@tmp49h ]# kubeadm config images pull
+W0402 10:19:46.190059    3816 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+
+failed to pull image &#34;k8s.gcr.io/kube-apiserver:v1.18.0&#34;: output: Error response from daemon: Get https://k8s.gcr.io/v2/: net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
+, error: exit status 1
+To see the stack trace of this error execute with --v=5 or higher
+</code></pre></li>
+<li>
+<p>那么接来就要使用备用方案处理</p>
+<ul>
+<li>此处使用的修改数据源</li>
+<li>具体详情见 <a href="https://atman.ihx.cc/post/20200403-14-k8s-install/#case-1">FAQ case-1</a></li>
+<li>然后执行 <code>kubeadm init --config ./config</code> 命令</li>
+</ul>
+</li>
+<li>
+<p>安装记录</p>
+<ul>
+<li>失败的过程 <a href="https://atman.ihx.cc/post/20200403-14-k8s-install/#case-4">FAQ case-4</a></li>
+<li>成功的过程 <a href="https://atman.ihx.cc/post/20200403-14-k8s-install/#case-5">FAQ case-5</a></li>
+</ul>
+</li>
+<li>
+<p>记得记录安装成功的输出内容，如下</p>
+<ul>
+<li>尤其是最底部的 kubeadm join 信息，该 token 时效 24 小时</li>
+<li>通过 kubeadm token list 可以看到信息</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run &#34;kubectl apply -f [podnetwork].yaml&#34; with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 10.0.1.5:6443 --token abcdef.0123456789abcdef \
+    --discovery-token-ca-cert-hash sha256:9a4b14630871dd9c8c6cd19787a305ef1188337375682085459d5d5bcd2d2b52
+</code></pre><pre><code class="language-bash" data-lang="bash">[root@tmp49h ~]# kubeadm token list
+TOKEN                     TTL         EXPIRES                USAGES                   DESCRIPTION                                                EXTRA GROUPS
+abcdef.0123456789abcdef   6h          2020-04-03T12:05:16Z   authentication,signing   &lt;none&gt;                                                     system:bootstrappers:kubeadm:default-node-token
+</code></pre></li>
+</ul>
+<h3 id="flannel">Flannel</h3>
+<ul>
+<li>
+<p>k8s 网络插件 flannel 安装，安装没遇见问题，</p>
+<ul>
+<li>该步骤需要下载镜像，所以网络上可能会耗时</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">[root@tmp49h ~]# kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+podsecuritypolicy.policy/psp.flannel.unprivileged created
+clusterrole.rbac.authorization.k8s.io/flannel created
+clusterrolebinding.rbac.authorization.k8s.io/flannel created
+serviceaccount/flannel created
+configmap/kube-flannel-cfg created
+daemonset.apps/kube-flannel-ds-amd64 created
+daemonset.apps/kube-flannel-ds-arm64 created
+daemonset.apps/kube-flannel-ds-arm created
+daemonset.apps/kube-flannel-ds-ppc64le created
+daemonset.apps/kube-flannel-ds-s390x created
+</code></pre></li>
+</ul>
+<h3 id="testing">Testing</h3>
+<blockquote>
+<p>测试是否可用</p>
+</blockquote>
+<ul>
+<li>
+<p>执行几个查询命令</p>
+<ul>
+<li><code>kubectl get node</code></li>
+<li><code>kubectl get namespace</code></li>
+<li><code>kubectl get pods --namespace=kube-system -o wide</code></li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">[root@tmp49h ~]# kubectl get node
+NAME     STATUS   ROLES    AGE     VERSION
+tmp49h   Ready    master   7m21s   v1.18.0
+
+[root@tmp49h ~]#  kubectl get namespace
+NAME              STATUS   AGE
+default           Active   7m26s
+kube-node-lease   Active   7m28s
+kube-public       Active   7m28s
+kube-system       Active   7m28s
+
+[root@tmp49h ~]# kubectl get pods --namespace=kube-system -o wide
+NAME                             READY   STATUS    RESTARTS   AGE     IP            NODE     NOMINATED NODE   READINESS GATES
+coredns-6fbfdf9657-54gp9         1/1     Running   0          7m29s   192.240.0.2   tmp49h   &lt;none&gt;           &lt;none&gt;
+coredns-6fbfdf9657-hwpb2         1/1     Running   0          7m29s   192.240.0.3   tmp49h   &lt;none&gt;           &lt;none&gt;
+etcd-tmp49h                      1/1     Running   0          7m43s   10.0.1.5      tmp49h   &lt;none&gt;           &lt;none&gt;
+kube-apiserver-tmp49h            1/1     Running   0          7m43s   10.0.1.5      tmp49h   &lt;none&gt;           &lt;none&gt;
+kube-controller-manager-tmp49h   1/1     Running   0          7m43s   10.0.1.5      tmp49h   &lt;none&gt;           &lt;none&gt;
+kube-flannel-ds-amd64-9bs72      1/1     Running   0          55s     10.0.1.5      tmp49h   &lt;none&gt;           &lt;none&gt;
+kube-proxy-zdln9                 1/1     Running   0          7m29s   10.0.1.5      tmp49h   &lt;none&gt;           &lt;none&gt;
+kube-scheduler-tmp49h            1/1     Running   0          7m43s   10.0.1.5      tmp49h   &lt;none&gt;           &lt;none&gt;
+</code></pre></li>
+</ul>
+<h2 id="0x04-nodes">0x04 Nodes</h2>
+<ul>
+<li>
+<p>准备环境 / 按照 <a href="https://atman.ihx.cc/post/20200403-14-k8s-install/#0x01-%e5%87%86%e5%a4%87">0x01</a> 做一遍</p>
+<ul>
+<li>重点检查下有木有 ip_vs_sh、ip_vs_wrr、ip_vs_rr、ip_vs 的这几个模块，木有的话尝试用 modprobe 加载</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">[root@tmp49h ~]# lsmod |grep ip_
+ip_vs_sh               12688  0
+ip_vs_wrr              12697  0
+ip_vs_rr               12600  0
+ip_vs                 145497  6 ip_vs_rr,ip_vs_sh,ip_vs_wrr
+nf_conntrack          139224  7 ip_vs,nf_nat,nf_nat_ipv4,xt_conntrack,nf_nat_masquerade_ipv4,nf_conntrack_netlink,nf_conntrack_ipv4
+ip_tables              27126  4 iptable_security,iptable_filter,iptable_mangle,iptable_nat
+libcrc32c              12644  4 xfs,ip_vs,nf_nat,nf_conntrack
+</code></pre></li>
+<li>
+<p><strong>按照 <a href="https://atman.ihx.cc/post/20200403-14-k8s-install/#0x02-docker-ce">0x02</a> 安装 docker-ce 服务</strong></p>
+</li>
+<li>
+<p>接下来是获取必备镜像</p>
+<ul>
+<li><code>gcr.azk8s.cn/google_containers/kube-proxy:v1.18.0</code></li>
+<li><code>quay.io/coreos/flannel:v0.12.0-amd64</code></li>
+<li><code>gcr.azk8s.cn/google_containers/pause:3.2</code></li>
+</ul>
+</li>
+<li>
+<p>下载镜像方式与 k8s init 方式类似</p>
+<ul>
+<li><code>kubeadm config print init-defaults</code> 修改源，详情见<a href="https://atman.ihx.cc/post/20200403-14-k8s-install/#case-1">FAQ case-1</a></li>
+<li><code>kubeadm --config ./config config images pull</code> 下载镜像</li>
+<li><code>docker pull quay.io/coreos/flannel:v0.12.0-amd64</code> ，<strong>这个要单独下</strong></li>
+</ul>
+</li>
+<li>
+<p>检查 docker 镜像</p>
+<pre><code class="language-bash" data-lang="bash">[root@atman-50 atman]# docker images
+REPOSITORY                                               TAG                 IMAGE ID            CREATED             SIZE
+gcr.azk8s.cn/google_containers/kube-proxy                v1.18.0             43940c34f24f        7 days ago          117MB
+gcr.azk8s.cn/google_containers/kube-apiserver            v1.18.0             74060cea7f70        7 days ago          173MB
+gcr.azk8s.cn/google_containers/kube-controller-manager   v1.18.0             d3e55153f52f        7 days ago          162MB
+gcr.azk8s.cn/google_containers/kube-scheduler            v1.18.0             a31f78c7c8ce        7 days ago          95.3MB
+quay.io/coreos/flannel                                   v0.12.0-amd64       4e9f801d2217        2 weeks ago         52.8MB
+gcr.azk8s.cn/google_containers/pause                     3.2                 80d28bedfe5d        6 weeks ago         683kB
+gcr.azk8s.cn/google_containers/coredns                   1.6.7               67da37a9a360        2 months ago        43.8MB
+gcr.azk8s.cn/google_containers/etcd                      3.4.3-0             303ce5db0e90        5 months ago        288MB
+</code></pre></li>
+</ul>
+<h3 id="join">Join</h3>
+<ul>
+<li>
+<p>执行 kubeadm join 命令，token 过期后见 <a href="https://atman.ihx.cc/post/20200403-14-k8s-install/#case-6">FAQ case-6</a></p>
+<pre><code class="language-bash" data-lang="bash">[root@atman-50 atman]# kubeadm join 10.0.1.5:6443 --token abcdef.0123456789abcdef --discovery-token-ca-cert-hash sha256:9a4b14630871dd9c8c6cd19787a305ef1188337375682085459d5d5bcd2d2b52
+W0402 12:43:22.333783    3043 join.go:346] [preflight] WARNING: JoinControlPane.controlPlane settings will be ignored when control-plane flag is not set.
+[preflight] Running pre-flight checks
+  [WARNING IsDockerSystemdCheck]: detected &#34;cgroupfs&#34; as the Docker cgroup driver. The recommended driver is &#34;systemd&#34;. Please follow the guide at https://kubernetes.io/docs/setup/cri/
+[preflight] Reading configuration from the cluster...
+[preflight] FYI: You can look at this config file with &#39;kubectl -n kube-system get cm kubeadm-config -oyaml&#39;
+[kubelet-start] Downloading configuration for the kubelet from the &#34;kubelet-config-1.18&#34; ConfigMap in the kube-system namespace
+[kubelet-start] Writing kubelet configuration to file &#34;/var/lib/kubelet/config.yaml&#34;
+[kubelet-start] Writing kubelet environment file with flags to file &#34;/var/lib/kubelet/kubeadm-flags.env&#34;
+[kubelet-start] Starting the kubelet
+[kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap...
+
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run &#39;kubectl get nodes&#39; on the control-plane to see this node join the cluster.
+</code></pre></li>
+</ul>
+<h3 id="remove">Remove</h3>
+<ul>
+<li>
+<p>删除 node</p>
+<pre><code class="language-bash" data-lang="bash">kubectl drain tmp50h --delete-local-data --force --ignore-daemonsets
+# 设置被目标节点为维护模式【atman-50 是节点名称】，通过 kubectl get node 获取
+
+kubectl delete node atman-50
+# 删除节点
+</code></pre></li>
+</ul>
+<h2 id="0x05-faq">0x05 FAQ</h2>
+<blockquote>
+<p>记录下测试期间遇见的大大小小的各种坑</p>
+</blockquote>
+<h3 id="case-0">case 0</h3>
+<blockquote>
+<p>机器配置太低！</p>
+</blockquote>
+<ul>
+<li>
+<p>心痛，安装 k8s 至少需要 2 个 cpu</p>
+<pre><code class="language-fallback" data-lang="fallback">W0402 10:03:26.595866    3844 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+[init] Using Kubernetes version: v1.18.0
+[preflight] Running pre-flight checks
+  [WARNING Service-Docker]: docker service is not enabled, please run &#39;systemctl enable docker.service&#39;
+  [WARNING IsDockerSystemdCheck]: detected &#34;cgroupfs&#34; as the Docker cgroup driver. The recommended driver is &#34;systemd&#34;. Please follow the guide at https://kubernetes.io/docs/setup/cri/
+error execution phase preflight: [preflight] Some fatal errors occurred:
+  [ERROR NumCPU]: the number of available CPUs 1 is less than the required 2
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher
+</code></pre></li>
+</ul>
+<h3 id="case-1">case 1</h3>
+<blockquote>
+<p>kubeadm 是个神器<br>
+命令行参数不能覆盖配置文件参数，由于没有提前阅读文档，后面有多个坑</p>
+</blockquote>
+<ul>
+<li>
+<p>kubeadm 配置文件预览</p>
+<ul>
+<li>具体可以看 k8s 官网 <a href="https://kubernetes.io/zh/docs/reference/setup-tools/kubeadm/kubeadm-init/">kubeadm-init</a>【中文内容】</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">[root@tmp49h ~]# kubeadm config print init-defaults
+W0403 05:19:28.449746   23654 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+
+apiVersion: kubeadm.k8s.io/v1beta2
+bootstrapTokens:
+- groups:
+  - system:bootstrappers:kubeadm:default-node-token
+  token: abcdef.0123456789abcdef  // token 密钥，注意修改
+  ttl: 24h0m0s
+  usages:
+  - signing
+  - authentication
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: 1.2.3.4  // 如果是多个 master 节点，填写 master LB IP，init 的时候需要这个 IP
+  bindPort: 6443
+nodeRegistration:
+  criSocket: /var/run/dockershim.sock
+  name: tmp49h
+  taints:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+
+apiServer:
+  timeoutForControlPlane: 4m0s
+apiVersion: kubeadm.k8s.io/v1beta2
+certificatesDir: /etc/kubernetes/pki
+clusterName: kubernetes
+controllerManager: {}
+dns:
+  type: CoreDNS
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+imageRepository: k8s.gcr.io  // kubeadm 使用的源，可以修改为 gcr.azk8s.cn/google_containers
+kind: ClusterConfiguration
+kubernetesVersion: v1.18.0
+networking:
+  dnsDomain: cluster.local
+  podSubnet: 192.240.0.0/16    // POD 预分配网段地址不可以与 node 主机地址重复
+  serviceSubnet: 192.96.0.0/12 // 不知道干啥的
+scheduler: {}
+</code></pre></li>
+<li>
+<p>命令行参数与配置文件内容冲突，无法覆盖</p>
+<pre><code class="language-fallback" data-lang="fallback">[root@tmp49h ~]# kubeadm --config .kube/config init --kubernetes-version=stable-1 --pod-network-cidr=10.244.0.0/16 --service-cidr=10.96.0.0/12
+can not mix &#39;--config&#39; with arguments [kubernetes-version pod-network-cidr service-cidr]
+To see the stack trace of this error execute with --v=5 or higher
+</code></pre></li>
+<li>
+<p>advertiseAddress 参数配置错误</p>
+<ul>
+<li>配置文件中指定 api.advertiseAddress 为 vip 使客户端通过 vip 来访问，指定 etcd.endpoints 使用我们已经搭建好的 etcd 集群存储集群数据，指定 imageRepository 使用我们自己的镜像仓库</li>
+<li><code>https://www.niuhp.com/k8s/init-master1.html</code></li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">I0402 11:54:28.334273   45830 round_trippers.go:443] GET https://1.2.3.4:6443/healthz?timeout=10s  in 10000 milliseconds
+I0402 11:54:38.835316   45830 round_trippers.go:443] GET https://1.2.3.4:6443/healthz?timeout=10s  in 10000 milliseconds
+I0402 11:54:49.334834   45830 round_trippers.go:443] GET https://1.2.3.4:6443/healthz?timeout=10s  in 10000 milliseconds
+[kubelet-check] Initial timeout of 40s passed.
+I0402 11:54:59.834973   45830 round_trippers.go:443] GET https://1.2.3.4:6443/healthz?timeout=10s  in 10000 milliseconds
+</code></pre></li>
+</ul>
+<h3 id="case-2">case 2</h3>
+<ul>
+<li>
+<p>因为频繁修改 config 文件，且 advertiseAddress 修改后，kubeadm 并不会覆盖已有的残留信息( k8s 在 /etc/kubernetes 下面生成的文件，提示文件内容与最新的 config 不一致)</p>
+<ul>
+<li>建议使用 kubeadm reset 重制</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">a kubeconfig file &#34;/etc/kubernetes/kubelet.conf&#34; exists already but has got the wrong API Server URL
+k8s.io/kubernetes/cmd/kubeadm/app/phases/kubeconfig.validateKubeConfig
+
+I0402 11:56:34.170449   46888 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+a kubeconfig file &#34;/etc/kubernetes/admin.conf&#34; exists already but has got the wrong API Server URL
+
+I0402 12:00:15.020692   49830 loader.go:375] Config loaded from file:  /etc/kubernetes/controller-manager.conf
+failed to find CurrentContext in Contexts of the kubeconfig file /etc/kubernetes/controller-manager.conf
+k8s.io/kubernetes/cmd/kubeadm/app/phases/kubeconfig.validateKubeConfig
+</code></pre></li>
+<li>
+<p>执行 kubeadm reset 重制环境信息</p>
+<ul>
+<li>提示重制了所有信息</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">[root@tmp49h atman]# kubeadm reset
+[reset] WARNING: Changes made to this host by &#39;kubeadm init&#39; or &#39;kubeadm join&#39; will be reverted.
+[reset] Are you sure you want to proceed? [y/N]: y
+[preflight] Running pre-flight checks
+W0402 10:42:29.820727    7017 removeetcdmember.go:79] [reset] No kubeadm config, using etcd pod spec to get data directory
+[reset] No etcd config found. Assuming external etcd
+[reset] Please, manually reset etcd to prevent further issues
+[reset] Stopping the kubelet service
+[reset] Unmounting mounted directories in &#34;/var/lib/kubelet&#34;
+W0402 10:42:29.836562    7017 cleanupnode.go:99] [reset] Failed to evaluate the &#34;/var/lib/kubelet&#34; directory. Skipping its unmount and cleanup: lstat /var/lib/kubelet: no such file or directory
+[reset] Deleting contents of config directories: [/etc/kubernetes/manifests /etc/kubernetes/pki]
+[reset] Deleting files: [/etc/kubernetes/admin.conf /etc/kubernetes/kubelet.conf /etc/kubernetes/bootstrap-kubelet.conf /etc/kubernetes/controller-manager.conf /etc/kubernetes/scheduler.conf]
+[reset] Deleting contents of stateful directories: [/var/lib/dockershim /var/run/kubernetes /var/lib/cni]
+
+The reset process does not clean CNI configuration. To do so, you must remove /etc/cni/net.d
+
+The reset process does not reset or clean up iptables rules or IPVS tables.
+If you wish to reset iptables, you must do so manually by using the &#34;iptables&#34; command.
+
+If your cluster was setup to utilize IPVS, run ipvsadm --clear (or similar)
+to reset your system&#39;s IPVS tables.
+
+The reset process does not clean your kubeconfig files and you must remove them manually.
+Please, check the contents of the $HOME/.kube/config file.
+</code></pre></li>
+</ul>
+<h3 id="case-3">case 3</h3>
+<ul>
+<li>
+<p>安装成功后，在 master 节点直接执行了 kubeadm join，提示信息被占用</p>
+<ul>
+<li>执行了 kubectl get node 才理解 master 本身就算一个节点，并且已经默认加入到了集群</li>
+<li>所以加开了一台虚拟机测试 kubeadm join</li>
+</ul>
+<pre><code class="language-shell" data-lang="shell">[root@tmp49h ~]# kubeadm join 10.0.1.5:6443 --token abcdef.0123456789abcdef --discovery-token-ca-cert-hash sha256:9a4b14630871dd9c8c6cd19787a305ef1188337375682085459d5d5bcd2d2b52
+W0402 12:14:46.722266   54428 join.go:346] [preflight] WARNING: JoinControlPane.controlPlane settings will be ignored when control-plane flag is not set.
+[preflight] Running pre-flight checks
+  [WARNING IsDockerSystemdCheck]: detected &#34;cgroupfs&#34; as the Docker cgroup driver. The recommended driver is &#34;systemd&#34;. Please follow the guide at https://kubernetes.io/docs/setup/cri/
+error execution phase preflight: [preflight] Some fatal errors occurred:
+  [ERROR DirAvailable--etc-kubernetes-manifests]: /etc/kubernetes/manifests is not empty
+  [ERROR FileAvailable--etc-kubernetes-kubelet.conf]: /etc/kubernetes/kubelet.conf already exists
+  [ERROR Port-10250]: Port 10250 is in use
+  [ERROR FileAvailable--etc-kubernetes-pki-ca.crt]: /etc/kubernetes/pki/ca.crt already exists
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher
+</code></pre></li>
+</ul>
+<h3 id="case-4">case 4</h3>
+<ul>
+<li>
+<p>贴个安装失败的日志</p>
+<ul>
+<li>该过程使用默认日志等级，有了错误啥也看不出来</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">[root@tmp49h ~]# kubeadm --config .kube/config init 
+W0402 11:30:17.970803   38671 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+[init] Using Kubernetes version: v1.18.0
+[preflight] Running pre-flight checks
+  [WARNING IsDockerSystemdCheck]: detected &#34;cgroupfs&#34; as the Docker cgroup driver. The recommended driver is &#34;systemd&#34;. Please follow the guide at https://kubernetes.io/docs/setup/cri/
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using &#39;kubeadm config images pull&#39;
+[kubelet-start] Writing kubelet environment file with flags to file &#34;/var/lib/kubelet/kubeadm-flags.env&#34;
+[kubelet-start] Writing kubelet configuration to file &#34;/var/lib/kubelet/config.yaml&#34;
+[kubelet-start] Starting the kubelet
+[certs] Using certificateDir folder &#34;/etc/kubernetes/pki&#34;
+[certs] Generating &#34;ca&#34; certificate and key
+[certs] Generating &#34;apiserver&#34; certificate and key
+[certs] apiserver serving cert is signed for DNS names [tmp49h kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 1.2.3.4]
+[certs] Generating &#34;apiserver-kubelet-client&#34; certificate and key
+[certs] Generating &#34;front-proxy-ca&#34; certificate and key
+[certs] Generating &#34;front-proxy-client&#34; certificate and key
+[certs] Generating &#34;etcd/ca&#34; certificate and key
+[certs] Generating &#34;etcd/server&#34; certificate and key
+[certs] etcd/server serving cert is signed for DNS names [tmp49h localhost] and IPs [1.2.3.4 127.0.0.1 ::1]
+[certs] Generating &#34;etcd/peer&#34; certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [tmp49h localhost] and IPs [1.2.3.4 127.0.0.1 ::1]
+[certs] Generating &#34;etcd/healthcheck-client&#34; certificate and key
+[certs] Generating &#34;apiserver-etcd-client&#34; certificate and key
+[certs] Generating &#34;sa&#34; key and public key
+[kubeconfig] Using kubeconfig folder &#34;/etc/kubernetes&#34;
+[kubeconfig] Writing &#34;admin.conf&#34; kubeconfig file
+[kubeconfig] Writing &#34;kubelet.conf&#34; kubeconfig file
+[kubeconfig] Writing &#34;controller-manager.conf&#34; kubeconfig file
+[kubeconfig] Writing &#34;scheduler.conf&#34; kubeconfig file
+[control-plane] Using manifest folder &#34;/etc/kubernetes/manifests&#34;
+[control-plane] Creating static Pod manifest for &#34;kube-apiserver&#34;
+[control-plane] Creating static Pod manifest for &#34;kube-controller-manager&#34;
+W0402 11:30:26.193263   38671 manifests.go:225] the default kube-apiserver authorization-mode is &#34;Node,RBAC&#34;; using &#34;Node,RBAC&#34;
+[control-plane] Creating static Pod manifest for &#34;kube-scheduler&#34;
+W0402 11:30:26.195753   38671 manifests.go:225] the default kube-apiserver authorization-mode is &#34;Node,RBAC&#34;; using &#34;Node,RBAC&#34;
+[etcd] Creating static Pod manifest for local etcd in &#34;/etc/kubernetes/manifests&#34;
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory &#34;/etc/kubernetes/manifests&#34;. This can take up to 4m0s
+[kubelet-check] Initial timeout of 40s passed.
+
+  Unfortunately, an error has occurred:
+    timed out waiting for the condition
+
+  This error is likely caused by:
+    - The kubelet is not running
+    - The kubelet is unhealthy due to a misconfiguration of the node in some way (required cgroups disabled)
+
+  If you are on a systemd-powered system, you can try to troubleshoot the error with the following commands:
+    - &#39;systemctl status kubelet&#39;
+    - &#39;journalctl -xeu kubelet&#39;
+
+  Additionally, a control plane component may have crashed or exited when started by the container runtime.
+  To troubleshoot, list all containers using your preferred container runtimes CLI.
+
+  Here is one example how you may list all Kubernetes containers running in docker:
+    - &#39;docker ps -a | grep kube | grep -v pause&#39;
+    Once you have found the failing container, you can inspect its logs with:
+    - &#39;docker logs CONTAINERID&#39;
+
+error execution phase wait-control-plane: couldn&#39;t initialize a Kubernetes cluster
+To see the stack trace of this error execute with --v=5 or higher
+</code></pre></li>
+</ul>
+<h3 id="case-5">case 5</h3>
+<ul>
+<li>
+<p>贴个安装成功的过程</p>
+<ul>
+<li>该过程使用了 -v=6 日志等级输出</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">[root@tmp49h ~]# kubeadm --config .kube/config init --ignore-preflight-errors=all --v=6
+I0402 12:04:52.044950   52108 initconfiguration.go:200] loading configuration from &#34;.kube/config&#34;
+I0402 12:04:52.048675   52108 interface.go:400] Looking for default routes with IPv4 addresses
+I0402 12:04:52.048691   52108 interface.go:405] Default route transits interface &#34;eth0&#34;
+I0402 12:04:52.049188   52108 interface.go:208] Interface eth0 is up
+I0402 12:04:52.049282   52108 interface.go:256] Interface &#34;eth0&#34; has 2 addresses :[10.0.1.5/24 fe80::217:faff:fe00:a2b3/64].
+I0402 12:04:52.049310   52108 interface.go:223] Checking addr  10.0.1.5/24.
+I0402 12:04:52.049323   52108 interface.go:230] IP found 10.0.1.5
+I0402 12:04:52.049337   52108 interface.go:262] Found valid IPv4 address 10.0.1.5 for interface &#34;eth0&#34;.
+I0402 12:04:52.049348   52108 interface.go:411] Found active IP 10.0.1.5 
+W0402 12:04:52.049539   52108 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+[init] Using Kubernetes version: v1.18.0
+[preflight] Running pre-flight checks
+I0402 12:04:52.049892   52108 checks.go:577] validating Kubernetes and kubeadm version
+I0402 12:04:52.049924   52108 checks.go:166] validating if the firewall is enabled and active
+I0402 12:04:52.076294   52108 checks.go:201] validating availability of port 6443
+I0402 12:04:52.078115   52108 checks.go:201] validating availability of port 10259
+I0402 12:04:52.078177   52108 checks.go:201] validating availability of port 10257
+I0402 12:04:52.078232   52108 checks.go:286] validating the existence of file /etc/kubernetes/manifests/kube-apiserver.yaml
+I0402 12:04:52.078252   52108 checks.go:286] validating the existence of file /etc/kubernetes/manifests/kube-controller-manager.yaml
+I0402 12:04:52.078265   52108 checks.go:286] validating the existence of file /etc/kubernetes/manifests/kube-scheduler.yaml
+I0402 12:04:52.078277   52108 checks.go:286] validating the existence of file /etc/kubernetes/manifests/etcd.yaml
+I0402 12:04:52.078298   52108 checks.go:432] validating if the connectivity type is via proxy or direct
+I0402 12:04:52.078353   52108 checks.go:471] validating http connectivity to first IP address in the CIDR
+I0402 12:04:52.078381   52108 checks.go:471] validating http connectivity to first IP address in the CIDR
+I0402 12:04:52.078402   52108 checks.go:102] validating the container runtime
+I0402 12:04:52.224441   52108 checks.go:128] validating if the service is enabled and active
+  [WARNING IsDockerSystemdCheck]: detected &#34;cgroupfs&#34; as the Docker cgroup driver. The recommended driver is &#34;systemd&#34;. Please follow the guide at https://kubernetes.io/docs/setup/cri/
+I0402 12:04:52.388976   52108 checks.go:335] validating the contents of file /proc/sys/net/bridge/bridge-nf-call-iptables
+I0402 12:04:52.389091   52108 checks.go:335] validating the contents of file /proc/sys/net/ipv4/ip_forward
+I0402 12:04:52.389159   52108 checks.go:649] validating whether swap is enabled or not
+I0402 12:04:52.389480   52108 checks.go:376] validating the presence of executable conntrack
+I0402 12:04:52.389920   52108 checks.go:376] validating the presence of executable ip
+I0402 12:04:52.390250   52108 checks.go:376] validating the presence of executable iptables
+I0402 12:04:52.390276   52108 checks.go:376] validating the presence of executable mount
+I0402 12:04:52.390532   52108 checks.go:376] validating the presence of executable nsenter
+I0402 12:04:52.390558   52108 checks.go:376] validating the presence of executable ebtables
+I0402 12:04:52.390574   52108 checks.go:376] validating the presence of executable ethtool
+I0402 12:04:52.390596   52108 checks.go:376] validating the presence of executable socat
+I0402 12:04:52.390614   52108 checks.go:376] validating the presence of executable tc
+I0402 12:04:52.390629   52108 checks.go:376] validating the presence of executable touch
+I0402 12:04:52.390648   52108 checks.go:520] running all checks
+I0402 12:04:52.544118   52108 checks.go:406] checking whether the given node name is reachable using net.LookupHost
+I0402 12:04:52.544592   52108 checks.go:618] validating kubelet version
+I0402 12:04:52.649444   52108 checks.go:128] validating if the service is enabled and active
+I0402 12:04:52.661720   52108 checks.go:201] validating availability of port 10250
+I0402 12:04:52.661983   52108 checks.go:201] validating availability of port 2379
+I0402 12:04:52.662091   52108 checks.go:201] validating availability of port 2380
+I0402 12:04:52.662153   52108 checks.go:249] validating the existence and emptiness of directory /var/lib/etcd
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using &#39;kubeadm config images pull&#39;
+I0402 12:04:52.732912   52108 checks.go:838] image exists: gcr.azk8s.cn/google_containers/kube-apiserver:v1.18.0
+I0402 12:04:52.803307   52108 checks.go:838] image exists: gcr.azk8s.cn/google_containers/kube-controller-manager:v1.18.0
+I0402 12:04:52.874891   52108 checks.go:838] image exists: gcr.azk8s.cn/google_containers/kube-scheduler:v1.18.0
+I0402 12:04:52.953082   52108 checks.go:838] image exists: gcr.azk8s.cn/google_containers/kube-proxy:v1.18.0
+I0402 12:04:53.028397   52108 checks.go:838] image exists: gcr.azk8s.cn/google_containers/pause:3.2
+I0402 12:04:53.105915   52108 checks.go:838] image exists: gcr.azk8s.cn/google_containers/etcd:3.4.3-0
+I0402 12:04:53.179742   52108 checks.go:838] image exists: gcr.azk8s.cn/google_containers/coredns:1.6.7
+I0402 12:04:53.179794   52108 kubelet.go:64] Stopping the kubelet
+[kubelet-start] Writing kubelet environment file with flags to file &#34;/var/lib/kubelet/kubeadm-flags.env&#34;
+[kubelet-start] Writing kubelet configuration to file &#34;/var/lib/kubelet/config.yaml&#34;
+[kubelet-start] Starting the kubelet
+[certs] Using certificateDir folder &#34;/etc/kubernetes/pki&#34;
+I0402 12:04:53.517439   52108 certs.go:103] creating a new certificate authority for ca
+[certs] Generating &#34;ca&#34; certificate and key
+[certs] Generating &#34;apiserver&#34; certificate and key
+[certs] apiserver serving cert is signed for DNS names [tmp49h kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [192.96.0.1 10.0.1.5]
+[certs] Generating &#34;apiserver-kubelet-client&#34; certificate and key
+I0402 12:04:54.676701   52108 certs.go:103] creating a new certificate authority for front-proxy-ca
+[certs] Generating &#34;front-proxy-ca&#34; certificate and key
+[certs] Generating &#34;front-proxy-client&#34; certificate and key
+I0402 12:04:56.537529   52108 certs.go:103] creating a new certificate authority for etcd-ca
+[certs] Generating &#34;etcd/ca&#34; certificate and key
+[certs] Generating &#34;etcd/server&#34; certificate and key
+[certs] etcd/server serving cert is signed for DNS names [tmp49h localhost] and IPs [10.0.1.5 127.0.0.1 ::1]
+[certs] Generating &#34;etcd/peer&#34; certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [tmp49h localhost] and IPs [10.0.1.5 127.0.0.1 ::1]
+[certs] Generating &#34;etcd/healthcheck-client&#34; certificate and key
+[certs] Generating &#34;apiserver-etcd-client&#34; certificate and key
+I0402 12:04:58.028007   52108 certs.go:69] creating new public/private key files for signing service account users
+[certs] Generating &#34;sa&#34; key and public key
+[kubeconfig] Using kubeconfig folder &#34;/etc/kubernetes&#34;
+I0402 12:04:58.417808   52108 kubeconfig.go:79] creating kubeconfig file for admin.conf
+[kubeconfig] Writing &#34;admin.conf&#34; kubeconfig file
+I0402 12:04:59.079377   52108 kubeconfig.go:79] creating kubeconfig file for kubelet.conf
+[kubeconfig] Writing &#34;kubelet.conf&#34; kubeconfig file
+I0402 12:04:59.330894   52108 kubeconfig.go:79] creating kubeconfig file for controller-manager.conf
+[kubeconfig] Writing &#34;controller-manager.conf&#34; kubeconfig file
+I0402 12:04:59.559569   52108 kubeconfig.go:79] creating kubeconfig file for scheduler.conf
+[kubeconfig] Writing &#34;scheduler.conf&#34; kubeconfig file
+[control-plane] Using manifest folder &#34;/etc/kubernetes/manifests&#34;
+[control-plane] Creating static Pod manifest for &#34;kube-apiserver&#34;
+I0402 12:04:59.782909   52108 manifests.go:91] [control-plane] getting StaticPodSpecs
+I0402 12:04:59.783878   52108 manifests.go:104] [control-plane] adding volume &#34;ca-certs&#34; for component &#34;kube-apiserver&#34;
+I0402 12:04:59.783895   52108 manifests.go:104] [control-plane] adding volume &#34;etc-pki&#34; for component &#34;kube-apiserver&#34;
+I0402 12:04:59.783905   52108 manifests.go:104] [control-plane] adding volume &#34;k8s-certs&#34; for component &#34;kube-apiserver&#34;
+I0402 12:04:59.795764   52108 manifests.go:121] [control-plane] wrote static Pod manifest for component &#34;kube-apiserver&#34; to &#34;/etc/kubernetes/manifests/kube-apiserver.yaml&#34;
+[control-plane] Creating static Pod manifest for &#34;kube-controller-manager&#34;
+I0402 12:04:59.795793   52108 manifests.go:91] [control-plane] getting StaticPodSpecs
+W0402 12:04:59.795959   52108 manifests.go:225] the default kube-apiserver authorization-mode is &#34;Node,RBAC&#34;; using &#34;Node,RBAC&#34;
+I0402 12:04:59.796292   52108 manifests.go:104] [control-plane] adding volume &#34;ca-certs&#34; for component &#34;kube-controller-manager&#34;
+I0402 12:04:59.796308   52108 manifests.go:104] [control-plane] adding volume &#34;etc-pki&#34; for component &#34;kube-controller-manager&#34;
+I0402 12:04:59.796318   52108 manifests.go:104] [control-plane] adding volume &#34;flexvolume-dir&#34; for component &#34;kube-controller-manager&#34;
+I0402 12:04:59.796327   52108 manifests.go:104] [control-plane] adding volume &#34;k8s-certs&#34; for component &#34;kube-controller-manager&#34;
+I0402 12:04:59.796336   52108 manifests.go:104] [control-plane] adding volume &#34;kubeconfig&#34; for component &#34;kube-controller-manager&#34;
+I0402 12:04:59.797418   52108 manifests.go:121] [control-plane] wrote static Pod manifest for component &#34;kube-controller-manager&#34; to &#34;/etc/kubernetes/manifests/kube-controller-manager.yaml&#34;
+[control-plane] Creating static Pod manifest for &#34;kube-scheduler&#34;
+I0402 12:04:59.797444   52108 manifests.go:91] [control-plane] getting StaticPodSpecs
+W0402 12:04:59.797514   52108 manifests.go:225] the default kube-apiserver authorization-mode is &#34;Node,RBAC&#34;; using &#34;Node,RBAC&#34;
+I0402 12:04:59.797782   52108 manifests.go:104] [control-plane] adding volume &#34;kubeconfig&#34; for component &#34;kube-scheduler&#34;
+I0402 12:04:59.798954   52108 manifests.go:121] [control-plane] wrote static Pod manifest for component &#34;kube-scheduler&#34; to &#34;/etc/kubernetes/manifests/kube-scheduler.yaml&#34;
+[etcd] Creating static Pod manifest for local etcd in &#34;/etc/kubernetes/manifests&#34;
+I0402 12:04:59.800928   52108 local.go:72] [etcd] wrote Static Pod manifest for a local etcd member to &#34;/etc/kubernetes/manifests/etcd.yaml&#34;
+I0402 12:04:59.800958   52108 waitcontrolplane.go:87] [wait-control-plane] Waiting for the API server to be healthy
+I0402 12:04:59.802317   52108 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory &#34;/etc/kubernetes/manifests&#34;. This can take up to 4m0s
+I0402 12:04:59.804411   52108 round_trippers.go:443] GET https://10.0.1.5:6443/healthz?timeout=10s  in 0 milliseconds
+I0402 12:05:00.305351   52108 round_trippers.go:443] GET https://10.0.1.5:6443/healthz?timeout=10s  in 0 milliseconds
+I0402 12:05:00.805367   52108 round_trippers.go:443] GET https://10.0.1.5:6443/healthz?timeout=10s  in 0 milliseconds
+I0402 12:05:01.305315   52108 round_trippers.go:443] GET https://10.0.1.5:6443/healthz?timeout=10s  in 0 milliseconds
+I0402 12:05:06.305168   52108 round_trippers.go:443] GET https://10.0.1.5:6443/healthz?timeout=10s  in 0 milliseconds
+I0402 12:05:06.809393   52108 round_trippers.go:443] GET https://10.0.1.5:6443/healthz?timeout=10s  in 2 milliseconds
+I0402 12:05:13.635622   52108 round_trippers.go:443] GET https://10.0.1.5:6443/healthz?timeout=10s 500 Internal Server Error in 6330 milliseconds
+I0402 12:05:13.807469   52108 round_trippers.go:443] GET https://10.0.1.5:6443/healthz?timeout=10s 500 Internal Server Error in 2 milliseconds
+I0402 12:05:14.307830   52108 round_trippers.go:443] GET https://10.0.1.5:6443/healthz?timeout=10s 500 Internal Server Error in 2 milliseconds
+I0402 12:05:14.809268   52108 round_trippers.go:443] GET https://10.0.1.5:6443/healthz?timeout=10s 500 Internal Server Error in 4 milliseconds
+I0402 12:05:15.307555   52108 round_trippers.go:443] GET https://10.0.1.5:6443/healthz?timeout=10s 500 Internal Server Error in 2 milliseconds
+I0402 12:05:15.809277   52108 round_trippers.go:443] GET https://10.0.1.5:6443/healthz?timeout=10s 200 OK in 4 milliseconds
+[apiclient] All control plane components are healthy after 16.005791 seconds
+I0402 12:05:15.809404   52108 uploadconfig.go:108] [upload-config] Uploading the kubeadm ClusterConfiguration to a ConfigMap
+[upload-config] Storing the configuration used in ConfigMap &#34;kubeadm-config&#34; in the &#34;kube-system&#34; Namespace
+I0402 12:05:15.815779   52108 round_trippers.go:443] POST https://10.0.1.5:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s 201 Created in 4 milliseconds
+I0402 12:05:15.824007   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles?timeout=10s 201 Created in 7 milliseconds
+I0402 12:05:15.829199   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings?timeout=10s 201 Created in 4 milliseconds
+I0402 12:05:15.829943   52108 uploadconfig.go:122] [upload-config] Uploading the kubelet component config to a ConfigMap
+[kubelet] Creating a ConfigMap &#34;kubelet-config-1.18&#34; in namespace kube-system with the configuration for the kubelets in the cluster
+I0402 12:05:15.834057   52108 round_trippers.go:443] POST https://10.0.1.5:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s 201 Created in 2 milliseconds
+I0402 12:05:15.841508   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles?timeout=10s 201 Created in 7 milliseconds
+I0402 12:05:15.845856   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings?timeout=10s 201 Created in 4 milliseconds
+I0402 12:05:15.845997   52108 uploadconfig.go:127] [upload-config] Preserving the CRISocket information for the control-plane node
+I0402 12:05:15.846066   52108 patchnode.go:30] [patchnode] Uploading the CRI Socket information &#34;/var/run/dockershim.sock&#34; to the Node API object &#34;tmp49h&#34; as an annotation
+I0402 12:05:16.352672   52108 round_trippers.go:443] GET https://10.0.1.5:6443/api/v1/nodes/tmp49h?timeout=10s 200 OK in 6 milliseconds
+I0402 12:05:16.364925   52108 round_trippers.go:443] PATCH https://10.0.1.5:6443/api/v1/nodes/tmp49h?timeout=10s 200 OK in 5 milliseconds
+[upload-certs] Skipping phase. Please see --upload-certs
+[mark-control-plane] Marking the node tmp49h as control-plane by adding the label &#34;node-role.kubernetes.io/master=&#39;&#39;&#34;
+[mark-control-plane] Marking the node tmp49h as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]
+I0402 12:05:16.868754   52108 round_trippers.go:443] GET https://10.0.1.5:6443/api/v1/nodes/tmp49h?timeout=10s 200 OK in 2 milliseconds
+I0402 12:05:16.877566   52108 round_trippers.go:443] PATCH https://10.0.1.5:6443/api/v1/nodes/tmp49h?timeout=10s 200 OK in 7 milliseconds
+[bootstrap-token] Using token: abcdef.0123456789abcdef
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+I0402 12:05:16.884804   52108 round_trippers.go:443] GET https://10.0.1.5:6443/api/v1/namespaces/kube-system/secrets/bootstrap-token-abcdef?timeout=10s 404 Not Found in 6 milliseconds
+I0402 12:05:16.893841   52108 round_trippers.go:443] POST https://10.0.1.5:6443/api/v1/namespaces/kube-system/secrets?timeout=10s 201 Created in 8 milliseconds
+[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to get nodes
+I0402 12:05:16.908160   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/clusterroles?timeout=10s 201 Created in 13 milliseconds
+I0402 12:05:16.914868   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 5 milliseconds
+[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+I0402 12:05:16.922119   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 6 milliseconds
+[bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+I0402 12:05:16.926440   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 4 milliseconds
+[bootstrap-token] configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+I0402 12:05:16.935959   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 9 milliseconds
+[bootstrap-token] Creating the &#34;cluster-info&#34; ConfigMap in the &#34;kube-public&#34; namespace
+I0402 12:05:16.936118   52108 clusterinfo.go:45] [bootstrap-token] loading admin kubeconfig
+I0402 12:05:16.937438   52108 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+I0402 12:05:16.937464   52108 clusterinfo.go:53] [bootstrap-token] copying the cluster from admin.conf to the bootstrap kubeconfig
+I0402 12:05:16.937878   52108 clusterinfo.go:65] [bootstrap-token] creating/updating ConfigMap in kube-public namespace
+I0402 12:05:16.944203   52108 round_trippers.go:443] POST https://10.0.1.5:6443/api/v1/namespaces/kube-public/configmaps?timeout=10s 201 Created in 6 milliseconds
+I0402 12:05:16.944386   52108 clusterinfo.go:79] creating the RBAC rules for exposing the cluster-info ConfigMap in the kube-public namespace
+I0402 12:05:16.952131   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-public/roles?timeout=10s 201 Created in 7 milliseconds
+I0402 12:05:16.960717   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-public/rolebindings?timeout=10s 201 Created in 8 milliseconds
+I0402 12:05:16.962014   52108 kubeletfinalize.go:88] [kubelet-finalize] Assuming that kubelet client certificate rotation is enabled: found &#34;/var/lib/kubelet/pki/kubelet-client-current.pem&#34;
+[kubelet-finalize] Updating &#34;/etc/kubernetes/kubelet.conf&#34; to point to a rotatable kubelet client certificate and key
+I0402 12:05:16.962805   52108 loader.go:375] Config loaded from file:  /etc/kubernetes/kubelet.conf
+I0402 12:05:16.964191   52108 kubeletfinalize.go:132] [kubelet-finalize] Restarting the kubelet to enable client certificate rotation
+I0402 12:05:17.144392   52108 round_trippers.go:443] GET https://10.0.1.5:6443/apis/apps/v1/namespaces/kube-system/deployments?labelSelector=k8s-app%3Dkube-dns 200 OK in 14 milliseconds
+I0402 12:05:17.160533   52108 round_trippers.go:443] GET https://10.0.1.5:6443/api/v1/namespaces/kube-system/configmaps/kube-dns?timeout=10s 404 Not Found in 7 milliseconds
+I0402 12:05:17.167540   52108 round_trippers.go:443] GET https://10.0.1.5:6443/api/v1/namespaces/kube-system/configmaps/coredns?timeout=10s 404 Not Found in 5 milliseconds
+I0402 12:05:17.177800   52108 round_trippers.go:443] POST https://10.0.1.5:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s 201 Created in 9 milliseconds
+I0402 12:05:17.183843   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/clusterroles?timeout=10s 201 Created in 5 milliseconds
+I0402 12:05:17.192713   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 8 milliseconds
+I0402 12:05:17.204923   52108 round_trippers.go:443] POST https://10.0.1.5:6443/api/v1/namespaces/kube-system/serviceaccounts?timeout=10s 201 Created in 7 milliseconds
+I0402 12:05:17.241253   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/apps/v1/namespaces/kube-system/deployments?timeout=10s 201 Created in 25 milliseconds
+I0402 12:05:17.259595   52108 round_trippers.go:443] POST https://10.0.1.5:6443/api/v1/namespaces/kube-system/services?timeout=10s 201 Created in 15 milliseconds
+[addons] Applied essential addon: CoreDNS
+I0402 12:05:17.269186   52108 round_trippers.go:443] POST https://10.0.1.5:6443/api/v1/namespaces/kube-system/serviceaccounts?timeout=10s 201 Created in 9 milliseconds
+I0402 12:05:17.279073   52108 round_trippers.go:443] POST https://10.0.1.5:6443/api/v1/namespaces/kube-system/configmaps?timeout=10s 201 Created in 7 milliseconds
+I0402 12:05:17.303603   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/apps/v1/namespaces/kube-system/daemonsets?timeout=10s 201 Created in 15 milliseconds
+I0402 12:05:17.312854   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?timeout=10s 201 Created in 8 milliseconds
+I0402 12:05:17.318643   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles?timeout=10s 201 Created in 5 milliseconds
+I0402 12:05:17.355049   52108 round_trippers.go:443] POST https://10.0.1.5:6443/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings?timeout=10s 201 Created in 36 milliseconds
+[addons] Applied essential addon: kube-proxy
+I0402 12:05:17.357075   52108 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+I0402 12:05:17.357930   52108 loader.go:375] Config loaded from file:  /etc/kubernetes/admin.conf
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run &#34;kubectl apply -f [podnetwork].yaml&#34; with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 10.0.1.5:6443 --token abcdef.0123456789abcdef \
+    --discovery-token-ca-cert-hash sha256:9a4b14630871dd9c8c6cd19787a305ef1188337375682085459d5d5bcd2d2b52
+</code></pre></li>
+</ul>
+<h3 id="case-6">case 6</h3>
+<ul>
+<li>kubeadm join 使用的 token 默认有效期 24 小时
+<ul>
+<li>通过 <code>kubeadm token list</code> 查看</li>
+<li>过期后通过 <code>kubeadm token create</code> 创建</li>
+</ul>
+</li>
+<li><code>--discovery-token-ca-cert-hash</code> 丢失处理方式，然后用新的token和ca-hash加入集群
+<ul>
+<li><code>openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2&amp;gt;/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="case-7">case 7</h3>
+<ul>
+<li>
+<p>这错误还没查到是啥意思</p>
+<ul>
+<li>以为是根据主机名无法解析，本地添加了 /etc/hosts 也没用</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">4月 02 11:46:47 tmp49h kubelet[42431]: E0402 11:46:47.388209   42431 kubelet.go:2267] node &#34;tmp49h&#34; not found
+4月 02 11:46:47 tmp49h kubelet[42431]: I0402 11:46:47.455578   42431 kubelet_node_status.go:294] Setting node annotation to enable volume controller attach/detach
+4月 02 11:46:47 tmp49h kubelet[42431]: I0402 11:46:47.456129   42431 kubelet_node_status.go:294] Setting node annotation to enable volume controller attach/detach
+4月 02 11:46:47 tmp49h kubelet[42431]: I0402 11:46:47.458294   42431 topology_manager.go:219] [topologymanager] RemoveContainer - Container ID: 3633a94c2ab917bf6e58ed4e851ecaffbeed5bf13f9dc8a843100cd0da5d40f4
+4月 02 11:46:47 tmp49h kubelet[42431]: I0402 11:46:47.459307   42431 topology_manager.go:219] [topologymanager] RemoveContainer - Container ID: 9bc11dafd96de2fad4223d92b8a5871f785841f84a03b31899294a944ebc4b03
+4月 02 11:46:47 tmp49h kubelet[42431]: E0402 11:46:47.459989   42431 pod_workers.go:191] Error syncing pod 49c6953d8c6d010ee4fd5a17c89d4f21 (&#34;etcd-tmp49h_kube-system(49c6953d8c6d010ee4fd5a17c89d4f21)&#34;), skipping: failed to &#34;StartContainer&#34; for &#34;etcd&#34; with CrashLoopBackOff: &#34;back-off 40s restarting failed container=etcd pod=etcd-tmp49h_kube-system(49c6953d8c6d010ee4fd5a17c89d4f21)&#34;
+4月 02 11:50:43 tmp49h kubelet[43440]: E0402 11:50:43.508686   43440 pod_workers.go:191] Error syncing pod 69f26225068c8c6c0e2cfe490854d0b9 (&#34;kube-apiserver-tmp49h_kube-system(69f26225068c8c6c0e2cfe490854d0b9)&#34;), skipping: failed to &#34;StartContainer&#34; for &#34;kube-apiserver&#34; with CrashLoopBackOff: &#34;back-off 20s restarting failed container=kube-apiserver pod=kube-apiserver-tmp49h_kube-system(69f26225068c8c6c0e2cfe490854d0b9)&#34;
+4月 02 11:50:43 tmp49h kubelet[43440]: E0402 11:50:43.573473   43440 kubelet.go:2267] node &#34;tmp49h&#34; not found
+4月 02 11:50:44 tmp49h kubelet[43440]: I0402 11:50:44.875613   43440 kubelet_node_status.go:294] Setting node annotation to enable volume controller attach/detach
+4月 02 11:50:44 tmp49h kubelet[43440]: I0402 11:50:44.879380   43440 topology_manager.go:219] [topologymanager] RemoveContainer - Container ID: 0562b4ea5f837a8e89ad447860be51c652a0665389ce1980359f4c5bf12c890f
+4月 02 11:50:44 tmp49h kubelet[43440]: E0402 11:50:44.879901   43440 pod_workers.go:191] Error syncing pod 49c6953d8c6d010ee4fd5a17c89d4f21 (&#34;etcd-tmp49h_kube-system(49c6953d8c6d010ee4fd5a17c89d4f21)&#34;), skipping: failed to &#34;StartContainer&#34; for &#34;etcd&#34; with CrashLoopBackOff: &#34;back-off 40s restarting failed container=etcd pod=etcd-tmp49h_kube-system(49c6953d8c6d010ee4fd5a17c89d4f21)&#34;
+4月 02 11:50:45 tmp49h kubelet[43440]: E0402 11:50:45.330608   43440 controller.go:136] failed to ensure node lease exists, will retry in 3.2s, error: Get https://1.2.3.4:6443/apis/coordination.k8s.io/v1/namespaces/kube-node-lease/leases/tmp49h?timeout=10s: net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
+4月 02 11:50:47 tmp49h kubelet[43440]: W0402 11:50:47.133078   43440 cni.go:237] Unable to update cni config: no networks found in /etc/cni/net.d
+
+4月 02 11:50:47 tmp49h kubelet[43440]: E0402 11:50:47.568483   43440 kubelet.go:2187] Container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:docker: network plugin is not ready: cni config uninitialized
+</code></pre></li>
+</ul>
+]]></content:encoded><h:time datetime="2020-04-03T00:00:00+08:00">2020-04-03 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200403-14-k8s-install/">K8S 安装记录 - 真神了</h:a></item></channel></rss>

@@ -1,1 +1,245 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Systemd on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/systemd/</link><description>Recent content in Systemd on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Fri, 23 Mar 2018 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/systemd/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux - Systemd &amp; Syncer 相爱相杀</title><link>https://atman.ihx.cc/post/20180323-systemd-syncer/</link><pubDate>Fri, 23 Mar 2018 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20180323-systemd-syncer/</guid><description>0x00 缘来 Syncer 数据同步，会因为网络延迟与网络丢包、上下游压力过大等原因导致断开，这些场景本身是可重启恢复的。 最初与 TiDB 使用的 supervise 小工具，这个工具有个问</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>Systemd · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/systemd/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Fri, 23 Mar 2018 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/systemd/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>Systemd · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 1 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/systemd/index.xml">https://atman.ihx.cc/tags/systemd/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>Linux - Systemd &amp; Syncer 相爱相杀</title><link>https://atman.ihx.cc/post/20180323-systemd-syncer/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20180323-systemd-syncer/</guid><pubDate>Fri, 23 Mar 2018 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>Syncer</category><category>Systemd</category><category>TiDB</category><description>0x00 缘来 Syncer 数据同步，会因为网络延迟与网络丢包、上下游压力过大等原因导致断开，这些场景本身是可重启恢复的。 最初与 TiDB 使用的 supervise 小工具，这个工具有个问题是无法设置重试次数然后无限制重启进程，不适用这种链接上下游同步的场景。 Syncer 某些场景，如 DDL / DML 不支持这种就无法重试成功，这种就需要进程停止 …</description><content:encoded><![CDATA[<h2 id="0x00-缘来">0x00 缘来</h2>
+<blockquote>
+<p>Syncer 数据同步，会因为网络延迟与网络丢包、上下游压力过大等原因导致断开，这些场景本身是可重启恢复的。<br>
+最初与 TiDB 使用的 supervise 小工具，这个工具有个问题是无法设置重试次数然后无限制重启进程，不适用这种链接上下游同步的场景。<br>
+Syncer 某些场景，如 DDL / DML 不支持这种就无法重试成功，这种就需要进程停止然后触发告警人工修复。</p>
+</blockquote>
+<h2 id="0x01-案例">0x01 案例</h2>
+<ul>
+<li>背景
+<ul>
+<li>Syncer 遇到以下操作会自动退出，目前采用的 <a href="http://supervisord.org">Supervise</a> 守护进程，当进程退出后自动拉起服务。但 Supervise 无法控制拉起次数，无法让进程彻底停止
+<ul>
+<li>网络闪断 (这个需要被重试拉起)</li>
+<li>tidb 或者 tikv 繁忙导致 server is busy</li>
+<li>不支持的 DDL</li>
+<li>不支持的 DML 语法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>需求
+<ul>
+<li>需要守护进程工具拥有重试最大次数功能
+<ul>
+<li>可选方案有 Supervisord 与 Systemd
+<ul>
+<li>Supervisord 有 Startretries 参数可以实现，但需要部署 Supervisord binary
+<ul>
+<li><a href="http://liyangliang.me/posts/2015/06/using-supervisor/">引用 liyangliang</a></li>
+</ul>
+</li>
+<li>Systemd 是 CentOS 系统自带服务，无需单独部署，官方参数暂无 startretries 类似功能。通过 Google 查到其他方式实现相关功能</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="systemd-配置文件">Systemd 配置文件</h3>
+<ul>
+<li>
+<p>cat /etc/systemd/system/syncer-port.service</p>
+<ul>
+<li>注册 systemd 服务</li>
+<li>修改 service 后需要执行 <code>systemctl daemon-reload</code></li>
+</ul>
+</li>
+<li>
+<p>Service</p>
+<ul>
+<li>RestartSec：自动重启当前服务间隔的秒数</li>
+<li>StartLimitInterval=, StartLimitBurst=
+<ul>
+<li>限制该服务的启动频率。默认值是每10秒内不得超过5次(StartLimitInterval=10s StartLimitBurst=5)</li>
+<li><a href="http://www.jinbuguo.com/systemd/systemd.service.html">引用 jinbuguo</a></li>
+<li><a href="https://www.freedesktop.org/software/systemd/man/systemd.service.html">man systemd</a></li>
+<li><a href="https://www.freedesktop.org/software/systemd/man/systemd-system.conf.html">systemd conf</a></li>
+<li><a href="http://blog.csdn.net/yuesichiu/article/details/51485147">引用 CSDN</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-part-two.html">引用 阮一峰</a></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-c#" data-lang="c#">[Unit]
+Description=syncer service
+After=syslog.target network.target remote-fs.target nss-lookup.target
+
+[Service]
+LimitNOFILE=1000000
+User=root
+ExecStart=/root/systemd-syncer/run_syncer.sh
+Restart=always
+RestartSec=15s
+StartLimitInterval=300
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></li>
+</ul>
+<h3 id="syncer-脚本">Syncer 脚本</h3>
+<ul>
+<li>
+<p>cat run_syncer.sh</p>
+<ul>
+<li>Syncer 服务启动脚本</li>
+<li>启动脚本内容所涉及到的路径需要指定绝对路劲</li>
+</ul>
+<pre><code class="language-c#" data-lang="c#">#!/bin/bash
+
+svr=syncer-job
+work_dir=&#34;/root/systemd-syncer&#34;
+bin_dir=&#34;${work_dir}/bin/syncer&#34;
+conf_dir=&#34;${work_dir}/conf&#34;
+log_dir=&#34;${work_dir}/log&#34;
+nohup_dir=&#34;${work_dir}/nohup&#34;
+
+${bin_dir} --config ${conf_dir}/${svr}.toml --enable-gtid  --auto-fix-gtid  --log-file ${log_dir}/${svr}.log --status-addr :11105 &amp;&gt;&gt;${nohup_dir}/${svr}.out
+</code></pre></li>
+<li>
+<p>systemd-syncer 目录结构</p>
+<pre><code class="language-c#" data-lang="c#">[root@ip-172-16-10-65 systemd-syncer]# tree ./
+./
+├── bin
+│   └── syncer
+├── conf
+│   └── syncer-job.toml
+├── log -&gt; /data1/systemd-syncer.log
+│   └── syncer-job.log
+├── meta
+│   └── syncer-job.meta
+├── nohup
+│   └── syncer-job.out
+└── run-syncer
+    └── run_syncer-job.sh
+</code></pre></li>
+</ul>
+<h2 id="0x02-测试验证">0x02 测试验证</h2>
+<h3 id="systemd-操作">Systemd 操作</h3>
+<ul>
+<li>
+<p>systemctl start syncer-port</p>
+<ul>
+<li>启动该服务</li>
+</ul>
+</li>
+<li>
+<p>systemctl stop syncer-port</p>
+<ul>
+<li>停止该服务</li>
+</ul>
+</li>
+<li>
+<p>systemctl restart syncer-port</p>
+<ul>
+<li>重启该服务</li>
+</ul>
+</li>
+<li>
+<p>systemctl status syncer-port -l</p>
+<ul>
+<li>查看服务状态，-l 可以查看更多信息</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">[root@ip-172-16-10-65 bin]# systemctl status syncer-port -l
+● syncer-port.service - syncer service
+  Loaded: loaded (/etc/systemd/system/syncer-port.service; disabled; vendor preset: disabled)
+  Active: failed (Result: start-limit) since Fri 2018-02-09 16:43:52 CST; 9min ago
+  Process: 393938 ExecStart=/root/systemd-syncer/run_syncer.sh (code=exited, status=0/SUCCESS)
+Main PID: 393938 (code=exited, status=0/SUCCESS)
+
+Feb 09 16:43:52 ip-172-16-10-65 systemd[1]: syncer-port.service holdoff time over, scheduling restart.
+Feb 09 16:43:52 ip-172-16-10-65 systemd[1]: start request repeated too quickly for syncer-port.service
+Feb 09 16:43:52 ip-172-16-10-65 systemd[1]: Failed to start syncer service.
+Feb 09 16:43:52 ip-172-16-10-65 systemd[1]: Unit syncer-port.service entered failed state.
+Feb 09 16:43:52 ip-172-16-10-65 systemd[1]: syncer-port.service failed.
+</code></pre></li>
+</ul>
+<h3 id="模拟同步失败">模拟同步失败</h3>
+<ul>
+<li>
+<p>MySQL</p>
+<ul>
+<li><code>create index idx on hello (id,status,size) lock=none</code></li>
+<li>利用早期 TiDB 版本不支持 lock=none 来复现 Syncer 不支持语法退出</li>
+</ul>
+</li>
+<li>
+<p>Syncer</p>
+<ul>
+<li>Syncer 持续重启，因为 TiDB 无法执行该 DDL</li>
+<li>进程退出，然后被 Systemd 重试拉起，5 次后，进程自动退出</li>
+</ul>
+</li>
+<li>
+<p><code>journalctl -f -u syncer-port</code></p>
+<ul>
+<li>使用 journalctl 获取该服务更多的日志信息</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">Feb 09 16:33:42 ip-172-16-10-65 systemd[1]: Unit syncer-port.service entered failed state.
+Feb 09 16:33:42 ip-172-16-10-65 systemd[1]: syncer-port.service failed.
+Feb 09 16:42:36 ip-172-16-10-65 systemd[1]: Started syncer service.
+Feb 09 16:42:36 ip-172-16-10-65 systemd[1]: Starting syncer service...
+Feb 09 16:42:51 ip-172-16-10-65 systemd[1]: syncer-port.service holdoff time over, scheduling restart.
+Feb 09 16:42:51 ip-172-16-10-65 systemd[1]: Started syncer service.
+Feb 09 16:42:51 ip-172-16-10-65 systemd[1]: Starting syncer service...
+Feb 09 16:43:06 ip-172-16-10-65 systemd[1]: syncer-port.service holdoff time over, scheduling restart.
+Feb 09 16:43:06 ip-172-16-10-65 systemd[1]: Started syncer service.
+Feb 09 16:43:06 ip-172-16-10-65 systemd[1]: Starting syncer service...
+Feb 09 16:43:22 ip-172-16-10-65 systemd[1]: syncer-port.service holdoff time over, scheduling restart.
+Feb 09 16:43:22 ip-172-16-10-65 systemd[1]: Started syncer service.
+Feb 09 16:43:22 ip-172-16-10-65 systemd[1]: Starting syncer service...
+Feb 09 16:43:37 ip-172-16-10-65 systemd[1]: syncer-port.service holdoff time over, scheduling restart.
+Feb 09 16:43:37 ip-172-16-10-65 systemd[1]: Started syncer service.
+Feb 09 16:43:37 ip-172-16-10-65 systemd[1]: Starting syncer service...
+Feb 09 16:43:52 ip-172-16-10-65 systemd[1]: syncer-port.service holdoff time over, scheduling restart.
+Feb 09 16:43:52 ip-172-16-10-65 systemd[1]: start request repeated too quickly for syncer-port.service
+Feb 09 16:43:52 ip-172-16-10-65 systemd[1]: Failed to start syncer service.
+Feb 09 16:43:52 ip-172-16-10-65 systemd[1]: Unit syncer-port.service entered failed state.
+Feb 09 16:43:52 ip-172-16-10-65 systemd[1]: syncer-port.service failed.
+</code></pre></li>
+</ul>
+<h3 id="日志重启记录">日志重启记录</h3>
+<pre><code class="language-BASH" data-lang="BASH">[root@ip-172-16-10-65 bin]# grep &#34;status exits&#34; s.log
+2018/02/09 16:42:36 syncer.go:795: [info] print status exits, err:context canceled
+2018/02/09 16:42:51 syncer.go:795: [info] print status exits, err:context canceled
+2018/02/09 16:43:06 syncer.go:795: [info] print status exits, err:context canceled
+2018/02/09 16:43:22 syncer.go:795: [info] print status exits, err:context canceled
+2018/02/09 16:43:37 syncer.go:795: [info] print status exits, err:context canceled
+</code></pre><h2 id="0x03-告警">0x03 告警</h2>
+<ul>
+<li>
+<p>按照官方文档配置告警信息 <a href="https://github.com/pingcap/docs-cn/blob/master/tools/syncer.md">Syncer</a> 传送门</p>
+</li>
+<li>
+<p>进程退出告警，可添加 <a href="https://atman.ihx.cc/post/20170603-blackbox_exporter/">Blackbox</a> 组件，监听业务端口状态。</p>
+</li>
+</ul>
+<h2 id="0x04-faq">0x04 FAQ</h2>
+<h3 id="error">Error</h3>
+<ul>
+<li><code>Job for Test-syncer.service failed because start of the service was attempted too often. See &quot;systemctl status Test-syncer.service&quot; and &quot;journalctl -xe&quot; for details. To force a start use &quot;systemctl reset-failed Test-syncer.service&quot; followed by &quot;systemctl start Test-syncer.service&quot; again.</code>
+<ul>
+<li>在 StartLimitInterval 时间内，重启次数到达  StartLimitBurst 设置值，需要使用 <code>systemctl reset-failed Test-syncer.service</code> 重置计数器，然后重启该服务</li>
+</ul>
+</li>
+<li>systemd 启动遇见 <code>(code=exited, status=1/FAILURE)</code>
+<ul>
+<li>需要查看服务日志（先查 syncer 日志并使用 run_syncer 脚本手动启动测试下）</li>
+</ul>
+</li>
+</ul>
+<h3 id="systemd-资料片">Systemd 资料片</h3>
+<ul>
+<li>systemd及系统初始化 <a href="https://open-doc.dingtalk.com/docs/doc.htm?treeId=412&amp;articleId=107236&amp;docType=1">传送门</a></li>
+<li>Systemd 入门教程：命令篇 <a href="http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html">阮一峰</a></li>
+<li>systemd 服务脚本的编写 <a href="https://www.cnblogs.com/sysk/p/4969368.html">写脚本</a></li>
+<li>编写 systemd <a href="http://blog.csdn.net/djskl/article/details/46671453">service</a> 文件</li>
+<li>systemd restart // How to set up a systemd service to retry 5 times on a cycle of 30 seconds
+<ul>
+<li><a href="https://stackoverflow.com/questions/39284563/how-to-set-up-a-systemd-service-to-retry-5-times-on-a-cycle-of-30-seconds">指定时间内重启有效次数</a></li>
+<li>This worked worked for me for a service that runs a script using &lsquo;Type=idle&rsquo;. Note that &lsquo;StartLimitInterval&rsquo; must be greater than &lsquo;RestartSec * StartLimitBurst&rsquo; otherwise the service will be restarted indefinitely.</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded><h:time datetime="2018-03-23T00:00:00+08:00">2018-03-23 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20180323-systemd-syncer/">Linux - Systemd &amp; Syncer 相爱相杀</h:a></item></channel></rss>

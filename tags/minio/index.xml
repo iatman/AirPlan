@@ -1,1 +1,825 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>minio on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/minio/</link><description>Recent content in minio on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Thu, 31 Oct 2024 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/minio/index.xml" rel="self" type="application/rss+xml"/><item><title>纸上谈兵-存算分离 FE 灾难恢复</title><link>https://atman.ihx.cc/post/20241031-shard-data-fe-tf/</link><pubDate>Thu, 31 Oct 2024 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20241031-shard-data-fe-tf/</guid><description>0x00 概览 验证目标：验证存算分离集群灾难恢复步骤 测试环境： Minio S3 存储服务 StarRocks v3.3.4 Centos v7.9 总结： 可用于测试环境下（同 S3 协议）跨云迁移、FE 灾难恢复场景 任何生</description></item><item><title>软件测试 - S3 协议与 minio</title><link>https://atman.ihx.cc/post/20200612-24-minio/</link><pubDate>Fri, 12 Jun 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200612-24-minio/</guid><description>0x00 S3 S3（Amazon Simple Storage Service (Amazon S3)）着重于简易性和稳健性的最小功能集【具体信息跳转到 亚马逊 S3 技术介绍页面】： 创建存储桶 – 创建和命名存储数据</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>MinIO · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/minio/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Thu, 31 Oct 2024 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/minio/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>MinIO · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 2 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/minio/index.xml">https://atman.ihx.cc/tags/minio/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>纸上谈兵-存算分离 FE 灾难恢复</title><link>https://atman.ihx.cc/post/20241031-shard-data-fe-tf/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20241031-shard-data-fe-tf/</guid><pubDate>Thu, 31 Oct 2024 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>FE</category><category>MinIO</category><category>StarRocks</category><description>0x00 概览 验证目标：验证存算分离集群灾难恢复步骤 测试环境： Minio S3 存储服务 StarRocks v3.3.4 Centos v7.9 总结： 可用于测试环境下（同 S3 协议）跨云迁移、FE 灾难恢复场景 任何生产环境参考本文操作丢数据后请及时联系官方支持 0x01 准备 MINIO S3 …</description><content:encoded><![CDATA[<h2 id="0x00-概览">0x00 概览</h2>
+<ul>
+<li>验证目标：验证存算分离集群灾难恢复步骤</li>
+<li>测试环境：
+<ul>
+<li>Minio S3 存储服务</li>
+<li>StarRocks v3.3.4</li>
+<li>Centos v7.9</li>
+</ul>
+</li>
+<li>总结：
+<ul>
+<li>可用于测试环境下（同 S3 协议）跨云迁移、FE 灾难恢复场景</li>
+<li><em>任何生产环境参考本文操作丢数据后请及时联系官方支持</em></li>
+</ul>
+</li>
+</ul>
+<h2 id="0x01-准备">0x01 准备</h2>
+<h3 id="minio-s3-存储">MINIO S3 存储</h3>
+<blockquote>
+<p><code>https://min.io/download?license=enterprise&amp;platform=linux</code></p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">wget https://dl.min.io/enterprise/minio/release/linux-amd64/minio
+chmod +x minio
+MINIO_ROOT_USER=admin MINIO_ROOT_PASSWORD=password ./minio server /mnt/data --console-address &#34;:9001&#34;
+</code></pre><pre><code class="language-bash" data-lang="bash">./minio server 1031-s3-test/ --console-address &#34;:9001&#34;
+
+./mc alias set &#39;myminio&#39; &#39;http://10.11.12.13:9000&#39; &#39;minioadmin&#39; &#39;minioadmin&#39;
+Added `myminio` successfully.
+</code></pre><blockquote>
+<p>访问该 URL （使用 minio 默认账号密码登录）打开 minio 网页控制台 <code>http://10.11.12.13:9001/access-keys/new-account</code> 并创建 AK / SK 信息<br>
+创建的 AK / SK 默认对已经存在的 s3 backets 生效，对创建 AK/SK 之后 buckets 不生效</p>
+</blockquote>
+<pre><code class="language-SQL" data-lang="SQL">-- ak/sk demo，测试环境已删除
+oWAqV9znGj7KhSxBjvMm
+V87NZmXoUVmghtbPs7enepEvaryDoX6qC3BWx3WM
+</code></pre><p><img src="https://atman.ihx.cc/post/20241031-shard-data-fe-tf/dcf66f806f35ae52772e7a512322bce3_MD5.png" alt="1000" loading="lazy" decoding="async">
+</p>
+<h3 id="搭建-starrocks-存算分离">搭建 StarRocks 存算分离</h3>
+<blockquote>
+<p><a href="https://docs.starrocks.io/zh/docs/deployment/shared_data/minio/#%E5%AD%98%E7%AE%97%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2-fe-%E9%85%8D%E7%BD%AE">本地手动搭建集群</a></p>
+</blockquote>
+<ul>
+<li>启动 FE 之前设置 FE 参数信息</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">run_mode = shared_data
+#cloud_native_meta_port = 6090
+cloud_native_storage_type = S3
+# 例如 testbucket/subpath
+aws_s3_path = 1031sr
+# 例如 us-east1
+#aws_s3_region = us-2
+aws_s3_endpoint = http://10.11.12.13:9000
+aws_s3_access_key = oWAqV9znGj7KhSxBjvMm
+aws_s3_secret_key = V87NZmXoUVmghtbPs7enepEvaryDoX6qC3BWx3WM
+</code></pre><ul>
+<li>查看集群上的 storage volume</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">mysql&gt; show STORAGE VOLUMES;
++------------------------+
+| Storage Volume         |
++------------------------+
+| builtin_storage_volume |
++------------------------+
+1 row in set (0.06 sec)
+
+
+ desc STORAGE VOLUME builtin_storage_volume\G;
+*************************** 1. row ***************************
+     Name: builtin_storage_volume
+     Type: S3
+IsDefault: true
+ Location: s3://1031sr
+   Params: {&#34;aws.s3.access_key&#34;:&#34;******&#34;,&#34;aws.s3.secret_key&#34;:&#34;******&#34;,&#34;aws.s3.endpoint&#34;:&#34;http://10.11.12.13:9000&#34;,&#34;aws.s3.region&#34;:&#34;&#34;,&#34;aws.s3.use_instance_profile&#34;:&#34;false&#34;,&#34;aws.s3.use_aws_sdk_default_behavior&#34;:&#34;false&#34;}
+  Enabled: true
+  Comment: 
+1 row in set (0.02 sec)
+
+ERROR: 
+No query specified
+</code></pre><ul>
+<li>添加 CN 节点信息</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">ALTER SYSTEM ADD COMPUTE NODE &#34;10.11.12.15:9050&#34;
+</code></pre><ul>
+<li>在指定 stroage volume 下创建 db、table</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">SET builtin_storage_volume AS DEFAULT STORAGE VOLUME;
+
+CREATE DATABASE cloud_db;  
+USE cloud_db;
+
+CREATE TABLE IF NOT EXISTS detail_demo (  
+recruit_date DATE NOT NULL COMMENT &#34;YYYY-MM-DD&#34;,  
+region_num TINYINT COMMENT &#34;range [-128, 127]&#34;,  
+num_plate SMALLINT COMMENT &#34;range [-32768, 32767] &#34;,  
+tel INT COMMENT &#34;range [-2147483648, 2147483647]&#34;,  
+id BIGINT COMMENT &#34;range [-2^63 + 1 ~ 2^63 - 1]&#34;,  
+password LARGEINT COMMENT &#34;range [-2^127 + 1 ~ 2^127 - 1]&#34;,  
+name CHAR(20) NOT NULL COMMENT &#34;range char(m),m in (1-255) &#34;,  
+profile VARCHAR(500) NOT NULL COMMENT &#34;upper limit value 65533 bytes&#34;,  
+ispass BOOLEAN COMMENT &#34;true/false&#34;)  
+DUPLICATE KEY(recruit_date, region_num)  
+DISTRIBUTED BY HASH(recruit_date, region_num)  
+PROPERTIES (  
+&#34;storage_volume&#34; = &#34;builtin_storage_volume&#34;,  
+&#34;datacache.enable&#34; = &#34;true&#34;,  
+&#34;datacache.partition_duration&#34; = &#34;1 MONTH&#34;  
+);
+Query OK, 0 rows affected (6.48 sec)
+</code></pre><ul>
+<li>查看 database ID</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; SHOW PROC &#34;/dbs/&#34;;
++-------+--------------------+----------+----------------+--------------------------+---------------------+
+| DbId  | DbName             | TableNum | Quota          | LastConsistencyCheckTime | ReplicaQuota        |
++-------+--------------------+----------+----------------+--------------------------+---------------------+
+| 1     | information_schema | 46       | 8388608.000 TB | NULL                     | 9223372036854775807 |
+| 100   | sys                | 7        | 8388608.000 TB | NULL                     | 9223372036854775807 |
+| 10001 | _statistics_       | 7        | 8388608.000 TB | NULL                     | 9223372036854775807 |
+| 10005 | cloud_db           | 1        | 8388608.000 TB | NULL                     | 9223372036854775807 |
++-------+--------------------+----------+----------------+--------------------------+---------------------+
+4 rows in set (0.05 sec)
+
+mysql&gt; SHOW PROC &#34;/dbs/10005&#34;\G;
+*************************** 1. row ***************************
+                 TableId: 10014
+               TableName: detail_demo
+                IndexNum: 1
+     PartitionColumnName: 
+            PartitionNum: 1
+                   State: NORMAL
+                    Type: CLOUD_NATIVE
+LastConsistencyCheckTime: NULL
+            ReplicaCount: 16
+           PartitionType: UNPARTITIONED
+             StoragePath: s3://1031sr/38d9a451-6b10-4b52-8758-44aa0252dc77/db10005/10014
+1 row in set (0.01 sec)
+</code></pre><ul>
+<li>S3 数据目录
+<ul>
+<li>数据目录解释跳转到 0x05</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">1031sr/38d9a451-6b10-4b52-8758-44aa0252dc77/db10005/10014/10013/meta
+1031sr/38d9a451-6b10-4b52-8758-44aa0252dc77/db10005/10014/10013/SCHEMA_000000000000271F
+</code></pre><p><img src="https://atman.ihx.cc/post/20241031-shard-data-fe-tf/c7ab02fce8a994b43b51a7582144c35d_MD5.png" alt="500" loading="lazy" decoding="async">
+</p>
+<h2 id="0x02-从文件强行恢复集群">0x02 从文件强行恢复集群</h2>
+<ol>
+<li>在机器上新加个 IP 地址</li>
+<li>让 FE 、CN 使用新 IP 启动
+<ul>
+<li>FE 同时使用老的 meta 元数据信息</li>
+</ul>
+</li>
+<li>重新添加 CN 节点信息(新 IP 地址)</li>
+<li>按需修改 s3 的 ak / sk 信息与 S3 endpoint 地址（<code>alter stroage volume</code> 限制）
+<ul>
+<li>当前支持修改 storage volume 鉴权信息（endpoint / region / ak / sk 这几个必须更换的信息）</li>
+<li>已有存储卷的 <code>TYPE</code> 、<code>LOCATIONS</code> 和其他存储路径相关的参数无法更改，仅能更改认证属性。</li>
+<li>有 db table 情况下（或删除没有加 force 、没有清理 trash ） ，删不掉 storage volume</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>基于社区 StarRocks v3.3.4 + Minio S3 单机部署，灾难恢复重建 FE 集群、新老集群信息比对、新集群数据测试写入 三个场景均能正常运转</p>
+</blockquote>
+<h3 id="恢复新集群">恢复新集群</h3>
+<ol>
+<li>在 fe.conf 增加参数如下：</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">bdbje_reset_election_group = true
+</code></pre><ol start="2">
+<li>建议屏蔽已有的 S3 信息，如下</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">run_mode = shared_data
+cloud_native_storage_type = S3
+
+# 下述信息可能已经失效，需要更换
+#cloud_native_meta_port = 6090
+# 例如 testbucket/subpath
+#aws_s3_path = 1031sr 
+# 例如 us-east1
+#aws_s3_region = us-2
+#aws_s3_endpoint = http://10.11.12.13:9000
+#aws_s3_access_key = oWAqV9znGj7KhSxBjvMm
+#aws_s3_secret_key = V87NZmXoUVmghtbPs7enepEvaryDoX6qC3BWx3WM
+</code></pre><ol start="3">
+<li>删除 meta 下的两个文件
+<ol>
+<li>fe/meta/image/ROLE</li>
+<li>fe/meta/image/VERSION</li>
+</ol>
+</li>
+</ol>
+<pre><code class="language-bash" data-lang="bash"> [root@node220 image]# cat VERSION 
+#Thu Oct 31 16:04:47 CST 2024
+clusterId=285658961
+runMode=shared_data
+token=92e5cc06-9862-434c-8308-ed0db4d3e2cf
+[root@node220 image]# 
+
+
+[root@node220 image]# cat ROLE 
+#Thu Oct 31 16:04:56 CST 2024
+role=FOLLOWER
+hostType=IP
+name=10.11.12.15_9010_1730361887755
+</code></pre><ol start="5">
+<li>启动 FE</li>
+</ol>
+<pre><code class="language-bash" data-lang="bash">sh bin/start_fe.sh --daemon
+</code></pre><ol start="4">
+<li>1 分钟后检查进程端口是否启动</li>
+</ol>
+<pre><code class="language-bash" data-lang="bash">[root@node220 StarRocks-3.3.4-ee]# ss -ntlp | grep 27075
+LISTEN     0      128       [::]:6090                  [::]:*                   users:((&#34;java&#34;,pid=27075,fd=1217))
+LISTEN     0      50        [::]:9010                  [::]:*                   users:((&#34;java&#34;,pid=27075,fd=1163))
+LISTEN     0      128       [::]:9020                  [::]:*                   users:((&#34;java&#34;,pid=27075,fd=2090))
+LISTEN     0      128       [::]:8030                  [::]:*                   users:((&#34;java&#34;,pid=27075,fd=2288))
+LISTEN     0      128       [::]:9030                  [::]:*                   users:((&#34;java&#34;,pid=27075,fd=2093))
+</code></pre><h3 id="查看新集群信息">查看新集群信息</h3>
+<ul>
+<li>链接 9030 后查看 FE 信息
+<ul>
+<li>10.11.12.13 为第一次部署 FE IP 地址</li>
+<li>10.11.12.15 为第二台用于灾难恢复的 FE IP 地址</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">--------------+
+2 rows in set (0.11 sec)
+
+mysql&gt; show frontends\G;
+*************************** 1. row ***************************
+             Name: 10.11.12.13_9010_1730425424679
+               IP: 10.11.12.13
+      EditLogPort: 9010
+         HttpPort: 8030
+        QueryPort: 9030
+          RpcPort: 9020
+             Role: LEADER
+        ClusterId: 1423367959
+             Join: true
+            Alive: true
+ReplayedJournalId: 18673
+    LastHeartbeat: 2024-11-01 09:43:59
+         IsHelper: true
+           ErrMsg: 
+        StartTime: 2024-11-01 09:43:50
+          Version: 3.3.4-ee-7d9a4f0
+*************************** 2. row ***************************
+             Name: 10.11.12.15_9010_1730361887755
+               IP: 10.11.12.15
+      EditLogPort: 9010
+         HttpPort: 8030
+        QueryPort: 9030
+          RpcPort: 9020
+             Role: FOLLOWER
+        ClusterId: 1423367959
+             Join: false
+            Alive: true
+ReplayedJournalId: 18663
+    LastHeartbeat: 2024-11-01 09:43:59
+         IsHelper: true
+           ErrMsg: 
+        StartTime: 2024-11-01 09:43:50
+          Version: 3.3.4-ee-7d9a4f0
+2 rows in 
+</code></pre><ul>
+<li>删除已有的 fe 信息，只保留当前 IP 地址的信息</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; alter system drop FOLLOWER &#34;10.11.12.15:9010&#34;;
+Query OK, 0 rows affected (0.07 sec)
+
+
+mysql&gt; show frontends\G;
+*************************** 1. row ***************************
+             Name: 10.11.12.13_9010_1730425424679
+               IP: 10.11.12.13
+      EditLogPort: 9010
+         HttpPort: 8030
+        QueryPort: 9030
+          RpcPort: 9020
+             Role: LEADER
+        ClusterId: 1423367959
+             Join: true
+            Alive: true
+ReplayedJournalId: 18737
+    LastHeartbeat: 2024-11-01 09:47:24
+         IsHelper: true
+           ErrMsg: 
+        StartTime: 2024-11-01 09:43:50
+          Version: 3.3.4-ee-7d9a4f0
+1 row in set (0.03 sec)
+
+ERROR: 
+No query specified
+</code></pre><ul>
+<li>删除残留的 CN 节点信息</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; SHOW PROC &#39;/compute_nodes&#39;\G;
+*************************** 1. row ***************************
+        ComputeNodeId: 10012
+                   IP: 10.11.12.15
+        HeartbeatPort: 9050
+               BePort: 9060
+             HttpPort: 8040
+             BrpcPort: 8060
+        LastStartTime: 2024-10-31 16:06:39
+        LastHeartbeat: 2024-10-31 16:06:39
+                Alive: false
+ SystemDecommissioned: false
+ClusterDecommissioned: false
+               ErrMsg: java.net.ConnectException: Connection refused (Connection refused)
+              Version: 3.3.4-ee-7d9a4f0
+             CpuCores: 16
+             MemLimit: 12.564GB
+    NumRunningQueries: 0
+           MemUsedPct: 0.00 %
+           CpuUsedPct: 0.0 %
+     DataCacheMetrics: N/A
+       HasStoragePath: false
+          StarletPort: 9070
+             WorkerId: 2
+        WarehouseName: default_warehouse
+            TabletNum: 0
+1 row in set (0.04 sec)
+
+ERROR: 
+No query specified
+
+mysql&gt; ALTER SYSTEM DROP COMPUTE NODE &#34;10.11.12.15:9050&#34;;                                                                                                
+Query OK, 0 rows affected (0.06 sec)
+</code></pre><ul>
+<li>重新添加新的 CN 节点信息</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; ALTER SYSTEM ADD COMPUTE NODE &#34;10.11.12.13:9050&#34;
+    -&gt; ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql&gt; SHOW PROC &#39;/compute_nodes&#39;\G;
+*************************** 1. row ***************************
+        ComputeNodeId: 11002
+                   IP: 10.11.12.13
+        HeartbeatPort: 9050
+               BePort: 9060
+             HttpPort: 8040
+             BrpcPort: 8060
+        LastStartTime: 2024-11-01 09:52:34
+        LastHeartbeat: 2024-11-01 09:52:34
+                Alive: true
+ SystemDecommissioned: false
+ClusterDecommissioned: false
+               ErrMsg: 
+              Version: 3.3.4-ee-7d9a4f0
+             CpuCores: 16
+             MemLimit: 12.564GB
+    NumRunningQueries: 0
+           MemUsedPct: 1.02 %
+           CpuUsedPct: 0.3 %
+     DataCacheMetrics: Status: Normal, DiskUsage: 0B/0B, MemUsage: 0B/0B
+       HasStoragePath: true
+          StarletPort: 9070
+             WorkerId: 1001
+        WarehouseName: default_warehouse
+            TabletNum: 10
+1 row in set (0.01 sec)
+
+ERROR: 
+No query specified
+</code></pre><ul>
+<li>添加后直接查询数据
+<ul>
+<li>会返回无法链接到 S3 的报错，或者 ak/sk 错误</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; SHOW PROC &#39;/compute_nodes&#39;\G;
+*************************** 1. row ***************************
+        ComputeNodeId: 11002
+                   IP: 10.11.12.13
+        HeartbeatPort: 9050
+               BePort: 9060
+             HttpPort: 8040
+             BrpcPort: 8060
+        LastStartTime: 2024-11-01 09:54:49
+        LastHeartbeat: 2024-11-01 09:54:54
+                Alive: true
+ SystemDecommissioned: false
+ClusterDecommissioned: false
+               ErrMsg: 
+              Version: 3.3.4-ee-7d9a4f0
+             CpuCores: 16
+             MemLimit: 12.564GB
+    NumRunningQueries: 0
+           MemUsedPct: 1.00 %
+           CpuUsedPct: 0.0 %
+     DataCacheMetrics: Status: Normal, DiskUsage: 0B/0B, MemUsage: 0B/0B
+       HasStoragePath: true
+          StarletPort: 9070
+             WorkerId: 1001
+        WarehouseName: default_warehouse
+            TabletNum: 11
+1 row in set (0.02 sec)
+
+ERROR: 
+No query specified
+
+mysql&gt; select * from crashdata limit 1;
+ERROR 1064 (HY000): starlet err [RequestID=1803B561327723C5][StatusCode=403]Get object s3://1031sr/38d9a451-6b10-4b52-8758-44aa0252dc77/db10172/10174/10173/meta/00000000000027C0_0000000000000003.meta error: The Access Key Id you provided does not exist in our records.: BE:11002
+</code></pre><ul>
+<li>修改 storage volume 的 S3 信息</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">ALTER STORAGE VOLUME builtin_storage_volume
+SET (
+    &#34;aws.s3.endpoint&#34; = &#34;http://10.11.12.13:39000&#34;,
+    &#34;aws.s3.access_key&#34; = &#34;mNWpnTI3aq6wzh8Ud7h0&#34;,
+    &#34;aws.s3.secret_key&#34; = &#34;UPn2mItsl1wtbb9kYHBSzJuXVHCs8Wj2VbD7KTIM&#34;
+);
+
+ALTER STORAGE VOLUME defes
+SET (
+    &#34;aws.s3.endpoint&#34; = &#34;http://10.11.12.13:39000&#34;,
+    &#34;aws.s3.access_key&#34; = &#34;mNWpnTI3aq6wzh8Ud7h0&#34;,
+    &#34;aws.s3.secret_key&#34; = &#34;UPn2mItsl1wtbb9kYHBSzJuXVHCs8Wj2VbD7KTIM&#34;
+);
+</code></pre><h3 id="新集群-信息校验">新集群-信息校验</h3>
+<ul>
+<li>缺少主动检查全局数据是否完全可用的操作</li>
+<li>目前在数据元信息、数据文件上无法人工强制校验，理论上两个版本
+<ul>
+<li>show statistics ，该信息有滞后的风险</li>
+<li>select count from 每个数据表</li>
+<li>analyze table 收集每个表统计信息(不支持对整个 db 收集、表越大时间越长)</li>
+<li>无法强形校验每个文件是否完整（比如数据中间有坏块）</li>
+</ul>
+</li>
+<li><code>select count(*) from table</code> 有两种形式读取文件数据
+<ul>
+<li>默认方式扫描目标表的所有数据文件，充分向向每个文件 open file</li>
+<li>优化方式： Session 变量 <code>enable_rewrite_simple_agg_to_meta_scan = true</code> 配置 select count 只扫 meta ，跳过扫描文件逻辑</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; show proc &#34;/statistic&#34;; // 原始数据集群信息
++-------+--------------------+----------+--------------+----------+-----------+------------+--------------------+-----------------------+------------------+---------------------+
+| DbId  | DbName             | TableNum | PartitionNum | IndexNum | TabletNum | ReplicaNum | UnhealthyTabletNum | InconsistentTabletNum | CloningTabletNum | ErrorStateTabletNum |
++-------+--------------------+----------+--------------+----------+-----------+------------+--------------------+-----------------------+------------------+---------------------+
+| 10001 | _statistics_       | 7        | 7            | 7        | 66        | 0          | 0                  | 0                     | 0                | 0                   |
+| 10005 | cloud_db           | 1        | 1            | 1        | 16        | 0          | 0                  | 0                     | 0                | 0                   |
+| 10165 | defesdb            | 1        | 1            | 1        | 1         | 0          | 0                  | 0                     | 0                | 0                   |
+| 1     | information_schema | 0        | 0            | 0        | 0         | 0          | 0                  | 0                     | 0                | 0                   |
+| 10121 | quickstart         | 2        | 2            | 2        | 2         | 0          | 0                  | 0                     | 0                | 0                   |
+| 10172 | s1db               | 1        | 1            | 1        | 1         | 0          | 0                  | 0                     | 0                | 0                   |
+| 10130 | shared_test        | 1        | 1            | 1        | 1         | 0          | 0                  | 0                     | 0                | 0                   |
+| 100   | sys                | 0        | 0            | 0        | 0         | 0          | 0                  | 0                     | 0                | 0                   |
+| Total | 8                  | 13       | 13           | 13       | 87        | 0          | 0                  | 0                     | 0                | 0                   |
++-------+--------------------+----------+--------------+----------+-----------+------------+--------------------+-----------------------+------------------+---------------------+
+9 rows in set (0.01 sec)
+
+mysql&gt; show proc &#34;/statistic&#34;; // 恢复后的数据集群信息
++-------+--------------------+----------+--------------+----------+-----------+------------+--------------------+-----------------------+------------------+---------------------+
+| DbId  | DbName             | TableNum | PartitionNum | IndexNum | TabletNum | ReplicaNum | UnhealthyTabletNum | InconsistentTabletNum | CloningTabletNum | ErrorStateTabletNum |
++-------+--------------------+----------+--------------+----------+-----------+------------+--------------------+-----------------------+------------------+---------------------+
+| 10001 | _statistics_       | 7        | 7            | 7        | 66        | 0          | 0                  | 0                     | 0                | 0                   |
+| 10005 | cloud_db           | 1        | 1            | 1        | 16        | 0          | 0                  | 0                     | 0                | 0                   |
+| 10165 | defesdb            | 1        | 1            | 1        | 1         | 0          | 0                  | 0                     | 0                | 0                   |
+| 1     | information_schema | 0        | 0            | 0        | 0         | 0          | 0                  | 0                     | 0                | 0                   |
+| 10121 | quickstart         | 2        | 2            | 2        | 2         | 0          | 0                  | 0                     | 0                | 0                   |
+| 10172 | s1db               | 1        | 1            | 1        | 1         | 0          | 0                  | 0                     | 0                | 0                   |
+| 10130 | shared_test        | 1        | 1            | 1        | 1         | 0          | 0                  | 0                     | 0                | 0                   |
+| 100   | sys                | 0        | 0            | 0        | 0         | 0          | 0                  | 0                     | 0                | 0                   |
+| Total | 8                  | 13       | 13           | 13       | 87        | 0          | 0                  | 0                     | 0                | 0                   |
++-------+--------------------+----------+--------------+----------+-----------+------------+--------------------+-----------------------+------------------+---------------------+
+9 rows in set (0.01 sec)
+</code></pre><p><img src="https://atman.ihx.cc/post/20241031-shard-data-fe-tf/9d033a099b7ef11d31812f7a8c24e13c_MD5.jpg" alt="1000" loading="lazy" decoding="async">
+</p>
+<h3 id="新集群-测试数据写入">新集群-测试数据写入</h3>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; SET builtin_storage_volume AS DEFAULT STORAGE VOLUME;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql&gt; use s1db;
+Database changed
+mysql&gt; 
+mysql&gt; CREATE TABLE IF NOT EXISTS s1db.crashdata1 (
+    -&gt;     CRASH_DATE DATETIME,
+    -&gt;     BOROUGH STRING,
+    -&gt;     ZIP_CODE STRING,
+    -&gt;     LATITUDE INT,
+    -&gt;     LONGITUDE INT,
+    -&gt;     LOCATION STRING,
+    -&gt;     ON_STREET_NAME STRING,
+    -&gt;     CROSS_STREET_NAME STRING,
+    -&gt;     OFF_STREET_NAME STRING,
+    -&gt;     CONTRIBUTING_FACTOR_VEHICLE_1 STRING,
+    -&gt;     CONTRIBUTING_FACTOR_VEHICLE_2 STRING,
+    -&gt;     COLLISION_ID INT,
+    -&gt;     VEHICLE_TYPE_CODE_1 STRING,
+    -&gt;     VEHICLE_TYPE_CODE_2 STRING
+    -&gt; );
+Query OK, 0 rows affected (0.19 sec)
+
+mysql&gt; insert into s1db.crashdata1 select * from defesdb.crashdata;
+Query OK, 423725 rows affected (2.62 sec)
+{&#39;label&#39;:&#39;insert_70af4137-97f5-11ef-a251-d27a175796b9&#39;, &#39;status&#39;:&#39;VISIBLE&#39;, &#39;txnId&#39;:&#39;1004&#39;}
+
+mysql&gt; select count(*) from s1db.crashdata1;
++----------+
+| count(*) |
++----------+
+|   423725 |
++----------+
+1 row in set (0.05 sec)
+</code></pre><ul>
+<li>验证新写入的数据文件</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; show proc &#34;/dbs/10172&#34;\G;
+*************************** 1. row ***************************
+                 TableId: 10174
+               TableName: crashdata
+                IndexNum: 1
+     PartitionColumnName: 
+            PartitionNum: 1
+                   State: NORMAL
+                    Type: CLOUD_NATIVE
+LastConsistencyCheckTime: NULL
+            ReplicaCount: 1
+           PartitionType: UNPARTITIONED
+             StoragePath: s3://1031sr/38d9a451-6b10-4b52-8758-44aa0252dc77/db10172/10174
+*************************** 2. row ***************************
+                 TableId: 11004
+               TableName: crashdata1
+                IndexNum: 1
+     PartitionColumnName: 
+            PartitionNum: 1
+                   State: NORMAL
+                    Type: CLOUD_NATIVE
+LastConsistencyCheckTime: NULL
+            ReplicaCount: 1
+           PartitionType: UNPARTITIONED
+             StoragePath: s3://1031sr/38d9a451-6b10-4b52-8758-44aa0252dc77/db10172/11004
+2 rows in set (0.01 sec)
+</code></pre><p><img src="https://atman.ihx.cc/post/20241031-shard-data-fe-tf/f90f62621f2919b1c19f02a7c868cfbd_MD5.png" alt="1000" loading="lazy" decoding="async">
+</p>
+<h2 id="0x03-单集群多-storage-volume-验证">0x03 单集群多 storage volume 验证</h2>
+<blockquote>
+<p><a href="https://docs.starrocks.io/zh/docs/quick_start/shared-data/#%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE">导入数据集</a></p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">curl -O https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/datasets/NYPD_Crash_Data.csv
+curl -O https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/datasets/72505394728.csv
+</code></pre><pre><code class="language-bash" data-lang="bash">curl --location-trusted -u root             \
+    -T ./NYPD_Crash_Data.csv                \
+    -H &#34;label:crashdata-0&#34;                  \
+    -H &#34;column_separator:,&#34;                 \
+    -H &#34;skip_header:1&#34;                      \
+    -H &#34;enclose:\&#34;&#34;                         \
+    -H &#34;max_filter_ratio:1&#34;                 \
+    -H &#34;columns:tmp_CRASH_DATE, tmp_CRASH_TIME, CRASH_DATE=str_to_date(concat_ws(&#39; &#39;, tmp_CRASH_DATE, tmp_CRASH_TIME), &#39;%m/%d/%Y %H:%i&#39;),BOROUGH,ZIP_CODE,LATITUDE,LONGITUDE,LOCATION,ON_STREET_NAME,CROSS_STREET_NAME,OFF_STREET_NAME,NUMBER_OF_PERSONS_INJURED,NUMBER_OF_PERSONS_KILLED,NUMBER_OF_PEDESTRIANS_INJURED,NUMBER_OF_PEDESTRIANS_KILLED,NUMBER_OF_CYCLIST_INJURED,NUMBER_OF_CYCLIST_KILLED,NUMBER_OF_MOTORIST_INJURED,NUMBER_OF_MOTORIST_KILLED,CONTRIBUTING_FACTOR_VEHICLE_1,CONTRIBUTING_FACTOR_VEHICLE_2,CONTRIBUTING_FACTOR_VEHICLE_3,CONTRIBUTING_FACTOR_VEHICLE_4,CONTRIBUTING_FACTOR_VEHICLE_5,COLLISION_ID,VEHICLE_TYPE_CODE_1,VEHICLE_TYPE_CODE_2,VEHICLE_TYPE_CODE_3,VEHICLE_TYPE_CODE_4,VEHICLE_TYPE_CODE_5&#34; \
+    -XPUT http://localhost:8030/api/defesdb/crashdata/_stream_load
+</code></pre><h3 id="builtin_storage_volume-创建-dbtable">builtin_storage_volume 创建 db、table</h3>
+<pre><code class="language-sql" data-lang="sql"> CREATE STORAGE VOLUME builtin_storage_volume
+TYPE = S3
+LOCATIONS = (&#34;s3://1031sr&#34;)
+PROPERTIES
+(
+    &#34;enabled&#34; = &#34;true&#34;,
+    &#34;aws.s3.endpoint&#34; = &#34;http://10.11.12.13:9000&#34;,
+    &#34;aws.s3.access_key&#34; = &#34;Hp7YatkknWUxRRCqkEDk&#34;,
+    &#34;aws.s3.secret_key&#34; = &#34;eG8rhk4OKyyK60jzMc26t6W1o2N4dKlE2fSITFdy&#34;
+);
+SET builtin_storage_volume AS DEFAULT STORAGE VOLUME;
+
+
+create database s1db;
+
+CREATE TABLE IF NOT EXISTS s1db.crashdata1 (
+    CRASH_DATE DATETIME,
+    BOROUGH STRING,
+    ZIP_CODE STRING,
+    LATITUDE INT,
+    LONGITUDE INT,
+    LOCATION STRING,
+    ON_STREET_NAME STRING,
+    CROSS_STREET_NAME STRING,
+    OFF_STREET_NAME STRING,
+    CONTRIBUTING_FACTOR_VEHICLE_1 STRING,
+    CONTRIBUTING_FACTOR_VEHICLE_2 STRING,
+    COLLISION_ID INT,
+    VEHICLE_TYPE_CODE_1 STRING,
+    VEHICLE_TYPE_CODE_2 STRING
+);
+</code></pre><h3 id="defes-创建-dbtable">defes 创建 db、table</h3>
+<pre><code class="language-sql" data-lang="sql"> CREATE STORAGE VOLUME defes
+TYPE = S3
+LOCATIONS = (&#34;s3://1031sr3&#34;)
+PROPERTIES
+(
+    &#34;enabled&#34; = &#34;true&#34;,
+    &#34;aws.s3.endpoint&#34; = &#34;http://10.11.12.13:9000&#34;,
+    &#34;aws.s3.access_key&#34; = &#34;Hp7YatkknWUxRRCqkEDk&#34;,
+    &#34;aws.s3.secret_key&#34; = &#34;eG8rhk4OKyyK60jzMc26t6W1o2N4dKlE2fSITFdy&#34;,
+    &#34;aws.s3.enable_partitioned_prefix&#34; = &#34;true&#34;
+);
+SET defes AS DEFAULT STORAGE VOLUME;
+
+
+create database defesdb;
+
+CREATE TABLE IF NOT EXISTS defesdb.crashdata (
+    CRASH_DATE DATETIME,
+    BOROUGH STRING,
+    ZIP_CODE STRING,
+    LATITUDE INT,
+    LONGITUDE INT,
+    LOCATION STRING,
+    ON_STREET_NAME STRING,
+    CROSS_STREET_NAME STRING,
+    OFF_STREET_NAME STRING,
+    CONTRIBUTING_FACTOR_VEHICLE_1 STRING,
+    CONTRIBUTING_FACTOR_VEHICLE_2 STRING,
+    COLLISION_ID INT,
+    VEHICLE_TYPE_CODE_1 STRING,
+    VEHICLE_TYPE_CODE_2 STRING
+);
+</code></pre><h3 id="数据在-2-个-s3-buckets-之间流转">数据在 2 个 S3 buckets 之间流转</h3>
+<ol>
+<li>注意事项</li>
+<li>CN 到两个 S3 之间的稳定性、任务失败重试策略</li>
+<li>CN 到 S3 之间数据攒批大小，决定是否频繁创建链接</li>
+<li>CN 到 S3 带宽对传输的影响</li>
+<li>任务失败后数据是否自动清理</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; show proc &#39;/dbs&#39;;
++-------+--------------------+----------+----------------+--------------------------+---------------------+
+| DbId  | DbName             | TableNum | Quota          | LastConsistencyCheckTime | ReplicaQuota        |
++-------+--------------------+----------+----------------+--------------------------+---------------------+
+| 1     | information_schema | 46       | 8388608.000 TB | NULL                     | 9223372036854775807 |
+| 100   | sys                | 7        | 8388608.000 TB | NULL                     | 9223372036854775807 |
+| 10001 | _statistics_       | 7        | 8388608.000 TB | NULL                     | 9223372036854775807 |
+| 10165 | defesdb            | 1        | 8388608.000 TB | NULL                     | 9223372036854775807 |
+| 10172 | s1db               | 1        | 8388608.000 TB | NULL                     | 9223372036854775807 |
++-------+--------------------+----------+----------------+--------------------------+---------------------+
+8 rows in set (0.01 sec)
+</code></pre><pre><code class="language-sql" data-lang="sql">mysql&gt; insert into s1db.crashdata select * from defesdb.crashdata;
+Query OK, 423725 rows affected (2.22 sec)
+{&#39;label&#39;:&#39;insert_c877ec08-9768-11ef-bc5d-d27a175796b9&#39;, &#39;status&#39;:&#39;VISIBLE&#39;, &#39;txnId&#39;:&#39;6&#39;}
+
+
+mysql&gt; select count(*) from defesdb.crashdata;
++----------+
+| count(*) |
++----------+
+|   423725 |
++----------+
+1 row in set (0.05 sec)
+
+mysql&gt; select count(*) from s1db.crashdata;
++----------+
+| count(*) |
++----------+
+|   423725 |
++----------+
+1 row in set (0.04 sec)
+</code></pre><p><img src="https://atman.ihx.cc/post/20241031-shard-data-fe-tf/45d97373b5defa0de36032f34044f3c3_MD5.png" alt="1000" loading="lazy" decoding="async">
+
+<img src="https://atman.ihx.cc/post/20241031-shard-data-fe-tf/64dc19a91ab6a512c556ea5b0a782e6c_MD5.png" alt="1000" loading="lazy" decoding="async">
+</p>
+<h2 id="0x05-附录">0x05 附录</h2>
+<h3 id="s3-存储目录优化-enable_partitioned_prefix">S3 存储目录优化 enable_partitioned_prefix</h3>
+<blockquote>
+<p><a href="https://xie.infoq.cn/article/81bfe878ec4d5fa13647378d9">https://xie.infoq.cn/article/81bfe878ec4d5fa13647378d9</a><br>
+<a href="https://github.com/StarRocks/starrocks/pull/41627">Github PR</a></p>
+</blockquote>
+<p>老版本(3.1.3 以及之前的版本)表数据的存储路径按照如下格式组织，用户可以解析出 Table id。</p>
+<pre><code class="language-bash" data-lang="bash">s3://${bucket_name}/${prefix}/${cluster_id}/${table_id}/
+</code></pre><p>中间版本中(3.1.4 以及 3.2.0 后)表数据的存储路径按照如下格式组织，用户可以解析出 Table id 和 Partition id。</p>
+<pre><code class="language-bash" data-lang="bash">s3://${bucket_name}/${prefix}/${cluster_id}/${table_id}/${partition_id}/
+</code></pre><p>最新版本（3.1.8 及 3.2.3 后）中表数据的存储路径按照如下格式组织，用户可以解析出 DB id、Table id 以及 Partition id。</p>
+<pre><code class="language-bash" data-lang="bash">s3://${bucket_name}/${prefix}/${cluster_id}/db{dbid}/${table_id}/${partition_id}
+</code></pre><ul>
+<li>不支持对已有 stroage volume 修改 enable_partitioned_prefix 功能</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; ALTER STORAGE VOLUME builtin_storage_volume
+    -&gt;  SET (&#34;aws.s3.enable_partitioned_prefix&#34; = &#34;true&#34;);
+ERROR 1064 (HY000): Storage volume property &#39;aws.s3.enable_partitioned_prefix&#39; is immutable!
+</code></pre><ul>
+<li>enable_partitioned_prefix 不支持 subpath</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; CREATE STORAGE VOLUME testpath
+    -&gt; TYPE = S3
+    -&gt; LOCATIONS = (&#34;s3://1031sr2/test&#34;)
+    -&gt; PROPERTIES
+    -&gt; (
+    -&gt;     &#34;enabled&#34; = &#34;true&#34;,
+    -&gt;     &#34;aws.s3.endpoint&#34; = &#34;http://10.11.12.13:9000&#34;,
+    -&gt;     &#34;aws.s3.access_key&#34; = &#34;mNWpnTI3aq6wzh8Ud7h0&#34;,
+    -&gt;     &#34;aws.s3.secret_key&#34; = &#34;UPn2mItsl1wtbb9kYHBSzJuXVHCs8Wj2VbD7KTIM&#34;,
+    -&gt;     &#34;aws.s3.enable_partitioned_prefix&#34; = &#34;true&#34;
+    -&gt; );
+ERROR 1064 (HY000): Storage volume &#39;testpath&#39; has &#39;aws.s3.enable_partitioned_prefix&#39;=&#39;true&#39;, the location &#39;s3://1031sr2/test&#39; should not contain sub path after bucket name!
+</code></pre><h3 id="测试期间报错记录">测试期间报错记录</h3>
+<p>建表中手动指定了不存在的 storage volume，<code>show storage volumes;</code> 查看</p>
+<pre><code class="language-SQL" data-lang="SQL">ERROR 1064 (HY000): Unknown storage volume &#34;def_volume&#34;
+</code></pre><p>建表时目前 default_warehouse 里没有 CN 节点，<code>show backends</code> 查看</p>
+<pre><code class="language-sql" data-lang="sql">ERROR 10005 (42000): No alive backend or compute node in warehouse default_warehouse.
+</code></pre><p>设定为默认的 default storage volume  无法被删除，重新 set 成其他 storage volume 后可以删除这个</p>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; DROP STORAGE VOLUME sharedes;
+ERROR 1064 (HY000): default storage volume can not be removed
+</code></pre><p>数据库删除的时候，元数据信息有 24 小时的回收站时间，导致无法删除  storage volume</p>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; DROP STORAGE VOLUME shared;
+ERROR 1064 (HY000): Storage volume &#39;shared&#39; is referenced by dbs or tables, dbs: [10154, 10155], tables: []
+</code></pre><pre><code class="language-sql" data-lang="sql">ADMIN SET FRONTEND CONFIG (&#34;catalog_trash_expire_second&#34; = &#34;1&#34;);
+
+mysql&gt; drop storage volume sharedes;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql&gt; drop storage volume shared;
+Query OK, 0 rows affected (0.01 sec)
+</code></pre><p><img src="https://atman.ihx.cc/post/20241031-shard-data-fe-tf/c6db7ee80a054dbd041d762a3fae6a38_MD5.jpeg" alt="1000" loading="lazy" decoding="async">
+</p>
+<ul>
+<li>drop table 后数据文件在</li>
+</ul>
+<p><img src="https://atman.ihx.cc/post/20241031-shard-data-fe-tf/116aabbf2d9278ed59ea861ec8704eb1_MD5.png" alt="" loading="lazy" decoding="async">
+
+<img src="https://atman.ihx.cc/post/20241031-shard-data-fe-tf/4a12a66a1bab58b300b2976d653bb811_MD5.png" alt="" loading="lazy" decoding="async">
+</p>
+<ul>
+<li>drop force db 后，整个 db 下所有目录都会被删除
+<ul>
+<li>由于 S3 不显示空文件目录，因此 cluster 目录也消失了</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-sql" data-lang="sql">mysql&gt; drop database testpathabc force;
+Query OK, 0 rows affected (0.03 sec)
+</code></pre><p><img src="https://atman.ihx.cc/post/20241031-shard-data-fe-tf/9004609892212ee1bd77acd7d939a232_MD5.png" alt="" loading="lazy" decoding="async">
+</p>
+<pre><code class="language-fallback" data-lang="fallback">E20241101 11:18:33.538090 140410144474880 scan_operator.cpp:445] scan fragment e6f2a13c-97ff-11ef-a251-d27a175796bb driver 0 Scan tasks error: Internal error: starlet err [RequestID=][StatusCode=-1]Get object s3://1031sr/38d9a451-6b10-4b52-8758-44aa0252dc77/db10172/11004/11003/meta/0000000000002AFE_0000000000000002.meta error: curlCode: 7, Couldn&#39;t connect to server
+be/src/storage/protobuf_file.cpp:155 value_or_err_L155
+be/src/storage/lake/tablet_manager.cpp:235 file.load(metadata.get(), fill_cache)
+be/src/storage/lake/tablet_manager.cpp:262 value_or_err_L262
+be/src/storage/lake/tablet_manager.cpp:692 value_or_err_L692
+be/src/connector/lake_connector.cpp:165 value_or_err_L165
+be/src/connector/lake_connector.cpp:323 get_tablet(_scan_range)
+be/src/connector/lake_connector.cpp:108 init_tablet_reader(_runtime_state)
+be/src/exec/pipeline/scan/connector_scan_operator.cpp:773 _data_source-&gt;open(state)
+be/src/exec/pipeline/scan/connector_scan_operator.cpp:800 _open_data_source(state, &amp;mem_alloc_failed)
+W20241101 11:18:33.538726 140410407794432 pipeline_driver.cpp:315] pull_chunk returns not ok status Internal error: starlet err [RequestID=][StatusCode=-1]Get object s3://1031sr/38d9a451-6b10-4b52-8758-44aa0252dc77/db10172/11004/11003/meta/0000000000002AFE_0000000000000002.meta error: curlCode: 7, Couldn&#39;t connect to server
+be/src/storage/protobuf_file.cpp:155 value_or_err_L155
+be/src/storage/lake/tablet_manager.cpp:235 file.load(metadata.get(), fill_cache)
+be/src/storage/lake/tablet_manager.cpp:262 value_or_err_L262
+be/src/storage/lake/tablet_manager.cpp:692 value_or_err_L692
+be/src/connector/lake_connector.cpp:165 value_or_err_L165
+be/src/connector/lake_connector.cpp:323 get_tablet(_scan_range)
+be/src/connector/lake_connector.cpp:108 init_tablet_reader(_runtime_state)
+be/src/exec/pipeline/scan/connector_scan_operator.cpp:773 _data_source-&gt;open(state)
+be/src/exec/pipeline/scan/connector_scan_operator.cpp:800 _open_data_source(state, &amp;mem_alloc_failed)
+be/src/exec/pipeline/scan/scan_operator.cpp:250 _get_scan_status()
+W20241101 11:18:33.538815 140410407794432 pipeline_driver_executor.cpp:174] [Driver] Process error, query_id=e6f2a13c-97ff-11ef-a251-d27a175796b9, instance_id=e6f2a13c-97ff-11ef-a251-d27a175796bb, status=Internal error: starlet err [RequestID=][StatusCode=-1]Get object s3://1031sr/38d9a451-6b10-4b52-8758-44aa0252dc77/db10172/11004/11003/meta/0000000000002AFE_0000000000000002.meta error: curlCode: 7, Couldn&#39;t connect to server: BE:11002
+I20241101 11:18:33.544936 140410441365248 pipeline_driver_executor.cpp:360] [Driver] Succeed to report exec state: fragment_instance_id=e6f2a13c-97ff-11ef-a251-d27a175796bb, is_done=1
+I20241101 11:18:33.545140 140407195260672 pipeline_driver_executor.cpp:360] [Driver] Succeed to report exec state: fragment_instance_id=e6f2a13c-97ff-11ef-a251-d27a175796ba, is_done=1
+I20241101 11:18:36.361041 140412289783552 daemon.cpp:199] Current memory statistics: process(139826776), query_pool(0), load(0), metadata(0), compaction(0), schema_change(0), column_pool(0), page_cache(0), update(0), chunk_allocator(4104), clone(0), consistency(0), datacache(0), jit(0)
+E20241101 11:18:39.052450 140407333639936 vacuum.cpp:479] Internal error: starlet err [RequestID=][StatusCode=-1]Get object s3://1031sr/38d9a451-6b10-4b52-8758-44aa0252dc77/db10172/11004/11003/meta/0000000000002AFE_0000000000000002.meta error: curlCode: 7, Couldn&#39;t connect to server
+be/src/storage/protobuf_file.cpp:155 value_or_err_L155
+be/src/storage/lake/tablet_manager.cpp:235 file.load(metadata.get(), fill_cache)
+be/src/storage/lake/tablet_manager.cpp:262 value_or_err_L262
+be/src/storage/lake/vacuum.cpp:389 collect_files_to
+
+_vacuum(tablet_mgr, root_dir, tablet_id, grace_timestamp, min_retain_version, &amp;datafile_deleter, &amp;metafile_deleter, vacuumed_file_size)
+be/src/storage/lake/vacuum.cpp:467 vacuum_tablet_metadata(tablet_mgr, root_loc, tablet_ids, min_retain_version, grace_timestamp, &amp;vacuumed_files, &amp;vacuumed_file_size)
+E20241101 11:18:39.052703 140407186867968 vacuum.cpp:479] Internal error: starlet err [RequestID=][StatusCode=-1]Get object s3://1031sr/38d9a451-6b10-4b52-8758-44aa0252dc77/db10001/10044/10043/meta/000000000000273E_0000000000000005.meta error: curlCode: 7, Couldn&#39;t connect to server
+be/src/storage/protobuf_file.cpp:155 value_or_err_L155
+be/src/storage/lake/tablet_manager.cpp:235 file.load(metadata.get(), fill_cache)
+be/src/storage/lake/tablet_manager.cpp:262 value_or_err_L262
+be/src/storage/lake/vacuum.cpp:389 collect_files_to_vacuum(tablet_mgr, root_dir, tablet_id, grace_timestamp, min_retain_version, &amp;datafile_deleter, &amp;metafile_deleter, vacuumed_file_size)
+be/src/storage/lake/vacuum.cpp:467 vacuum_tablet_metadata(tablet_mgr, root_loc, tablet_ids, min_retain_version, grace_timestamp, &amp;vacuumed_files, &amp;vacuumed_file_size)
+I20241101 11:18:51.366841 140412289783552 daemon.cpp:199] Current memory statistics: process(139922592), query_pool(0), load(0), metadata(0), compaction(0), schema_change(0), column_pool(0), page_cache(0), update(0), chunk_allocator(4104), clone(0), consistency(0), datacache(0), jit(0)
+</code></pre><ul>
+<li>支持修改 endpoint，修改 endpoint 的时候，cn 会有大量的日志修改。数据表修改后是可以查询的</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">I20241101 11:23:53.143491 140407333639936 pipeline_driver_executor.cpp:360] [Driver] Succeed to report exec state: fragment_instance_id=b843127d-9800-11ef-a2
+51-d27a175796ba, is_done=1
+I20241101 11:23:53.143570 140410441365248 pipeline_driver_executor.cpp:360] [Driver] Succeed to report exec state: fragment_instance_id=b843127d-9800-11ef-a2
+51-d27a175796bb, is_done=1
+I20241101 11:24:02.425391 140408096331520 service.cc:56] Add shard id: 10016, fs type: S3, fs key: 1031sr, file path: s3://1031sr/38d9a451-6b10-4b52-8758-44a
+a0252dc77/db10005/10014/10013, cache_enable: 1, cache_ttl: 0, async_write_back: 0, hash_code: 2254
+ // 大量修改文件信息的操作
+</code></pre>]]></content:encoded><h:time datetime="2024-10-31T00:00:00+08:00">2024-10-31 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20241031-shard-data-fe-tf/">纸上谈兵-存算分离 FE 灾难恢复</h:a></item><item><title>软件测试 - S3 协议与 minio</title><link>https://atman.ihx.cc/post/20200612-24-minio/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200612-24-minio/</guid><pubDate>Fri, 12 Jun 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>AirPlan</category><category>MinIO</category><description>0x00 S3 S3（Amazon Simple Storage Service (Amazon S3)）着重于简易性和稳健性的最小功能集【具体信息跳转到 亚马逊 S3 技术介绍页面】： 创建存储桶 – 创建和命名存储数据的存储桶。存储桶是 Amazon S3 中用于数据存储的基础容器 存储数据 – 在存储桶中存储无限量的数据。 …</description><content:encoded><![CDATA[<h2 id="0x00-s3">0x00 S3</h2>
+<p>S3（Amazon Simple Storage Service (Amazon S3)）着重于简易性和稳健性的最小功能集【具体信息跳转到 <a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/Introduction.html">亚马逊 S3</a> 技术介绍页面】：</p>
+<ul>
+<li>创建存储桶 – 创建和命名存储数据的存储桶。存储桶是 Amazon S3 中用于数据存储的基础容器</li>
+<li>存储数据 – 在存储桶中存储无限量的数据。可将所需数量的对象上传到 Amazon S3 存储桶。每个对象可包含最多 5 TB 的数据。使用开发人员分配的唯一键值存储和检索每个对象</li>
+<li>下载数据 – 下载您的数据或允许其他人进行下载。随时下载您的数据或允许其他人进行下载</li>
+<li>权限 – 对于要在您的 Amazon S3 存储桶中上传或下载数据的其他人员，您可以授予其访问权限或拒绝其访问。将上传和下载的许可授予三种类型的用户。身份验证机制可帮助确保数据安全，以防未授权访问</li>
+<li>标准接口 – 使用基于标准的 REST 和 SOAP 接口，它们可与任何 Internet 开发工具包搭配使用</li>
+</ul>
+<blockquote>
+<p>个人使用</p>
+</blockquote>
+<ul>
+<li>集中式标准接口：S3:// + backup + 文件路径 + AK/SK</li>
+<li>精确 ACL 访问控制（主要是配合 AWS IAM 场景好用，minio 是按照 ak/sk 做的）</li>
+<li>KV 方式存储对象元数据信息，提供 sql 或类似接口查询</li>
+<li>多媒体在线访问：如 图片、视频、音频等</li>
+</ul>
+<h2 id="0x01-minio">0x01 MINio</h2>
+<p><a href="https://min.io/">minio</a> 开源（Apache License v2.0）、兼容 S3 协议、部署运维轻量化、高性能的对象存储服务。文档可以阅读 <a href="https://docs.min.io/docs/minio-quickstart-guide.html">minio docs</a>，<a href="https://github.com/minio/minio">Github MinIO</a></p>
+<p>安装部署支持 amd64、arm 、Windows 系统架构，支持 docker、binary 等安装方式。</p>
+<blockquote>
+<p>测试 TiDB &ndash; BR 时需要用到一个集中式存储服务，可以是 NFS 或者 S3 服务。</p>
+</blockquote>
+<p>参考 <a href="https://docs.min.io/docs/minio-docker-quickstart-guide.html">Minio Docs</a> 内容：</p>
+<pre><code class="language-shell" data-lang="shell">docker run -p 99:9000 \
+    -v /data3/tmpuser/minio:/data \
+    --name s3minio -d minio/minio server /data    \
+    -e &#34;MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE&#34; \
+    -e &#34;MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY&#34;
+</code></pre><p>docker 启动参数中不使用 <code>MINIO_ACCESS_KEY</code> 和 <code>MINIO_SECRET_KEY</code> 的情况下，AK/SK 默认为 <code>minioadmin/minioadmin</code>；启动后可以通过 <code>docker log 容器ID</code> 查看到运行信息。</p>
+<h2 id="0x02-分布式">0x02 分布式</h2>
+<p>minio 支持分布式部署，目前还未测试成功，持续在报错。。。</p>
+]]></content:encoded><h:time datetime="2020-06-12T00:00:00+08:00">2020-06-12 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200612-24-minio/">软件测试 - S3 协议与 minio</h:a></item></channel></rss>

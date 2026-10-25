@@ -1,1 +1,728 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Grafana on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/grafana/</link><description>Recent content in Grafana on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Wed, 13 May 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/grafana/index.xml" rel="self" type="application/rss+xml"/><item><title>监控组件 - Provisioning Grafana</title><link>https://atman.ihx.cc/post/20200513-20-provisioning-grafana/</link><pubDate>Wed, 13 May 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200513-20-provisioning-grafana/</guid><description>0x00 话不多说 Grafana 用于 TiDB-cluster 集群监控展示功能（如果不了解的同学可以看下以前的文档），如果每套集群都部署一个 Grafana，使用不方便且运维也繁琐。因此</description></item><item><title>监控架构 - TIDB 监控运维 FAQ</title><link>https://atman.ihx.cc/post/20170607-prometheus-faq/</link><pubDate>Wed, 07 Jun 2017 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20170607-prometheus-faq/</guid><description>0x00 唠叨 遇见了、记下了，后面或许会遇见；经历过的事件只记下了标签、这里或许是个解答题 部分问题会因使用版本或场景解决方案不一，仅供参考 如有雷同 纯</description></item><item><title>TiDB 监控架构：Prometheus + Grafana</title><link>https://atman.ihx.cc/post/20170601-prometheus-grafana/</link><pubDate>Thu, 01 Jun 2017 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20170601-prometheus-grafana/</guid><description>0x00 背影 通过本篇文档学习 TiDB 集群监控架构 (默认按照 TiDB-ansible 部署为准) 本篇文档按照 2019 年中 TiDB-ansible master branch 描述；区别在于是否有 pushgateway 组件 (端口 9091) 以下文档（百家饭+机器译</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>Grafana · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/grafana/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Wed, 13 May 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/grafana/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>Grafana · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 3 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/grafana/index.xml">https://atman.ihx.cc/tags/grafana/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>监控组件 - Provisioning Grafana</title><link>https://atman.ihx.cc/post/20200513-20-provisioning-grafana/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200513-20-provisioning-grafana/</guid><pubDate>Wed, 13 May 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>AirPlan</category><category>Grafana</category><category>Monitoring</category><description>0x00 话不多说 Grafana 用于 TiDB-cluster 集群监控展示功能（如果不了解的同学可以看下以前的文档），如果每套集群都部署一个 Grafana，使用不方便且运维也繁琐。因此想通过单套 Grafana 管理多个 TiDB-cluster 集群。 辣么大概是以下结构： 0x01 想 通过 Google 一顿搜索发现其他人也有类似想法 I’ve …</description><content:encoded><![CDATA[<h2 id="0x00-话不多说">0x00 话不多说</h2>
+<p>Grafana 用于 TiDB-cluster 集群监控展示功能（如果不了解的同学可以看下以前的文档），如果每套集群都部署一个 Grafana，使用不方便且运维也繁琐。因此想通过单套 Grafana 管理多个 TiDB-cluster 集群。<br>
+辣么大概是以下结构：</p>
+<p><img src="https://atman.ihx.cc/post/20200513-20-provisioning-grafana/Provisioning-Grafana.png" alt="Provisioning Grafana " title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<h2 id="0x01-想">0x01 想</h2>
+<p>通过 Google 一顿搜索发现其他人也有类似想法 <a href="https://stackoverflow.com/questions/54776604/how-can-i-change-the-datasource-for-a-grafana-dashboard">I&rsquo;ve got a new datasource I would like an existing dashboard to use.</a>、<a href="https://github.com/grafana/grafana/issues/2748">Dashboard Level Datasource #2748</a> 等、还在 Github 发现了一些 sqllite3 修改 grafana.db 的黑科技。<br>
+但是这些都不太适合懒人且还需要二次修改定制化，不方便随时随地操作。<br>
+抽着烟，试图在 Grafana docs 找到神迹……</p>
+<p><img src="https://atman.ihx.cc/global/smoke.jpeg" alt="抽着烟，试图在 Grafana docs 找到神迹……  " loading="lazy" decoding="async">
+</p>
+<p>偶然机会看见别人讨论 tidb-ansible 4.0 安装 grafana 删除 dashboard 的问题，挖掘 tidb-ansible &amp; tidb-cluster 等代码后发现 Grafana 6.1 版本的新功能 <a href="https://grafana.com/docs/grafana/latest/administration/provisioning/">Provisioning</a>；用过 tidb-ansible 应该知道 tidb-ansible/scripts 下面有个 grafana-copy.py  脚本，该脚本通过 Grafana API 把 datasource &amp; dashboard 导入进 Grafana 服务做初始化步骤。但是经常会报错出现问题……</p>
+<h2 id="0x02-动动">0x02 动动</h2>
+<p>然后进入了测试阶段：</p>
+<ol>
+<li>
+<p>部署一个 Grafana 6.1 以上的版本</p>
+</li>
+<li>
+<p>按照模板写 datasource</p>
+<ul>
+<li>具体解释可以看 Grafana 官网 <a href="https://grafana.com/docs/grafana/latest/administration/provisioning/#example-datasource-config-file">Example Datasource Config File</a></li>
+</ul>
+<pre><code class="language-yaml" data-lang="yaml">apiVersion: 1
+deleteDatasources:
+  - name: cluster-1  # 此处传递的 tidb-ansible inventory.ini 文件中的 cluster-name
+datasources:
+  - name: cluster-1  # datasource 名称，在配置文件中唯一
+    type: prometheus
+    access: proxy
+    url: http://10.10.10.4:14090
+    withCredentials: false
+    isDefault: false
+    tlsAuth: false
+    tlsAuthWithCACert: false
+    version: 1
+    editable: true
+  - name: cluster-2 # 这个是测试手写的
+    type: prometheus
+    access: proxy
+    url: http://10.10.10.4:14090
+    withCredentials: false
+    isDefault: false
+    tlsAuth: false
+    tlsAuthWithCACert: false
+    version: 1
+    editable: true
+</code></pre></li>
+<li>
+<p>dashboard 配置文件</p>
+<ul>
+<li>具体解释可以看 Grafana 官网 <a href="https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards">Dashboards</a></li>
+</ul>
+<pre><code class="language-yaml" data-lang="yaml">apiVersion: 1
+providers:
+  - name: cluster-1
+    folder: cluster-1  # 在 Grafana 页面中显示
+    type: file
+    disableDeletion: false
+    editable: true
+    updateIntervalSeconds: 30
+    options:
+    path: /home/tmpuser/tidb-deploy/grafana-14409/cluster-1
+  - name: cluster-2
+    folder: cluster-2
+    type: file
+    disableDeletion: false
+    editable: true
+    updateIntervalSeconds: 30
+    # &lt;bool&gt; allow updating provisioned dashboards from the UI
+    allowUiUpdates: false # 该功能需要 6.7 以上版本支持
+    options:
+    path: /home/tmpuser/tidb-deploy/grafana-14409/cluster-2
+</code></pre></li>
+<li>
+<p>Grafana 目录结构大致如下</p>
+<ul>
+<li>运行目录 /home/user
+<ul>
+<li>bin/grafana-server</li>
+<li>conf/grafana.ini</li>
+<li>provisioning/dashboards/dashboard.yml</li>
+<li>provisioning/datasources/datasource.yml</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">// bin/bin/grafana-server
+├── bin
+│   ├── bin
+│   │   └── grafana-server  # 运行程序
+│   ├── node.json           # dashboard 模版
+│   ├── public
+├── conf
+│   ├── dashboard.yml       # provisioning/dashboard 模版
+│   ├── datasource.yml      # provisioning/datasources 模版
+│   └── grafana.ini
+├── cluster-1               # 要导入集群 1 的 dashboard
+│   ├── node.json
+├── cluster-2               # 要导入集群 2 的 dashboard
+│   └── node.json
+├── data                    # Grafana sqllite3 数据库
+│   ├── grafana.db
+│   └── png
+├── logs                    # 日志目录
+│   ├── grafana.log
+├── plugins
+├── provisioning            # 默认 provisioning 实际生效的地方
+│   ├── dashboards
+│   │   └── dashboard.yml
+│   └── datasources
+│   │   └── datasource.yml
+└── scripts
+    └── run_grafana.sh
+</code></pre></li>
+</ol>
+<h3 id="run-grafana-sh">Run Grafana sh</h3>
+<p>Grafana 启动脚本，脚本中的 mkdir、cp、find + send 选配，非必选项。</p>
+<pre><code class="language-bash" data-lang="bash"># 新建 dashboard、provisioning 相关目录
+mkdir -p /home/tmpuser/tidb-deploy/grafana-14409/plugins
+mkdir -p /home/tmpuser/tidb-deploy/grafana-14409/dashboards
+mkdir -p /home/tmpuser/tidb-deploy/grafana-14409/provisioning/dashboards
+mkdir -p /home/tmpuser/tidb-deploy/grafana-14409/provisioning/datasources
+
+# copy 模版文件到 provisioning 相关目录
+cp /home/tmpuser/tidb-deploy/grafana-14409/bin/*.json /home/tmpuser/tidb-deploy/grafana-14409/dashboards/
+cp /home/tmpuser/tidb-deploy/grafana-14409/conf/datasource.yml /home/tmpuser/tidb-deploy/grafana-14409/provisioning/datasources
+cp /home/tmpuser/tidb-deploy/grafana-14409/conf/dashboard.yml /home/tmpuser/tidb-deploy/grafana-14409/provisioning/dashboards
+
+# 批量修改 &amp; 替换 json 模版文件中的关键词【方便在页面观赏】
+find /home/tmpuser/tidb-deploy/grafana-14409/dashboards/ -type f -exec sed -i &#34;s/\${DS_.*-CLUSTER}/cluster-1/g&#34; {} \;
+find /home/tmpuser/tidb-deploy/grafana-14409/dashboards/ -type f -exec sed -i &#34;s/\${DS_LIGHTNING}/cluster-1/g&#34; {} \;
+find /home/tmpuser/tidb-deploy/grafana-14409/dashboards/ -type f -exec sed -i &#34;s/test-cluster/cluster-1/g&#34; {} \;
+find /home/tmpuser/tidb-deploy/grafana-14409/dashboards/ -type f -exec sed -i &#34;s/Test-Cluster/cluster-1/g&#34; {} \;
+
+# 启动命令
+LANG=en_US.UTF-8 \
+exec bin/bin/grafana-server \
+    --homepath=&#34;/home/tmpuser/tidb-deploy/grafana-14409/bin&#34; \
+    --config=&#34;/home/tmpuser/tidb-deploy/grafana-14409/conf/grafana.ini&#34;
+</code></pre><h3 id="start-log">Start log</h3>
+<pre><code class="language-js" data-lang="js">lvl=info msg=&#34;Starting Grafana&#34; logger=server version=6.1.6 commit=cf9cb45 branch=HEAD compiled=2019-04-29T21:29:28+0800
+lvl=info msg=&#34;Config loaded from&#34; logger=settings file=/home/tmpuser/tidb-deploy/grafana-14409/bin/conf/defaults.ini
+lvl=info msg=&#34;Config loaded from&#34; logger=settings file=/home/tmpuser/tidb-deploy/grafana-14409/conf/grafana.ini
+lvl=info msg=&#34;Path Home&#34; logger=settings path=/home/tmpuser/tidb-deploy/grafana-14409/bin
+lvl=info msg=&#34;Path Data&#34; logger=settings path=/home/tmpuser/tidb-deploy/grafana-14409/data
+lvl=info msg=&#34;Path Logs&#34; logger=settings path=/home/tmpuser/tidb-deploy/grafana-14409/logs
+lvl=info msg=&#34;Path Plugins&#34; logger=settings path=/home/tmpuser/tidb-deploy/grafana-14409/plugins
+lvl=info msg=&#34;Path Provisioning&#34; logger=settings path=/home/tmpuser/tidb-deploy/grafana-14409/provisioning
+lvl=info msg=&#34;App mode production&#34; logger=settings
+lvl=info msg=&#34;Initializing HTTPServer&#34; logger=server
+lvl=info msg=&#34;Initializing SqlStore&#34; logger=server
+lvl=info msg=&#34;Connecting to DB&#34; logger=sqlstore dbtype=sqlite3
+lvl=info msg=&#34;Starting DB migration&#34; logger=migrator
+lvl=info msg=&#34;Initializing InternalMetricsService&#34; logger=server
+lvl=info msg=&#34;Initializing SearchService&#34; logger=server
+lvl=info msg=&#34;Initializing PluginManager&#34; logger=server
+lvl=info msg=&#34;Starting plugin search&#34; logger=plugins
+lvl=info msg=&#34;Initializing RenderingService&#34; logger=server
+lvl=info msg=&#34;Initializing AlertingService&#34; logger=server
+lvl=info msg=&#34;Initializing DatasourceCacheService&#34; logger=server
+lvl=info msg=&#34;Initializing HooksService&#34; logger=server
+lvl=info msg=&#34;Initializing LoginService&#34; logger=server
+lvl=info msg=&#34;Initializing QuotaService&#34; logger=server
+lvl=info msg=&#34;Initializing RemoteCache&#34; logger=server
+lvl=info msg=&#34;Initializing ServerLockService&#34; logger=server
+lvl=info msg=&#34;Initializing TracingService&#34; logger=server
+lvl=info msg=&#34;Initializing UsageStatsService&#34; logger=server
+lvl=info msg=&#34;Initializing UserAuthTokenService&#34; logger=server
+lvl=info msg=&#34;Initializing CleanUpService&#34; logger=server
+lvl=info msg=&#34;Initializing NotificationService&#34; logger=server
+lvl=info msg=&#34;Initializing ProvisioningService&#34; logger=server
+
+# 响应配置文件需求，每次启动的时候都会删除并重新注册 cluster-1
+lvl=info msg=&#34;deleted datasource based on configuration&#34; logger=provisioning.datasources name=cluster-1  
+lvl=info msg=&#34;inserting datasource from configuration &#34; logger=provisioning.datasources name=cluster-1
+
+# 注册 cluster-2 datasource 信息
+lvl=info msg=&#34;inserting datasource from configuration &#34; logger=provisioning.datasources name=cluster-2
+
+# provisioning 支持三个功能：datasources、dashboard、alert notifiers，然而我这里没有配置告警信息；但是不影响启动
+lvl=eror msg=&#34;Can&#39;t read alert notification provisioning files from directory&#34; logger=provisioning.notifiers path=/home/tmpuser/tidb-deploy/grafana-14409/provisioning/notifiers error=&#34;open /home/tmpuser/tidb-deploy/grafana-14409/provisioning/notifiers: no such file or directory&#34;
+
+lvl=info msg=&#34;Initializing Stream Manager&#34;
+lvl=info msg=&#34;HTTP Server Listen&#34; logger=http.server address=0.0.0.0:14409 protocol=http subUrl= socket=
+</code></pre><h2 id="0x04-issue">0x04 issue</h2>
+<blockquote>
+<p>使用 provisioning/datasources/datasource.yml 该功能注意事项<br>
+Could not find datasource Data source not found 告警<br>
+<img src="https://atman.ihx.cc/post/20200513-20-provisioning-grafana/alert-1.png" alt="alert Could not find datasource Data source not found" loading="lazy" decoding="async">
+</p>
+</blockquote>
+<p>添加 Datasources 会占用一个 DatasourcesID，Datasources 无法使用重复名字。  deleteDatasources 是执行删除 Datasources 操作（此时 datasource ID 1 被删除了）。重复执行 deleteDatasources 就会导致以上现象。</p>
+<pre><code class="language-yaml" data-lang="yaml">apiVersion: 1
+deleteDatasources:
+    - name: cluster-1
+</code></pre><p>从 Grafana repo 粗略看了下 alert 绑定了 DatasourceID。<br>
+<code>systemdctl restart grafana-3000</code> 操作从内容看只会重复执行 <code>datasource.yml</code> ，没有执行 dashboard.yml 文件。老的 dashboard 绑定的信息还是 <code>datasource ID = 1</code>，所以会提示 <code>Could not find datasource Data source not found</code>。</p>
+<pre><code class="language-go" data-lang="go">// AlertQuery contains information about what datasource a query
+// should be sent to and the query object.
+type AlertQuery struct {
+    Model        *simplejson.Json
+    DatasourceID int64
+    From         string
+    To           string
+}
+</code></pre><blockquote>
+<p>解决方案</p>
+</blockquote>
+<ol>
+<li>
+<p>停止 grafana-service</p>
+</li>
+<li>
+<p>删掉 <code>{{deploy_dir}}/data/grafana.db</code>「删除后所有自定义设置丢失」</p>
+</li>
+<li>
+<p>将 <code>{{deploy_dir}}/conf/datasource.yml</code> 文件中的以下内容注视或者删除</p>
+<pre><code class="language-yaml" data-lang="yaml">deleteDatasources:
+  - name: temp
+</code></pre></li>
+<li>
+<p>重新启动 grafana-service</p>
+</li>
+</ol>
+]]></content:encoded><h:time datetime="2020-05-13T00:00:00+08:00">2020-05-13 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200513-20-provisioning-grafana/">监控组件 - Provisioning Grafana</h:a></item><item><title>监控架构 - TIDB 监控运维 FAQ</title><link>https://atman.ihx.cc/post/20170607-prometheus-faq/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20170607-prometheus-faq/</guid><pubDate>Wed, 07 Jun 2017 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Prometheus</category><category>Grafana</category><category>TiDB</category><category>Monitoring</category><description>0x00 唠叨 遇见了、记下了，后面或许会遇见；经历过的事件只记下了标签、这里或许是个解答题 部分问题会因使用版本或场景解决方案不一，仅供参考 如有雷同 纯属我剽； 0x01 Prometheus 问题 升级 Prometheus 大致时间 2017Q3 当时 Prometheus 出了 2.0，tidb-ansible 默认部署 1.8 的版本 2.0 版 …</description><content:encoded><![CDATA[<h2 id="0x00-唠叨">0x00 唠叨</h2>
+<blockquote>
+<p>遇见了、记下了，后面或许会遇见；经历过的事件只记下了标签、这里或许是个解答题<br>
+部分问题会因使用版本或场景解决方案不一，仅供参考 如有雷同 纯属我剽；</p>
+</blockquote>
+<h2 id="0x01-prometheus-问题">0x01 Prometheus 问题</h2>
+<h3 id="升级-prometheus">升级 Prometheus</h3>
+<blockquote>
+<p>大致时间 2017Q3 当时 Prometheus 出了 2.0，tidb-ansible 默认部署 1.8 的版本<br>
+2.0 版本有一些我也不知道的优化（迷信新版本肯定有提升）；然后尝试在 1.8 上升级新版本遇见的故事</p>
+</blockquote>
+<p>Prometheus 升级方案比较简单，和 TiDB 相同都是由 golang 语言开发和静态编译的 binary，替换新的 binary 文件然后重启服务即可生效。然我没看官方文档的亏，替换后升级失败；向 GitHub repo 学习后发现 1.8 和 2.0 底层 openTSDB（官方自称，<em>资料查询是 levelDB 进化而来</em> ） 时序数据库不兼容了，也就是 2.0 版本无法读取和写入 1.8 版本生成的数据。哎…… 数据不过渡啊、更换目录后折腾发现配置文件还有部分不兼容</p>
+<pre><code class="language-fallback" data-lang="fallback">time=&#34;2017-08-08T15:38:30+08:00&#34; level=info msg=&#34;Starting prometheus (version=1.5.2, branch=master, revision=bd1182d29f462c39544f94cc822830e1c64cf55b)&#34; source=&#34;main.go:75&#34;
+time=&#34;2017-08-08T15:38:30+08:00&#34; level=info msg=&#34;Build context (go=go1.7.5, user=root@a8af9200f95d, date=20170210-14:41:22)&#34; source=&#34;main.go:76&#34;
+time=&#34;2017-08-08T15:38:30+08:00&#34; level=info msg=&#34;Loading configuration file /tidb-data/tidb/deploy/conf/prometheus.yml&#34; source=&#34;main.go:248&#34;
+time=&#34;2017-08-08T15:38:30+08:00&#34; level=error msg=&#34;Error opening memory series storage: found existing files in storage path that do not look like storage files compatible with this version of Prometheus; please delete the files in the storage path or choose a different storage path&#34; source=&#34;main.go:182&#34;
+</code></pre><ul>
+<li>TiDB ansible 部署历史版本
+<ul>
+<li>Prometheus 1.6</li>
+<li>Prometheus 1.8
+<ul>
+<li>1.8 与 2.0 数据不兼容</li>
+</ul>
+</li>
+<li>Prometheus 2.0 配置文件与 1.8 版本部分不兼容
+<ul>
+<li>新增 Prometheus <a href="https://prometheus.io/docs/prometheus/latest/querying/api/#tsdb-admin-apis">tsdb-admin-apis</a> 功能，该功能在 devops 平台中有较好的扩展性</li>
+<li>告警配置文件 alert.rule 格式该为 yml</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="监控数据异常">监控数据异常</h3>
+<p>有一套数据量比较大的 TiDB 集群，大概 80 * TiKV、10 * TiDB、3 * PD 部署在 60 台物理机上，某天巡检发现监控数据出现了些问题；不定期出现几分钟的无数据状态。查看日志发现下面日志信息：</p>
+<pre><code class="language-fallback" data-lang="fallback">time=&#34;2017-10-24T10:08:30+08:00&#34; level=warning msg=&#34;Storage has entered rushed mode.&#34; chunksToPersist=107071 maxChunksToPersist=524288 maxMemoryChunks=10485
+76 memoryChunks=1139421 source=&#34;storage.go:1660&#34; urgencyScore=0.8663654327392578
+
+time=&#34;2017-10-24T10:05:39+08:00&#34; level=info msg=&#34;Storage has left rushed mode.&#34; chunksToPersist=108398 maxChunksToPersist=524288 maxMemoryChunks=1048576 mem
+oryChunks=1121866 source=&#34;storage.go:1647&#34; urgencyScore=0.6989479064941406
+
+time=&#34;2017-10-24T10:05:45+08:00&#34; level=warning msg=&#34;Storage has entered rushed mode.&#34; chunksToPersist=112409 maxChunksToPersist=524288 maxMemoryChunks=10485
+76 memoryChunks=1268143 source=&#34;storage.go:1660&#34; urgencyScore=1
+</code></pre><p>界面展示为数据短暂断崖式下降,日志中打印 <code>Storage has entered rushed mode.</code> 信息；通过这些信息在网上冲浪，发现 GitHub Prometheus 有一些类似的问题</p>
+<ul>
+<li>相关 Github Prometheus issue
+<ul>
+<li><a href="https://github.com/prometheus/prometheus/issues/2542">Prometheus issue #2542</a></li>
+<li><a href="https://github.com/coreos/prometheus-operator/issues/304">Prometheus-operator issue #304</a></li>
+<li><a href="https://github.com/prometheus/prometheus/issues/2936">Prometheus issue #2936</a></li>
+<li><a href="https://github.com/prometheus/prometheus/issues/2222">Prometheus issue #2222</a></li>
+</ul>
+</li>
+</ul>
+<p>根据一顿胡聊聊理解，大致说从各节点上获取到的数据无法在短时间内刷写到磁盘上，然后导致临时存放在内存中的数据超时丢弃了。辣么还要研究下怎么这么个现象……</p>
+<p>继续探索 Prometheus 的 storage 相关的参数，看有什么方案</p>
+<ul>
+<li>Prometheus <a href="http://www.jianshu.com/p/36f72490a2a0">内存参数 &amp; storage 参数</a>介绍</li>
+</ul>
+<p>未完待续</p>
+<h3 id="启动速度慢">启动速度慢</h3>
+<ul>
+<li>
+<p>Prometheus 启动后，发现网页无法打开，查看日志后，发现 Prometheus 启动后一直在 GC</p>
+<ul>
+<li>Prometheus 2.0 与 1.0.8 底层存储格式不一致，这个在 2.0 后续版本上有一些优化，但数据量超过 500G 启动速度还是直线下降</li>
+<li>一般是修改参数后重启进程，官方文档提示可以使用 kill -SIGHUP PID 用来重新加载配置文件、或者使用 2.1 版本上的 admin api 功能</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">[tidb@Jeff scripts]$ ./run_prometheus.sh
+level=info ts=2018-04-17T03:04:31.495865947Z caller=main.go:220 msg=&#34;Starting Prometheus&#34; version=&#34;(version=2.2.0, branch=HEAD, revision=f63e7db4cbdb616337ca877b306b9b96f7f4e381)&#34;
+level=info ts=2018-04-17T03:04:31.495932795Z caller=main.go:221 build_context=&#34;(go=go1.10, user=root@52af9f66ce71, date=20180308-16:40:42)&#34;
+level=info ts=2018-04-17T03:04:31.495952002Z caller=main.go:222 host_details=&#34;(Linux 3.10.0-327.el7.x86_64 #1 SMP Thu Nov 19 22:10:57 UTC 2015 x86_64 Jeff (none))&#34;
+level=info ts=2018-04-17T03:04:31.495966987Z caller=main.go:223 fd_limits=&#34;(soft=1000000, hard=1000000)&#34;
+level=info ts=2018-04-17T03:04:31.498497082Z caller=main.go:504 msg=&#34;Starting TSDB ...&#34;
+level=info ts=2018-04-17T03:04:31.498536225Z caller=web.go:382 component=web msg=&#34;Start listening for connections&#34; address=:9090
+level=info ts=2018-04-17T03:05:52.153499505Z caller=main.go:514 msg=&#34;TSDB started&#34;
+level=info ts=2018-04-17T03:05:52.153580197Z caller=main.go:588 msg=&#34;Loading configuration file&#34; filename=/data1/deploy/conf/prometheus.yml
+level=info ts=2018-04-17T03:05:52.177873304Z caller=main.go:491 msg=&#34;Server is ready to receive web requests.&#34;
+level=info ts=2018-04-17T03:05:57.320867461Z caller=compact.go:394 component=tsdb msg=&#34;compact blocks&#34; count=1 mint=1523923200000 maxt=1523930400000
+level=info ts=2018-04-17T03:06:03.658563096Z caller=head.go:348 component=tsdb msg=&#34;head GC completed&#34; duration=227.952838ms
+level=info ts=2018-04-17T03:06:06.403176186Z caller=head.go:357 component=tsdb msg=&#34;WAL truncation completed&#34; duration=2.74453888s
+level=info ts=2018-04-17T03:06:06.666573558Z caller=compact.go:394 component=tsdb msg=&#34;compact blocks&#34; count=3 mint=1523901600000 maxt=1523923200000
+</code></pre></li>
+<li>
+<p>查看 metrics 数据目录大小</p>
+<pre><code class="language-bash" data-lang="bash">du -sh *
+
+89G prometheus2.0.0.data.metrics
+</code></pre></li>
+<li>
+<p>查看 Prometheus 具体版本信息</p>
+<ul>
+<li>查看官方 changelog 信息，在 Prometheus 2.0.2 对启动速度有优化</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">[tidb@Jeff deploy]$ ./prometheus --version
+prometheus, version 2.2.0 (branch: HEAD, revision: f63e7db4cbdb616337ca877b306b9b96f7f4e381)
+  build user:       root@52af9f66ce71
+  build date:       20180308-16:40:42
+  go version:       go1.10
+</code></pre></li>
+</ul>
+<h3 id="监控数据清理">监控数据清理</h3>
+<ul>
+<li>节点下线后，metric 由残留数据
+<ul>
+<li>第一种方案：
+<ul>
+<li>停止 Prometheus 与 Push Gateway 服务，然后删除 Prometheus 的所有监控数据，然后启动两个组件。</li>
+</ul>
+</li>
+<li>第二种方案：
+<ul>
+<li>人工修改 metric ，按个过滤掉所有已经被下线的节点信息</li>
+<li>histogram_quantile(0.99, sum(rate(tidb_server_handle_query_duration_seconds_bucket{instance!=&ldquo;6a5114505e5f_4000&rdquo;}[1m])) by (le, instance))</li>
+</ul>
+</li>
+<li>第三种方案：
+<ul>
+<li>Prometheus &gt; 2.1 版本以上，使用 Prometheus <a href="https://prometheus.io/docs/prometheus/latest/querying/api/#tsdb-admin-apis" title="ap.tidb.cc prometheus 删除无效数据">admin-api</a> 功能，删除指定 instance 或指定 series 信息</li>
+<li>此处 instance 等于一个 TiDB-server 进程，series 等于 TiDB-server 某一个监控项
+<ul>
+<li>删除指定 series &amp; instance &amp; job 信息，如不指定 instance &amp; job ，会删除所有 instance 的 tidb_server_handle_query_duration_seconds_bucket series。
+<ul>
+<li><code>curl -XPOST -g 'http://172.16.10.65:9090/api/v1/admin/tsdb/delete_series?match[]=tidb_server_handle_query_duration_seconds_bucket{instance=&quot;10.0.1.4:20181&quot;,job=&quot;tikv&quot;}'</code></li>
+</ul>
+</li>
+<li>删除指定 instance 下所有的 series 信息
+<ul>
+<li><code>curl -X POST -g 'http://172.16.10.65:9090/api/v1/admin/tsdb/delete_series?match[]={instance=&quot;10.0.1.4:20184&quot;,job=&quot;tikv&quot;}'</code></li>
+</ul>
+</li>
+<li>按照官方手册，删除 series 可选手动清理存储空间
+<ul>
+<li><code>curl -XPOST -g 'http://172.16.10.65:9090/api/v1/admin/tsdb/clean_tombstones'</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x02-grafana-问题">0x02 Grafana 问题</h2>
+<h3 id="grafana-忘记密码">Grafana 忘记密码</h3>
+<h4 id="重新部署">重新部署</h4>
+<blockquote>
+<p>一般情况 Grafana 公司不会重度使用监控自带的鉴权系统，所以仅做监控展示的 Grafana 的 sqllite 里并木有神马数据。重新部署一套监控然后添加 Prometheus 数据源是最简单的方式<br>
+比较烦人的是那些 dashboard 需要重新导入，而 tidb-ansible 会自动化导入那些默认的 dashboard、那些后期修改的就没办法了<br>
+适合执行力度快的同学</p>
+</blockquote>
+<ul>
+<li>删除 Grafana 目录下数据，dashboard 二次自定义将会丢失</li>
+<li>执行 <code>ansible-playbook deploy.yml --tags=grafana</code> 部署</li>
+<li>执行 <code>ansible-playbook start.yml --tags=grafana</code> 启动</li>
+</ul>
+<h4 id="暴力重置-grafana-db">暴力重置 Grafana db</h4>
+<blockquote>
+<p>该方式与上述方案结果相同，会丢失 dashboard 信息</p>
+</blockquote>
+<ol>
+<li>停止 Grafana</li>
+<li>找到 <code>grafana.ini</code> 文件，并将 grafana.ini 文件中 admin_password 修改为 admin</li>
+<li>删除掉 <code>grafana.db</code> 文件；文件默认在 <code>{{deploy_dir}}/data.grafana/grafana.db</code></li>
+<li>重启 Grafana 服务</li>
+<li>可选步骤 // 通过 tidb-ansible 脚本导入 dashboard
+<ul>
+<li>只有当前 Grafana 是通过 tidb-ansible 部署时才可使用</li>
+<li>执行 <code>ansible-playbook start.yml --tags=grafana</code> 导入</li>
+</ul>
+</li>
+<li>可选步骤 // 手动导入 dashboard
+<ul>
+<li>登陆 grafana ui ，添加监控数据源，如 Prometheus</li>
+<li>登陆 grafana ui ，选择 import dashboard</li>
+</ul>
+</li>
+</ol>
+<h4 id="grafana-ctl-工具">Grafana ctl 工具</h4>
+<ul>
+<li><a href="https://grafana.com/docs/administration/cli/#reset-admin-password">官方文档</a> 链接，此方法仅适用于 4.1 以上版本</li>
+<li>首先找到 grafana db 文件</li>
+<li>直接修改 grafana db
+<ul>
+<li>grafana-cli admin reset-admin-password &hellip;</li>
+<li>grafana-cli admin reset-admin-password &ndash;homepath &ldquo;/usr/share/grafana&rdquo; newpass</li>
+</ul>
+</li>
+</ul>
+<h4 id="sqllite-修改数据库">sqllite 修改数据库</h4>
+<p>使用 sql lite 工具修改 Grafana.db ; 执行以下步骤会强制将 Grafana 管理员密码重置为 admin</p>
+<ol>
+<li>
+<p>停止 Grafana 服务</p>
+</li>
+<li>
+<p>通过 grafana.ini 配置文件找到 grafana.db 实际目录</p>
+<ul>
+<li>通过 <code>find / -name &quot;grafana.db&quot;</code> 查找，需要确保是 grafana.ini 文件中引用的</li>
+<li>ini 文件默认在 <code>{{deploy_dir}}/opt/grafana/conf/grafana.ini</code></li>
+<li>db 文件默认在 <code>{{deploy_dir}}/data.grafana/grafana.db</code></li>
+</ul>
+</li>
+<li>
+<p>通过 sqllite cliet 链接数据库修改密码</p>
+<pre><code class="language-sql" data-lang="sql"># sqlite3 {{deploy_dir}}/data.grafana/grafana.db
+
+sqlite&gt; select salt, password from user;
+pyaUhfDzYg|54c7d1ce2eeaa6000bd84407d0f8ab4663dfa575e0a326bc70dc5cab4b864f6677b21879dbf5e33427c88f9160f744b625bf
+
+sqlite&gt; update user set password = &#39;59acf18b94d7eb0694c61e60ce44c110c7a683ac6a8f09580d626f90f4a242000746579358d77dd9e570e83fa24faa88a8a6&#39;, salt = &#39;F3FAxVm33R&#39; where login = &#39;admin&#39;;
+
+sqlite&gt; .exit
+</code></pre></li>
+</ol>
+]]></content:encoded><h:time datetime="2017-06-07T00:00:00+08:00">2017-06-07 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20170607-prometheus-faq/">监控架构 - TIDB 监控运维 FAQ</h:a></item><item><title>TiDB 监控架构：Prometheus + Grafana</title><link>https://atman.ihx.cc/post/20170601-prometheus-grafana/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20170601-prometheus-grafana/</guid><pubDate>Thu, 01 Jun 2017 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Prometheus</category><category>Grafana</category><category>TiDB</category><category>Monitoring</category><description>0x00 背影 通过本篇文档学习 TiDB 集群监控架构 (默认按照 TiDB-ansible 部署为准) 本篇文档按照 2019 年中 TiDB-ansible master branch 描述；区别在于是否有 pushgateway 组件 (端口 9091) 以下文档（百家饭+机器译文）部分区域 ⚠️ 无法直视 0x01 介绍 TiDB 使用开源时序数据 …</description><content:encoded><![CDATA[<h2 id="0x00-背影">0x00 背影</h2>
+<blockquote>
+<p>通过本篇文档学习 TiDB 集群监控架构 (默认按照 TiDB-ansible 部署为准)<br>
+本篇文档按照 2019 年中 TiDB-ansible master branch 描述；区别在于是否有 pushgateway 组件 (端口 9091)<br>
+以下文档（百家饭+机器译文）部分区域 ⚠️ 无法直视</p>
+</blockquote>
+<h2 id="0x01-介绍">0x01 介绍</h2>
+<blockquote>
+<p>TiDB 使用开源时序数据库 Prometheus 组件存放监控数据<br>
+使用开源数据图形可视化工具 Grafana 做数据展示<br>
+接下来让我们看下该套监控是如何运作得……</p>
+</blockquote>
+<h3 id="监控流程">监控流程</h3>
+<p><img src="https://atman.ihx.cc/post/20170601-prometheus-grafana/180323-monitor-scheme.png" alt="monitoring v1.0 " title="ap.tidb.cc tidb 监控架构" loading="lazy" decoding="async">
+</p>
+<ul>
+<li>v1.0 监控数据工作流程 ⬆️
+<ul>
+<li>Node exporter 收集主机资源负载信息</li>
+<li>Blackbox exporter 根据配置文件信息主动探测目标服务状态
+<ul>
+<li>该服务按照配置文件主动向被检测目标探测，目标信息在 Prometheus 配置文件中配置</li>
+</ul>
+</li>
+<li>TiDB PD TiKV 通过主动将监控数据推送至 PushGateway</li>
+<li>Prometheus 通过配置文件指定 PushGateway 、 Node exporter 服务地址，Prometheus 主动获取相关信息并存在 TSDB 数据库内</li>
+<li>Grafana 添加 Prometheus 数据源，根据 dashboard metric 规则主动向 Prometheus 发起查询请求，然后绘图展示。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://atman.ihx.cc/post/20170601-prometheus-grafana/prometheus-in-tidb.png" alt="mointoring v2.0" loading="lazy" decoding="async">
+</p>
+<ul>
+<li>v2.0 监控架构 ⬆️
+<ul>
+<li>TiKV 添加了 mertics 接口，直接通过 Prometheus pull（主动拉取） TiKV 监控数据，从此省略掉 PushGateway 组件（该组件在性能上跟不上产品集群扩展性）</li>
+<li>其他流程与上方类似</li>
+</ul>
+</li>
+</ul>
+<h3 id="组件介绍">组件介绍</h3>
+<ul>
+<li><a href="https://github.com/grafana/grafana">Grafana</a> 监控、度量分析仪表板工具，从 Prometheus 获取数据</li>
+<li><a href="https://github.com/prometheus/prometheus">Prometheus</a> 用于存放监控数据的时序数据库</li>
+<li><a href="https://github.com/prometheus/pushgateway">Push Gateway</a> push acceptor for ephemeral and batch jobs</li>
+<li><a href="https://github.com/prometheus/blackbox_exporter">Black-box</a> 黑盒测试工具，支持 HTTP, HTTPS, DNS, TCP and ICMP</li>
+<li><a href="https://github.com/prometheus/node_exporter">Node-export</a> 主机资源 agent 组件</li>
+</ul>
+<h3 id="监控组件端口">监控组件端口</h3>
+<ul>
+<li>第三方监控组件端口</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>服务</th>
+<th>端口</th>
+<th>组件介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Grafana</td>
+<td>3000</td>
+<td>监控数据展示工具</td>
+</tr>
+<tr>
+<td>Prometheus</td>
+<td>9090</td>
+<td>支持临时性 Job 主动推送指标的中间网关</td>
+</tr>
+<tr>
+<td>PushGatewagy</td>
+<td>9091</td>
+<td>监控数据 push 网关 / TiKV 2.1.5 版本以后支持 pull 方式</td>
+</tr>
+<tr>
+<td>node_exporter</td>
+<td>9100</td>
+<td>主机性能收集组件</td>
+</tr>
+<tr>
+<td>blackbox_exporter</td>
+<td>9104</td>
+<td>黑盒主动探测组件</td>
+</tr>
+<tr>
+<td>mysql_exporter</td>
+<td>9107</td>
+<td>MySQL 状态监测组件</td>
+</tr>
+<tr>
+<td>kafka_exporter</td>
+<td>9105</td>
+<td>kafka 状态监测组件</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tidb-组件端口">TiDB 组件端口</h3>
+<ul>
+<li>TiDB 服务监控数据端口</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>服务</th>
+<th>默认端口</th>
+<th>组件介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PD</td>
+<td>2379</td>
+<td>Metrics / 不推荐单机部署多套 PD <!-- raw HTML omitted --> 访问 http://IP:2379/metrics 可预览当前时间点监控项快照，以下类似</td>
+</tr>
+<tr>
+<td>TiDB</td>
+<td>10080</td>
+<td>Metrics / 单机部署多 TiDB 时，必须指定不同 Metrics 端口 <!-- raw HTML omitted -->（metrics 端口冲突不会导致组件启动失败，会导致无法暴露监控数据而导致集群监控数据不准确，TiKV 雷同）</td>
+</tr>
+<tr>
+<td>TiKV</td>
+<td>20180</td>
+<td>Metrics / 单机部署多 TiKV 时，必须指定不同 Metrics 端口</td>
+</tr>
+</tbody>
+</table>
+<h2 id="0x02-prometheus">0x02 Prometheus</h2>
+<blockquote>
+<p>监控架构分三大部分（TiDB、Prometheus 家族、Grafana），现在看下 Prometheus 家族流程工作</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20170601-prometheus-grafana/170601-1-Prometheus-Frame.svg" alt="Prometheus-Frame" loading="lazy" decoding="async">
+</p>
+<ul>
+<li>Prometheus 工作流程
+<ol>
+<li>Prometheus server 定期从静态配置的 targets 或者服务发现的 targets 拉取数据。</li>
+<li>当新拉取的数据大于配置内存缓存区的时候，Prometheus 会将数据持久化到磁盘（如果使用 remote storage 将持久化到网络存储）。</li>
+<li>Prometheus 可以配置 rules，然后定时查询数据，当条件触发的时候，会将 alert 推送到配置的 Alertmanager。</li>
+<li>Alertmanager 收到警告的时候，可以根据配置，聚合，去重，降噪，最后发送告警到目的地。</li>
+<li>可以使用 API， Prometheus Console 或者 Grafana 查询和聚合数据。</li>
+</ol>
+</li>
+<li>如果担心高可用，Prometheus &amp; alertmanager 提供高可用服务；如果还担心就增加其他旁路组件监控 Prometheus 家族（没有 100% SLA ）</li>
+</ul>
+<h3 id="who-prometheus">Who Prometheus</h3>
+<ul>
+<li>
+<p>多维数据模型（时序列数据由 metric 名和一组 key/value 组成）</p>
+</li>
+<li>
+<p>在多维度上灵活的查询语言 (PromQl)</p>
+</li>
+<li>
+<p>不依赖分布式存储，单主节点工作.</p>
+</li>
+<li>
+<p>通过基于 HTTP 的 Pull 方式采集时序数据</p>
+</li>
+<li>
+<p>可以通过 Push Gateway 进行时序列数据推送 (pushing)</p>
+</li>
+<li>
+<p>可以通过服务发现或者静态配置去获取要采集的目标服务器</p>
+</li>
+<li>
+<p>多种可视化图表及仪表盘支持</p>
+</li>
+<li>
+<p>Pull 方式</p>
+<ul>
+<li>Prometheus 采集数据是用的 Pull 也就是拉模型, 通过 HTTP 协议去采集指标，只要应用系统能够提供 HTTP 接口就可以接入监控系统，相比于私有协议或二进制协议来说开发简单。</li>
+</ul>
+</li>
+<li>
+<p>Push 方式 / 目前暂不推荐使用该方案</p>
+<ul>
+<li>对于定时任务这种短周期的指标采集，如果采用 Pull 模式，可能造成任务结束了，Prometheus 还没有来得及采集，这个时候可以使用加一个中转层，客户端推数据到 Push Gateway 缓存一下，由 Prometheus 从 Push Gateway Pull 指标过来。(需要额外搭建 Push Gateway，同时需要在 Prometheus 配置文件新增 job 去 Gateway 采集数据)</li>
+<li>Push Gateway 性能有限，目前 TiDB-ansible 不支持自动部署多套 Push Gateway</li>
+</ul>
+</li>
+</ul>
+<h3 id="why-prometheus">Why Prometheus</h3>
+<ul>
+<li>相对丰富的 Client 代码库：<a href="https://prometheus.io/docs/instrumenting/clientlibs/">Prometheus Client libraries</a></li>
+<li>export 组件，支撑开源市场热门软件服务：<a href="https://prometheus.io/docs/instrumenting/exporters/">Prometheus export</a></li>
+<li>高可用方案相对简洁
+<ul>
+<li>远程 S3 数据存储；<a href="https://prometheus.io/blog/2019/10/10/remote-read-meets-streaming/">官方 blog</a></li>
+<li>部署多套 Prometheus 监控相同的目标，然后配置一些参数（主要是 <a href="https://github.com/prometheus/alertmanager#high-availability">alertmanager</a> 相关的）</li>
+</ul>
+</li>
+<li>最后是因为产品用了，所以学习</li>
+</ul>
+<h3 id="注意事项">注意事项</h3>
+<ul>
+<li>Prometheus 客户端库主要提供 Counter、Gauge、Histogram 、 Summery 四种主要的 metric 类型</li>
+<li>Prometheus 的数据是基于时序的 float64 的值，如果你的数据值有更多类型，无法满足</li>
+<li>Prometheus 不适合做审计计费，因为它的数据是按一定时间采集的，关注的更多是系统的运行瞬时状态以及趋势，即使有少量数据没有采集也能容忍，但是审计计费需要记录每个请求，并且数据长期存储，这个和 Prometheus 无法满足，可能需要采用专门的审计系统</li>
+</ul>
+<h3 id="prometheus-资料片">Prometheus 资料片</h3>
+<ul>
+<li>Prometheus 资料
+<ul>
+<li><a href="https://prometheus.io/download/">Prometheus Dlownload</a></li>
+<li><a href="https://prometheus.io/docs/prometheus/latest/querying/operators/">Prometheus 查询运算操作</a></li>
+<li><a href="https://prometheus.io/docs/prometheus/latest/querying/functions/">Prometheus 查询函数</a></li>
+<li><a href="https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus.yml">Prometheus 配置文件模板</a></li>
+<li><a href="https://prometheus.io/docs/prometheus/latest/querying/api/#tsdb-admin-apis">Prometheus admin API</a></li>
+<li><a href="https://songjiayang.gitbooks.io/prometheus/content/concepts/data-model.html">Prometheus Docs 翻译</a>  (第三方翻译)</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x03-grafana">0x03 Grafana</h2>
+<blockquote>
+<p>支持 Graphite、OpenTSDB、InfluxDB、Prometheus、Elasticsearch、MySQL 等服务数据接口，主要是提供度量分析和仪表板可视化工具。<br>
+附带一些用户管理鉴权功能，从 4.0 版本到 5.0+ 版本体验上 <em>用户管理功能</em> 逐渐清晰</p>
+</blockquote>
+<h3 id="基础功能">基础功能</h3>
+<h4 id="用户权限">用户权限</h4>
+<table>
+<thead>
+<tr>
+<th>权限等级</th>
+<th>权限等级说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Viewer</td>
+<td>只能查看 Grafana 已经存在的面板而不能编辑</td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>可以编辑面板</td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>拥有全部权限例如添加数据源、添加插件、增加 API KEY</td>
+</tr>
+</tbody>
+</table>
+<h4 id="面板展示-dashbord">面板展示 (Dashbord)</h4>
+<p><img src="https://atman.ihx.cc/post/20170601-prometheus-grafana/170601-2-Grafna-dashboard.jpg" alt="Grafna-dashboard 组成" loading="lazy" decoding="async">
+</p>
+<ul>
+<li>Dashbord 组成如下：
+<ul>
+<li>一个 Dashbord 由多个 row 组成。</li>
+<li>一个 row 由 1~n 个 panel 组成。</li>
+<li>一个 panel 可以是 Graph、Singlestat、Table、Text 或者插件自带 panel 。
+<ul>
+<li>Graph table text singlestat 等数据通过 查询编辑器（Query Editor）书写相应的规则得到数据；可以套用 dashboard 函数</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="报警alert">报警（Alert）</h4>
+<p>Grafana 在 4.0 版本后增加了报警功能，不过 Grafana 的报警属于数据源的后置查询且只能出发一次告警，容易在大量告警时被淹没，实时性不大能满足需求。<br>
+可以设置一些告警指标（告警指标会在 panel 上绘制一条红线，泛匹配 metrics query 无法添加告警），用于在 dashboard 上可视化巡检使用。</p>
+<h4 id="有误差">有误差</h4>
+<blockquote>
+<p>该部分引用 <a href="https://juejin.im/post/5a9f29e8f265da23783fccae">Grafana 的一些使用技巧</a></p>
+</blockquote>
+<p>这里有一个常见的 Grafana 误区，因为经常有用数值类型的 count_ps(每秒的数量) 来顺便获取每秒打点数量的情况，注意在这种情况下，一段时间内的打点总量需要使用 count_ps(每秒的数量) 的 avg 平均值来乘以这段时间的秒数来计算，而不是通过界面上的 Total 直接读取。</p>
+<p>这是因为，在界面上一条曲线能够展示的点的数量是有限的，Grafana 会根据你的窗口宽度来决定返回的点数，因为像一天这样的时间段肯定没办法在界面上展示每一秒的点，毕竟总量为 86400 个点就算带鱼屏也不可能挤得下。对于无法展示的点，Grafana 默认是使用 avg 平均值的行为来修正返回点的值，举个栗子，如下图：</p>
+<p><img src="https://atman.ihx.cc/post/20170601-prometheus-grafana/170601-2-Grafna.jpg" alt="Grafna" loading="lazy" decoding="async">
+</p>
+<p>上图时间范围是一天，上部分为曲线面板的值，下部分为 面饼图表的值，并且上部分图标的曲线为 count 类型（十秒聚一次），可以看到 avg 平均值为 683，那么总量应该为 682 乘以 6 （如果是 count_ps(每秒的数量) 这里则是 60） 乘以 60 （一小时 60 分钟）再乘以 24 （一天 24 小时）得到 589 万，与图片中下部分的 582 万相近，因此上部分 total 的 117 万是一个完完全全让人误解的值，可以认为它毫无意义进而直接无视掉。</p>
+<p>我们计算出来的 589 万和界面上的 582 万其实也有一点误差，不过这是可以接受的，因为 statsd 一般情况下是 UDP 的形式（它其实有 TCP 的形式），所以如果想要完全正确的数据，那么最好把打点相关的数据也入库，从数据库里后置查询出来的才是完全可靠。</p>
+<h3 id="grafana-资料片">Grafana 资料片</h3>
+<ul>
+<li>Grafana 官方资料
+<ul>
+<li><a href="https://github.com/grafana/grafana">Grafana Repo</a></li>
+<li><a href="http://docs.grafana.org">Grafana Docs</a> 官方帮助文档，写的超详细</li>
+<li><a href="https://grafana.com/grafana/download">Grafana Download</a> 下载 &amp; 安装手册
+<ul>
+<li><a href="https://community.grafana.com/c/releases">Grafana ChangeLog</a> 历史版本更新日志</li>
+</ul>
+</li>
+<li><a href="https://grafana.com/plugins">Grafana Plugins</a> 插件库（虽然不多但基本用不上）</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded><h:time datetime="2017-06-01T00:00:00+08:00">2017-06-01 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20170601-prometheus-grafana/">TiDB 监控架构：Prometheus + Grafana</h:a></item></channel></rss>

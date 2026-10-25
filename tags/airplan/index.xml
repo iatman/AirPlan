@@ -1,1 +1,3022 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AirPlan on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/airplan/</link><description>Recent content in AirPlan on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Fri, 17 Jul 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/airplan/index.xml" rel="self" type="application/rss+xml"/><item><title>TiDB - PD Region Merge 食草兽</title><link>https://atman.ihx.cc/post/202007017-29-region-merge/</link><pubDate>Fri, 17 Jul 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/202007017-29-region-merge/</guid><description>0x00 开始 Region Merge 是否要开启 观察 pd dashboard 中 region health 中 empty-region-count 信息； 如该数值大于 store * 100 ，建议开启 Region Merge 如该数值大于 store * 1000 ，建议调整 Region Merge 阈值「或者检查是否开启了 Region Mer</description></item><item><title>九死一生 - 运维小技巧</title><link>https://atman.ihx.cc/post/20200703-27-tskill/</link><pubDate>Thu, 02 Jul 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200703-27-tskill/</guid><description>0x00 陷入江局 回顾下前两篇文档 《纸上谈兵 - TiDB 性能调优》&amp;amp; 《沙盘点将 - TiDB 监控知识初始化》；处理问题的时候从总是一脸懵逼到偶尔无证懵逼；然后</description></item><item><title>TiDB - Backup/Restore 测试</title><link>https://atman.ihx.cc/post/20200618-25-br-rc/</link><pubDate>Wed, 17 Jun 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200618-25-br-rc/</guid><description>0x00 BR Backup &amp;amp; Restore（以下简称 BR）是 TiDB 分布式备份恢复的命令行工具，用于对 TiDB 集群进行数据备份和恢复。相比 mydumper/loader，B</description></item><item><title>软件测试 - S3 协议与 minio</title><link>https://atman.ihx.cc/post/20200612-24-minio/</link><pubDate>Fri, 12 Jun 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200612-24-minio/</guid><description>0x00 S3 S3（Amazon Simple Storage Service (Amazon S3)）着重于简易性和稳健性的最小功能集【具体信息跳转到 亚马逊 S3 技术介绍页面】： 创建存储桶 – 创建和命名存储数据</description></item><item><title>TiDB - CDC RC1 测试</title><link>https://atman.ihx.cc/post/20200601-23-cdc-4.0rc1/</link><pubDate>Mon, 01 Jun 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200601-23-cdc-4.0rc1/</guid><description>0x00 CDC 嗯，同场竞技 Binlog 与 CDC 组件 本页内容仅针对 v4.0.0-rc.1-25 版本，不对后续版本做任何预测性的评论 // 最终解释权归制图者 参考各种文档 官网文档 安装部署 Github Repo TiCDC Improve usability in cdc</description></item><item><title>TiDB - 4.0 版图分析</title><link>https://atman.ihx.cc/post/20200529-22-tidb-4.0/</link><pubDate>Fri, 29 May 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200529-22-tidb-4.0/</guid><description>0x00 History TiDB 1.0 2017 年 10 月 16 日 TiDB 2.0 2018 年 4 月 27 日 TiDB 2.1 2018 年 11 月 30 日 TiDB 3.0 2019 年 6 月 28 日 TiDB 3.1 2020 年 4 月 16 日 TiDB 4.0 2020 年 5 月 28 日 0x01 4.0 没有故事可讲，看图吧 根据上一篇文档 TiDB</description></item><item><title>监控组件 - Provisioning Grafana</title><link>https://atman.ihx.cc/post/20200513-20-provisioning-grafana/</link><pubDate>Wed, 13 May 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200513-20-provisioning-grafana/</guid><description>0x00 话不多说 Grafana 用于 TiDB-cluster 集群监控展示功能（如果不了解的同学可以看下以前的文档），如果每套集群都部署一个 Grafana，使用不方便且运维也繁琐。因此</description></item><item><title>TiDB - 2PC &amp; Backoff</title><link>https://atman.ihx.cc/post/20190606-23-backoff/</link><pubDate>Wed, 05 Jun 2019 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20190606-23-backoff/</guid><description>0x00 源 TiDB to TiKV 之间的网络状态(图片来自与 PingCAP 官网锁冲突)「该图包含悲观锁逻辑，来自 2020 年的 PingCAP 官网」；部分内容来自 Google Percolator 的事务模型。 0x01 2PC 2PC (Two-phaseCommit) 是指在计算机</description></item><item><title>系统调优 - numactl cpubind</title><link>https://atman.ihx.cc/post/20190313-11-numactl/</link><pubDate>Wed, 13 Mar 2019 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20190313-11-numactl/</guid><description>0x00 CCC 单个不够，数量来凑，太多人跑也会不规划好跑道容易干架；使用 Linux 软件 numactl 将服务进程绑定在目标 CPU 上，支持按 Vcore、物理 CPU 绑定。 0x01 numactl numactl &amp;ndash;show 查看当</description></item><item><title>入库检查 - 物理机 &amp; 系统安装数据库前预检查</title><link>https://atman.ihx.cc/post/20190306-10-precheck/</link><pubDate>Wed, 06 Mar 2019 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20190306-10-precheck/</guid><description>0x01 precheck 本篇文档产生原因来自 Step 7: Configure the CPUfreq governor mode on the target machine 根据 TiDB-ansible 安装时的报错反推物理机安装 TiDB 时需要干点啥…… 0x02 OS 结合官方文档 使用 TiDB Ansible 部署 TiDB 集群 文档先整理</description></item><item><title>Linux - Transfer.sh 一键文件服务器</title><link>https://atman.ihx.cc/post/20170809-transfer.sh/</link><pubDate>Wed, 09 Aug 2017 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20170809-transfer.sh/</guid><description>0x00 起源 平常需要各种传输日志文件，TiDB 部署进程比较多，打包后可能超过 100MB（微信最大支持 100MB 附件传输），发送人和接受人不是同平台时，文件</description></item><item><title>负载均衡 - HAProxy &amp; TiDB 配合食用</title><link>https://atman.ihx.cc/post/20170610-haproxy/</link><pubDate>Sat, 10 Jun 2017 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20170610-haproxy/</guid><description>0x01 介绍 Haproxy 官网 百家饭内容，将测试环境的最终结果整理了下 0x02 功能 负载均衡：L4(TCP) 和 L7(HTTP/HTTPS) 两种模式，支持 RR(roundrobin) / 静态 RR / LC / IP Hash/ URI Hash/ URL_PARAM Hash/ HTTP_HEADER Hash 等丰富的</description></item><item><title>Linux - Tmux 多窗口敏捷工具</title><link>https://atman.ihx.cc/post/20090102-tmux/</link><pubDate>Fri, 02 Jan 2009 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20090102-tmux/</guid><description>0x00 起源 screen 热键激活用的 ctrl + a，该热键同时是跳转到行首的快捷键； 试图寻找第二款类似 screen 的工具；找到了 tmux 这种 linux 平台办公利器，尤其是在没有扩展屏情况下</description></item><item><title>Linux - Screen 进程守护</title><link>https://atman.ihx.cc/post/20090101-screen/</link><pubDate>Thu, 01 Jan 2009 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20090101-screen/</guid><description>0x00 起源 百家饭内容：常用参数速查 主要用于 Linux 运行常驻命令守护，screen 创建窗口后运行程序，相比 nohub 命令使用上心安理得一些。 如果作为办公多窗口使</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>AirPlan · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/airplan/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Fri, 17 Jul 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/airplan/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>AirPlan · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 14 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/airplan/index.xml">https://atman.ihx.cc/tags/airplan/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>TiDB - PD Region Merge 食草兽</title><link>https://atman.ihx.cc/post/202007017-29-region-merge/</link><guid isPermaLink="true">https://atman.ihx.cc/post/202007017-29-region-merge/</guid><pubDate>Fri, 17 Jul 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>AirPlan</category><category>PD</category><category>TiDB</category><description>0x00 开始 Region Merge 是否要开启 观察 pd dashboard 中 region health 中 empty-region-count 信息； 如该数值大于 store * 100 ，建议开启 Region Merge 如该数值大于 store * 1000 ，建议调整 Region Merge 阈值「或者检查是否开启了 Region …</description><content:encoded><![CDATA[<h2 id="0x00-开始">0x00 开始</h2>
+<ul>
+<li>Region Merge 是否要开启
+<ul>
+<li>观察 pd dashboard 中  region health 中 empty-region-count 信息；
+<ul>
+<li>如该数值大于 store * 100 ，建议开启 Region Merge</li>
+<li>如该数值大于 store * 1000 ，建议调整 Region Merge 阈值「或者检查是否开启了 Region Merge」</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://atman.ihx.cc/post/202007017-29-region-merge/pd-dashboard.png" alt="pd-dashboard" loading="lazy" decoding="async">
+</p>
+<ul>
+<li>Region Merge 功能由来
+<ul>
+<li>频繁 delete 历史数据会删除 region 内数据；循环一段时间之后 region 只留下了 region meta 信息</li>
+<li>region group 信息需要 raft 状态机维护「raft cpu」；当 empty-region 过多会产生不必要的 region 心跳消耗</li>
+<li>开启 Region Merge 可以降低 raft cpu 消耗，同时减少 coprocessor cpu 扫描数据请求「delete 一批数据之后，还剩下 1000 数据，这些数据随机分布在 800 个 region 中，执行 sum/count 时就要向这 800 region 发起请求统计数据；合并之后只需要 1 个 region 请求」</li>
+</ul>
+</li>
+</ul>
+<h3 id="regions-info">Regions info</h3>
+<pre><code class="language-json" data-lang="json">{
+  &#34;count&#34;: 168,   // 集群中 Region 总数量
+  &#34;regions&#34;: [
+    {
+      &#34;id&#34;: 241,  // Region id
+      &#34;start_key&#34;: &#34;7480000000000000FF565F728000000000FF03F07A0000000000FA&#34;,
+      &#34;end_key&#34;: &#34;7480000000000000FF565F728000000000FF0B07BE0000000000FA&#34;,
+      &#34;epoch&#34;: {
+        &#34;conf_ver&#34;: 5,
+        &#34;version&#34;: 46
+      },
+      &#34;peers&#34;: [  // Region 成员信息
+        {
+          &#34;id&#34;: 242,
+          &#34;store_id&#34;: 1
+        },
+        {
+          &#34;id&#34;: 243,
+          &#34;store_id&#34;: 4
+        },
+        {
+          &#34;id&#34;: 244,
+          &#34;store_id&#34;: 5
+        }
+      ],
+      &#34;leader&#34;: {
+        &#34;id&#34;: 244,  // Reigon 成员中 leader id「角色」
+        &#34;store_id&#34;: 5
+      },
+      &#34;written_bytes&#34;: 0,
+      &#34;read_bytes&#34;: 0,
+      &#34;written_keys&#34;: 0,
+      &#34;read_keys&#34;: 0,
+      &#34;approximate_size&#34;: 99,     // Region 大小
+      &#34;approximate_keys&#34;: 478217  // Region Key-Values 数量
+    },
+  ... ... 省略其他信息
+</code></pre><h3 id="empty-region">empty-region</h3>
+<pre><code class="language-golang" data-lang="golang">// EmptyRegionApproximateSize is the region approximate size of an empty region
+// (heartbeat size &lt;= 1MB).
+const EmptyRegionApproximateSize = 1
+
+...-跳过部分信息-...
+
+// 判断 region approximate size 小于等于 1mb ，定义为 empty-region
+if region.GetApproximateSize() &lt;= core.EmptyRegionApproximateSize {
+    r.stats[EmptyRegion][regionID] = region
+    peerTypeIndex |= EmptyRegion
+  }
+
+...-跳过部分信息-...
+
+// 定义 pd_checker_event_count 监控
+var (
+  checkerCounter = prometheus.NewCounterVec(
+    prometheus.CounterOpts{
+      Namespace: &#34;pd&#34;,
+      Subsystem: &#34;checker&#34;,
+      Name:      &#34;event_count&#34;,
+      Help:      &#34;Counter of checker events.&#34;,
+    }, []string{&#34;type&#34;, &#34;name&#34;})
+)
+
+func init() {
+  prometheus.MustRegister(checkerCounter)
+}
+
+...-跳过部分信息-...
+
+// 详情见 server/schedule/checker/merge_checker.go
+// 调用 mergecheck function ，监控系统记录 +1 调用
+// 通过 prometheus count 方式统计该信息
+checkerCounter.WithLabelValues(&#34;merge_checker&#34;, &#34;check&#34;).Inc()
+
+
+...-跳过部分信息-...
+
+// Region Merge 还需要检测其他累计十几项内容
+// 可在 server/schedule/checker/merge_checker.go 查看
+</code></pre><h2 id="0x01-开启">0x01 开启</h2>
+<blockquote>
+<p>Region Merge 参数</p>
+</blockquote>
+<ul>
+<li>开启 <a href="https://docs.pingcap.com/zh/tidb/stable/massive-regions-best-practices#%E6%96%B9%E6%B3%95%E4%BA%94%E5%BC%80%E5%90%AF-region-merge">官网文档-Region Merge 功能</a>
+<ul>
+<li>通过 pd-ctl 工具调整以下参数</li>
+<li>merge-schedule-limit  为 0 情况下为关闭状态</li>
+</ul>
+</li>
+<li>region size 与 region keys 两条阈值互相满足的 region 会被列入 Region Merge 需求范围，只满足一项不会被 merge 操作。</li>
+<li>merge-schedule-limit 调度速度，围观官网文档 <a href="https://docs.pingcap.com/zh/tidb/stable/pd-scheduling-best-practices#region-merge-%E9%80%9F%E5%BA%A6%E6%85%A2">Region Merge 速度慢</a></li>
+</ul>
+<pre><code class="language-json" data-lang="json">// max-merge-region-size 单位 MB；
+// 监控上参考“ tikv 总存储量「未压缩」/ tikv 总 region peer 数量”；得到平均 peer 大小
+// prometheus 查看 sum(pd_scheduler_store_status{ type=&#34;region_size&#34;}) / sum(pd_scheduler_store_status{ type=&#34;region_count&#34;}) ；得到单位为 MB
+&gt;&gt; pd-ctl config set max-merge-region-size 20
+
+// max-merge-region-keys 单位 KV 数量；监控获取获取不到
+&gt;&gt; pd-ctl config set max-merge-region-keys 200000
+
+&gt;&gt; pd-ctl config set merge-schedule-limit 8
+</code></pre><blockquote>
+<p>校验集群需要 Region Merge 数据量</p>
+</blockquote>
+<ul>
+<li>pd-ctl 工具获取：size &amp; keys 范围一下 region 数量
+<ul>
+<li>首先检测 linux 系统是否安装了 jq 工具</li>
+<li>替换 approximate_size 与 approximate_keys 后的数值</li>
+<li>校验后带入到 pd-ctl config set 中</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-json" data-lang="json">./pd-ctl --pd &#39;http://10.0.0.1:2379&#39; -d region | jq &#34;.regions | map(select(.approximate_size &lt; 20 and .approximate_keys &lt; 200000)) | length&#34;
+</code></pre><h2 id="0x02-运维">0x02 运维</h2>
+<blockquote>
+<p>可在 server/schedule/checker/merge_checker.go 查看</p>
+</blockquote>
+<ol start="0">
+<li>Region Merge 预检查
+<ul>
+<li>见 checker role 内容</li>
+</ul>
+</li>
+<li>确认 reigon 大小是否满足 merge 阈值参数</li>
+<li>确认 region 相邻关系，相邻的两个 region 消消乐合并为一个</li>
+<li>「潜规则」region leader 必须在相同一个台机器
+<ul>
+<li>snapshot + add peer ；schedule region</li>
+<li>schedule ：transfer leader</li>
+</ul>
+</li>
+<li>merge region；生成新的 region</li>
+<li>新 region 升级为 region group
+<ul>
+<li>+1 follower</li>
+<li>+1 follower</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>checker role</li>
+</ul>
+<blockquote>
+<p>监控图位于 pd dashboard &ndash; scheduler &ndash; 末尾右下角
+<img src="https://atman.ihx.cc/post/202007017-29-region-merge/pdchecker.png" alt="pd region merge checker" loading="lazy" decoding="async">
+</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>num</th>
+<th>checker</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>recently-start</td>
+<td>判断启动时间是否超过 GetSplitMergeInterval 时间 //<!-- raw HTML omitted --> PD 初始化启动后 etcd meta 信息中 region size 为 0 ，此时默认跳过 region merge；<!-- raw HTML omitted --> region size &gt; 0 &amp; &lt;= 1mb 同时满足 region keys &amp; region size 时会进行 merge</td>
+</tr>
+<tr>
+<td>2</td>
+<td>recently-split</td>
+<td>不懂是个啥</td>
+</tr>
+<tr>
+<td>3</td>
+<td>check</td>
+<td>默认属性：检查 region 各种状态、tikv 存储环境等</td>
+</tr>
+<tr>
+<td>4</td>
+<td>skip</td>
+<td>PD 初始化启动后 etcd meta 信息中 region size 为 0 ，此时默认跳过 region merge</td>
+</tr>
+<tr>
+<td>5</td>
+<td>no-need</td>
+<td>// region is not small enough</td>
+</tr>
+<tr>
+<td>6</td>
+<td>special-peer</td>
+<td>// skip region has down peers or pending peers or learner peers</td>
+</tr>
+<tr>
+<td>7</td>
+<td>abnormal-replica</td>
+<td>// IsRegionReplicated checks if a region is fully replicated. When placement rules is enabled, its peers should fit corresponding rules. When placement rules is disabled, it should have enough replicas and no any learner peer.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>hot-region</td>
+<td>// skip hot reigon</td>
+</tr>
+<tr>
+<td>9</td>
+<td>no-target</td>
+<td>没有注释，理解是没有相邻的两个 region 可以用于 merge / 两个 region 的 start end key 不相邻</td>
+</tr>
+<tr>
+<td>10</td>
+<td>new-operator</td>
+<td>默认属性：创建一个 operator merge 操作，合并相邻的两个 region</td>
+</tr>
+<tr>
+<td>11</td>
+<td>larger-source</td>
+<td>region 大于 target ，谁是reigon ？ 谁是 target ？// 没追到谁是谁</td>
+</tr>
+</tbody>
+</table>
+<h3 id="emmm">emmm</h3>
+<ul>
+<li>try tips
+<ul>
+<li><a href="https://docs.pingcap.com/zh/tidb/stable/pd-scheduling-best-practices#region-merge-%E9%80%9F%E5%BA%A6%E6%85%A2">Region Merge 速度慢</a></li>
+<li><a href="https://docs.pingcap.com/zh/tidb/stable/pd-configuration-file#schedule">PD schedule 配置说明</a></li>
+</ul>
+</li>
+</ul>
+<p>从底层往上观察 TiDB cluster 各组件监控，与 region merge 慢或者不工作场景排查时可能相关的内容「仅描述各组件涉及 region merge 相关内容」：</p>
+<ul>
+<li>磁盘性能 IOPS：io util 不超过 70% &amp; iops 读写能力大于 40000 iops</li>
+<li>TiKV thread cpu「监控」
+<ul>
+<li>RAFT ：默认值为 2 * cpu vcore；region group 状态维护，数据写入与读取</li>
+<li>apply ：默认值为 2 * cpu vcore；region 合并写入更新至新 region group</li>
+<li>snapshot：默认值 1 * cpu vcore；在 region leader 上创建全量数据副本，协助 grpc 发送新机器</li>
+<li>GRPC：默认值 4 * cpu vcore；协助 snapshot 发送新机器</li>
+</ul>
+</li>
+<li>2PC Backoff「region 变动而出现的 tidb - tikv 之间交互增加」
+<ul>
+<li>not leader；leader 位置有变动或者 leader 还未选举成功</li>
+<li>region miss；根据 region cache 未命中读取到数据</li>
+<li>或许还有其他，详情见 tidb dashboard &ndash; kv error &ndash; resolve lock</li>
+</ul>
+</li>
+<li>PD schedule「region 调度相关」
+<ul>
+<li>Region merge check</li>
+<li>Region schedule / Leader Schedule</li>
+</ul>
+</li>
+<li>PD ctl
+<ul>
+<li>检查 max-merge-region 相关的参数是否开启</li>
+<li>检查 max-merge-region 中的 size &amp; keys 是否可以命中到数据</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x03-其他">0x03 其他</h2>
+<p><a href="https://docs.pingcap.com/zh/tidb/stable/pd-control#operator-check--show--add--remove">operator [check | show | add | remove]</a> 是 <a href="https://docs.pingcap.com/zh/tidb/stable/release-2.0.1#pd">2.0 时代</a>加入功能，当时需要人工使用 <code>pd-ctl operator add region merge</code> ，后续逐渐优化到了根据阈值自动处理 region merge。未来可期</p>
+<blockquote>
+<p>手工操作思路</p>
+</blockquote>
+<p>查询 Region size 低于 xx MB 的数量以及 Region id；需要使用 pd-api「http://ip:2379/pdapi/v1/regions」 获取所有 Regions 信息，然后分析 approximate_size 低于 xx MB 的 Region ID</p>
+<p>使用 <a href="https://docs.pingcap.com/zh/tidb/stable/pd-control#region-sibling-region_id">region sibling &lt;region_id&gt;</a> 查询 Region 相邻的 Region<br>
+<code>&gt;&gt; region sibling 2</code></p>
+<p>使用 merge-region &lt;source_region_id&gt; &lt;target_region_id&gt; 功能合并 “小 Region” 和“邻居 Region”<br>
+<code>operator add merge-region 1 2     // 将 Region 1 与 Region 2 合并</code></p>
+<p><img src="https://atman.ihx.cc/global/helpertools.jpg" alt="help-tools-man" loading="lazy" decoding="async">
+</p>
+]]></content:encoded><h:time datetime="2020-07-17T00:00:00+08:00">2020-07-17 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/202007017-29-region-merge/">TiDB - PD Region Merge 食草兽</h:a></item><item><title>九死一生 - 运维小技巧</title><link>https://atman.ihx.cc/post/20200703-27-tskill/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200703-27-tskill/</guid><pubDate>Thu, 02 Jul 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>AirPlan</category><category>Troubleshooting</category><description>0x00 陷入江局 回顾下前两篇文档 《纸上谈兵 - TiDB 性能调优》&amp;amp; 《沙盘点将 - TiDB 监控知识初始化》；处理问题的时候从总是一脸懵逼到偶尔无证懵逼；然后尝试给某个组件加个「无证之罪」先绕过这个棘手的问题。 程序在干什么？观察 tidb 监控和 profile 获取 SQL 运行在 TiDB Cluster 的情况 系统在干什么？ …</description><content:encoded><![CDATA[<h2 id="0x00-陷入江局">0x00 陷入江局</h2>
+<p>回顾下前两篇文档 <a href="https://atman.ihx.cc/post/20200311-11-performance-map/">《纸上谈兵 - TiDB 性能调优》</a>&amp; <a href="https://atman.ihx.cc/post/20200416-16-init-monitoring-map/">《沙盘点将 - TiDB 监控知识初始化》</a>；处理问题的时候从总是一脸懵逼到偶尔无证懵逼；然后尝试给某个组件加个「无证之罪」先绕过这个棘手的问题。</p>
+<p><img src="https://atman.ihx.cc/post/20200703-27-tskill/jiangju.png" alt="陷入江局" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>程序在干什么？观察 tidb 监控和 profile 获取 SQL 运行在 TiDB Cluster 的情况
+系统在干什么？使用 linux 命令和 node export 查看运行负载
+程序和系统一起在干什么？比如 disk util 高的原因？CPU / MEM 占用高的原因？</p>
+<p>重点回顾；《一条 SQL 的使命》</p>
+</blockquote>
+<ul>
+<li>TiDB
+<ul>
+<li>QPS / duration / statement / slow query</li>
+<li>parser / compile / PD tso query</li>
+<li>kv count / kv error / kv duration</li>
+</ul>
+</li>
+<li>TiKV
+<ul>
+<li>GRPC「TiKV 进出口港」 / thread cpu / cluster / error</li>
+<li>coprocessor / schedule prewrite &amp; commit
+<ul>
+<li>coprocessor 与 store readpool 是两种查询方式，store readpool 主要应用<strong>不回表主键点查</strong></li>
+</ul>
+</li>
+<li>task / Raft / RocksDB</li>
+</ul>
+</li>
+<li>overview
+<ul>
+<li>CPU / Memory / Disk performance / OPEN FD / Network IO</li>
+</ul>
+</li>
+<li>SQL 在 TiDB cluster 内运行的过程均有打点记录，资源/耗时 可在 Grafana 上分析后查证</li>
+<li>SQL 进入 TiDB 之前、TiKV 与磁盘的交互；该怎么和 SQL 做一一对应呢？</li>
+</ul>
+<h2 id="0x01-slow-query">0x01 Slow Query</h2>
+<p>slow query 文件支持 <a href="https://www.percona.com/doc/percona-toolkit/LATEST/pt-query-digest.html">pt-query-digest</a> 工具分析<br>
+<a href="https://docs.pingcap.com/zh/tidb/dev/identify-slow-queries">PingCAP 官网-slow query 慢日志</a>；TiDB 会将执行时间超过 slow-threshold（默认值为 300 毫秒）的语句输出到 slow-query-file（默认值：&ldquo;tidb-slow.log&rdquo;）日志文件中，用于帮助用户定位慢查询语句，分析和解决 SQL 执行的性能问题</p>
+<pre><code class="language-sql" data-lang="sql"># Time: 2020-07-02T16:45:48.948834124+08:00  // 执行 query 时间
+# Txn_start_ts: 417773531665268886          // 事物 tso  ，类似  mysql gtid
+# User: dms@172.16.4.51                     // 执行用户与客户端 IP「前置为 Proxy 时，此处显示 Proxy IP」
+# Conn_ID: 327382                           // 链接 ID
+# Query_time: 32.452025271                  // query 从 begin 至 commit 总时长，begin 开启后发送 select 语句后，空置一段时间后提交也会被计入
+# Parse_time: 0.056166789                   // TiDB-server AST 解析 text to sql 耗时
+# Compile_time: 0.000314969                 // TiDB-server Plan 编译耗时
+# Process_time: 0.001 Wait_time: 0.001 Request_count: 2 Prewrite_time: 0.003820812 Commit_time: 0.003007832 Get_commit_ts_time: 0.000107308 Write_keys: 1 Write_size: 539 Prewrite_region: 1
+# DB: dms                                     // 数据库信息
+# Index_names: [t_data_0210:index_id]        // index 使用信息
+# Is_internal: false
+# Digest: 26becfd8135c8f31011bdb317406018a8de4473c26af18180ef97a91c224a77e
+# Stats: t_data_0210:pseudo  // # Stats: t_data_0210:417773784057512074
+# Num_cop_tasks: 2
+# Cop_proc_avg: 0.0005 Cop_proc_p90: 0.001 Cop_proc_max: 0.001 Cop_proc_addr: 172.16.4.51:20160  // store readpool 不显示该部分信息
+# Cop_wait_avg: 0.0005 Cop_wait_p90: 0.001 Cop_wait_max: 0.001 Cop_wait_addr: 172.16.4.51:20160
+# Mem_max: 27644
+# Prepared: false
+# Has_more_results: false
+# Succ: true
+# Plan: tidb_decode_plan(&#39;2gHwaTAJMzFfNgkwCTEJCjEJMTNfNAkxCTEJdGFibGU6VF9EQVRBXzAyMTkxMDE3MDc0NDk4NjAsIGluZGV4OmRldmljZV9pZCwgcmFuZ2U6WyIyMDAxMTgwMDc2NDE4MSIsIjIwMDExODAwNzYFEYBdLCBrZWVwIG9yZGVyOmZhbHNlLCBzdGF0czpwc2V1ZG8BhQgwXzWOhQB6SQA=&#39;)
+UPDATE t_data_0210 SET `pos`=&#39;114&#39; WHERE (`id`=&#39;800764181&#39;);
+</code></pre><h3 id="explan">exPlan</h3>
+<pre><code class="language-sql" data-lang="sql">(root@127.0.0.1) [(none)]&gt;select tidb_decode_plan(&#39;2gHwaTAJMzFfNgkwCTEJCjEJMTNfNAkxCTEJdGFibGU6VF9EQVRBXzAyMTkxMDE3MDc0NDk4NjAsIGluZGV4OmRldmljZV9pZCwgcmFuZ2U6WyIyMDAxMTgwMDc2NDE4MSIsIjIwMDExODAwNzYFEYBdLCBrZWVwIG9yZGVyOmZhbHNlLCBzdGF0czpwc2V1ZG8BhQgwXzWOhQB6SQA=&#39;);
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| tidb_decode_plan(&#39;2gHwaTAJMzFfNgkwCTEJCjEJMTNfNAkxCTEJdGFibGU6VF9EQVRBXzAyMTkxMDE3MDc0NDk4NjAsIGluZGV4OmRldmljZV9pZCwgcmFuZ2U6WyIyMDAxMTgwMDc2NDE4MSIsIjIwMDExODAwNzYFEYBdLCBrZWVwIG9yZGVyOmZhbHNlLCBzdGF0czpwc2V1ZG8BhQgwXzWOhQB6SQA=&#39;)                           |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| 	TableReader_6	root	1	
+	├─IndexScan_4	cop 	1	table:t_data_0210, index:id, range:[&#34;800764181&#34;,&#34;800764181&#34;], keep order:false, stats:pseudo
+	└─TableScan_5	cop 	1	table:t_data_0210, keep order:false, stats:pseudo         |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+</code></pre><h3 id="analyze">Analyze</h3>
+<p><a href="https://docs.pingcap.com/zh/tidb/v4.0/sql-statement-explain-analyze">PingCAP 官网-Analyze</a>；EXPLAIN ANALYZE 语句的工作方式类似于 EXPLAIN，主要区别在于前者实际上会执行语句。这样可以将查询计划中的估计值与执行时所遇到的实际值进行比较。如果估计值与实际值显著不同，那么应考虑在受影响的表上运行 ANALYZE TABLE。</p>
+<blockquote>
+<p>explain analyze 是将 SQL 语句在数据库中执行了一遍，然后通过打点收集到的数据；如果是 insert / update /delete 会被实际运行并且操作数据</p>
+</blockquote>
+<pre><code class="language-sql" data-lang="sql">explain analyze select id from T_DATA_0210  WHERE (`id`=&#39;800764181&#39;);
++---------------------+-------+------+-------------------------------------------------------------------------------------------------------------+----------------------------------+---------+
+| id                  | count | task | operator info                                                                                               | execution info                   | memory  |
++---------------------+-------+------+-------------------------------------------------------------------------------------------------------------+----------------------------------+---------+
+| Projection_4        | 2.00  | root | paas_dms.t_data_0210.id                                                                         | time:1.195879ms, loops:2, rows:1 | N/A     |
+| └─IndexLookUp_7     | 2.00  | root |                                                                                                             | time:1.189899ms, loops:2, rows:1 | 1.25 KB |
+|   ├─IndexScan_5     | 2.00  | cop  | table:t_data_0210, index:id, range:[&#34;800764181&#34;,&#34;800764181&#34;], keep order:false | time:0s, loops:1, rows:1         | N/A     |
+|   └─TableScan_6     | 2.00  | cop  | table:t_data_0210, keep order:false                                                             | time:0s, loops:1, rows:1         | N/A     |
++---------------------+-------+------+-------------------------------------------------------------------------------------------------------------+----------------------------------+---------+
+4 rows in set (0.00 sec)
+</code></pre><pre><code class="language-sql" data-lang="sql">// explain analyze select count(*)/count(distinct date_format(account_mdate,&#39;%Y-%m-%d&#39;)) from account;
+// 看起来只做了一次 table full scan、同时 distinct 与 date_format 无法下推到 tikv 上执行
++-----------------------------+--------------+-----------+-----------+---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+-----------------------+------+
+| id                          | estRows      | actRows   | task      | access object | execution info                                                                                                                                                             | operator info                                                                                | memory                | disk |
++-----------------------------+--------------+-----------+-----------+---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+-----------------------+------+
+| Projection_4                | 1.00         | 1         | root      |               | time:18.899834996s, loops:2, Concurrency:OFF                                                                                                                               | div(cast(Column#19, decimal(20,0) BINARY), cast(Column#20, decimal(20,0) BINARY))-&gt;Column#21 | 744 Bytes             | N/A  |
+| └─StreamAgg_6               | 1.00         | 1         | root      |               | time:18.899801597s, loops:2                                                                                                                                                | funcs:count(1)-&gt;Column#19, funcs:count(distinct Column#23)-&gt;Column#20                        | 17.5087890625 KB      | N/A  |
+|   └─Projection_11           | 100036000.00 | 100036000 | root      |               | time:670.978479ms, loops:98163, Concurrency:8                                                                                                                              | date_format(findpt.account.account_mdate, %Y-%m-%d)-&gt;Column#23                               | 208.76953125 KB       | N/A  |
+|     └─TableReader_10        | 100036000.00 | 100036000 | root      |               | time:528.386518ms, loops:98163, rpc num: 560, rpc max:684.898903ms, min:70.020085ms, avg:427.347923ms, p80:474.446604ms, p95:546.15945ms, proc keys max:255761, p95:178374 | data:TableFullScan_9                                                                         | 113.44037055969238 MB | N/A  |
+|       └─TableFullScan_9     | 100036000.00 | 100036000 | cop[tikv] | table:account | proc max:659ms, min:65ms, p80:459ms, p95:529ms, iters:100403, tasks:560                                                                                                    | keep order:false                                                                             | N/A                   | N/A  |
++-----------------------------+--------------+-----------+-----------+---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+-----------------------+------+
+5 rows in set (18.98 sec)
+</code></pre><h3 id="trace">Trace</h3>
+<p><a href="https://docs.pingcap.com/zh/tidb/v4.0/sql-statement-trace#trace">PingCAP 官网-Trace</a>；TRACE 语句用于提供查询执行的详细信息，可通过 TiDB 服务器状态端口所公开的图形界面进行查看。</p>
+<pre><code class="language-sql" data-lang="sql">trace format = &#39;row&#39; select id from T_DATA_0210  WHERE (`id`=&#39;800764181&#39;);
++---------------------------+-----------------+------------+
+| operation                 | startTS         | duration   |
++---------------------------+-----------------+------------+
+| session.getTxnFuture      | 17:10:42.721708 | 10.991µs   |
+|   ├─session.Execute       | 17:10:42.721705 | 978.341µs  |
+|   ├─session.ParseSQL      | 17:10:42.722064 | 28.325µs   |
+|   ├─executor.Compile      | 17:10:42.722106 | 191.556µs  |
+|   ├─session.runStmt       | 17:10:42.722318 | 314.567µs  |
+|   ├─session.CommitTxn     | 17:10:42.722616 | 2.942µs    |
+|   ├─recordSet.Next        | 17:10:42.722694 | 812.092µs  |
+|   ├─projection.Next       | 17:10:42.722696 | 801.486µs  |
+|   ├─tableReader.Next      | 17:10:42.723073 | 394.131µs  |
+|   ├─tableReader.Next      | 17:10:42.723484 | 947ns      |
+|   ├─recordSet.Next        | 17:10:42.723516 | 12.577µs   |
+|   └─projection.Next       | 17:10:42.723518 | 1.747µs    |
++---------------------------+-----------------+------------+
+12 rows in set (0.01 sec)
+</code></pre><pre><code class="language-sql" data-lang="sql">// 以下信息省略 19 万行，通过 trace 清晰的发现 tidb 与 tikv 之间的网络交互频率
+trace format = &#39;row&#39; select count(*)/count(distinct date_format(account_mdate,&#39;%Y-%m-%d&#39;)) from account;
++------------------------------------------------------+-----------------+-----------------+
+| operation                                            | startTS         | duration        |
++------------------------------------------------------+-----------------+-----------------+
+| trace                                                | 11:37:08.052125 | 3m58.620078133s |
+|   ├─session.Execute                                  | 11:37:08.052129 | 1.714218ms      |
+|   │ ├─session.ParseSQL                               | 11:37:08.052134 | 21.379µs        |
+|   │ ├─executor.Compile                               | 11:37:08.052177 | 270.936µs       |
+|   │ │ └─session.getTxnFuture                         | 11:37:08.052184 | 2.886µs         |
+|   │ └─session.runStmt                                | 11:37:08.052468 | 1.353082ms      |
+|   │   ├─TableReaderExecutor.Open                     | 11:37:08.052518 | 1.215215ms      |
+|   │   │ └─distsql.Select                             | 11:37:08.052529 | 1.193386ms      |
+|   │   │   ├─rpcClient.SendRequest                    | 11:37:08.053832 | 404.531258ms    |
+|   │   │   ├─rpcClient.SendRequest                    | 11:39:53.082502 | 269.187122ms    |
+|   │   │   ├─rpcClient.SendRequest                    | 11:39:53.785311 | 240.928959ms    |
+|   │   │   └─rpcClient.SendRequest * N                | 11:39:54.539536 | 331.98845ms     |
+|   │   └─session.CommitTxn                            | 11:37:08.053803 | 13.513µs        |
+|   │     └─session.doCommitWitRetry                   | 11:37:08.053806 | 2.235µs         |
+|   ├─*executor.ProjectionExec.Next                    | 11:37:08.053865 | 3m58.617880366s |
+|   │ └─*executor.StreamAggExec.Next                   | 11:37:08.053867 | 3m58.614767904s |
+|   │   ├─*executor.ProjectionExec.Next                | 11:37:08.053869 | 26.269835ms     |
+|   │   │ ├─*executor.TableReaderExecutor.Next         | 11:37:08.053915 | 25.530341ms     |
+|   │   │ ├─*executor.TableReaderExecutor.Next         | 11:37:08.079471 | 8.329µs         |
+|   │   │ ├─*executor.TableReaderExecutor.Next         | 11:37:08.079491 | 3.369µs         |
+|   │   │ ├─*executor.TableReaderExecutor.Next         | 11:41:06.572221 | 14.026µs        |
+|   │   │ ├─*executor.TableReaderExecutor.Next         | 11:41:06.577805 | 31.832µs        |
+|   │   │ └─*executor.TableReaderExecutor.Next  * N    | 11:41:06.583194 | 19.7µs          |
+|   │   ├─*executor.ProjectionExec.Next                | 11:37:08.080339 | 5.499µs         |
+|   │   ├─*executor.ProjectionExec.Next                | 11:37:08.080509 | 5.065µs         |
+|   │   ├─*executor.ProjectionExec.Next                | 11:37:08.080681 | 5.46µs          |
+|   │   ├─*executor.ProjectionExec.Next                | 11:37:08.080855 | 9.297µs         |
+|   │   ├─*executor.ProjectionExec.Next                | 11:41:06.663323 | 2.028µs         |
+|   │   └─*executor.ProjectionExec.Next  * N           | 11:41:06.665968 | 1.844µs         |
+|   └─*executor.ProjectionExec.Next                    | 11:41:06.671764 | 11.448µs        |
+|     └─*executor.StreamAggExec.Next                   | 11:41:06.671767 | 568ns           |
++------------------------------------------------------+-----------------+-----------------+
+196901 rows in set (5 min 56.31 sec)
+</code></pre><h2 id="0x02-ssr">0x02 SSR</h2>
+<ul>
+<li>Cluster info</li>
+</ul>
+<p><a href="https://docs.pingcap.com/zh/tidb/v4.0/system-table-cluster-info">PingCAP 官网-Cluster info</a>；集群拓扑表 CLUSTER_INFO 提供集群当前的拓扑信息，以及各个节点的版本信息、版本对应的 Git Hash、各节点的启动时间、各实例的运行时间。</p>
+<ul>
+<li>TiDB-dashboard</li>
+</ul>
+<p><a href="https://docs.pingcap.com/zh/tidb/v4.0/dashboard-intro#tidb-dashboard-%E4%BB%8B%E7%BB%8D">TiDB Dashboard</a>是 TiDB 自 4.0 版本起提供的图形化界面，可用于监控及诊断 TiDB 集群。TiDB Dashboard 内置于 TiDB 的 PD 组件中，无需独立部署。</p>
+<h2 id="0x03-profile">0x03 Profile</h2>
+<blockquote>
+<p>Profile 用于分析函数占用内存、CPU 资源信息，TiDB 4.0 版本可以在 tidb-dashboard 上一键获取；以下为分析 tidb-dashboard 后挖掘到的 HTTP API 信息</p>
+</blockquote>
+<ul>
+<li>获取 PD-server Profile
+<ul>
+<li>内容来自 <a href="https://github.com/pingcap/pd/blob/master/server/api/router.go">PD 代码</a></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-json" data-lang="json">curl http://{PD IP}:{PD 2379}/pd/api/v1/debug/pprof/profile?seconds={int} &gt; CPU-profile
+// 上述命令获取 CPU profile 信息
+
+// PD 所有 Profile api 请求，每条 api 输出后二进制文件，使用 go tool pprof 解析
+apiRouter.HandleFunc(&#34;/debug/pprof/profile&#34;, pprof.Profile)
+apiRouter.Handle(&#34;/debug/pprof/heap&#34;, pprof.Handler(&#34;heap&#34;))
+apiRouter.Handle(&#34;/debug/pprof/mutex&#34;, pprof.Handler(&#34;mutex&#34;))
+apiRouter.Handle(&#34;/debug/pprof/allocs&#34;, pprof.Handler(&#34;allocs&#34;))
+apiRouter.Handle(&#34;/debug/pprof/block&#34;, pprof.Handler(&#34;block&#34;))
+apiRouter.Handle(&#34;/debug/pprof/goroutine&#34;, pprof.Handler(&#34;goroutine&#34;))
+</code></pre><ul>
+<li>获取 TiDB-server Profile
+<ul>
+<li>该接口可以获取 tidb-server profile 压缩包，内涵 cpu、内存等信息</li>
+<li>内容来自 <a href="https://github.com/pingcap/tidb/blob/master/docs/tidb_http_api.md">TiDB http api 文档</a> Download TiDB debug info</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">curl http://{TiDB IP}:{TiDB status_port}/debug/pprof/profile?seconds={int} &gt; debug.zip
+
+// zip file will include:
+// Go heap pprof(after GC)
+// Go cpu pprof(10s)
+// Go mutex pprof
+// Full goroutine
+// TiDB config and version
+// Param:
+// seconds: profile time(s), default is 10s.
+</code></pre><ul>
+<li>获取 TiKV-server Profile
+<ul>
+<li>该接口获取为 svg 图片内容；内容来自 <a href="https://github.com/tikv/tikv/pull/4600">TiKV issue #4600</a></li>
+<li>2020 年以后发布的版本支持该功能</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">curl http://{TiKV IP}:{TiKV status_port}/debug/pprof/profile?seconds={int} &gt; tikv.svg
+</code></pre><ul>
+<li>查看 Profile</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">yum install go
+// 安装 go 程序环境
+
+go tool pprof -http 172.16.4.51:890 &lt;profile-name&gt;
+// 使用 go tool pprof 工具解析 profile 数据，并开启一个网页以便在浏览器上查看
+
+浏览器打开该网页访问并分析信息 http://172.16.4.51:890/
+</code></pre><h2 id="0x04-linux">0x04 Linux</h2>
+<ul>
+<li>vmstat / top / htop</li>
+<li>dstat / iotop / iostat</li>
+<li>lsof</li>
+<li>pstack // 该命令会阻断程序正常运行，禁止在 TiKV 使用；会导致 tikv 状态变为 Disconnected，从而丢失所有 region leader</li>
+<li>strace</li>
+<li>gdb</li>
+</ul>
+<h3 id="sar">Sar</h3>
+<p>SAR（System Activity Reporter），可以从 14 个大方面对系统的活动进行报告，包括文件的读写情况、系统调用的使用情况、串口、CPU 效率、内存使用状况、进程活动及 IPC 有关的活动等，使用也是较为复杂。</p>
+<ul>
+<li>
+<p>追溯过去的统计数据（默认）</p>
+</li>
+<li>
+<p>周期性的查看当前数据</p>
+</li>
+<li>
+<p>怀疑 CPU 存在瓶颈，可用 sar -u 和 sar -q 等来查看</p>
+</li>
+<li>
+<p>怀疑内存存在瓶颈，可用 sar -B、sar -r 和 sar -W 等来查看</p>
+</li>
+<li>
+<p>怀疑 I/O 存在瓶颈，可用 sar -b、sar -u 和 sar -d 等来查看</p>
+</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">-A 汇总所有的报告
+-a 报告文件读写使用情况
+-B 报告附加的缓存的使用情况
+-b 报告缓存的使用情况
+-c 报告系统调用的使用情况
+-d 报告磁盘的使用情况
+-g 报告串口的使用情况
+-h 报告关于 buffer 使用的统计数据
+-m 报告 IPC 消息队列和信号量的使用情况
+-n 报告命名 cache 的使用情况
+-p 报告调页活动的使用情况
+-q 报告运行队列和交换队列的平均长度
+-R 报告进程的活动情况
+-r 报告没有使用的内存页面和硬盘块
+-u 报告 CPU 的利用率
+-v 报告进程、i 节点、文件和锁表状态
+-w 报告系统交换活动状况
+-y 报告 TTY 设备活动状况
+</code></pre><h2 id="0x05-不友好的">0x05 不友好的</h2>
+<ul>
+<li>useCursorFetch=True&amp;defaultFetchSize&gt;0</li>
+<li>update batchexecutor</li>
+</ul>
+]]></content:encoded><h:time datetime="2020-07-02T00:00:00+08:00">2020-07-02 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200703-27-tskill/">九死一生 - 运维小技巧</h:a></item><item><title>TiDB - Backup/Restore 测试</title><link>https://atman.ihx.cc/post/20200618-25-br-rc/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200618-25-br-rc/</guid><pubDate>Wed, 17 Jun 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>AirPlan</category><category>BR</category><category>TiDB</category><description>0x00 BR Backup &amp;amp; Restore（以下简称 BR）是 TiDB 分布式备份恢复的命令行工具，用于对 TiDB 集群进行数据备份和恢复。相比 mydumper/loader，BR 更适合大数据量的场景。本文档介绍了 BR 的使用限制、工作原理、命令行描述、备份恢复用例以及最佳实践。 以上内容复制于 PingCAP 官网文档-使用 BR 进行备份 …</description><content:encoded><![CDATA[<h2 id="0x00-br">0x00 BR</h2>
+<blockquote>
+<p>Backup &amp; Restore（以下简称 BR）是 TiDB 分布式备份恢复的命令行工具，用于对 TiDB 集群进行数据备份和恢复。相比 mydumper/loader，BR 更适合大数据量的场景。本文档介绍了 BR 的使用限制、工作原理、命令行描述、备份恢复用例以及最佳实践。<br>
+以上内容复制于 <a href="https://docs.pingcap.com/zh/tidb/dev/backup-and-restore-tool" title="PingCAP 官网文档-使用 BR 进行备份与恢复">PingCAP 官网文档-使用 BR 进行备份与恢复</a><br>
+提前详细阅读 <a href="https://docs.pingcap.com/zh/tidb/dev/backup-and-restore-faq">PingCAP 官网文档-Backup &amp; Restore 常见问题</a></p>
+<ul>
+<li>详细阅读官网文档中的<strong>使用限制</strong>后再进行使用</li>
+<li>详细阅读官网文档中的<strong>使用限制</strong>后再进行使用</li>
+<li>详细阅读官网文档中的<strong>使用限制</strong>后再进行使用</li>
+</ul>
+</blockquote>
+<p>时空穿梭，书接上文：上文 《软件测试 - S3 协议与 minio》是为了搭建一套 S3 协议存储，该存储相比自己搭建一套 NFS 要方便的多。<br>
+BR 支持三种存储（本地存储、NFS、S3 存储），本次主要测试了本地存储备份恢复、S3 存储备份恢复；此处 NFS 备份恢复与 S3 备份恢复逻辑是一样的。</p>
+<blockquote>
+<p>本文中测试为 2020 年 6 月版本，该工具目前处于飞速迭代期，不对后续功能做预测。</p>
+</blockquote>
+<h2 id="0x01-思考">0x01 思考</h2>
+<p><img src="https://atman.ihx.cc/post/20200618-25-br-rc/br-arch.png" alt="br 架构" loading="lazy" decoding="async">
+</p>
+<ul>
+<li>看图（文章）识字，猜测下运行思路：
+<ol>
+<li>BR 向 PD 发送 backup / restore 指令</li>
+<li>PD 获取当前 TSO 信息（<strong>backupmeta</strong> 文件中的断点记录）</li>
+<li>BR 向 TiDB httpapi 获取 database/table schema 信息（记录在<strong>backupmeta</strong> 文件中，还原时使用）
+<ul>
+<li>参见 <a href="https://github.com/pingcap/tidb/blob/master/docs/tidb_http_api.md">tidb_http_api</a> ：<code>curl http://{TiDBIP}:10080/schema/{db}/{table}</code></li>
+</ul>
+</li>
+<li>TiKV 收到 backup 指令；获取目标 schema 所辖 kv range 的所有 sst 文件（输出到 本地存储 / 网络存储）
+<ul>
+<li>TiKV 原生自带 S3 / NFS 等接口；无需安装第三方工具外挂到 tikv-server</li>
+<li>每个 TiKV 自身发起 backup / restore 动作，并发操作减少总任务时长；单个 TiKV 数据量足够少，总备份时间相应会变短</li>
+<li>TiKV 数据备份支持流控，通过 BR 参数传递</li>
+</ul>
+</li>
+<li>存储场景使用区别：
+<ol>
+<li>本地存储：backup 备份至每个 tikv-server 服务器本地，<strong>restore 时每台机器都必须有全量备份数据</strong>；好处是磁盘 IOPS 最大化使用，网络 IO 主机内使用。</li>
+<li>网络存储：backup 备份时传输至网络存储服务器「提前预算足够大的空间」，restore 时从网络空间下载对应数据到每个 tikv-server 节点；磁盘 IOPS 局限单台服务器能力、网络 IO 跨主机使用。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="0x02-backupmeta">0x02 backupmeta</h2>
+<blockquote>
+<p>默认文件内容为二进制编码不可以编辑，打开时提示 <code>&quot;backupmeta&quot; may be a binary file.  See it anyway?</code></p>
+</blockquote>
+<ul>
+<li>使用 <code>./br validate decode -s local:///tmp/tmpuserbackup</code> 将 backupmeta 二进制文件解码为 backupmeta.json 文件（该文件与 backupmeta 同级目录）
+<ul>
+<li>backupmeta.json 文件内容为超长的一句话 JSON；key 信息保留，value 内容被 base64 编码</li>
+</ul>
+</li>
+<li>使用 <code>./br validate encode -s</code> 可以将 backupmeta.json 编码为 backupmeta 二进制文件</li>
+<li><strong>以上操作出现失误将会导致数据还原出现问题</strong>
+<ul>
+<li>操作上可以实现 backup database A ，restore database B 的场景；</li>
+<li>「schema 信息在每个表上都有，需要全部修改」</li>
+</ul>
+</li>
+</ul>
+<h3 id="sst-file">SST file</h3>
+<blockquote>
+<p>SST (Sorted Sequence Table)</p>
+</blockquote>
+<ul>
+<li>本次 backup 任务所有的 SST 文件信息，下面是其中一部分内容
+<ul>
+<li>restore 时会按照 backupmeta 文件内容进行恢复</li>
+<li>目标数据目录中相比 backupmeta 信息中缺少文件，提示 <code>The specified key does not exist.</code> 或者 <code>permission denied: download sst failed;</code></li>
+<li>目标数据目录中相比 backupmeta 信息中多余文件，不做操作</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-json" data-lang="json">{
+    &#34;name&#34;:&#34;2476_46_23_80992061af3e5194c3f28a5b79d486c5e9db2feda1afb3f84b4ca229ddce9932_write.sst&#34;,
+    &#34;sha256&#34;:&#34;AXCDqiNxpPxx4MmWz/nHwqy1N8kcRxc1HKgcDV3gnkI=&#34;,
+    &#34;start_key&#34;:&#34;dIAAAAAAAAAxX3IAAAAAAAAAAA==&#34;,
+    &#34;end_key&#34;:&#34;dIAAAAAAAAAxX3L//////////wA=&#34;,
+    &#34;end_version&#34;:417071760901406802,
+    &#34;crc64xor&#34;:12503741000804331466,
+    &#34;total_kvs&#34;:50,
+    &#34;total_bytes&#34;:6216,
+    &#34;cf&#34;:&#34;write&#34;,
+    &#34;size&#34;:6475
+}
+</code></pre><h3 id="schema">schema</h3>
+<ul>
+<li>本次 backup 任务所有的 schema 信息「以下仅展示部分信息」</li>
+</ul>
+<pre><code class="language-json" data-lang="json">&#34;schemas&#34;:[{&#34;db&#34;:&#34;eyJpZCI6NDUsImRiX25hbWUiOnsiTyI6InRwY2MtMiIsIkwiOiJ0cGNjLTIifSwiY2hhcnNldCI6InV0ZjhtYjQiLCJjb2xsYXRlIjoidXRmOG1iNF9iaW4iLCJzdGF0ZSI6NX0=&#34;,
+</code></pre><ul>
+<li>schema 解码后的信息</li>
+</ul>
+<pre><code class="language-json" data-lang="json">{
+    &#34;id&#34;:45,            // schema id
+    &#34;db_name&#34;:{
+        &#34;O&#34;:&#34;tpcc-2&#34;,  // 代表 create database 时原始字段信息
+        &#34;L&#34;:&#34;tpcc-2&#34;   // 程序转换为小写后的信息
+    },
+    &#34;charset&#34;:&#34;utf8mb4&#34;,
+    &#34;collate&#34;:&#34;utf8mb4_bin&#34;,
+    &#34;state&#34;:5
+}
+</code></pre><h3 id="checkpoint">checkpoint</h3>
+<ul>
+<li>获取 backupmeta 文件中的 起始时间、结束时间
+<ul>
+<li>全量与增量备份注意事项：按照严格准确的全量数据 end-version 来指定为增量备份 start-ts</li>
+<li>如果指定非精准 start-ts，出现数据重叠部分有 DDL 动作，可能会造成数据异常</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-s" data-lang="s">./br validate decode  -s local:///tmp/tmpuserbackup  --field=&#34;start-version&#34;
+Detial BR log in /tmp/br.log.2020-06-02T09.19.46+0800
+0
+// 该场景为全量备份，获取 start-version；即该次备份数据起始位置；全量备份默认起始位置为 0
+
+./br validate decode  -s local:///tmp/tmpuserbackup  --field=&#34;end-version&#34;
+Detial BR log in /tmp/br.log.2020-06-02T09.19.52+0800
+417071760901406802
+// 该场景为全量备份，获取 end-version；即该次备份数据结束位置
+
+./br validate decode  -s local:///tmp/tmpuserbackup-zl-2  --field=&#34;start-version&#34;
+Detial BR log in /tmp/br.log.2020-06-02T09.20.07+0800
+417071732760248335
+// 增量备份：此处 start-version 与全量场景 end-version 理应一一对应「此处不对应是因为 start-version 为手动指定」，正确操作姿势详情见 [PingCAP 官网-增量备份](https://docs.pingcap.com/zh/tidb/dev/backup-and-restore-tool#%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD)
+
+./br validate decode  -s local:///tmp/tmpuserbackup-zl-2  --field=&#34;end-version&#34;
+Detial BR log in /tmp/br.log.2020-06-02T09.20.01+0800
+417071840829112353
+// 增量备份：增量备份结束时间
+</code></pre><h3 id="checksum">checksum</h3>
+<ul>
+<li>本地备份场景注意事项；以下是 checksum 检查不完整 bakckup 数据目录的报错
+<ul>
+<li>将所有的 backup 数据收集到一台机器，得到一份全量备份数据</li>
+<li>然后将全量备份数据复制到每台 tikv-server 机器，此时才可以进行 restore 操作</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-s" data-lang="s"> ./br validate checksum --pd 172.16.4.51:14379  --storage &#34;local:///data3/tmpuser/full/full&#34;  
+Detial BR log in /tmp/br.log.2020-06-02T11.21.18+0800
+Error: open /data3/tmpuser/full/full/1644_58401_49_1970ce6c62b57fa0ad6226e45738144e10c519941f21cd1b7d14d5d255997975_default.sst: no such file or directory
+</code></pre><ul>
+<li>备份数据目录包含子目录，且子目录可能为增量备份</li>
+</ul>
+<pre><code class="language-s" data-lang="s"> ./br validate checksum --storage &#34;s3://full/full/zl-2/?endpoint=http://172.16.4.51:99&#34;
+Detial BR log in /tmp/br.log.2020-06-02T17.20.55+0800
+Error: NoSuchKey: The specified key does not exist.
+        status code: 404, request id: 1614AF9CB410A291, host id:
+</code></pre><ul>
+<li>备份数据检测完整；可以进行数据恢复</li>
+</ul>
+<pre><code class="language-S" data-lang="S">./br validate checksum --storage &#34;s3://full/full/zl-2/?endpoint=http://172.16.4.51:99&#34;
+Detial BR log in /tmp/br.log.2020-06-02T17.21.51+0800
+backup data checksum succeed!
+
+./br validate checksum --pd 172.16.4.51:14379  --storage &#34;local:///data3/tmpuser/full/full&#34;  
+Detial BR log in /tmp/br.log.2020-06-02T11.18.32+0800
+backup data checksum succeed!
+</code></pre><ul>
+<li>backupmeta 已存在目录中，该目录无法创建备份；</li>
+</ul>
+<pre><code class="language-s" data-lang="s">./br backup table  --pd 172.16.4.51:14379 --db tpcc --table order_line --storage &#34;local:///tmp/tmpuserbackup&#34;  --log-file backupfull.log-2
+Detial BR log in backupfull.log-2
+Error: backup meta exists, may be some backup files in the path already
+</code></pre><ul>
+<li>该目录中已有 SST 文件不影响创建备份操作「不检测目录是否为空」，如果备份 SST 文件与已有文件重名会停止备份
+<ul>
+<li>文件名带有 storeid_regionid_schemaid_key 信息，动态数据重名几率较小</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-s" data-lang="s">./br backup table  --pd 172.16.4.51:14379 --db tpcc --table order_line --storage &#34;local:///tmp/tmpuserbackup-2&#34;  --log-file backupfull.log-2
+Detial BR log in backupfull.log-2
+Table backup &lt;..............................................................................................................................................................................................&gt; 0.00%Error: msg:&#34;Io(Custom { kind: AlreadyExists, error: \&#34;[1_112_45_393d3575060c0d616300c1199ef1c015784fdd3d13e950a6251007bbcbaf2c06_write.sst] is already exists in /tmp/tmpuserbackup-2\&#34; })&#34;
+</code></pre><h2 id="0x03-测试">0x03 测试</h2>
+<blockquote>
+<p>BR 使用简单、快捷，填充参数增加文章长度；</p>
+</blockquote>
+<pre><code class="language-s" data-lang="s">br is a TiDB/TiKV cluster backup restore tool.
+
+Usage:
+  br [command]
+
+Available Commands:
+  backup      backup a TiDB/TiKV cluster
+  help        Help about any command
+  restore     restore a TiDB/TiKV cluster
+
+Flags:
+      --ca string                     CA certificate path for TLS connection
+      --cert string                   Certificate path for TLS connection
+      --checksum                      Run checksum at end of task (default true)
+      --gcs.credentials-file string   (experimental) Set the GCS credentials file path
+      --gcs.endpoint string           (experimental) Set the GCS endpoint URL
+      --gcs.predefined-acl string     (experimental) Specify the GCS predefined acl for objects
+      --gcs.storage-class string      (experimental) Specify the GCS storage class for objects
+  -h, --help                          help for br
+      --key string                    Private key path for TLS connection
+      --log-file string               Set the log file path. If not set, logs will output to temp file (default &#34;/tmp/br.log.2020-07-02T14.25.25+0800&#34;)
+  -L, --log-level string              Set the log level (default &#34;info&#34;)
+  -u, --pd strings                    PD address (default [127.0.0.1:2379])
+      --ratelimit uint                The rate limit of the task, MB/s per node
+      --s3.acl string                 (experimental) Set the S3 canned ACLs, e.g. authenticated-read
+      --s3.endpoint string            (experimental) Set the S3 endpoint URL, please specify the http or https scheme explicitly
+      --s3.provider string            (experimental) Set the S3 provider, e.g. aws, alibaba, ceph
+      --s3.region string              (experimental) Set the S3 region, e.g. us-east-1
+      --s3.sse string                 Set S3 server-side encryption, e.g. aws:kms
+      --s3.sse-kms-key-id string      KMS CMK key id to use with S3 server-side encryption.Leave empty to use S3 owned key.
+      --s3.storage-class string       (experimental) Set the S3 storage class, e.g. STANDARD
+  -c, --send-credentials-to-tikv      Whether send credentials to tikv (default true)
+      --status-addr string            Set the HTTP listening address for the status report service. Set to empty string to disable
+  -s, --storage string                specify the url where backup storage, eg, &#34;s3://bucket/path/prefix&#34;
+  -V, --version                       Display version information about BR
+
+Use &#34;br [command] --help&#34; for more information about a command.
+</code></pre><blockquote>
+<p>以下内容请移步参观官网详细文档 <a href="https://docs.pingcap.com/zh/tidb/dev/backup-and-restore-tool" title="PingCAP 官网文档-使用 BR 进行备份与恢复">PingCAP 官网文档-使用 BR 进行备份与恢复</a></p>
+</blockquote>
+<h3 id="local-br">local BR</h3>
+<ul>
+<li>备份数据到本地存储「提前准备好全量数据备份的磁盘空间（如果需要本地恢复的话）」</li>
+</ul>
+<pre><code class="language-s" data-lang="s">./br backup table  --pd 172.16.4.51:14379 --db tpcc --table history --storage &#34;local:///tmp/tmpuserbackup-3&#34;  --log-file backupfull.log-2
+Detial BR log in backupfull.log-2
+Table backup &lt;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&gt; 100.00%
+Checksum &lt;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&gt; 100.00%
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2020-06-01T15:59:34.671+0800&#34;,&#34;caller&#34;:&#34;clientv3/retry_interceptor.go:61&#34;,&#34;msg&#34;:&#34;retrying of unary invoker failed&#34;,&#34;target&#34;:&#34;endpoint://client-3be8bd38-4e9e-4166-a102-afcab137eee9/172.16.4.51:14379&#34;,&#34;attempt&#34;:0,&#34;error&#34;:&#34;rpc error: code = Canceled desc = grpc: the client connection is closing&#34;}
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2020-06-01T15:59:34.697+0800&#34;,&#34;caller&#34;:&#34;clientv3/retry_interceptor.go:61&#34;,&#34;msg&#34;:&#34;retrying of unary invoker failed&#34;,&#34;target&#34;:&#34;endpoint://client-3be8bd38-4e9e-4166-a102-afcab137eee9/172.16.4.51:14379&#34;,&#34;attempt&#34;:1,&#34;error&#34;:&#34;rpc error: code = Canceled desc = grpc: the client connection is closing&#34;}
+{&#34;level&#34;:&#34;warn&#34;,&#34;ts&#34;:&#34;2020-06-01T15:59:34.723+0800&#34;,&#34;caller&#34;:&#34;clientv3/retry_interceptor.go:61&#34;,&#34;msg&#34;:&#34;retrying of unary invoker failed&#34;,&#34;target&#34;:&#34;endpoint://client-3be8bd38-4e9e-4166-a102-afcab137eee9/172.16.4.51:14379&#34;,&#34;attempt&#34;:2,&#34;error&#34;:&#34;rpc error: code = Canceled desc = grpc: the client connection is closing&#34;}
+[2020/06/01 15:59:37.355 +08:00] [INFO] [collector.go:58] [&#34;Table backup Success summary: total backup ranges: 3, total success: 3, total failed: 0, total take(s): 24.02, total kv: 53717061, total size(MB): 2859.38, avg speed(MB/s): 119.02&#34;] [&#34;backup checksum&#34;=3.148382555s] [&#34;backup fast checksum&#34;=634.588µs] [&#34;backup total regions&#34;=62]
+</code></pre><ul>
+<li>permission denied
+<ul>
+<li><strong>首先检查每个 tikv-server 主机上是否有全量数据</strong></li>
+<li>然后检查 br -s 指定的数据目录是否正确，<strong>每个 tikv 节点路径必须一致</strong></li>
+<li>然后检查<strong>目录权限是否被 tikv-server 运行用户可读</strong></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-s" data-lang="s">./br restore full --pd 172.16.4.51:14379  --storage &#34;local:///data3/tmpuser/full/full&#34;  --status-addr 172.16.4.51:18880
+Detial BR log in /tmp/br.log.2020-06-02T11.30.48+0800
+Full restore &lt;---------.................................................................................................................................................................................&gt; 4.74%Error: permission denied: download sst failed; permission denied: download sst failed; permission denied: download sst failed; permission denied: download sst failed; permission denied: download sst failed; permission denied: download sst failed; permission denied: download sst failed; permission denied: download sst failed
+</code></pre><h3 id="s3-br">S3 BR</h3>
+<ul>
+<li>备份数据到网络存储
+<ul>
+<li>export AWS_ACCESS_KEY_ID=minioadmin</li>
+<li>export AWS_SECRET_ACCESS_KEY=minioadmin</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-s" data-lang="s"> ./br backup db --db br --pd 172.16.4.51:14379  --storage &#34;s3://br-order-line/?endpoint=http://172.16.4.51:99&#34;
+Detial BR log in /tmp/br.log.2020-06-02T17.32.47+0800
+Database backup &lt;----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&gt; 100.00%
+Checksum &lt;-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&gt; 100.00%
+[2020/06/02 17:39:37.879 +08:00] [INFO] [collector.go:58] [&#34;Database backup Success summary: total backup ranges: 20, total success: 20, total failed: 0, total take(s): 366.26, total kv: 1390969552, total size(MB): 128968.74, avg speed(MB/s): 352.12&#34;] [&#34;backup checksum&#34;=44.411943312s] [&#34;backup fast checksum&#34;=5.160845ms] [&#34;backup total regions&#34;=2402]
+</code></pre><ul>
+<li>从网络存储恢复数据
+<ul>
+<li>export AWS_ACCESS_KEY_ID=minioadmin</li>
+<li>export AWS_SECRET_ACCESS_KEY=minioadmin</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-s" data-lang="s"> ./br restore full --pd 172.16.4.51:14379  --storage &#34;s3://full/full/full/?endpoint=http://172.16.4.51:99&#34; --status-addr 172.16.4.51:18880
+Detial BR log in /tmp/br.log.2020-06-02T17.13.34+0800
+Full restore &lt;-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&gt; 100.00%
+Checksum &lt;-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&gt; 100.00%
+[2020/06/02 17:15:38.093 +08:00] [INFO] [collector.go:58] [&#34;Full restore Success summary: total restore files: 866, total success: 866, total failed: 0, total take(s): 84.16, total kv: 501863655, total size(MB): 38876.69, avg speed(MB/s): 461.96&#34;] [&#34;split region&#34;=12.75036978s] [&#34;restore checksum&#34;=16.45494056s] [&#34;restore ranges&#34;=822]
+</code></pre><ul>
+<li>手动提前创建好 S3/backup 信息；backup == S3 目录</li>
+</ul>
+<pre><code class="language-s" data-lang="s"> ./br backup db --db br --pd 172.16.4.51:14379  --storage &#34;s3://br-order-line/?endpoint=http://172.16.4.51:99&#34;
+Detial BR log in /tmp/br.log.2020-06-02T17.32.11+0800
+Error: Bucket br-order-line is not accessible: NotFound: Not Found
+        status code: 404, request id: 1614B03A0CD600B5, host id:
+</code></pre><h2 id="faq">FAQ</h2>
+<p>数据一边大量写入，一边做增量备份；BR 是怎么控制结束时间的呢？「有奖问答」</p>
+<ul>
+<li>贴一段 BR 运行日志</li>
+</ul>
+<pre><code class="language-s" data-lang="s">[2020/06/01 16:15:38.439 +08:00] [INFO] [coprocessor.go:870] [&#34;[TIME_COP_PROCESS] resp_time:303.5223ms txnStartTS:417070892274155527 region_id:148 store_addr:172.16.4.52:15160 kv_process_ms:301 scan_total_write:145255 scan_processed_write:145254 scan_total_data:145254 scan_processed_data:145254 scan_total_lock:1 scan_processed_lock:0&#34;]
+[2020/06/01 16:15:54.730 +08:00] [INFO] [schema.go:94] [&#34;table checksum finished&#34;] [table=`tpcc`.`order_line`] [Crc64Xor=18378085887538976218] [TotalKvs=369955866] [TotalBytes=30627398952] [take=16.601811036s]
+[2020/06/01 16:15:54.730 +08:00] [INFO] [schema.go:107] [&#34;backup checksum&#34;] [take=16.602038025s]
+[2020/06/01 16:15:54.734 +08:00] [INFO] [client.go:895] [&#34;fast checksum calculated&#34;] [db=tpcc] [table=warehouse]
+[2020/06/01 16:15:54.734 +08:00] [INFO] [client.go:895] [&#34;fast checksum calculated&#34;] [db=tpcc] [table=district]
+[2020/06/01 16:15:54.735 +08:00] [INFO] [client.go:895] [&#34;fast checksum calculated&#34;] [db=tpcc] [table=item]
+[2020/06/01 16:15:54.735 +08:00] [INFO] [client.go:895] [&#34;fast checksum calculated&#34;] [db=tpcc] [table=new_order]
+[2020/06/01 16:15:54.735 +08:00] [INFO] [client.go:895] [&#34;fast checksum calculated&#34;] [db=tpcc] [table=customer]
+[2020/06/01 16:15:54.736 +08:00] [INFO] [client.go:895] [&#34;fast checksum calculated&#34;] [db=tpcc] [table=stock]
+[2020/06/01 16:15:54.736 +08:00] [INFO] [client.go:895] [&#34;fast checksum calculated&#34;] [db=tpcc] [table=history]
+[2020/06/01 16:15:54.736 +08:00] [INFO] [client.go:895] [&#34;fast checksum calculated&#34;] [db=tpcc] [table=orders]
+[2020/06/01 16:15:54.737 +08:00] [INFO] [client.go:895] [&#34;fast checksum calculated&#34;] [db=tpcc] [table=order_line]
+[2020/06/01 16:15:54.737 +08:00] [INFO] [client.go:841] [&#34;fast checksum success&#34;] [database=tpcc] [table=warehouse]
+[2020/06/01 16:15:54.737 +08:00] [INFO] [client.go:841] [&#34;fast checksum success&#34;] [database=tpcc] [table=district]
+[2020/06/01 16:15:54.737 +08:00] [INFO] [client.go:841] [&#34;fast checksum success&#34;] [database=tpcc] [table=item]
+[2020/06/01 16:15:54.737 +08:00] [INFO] [client.go:841] [&#34;fast checksum success&#34;] [database=tpcc] [table=new_order]
+[2020/06/01 16:15:54.738 +08:00] [INFO] [client.go:841] [&#34;fast checksum success&#34;] [database=tpcc] [table=customer]
+[2020/06/01 16:15:54.739 +08:00] [INFO] [client.go:841] [&#34;fast checksum success&#34;] [database=tpcc] [table=stock]
+[2020/06/01 16:15:54.739 +08:00] [INFO] [client.go:841] [&#34;fast checksum success&#34;] [database=tpcc] [table=history]
+[2020/06/01 16:15:54.740 +08:00] [INFO] [client.go:841] [&#34;fast checksum success&#34;] [database=tpcc] [table=orders]
+[2020/06/01 16:15:54.740 +08:00] [INFO] [client.go:841] [&#34;fast checksum success&#34;] [database=tpcc] [table=order_line]
+[2020/06/01 16:15:54.741 +08:00] [INFO] [client.go:168] [&#34;save backup meta&#34;] [path=local:///tmp/tmpuserbackup] [jobs=0]
+[2020/06/01 16:15:54.743 +08:00] [INFO] [ddl.go:407] [&#34;[ddl] DDL closed&#34;] [ID=85890430-0b99-4322-8908-9a6412da4ad8] [&#34;take time&#34;=788.052µs]
+[2020/06/01 16:15:54.743 +08:00] [INFO] [ddl.go:301] [&#34;[ddl] stop DDL&#34;] [ID=85890430-0b99-4322-8908-9a6412da4ad8]
+[2020/06/01 16:15:54.744 +08:00] [INFO] [domain.go:607] [&#34;domain closed&#34;] [&#34;take time&#34;=1.996407ms]
+[2020/06/01 16:15:54.745 +08:00] [INFO] [collector.go:59] [&#34;Database backup Success summary: total backup ranges: 19, total success: 19, total failed: 0, total take(s): 145.77, total kv: 498155202, total size(MB): 38602.90, avg speed(MB/s): 264.83&#34;] [&#34;backup fast checksum&#34;=6.338075ms] [&#34;backup checksum&#34;=16.602056489s] [&#34;backup total regions&#34;=812]
+</code></pre>]]></content:encoded><h:time datetime="2020-06-17T00:00:00+08:00">2020-06-17 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200618-25-br-rc/">TiDB - Backup/Restore 测试</h:a></item><item><title>软件测试 - S3 协议与 minio</title><link>https://atman.ihx.cc/post/20200612-24-minio/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200612-24-minio/</guid><pubDate>Fri, 12 Jun 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>AirPlan</category><category>MinIO</category><description>0x00 S3 S3（Amazon Simple Storage Service (Amazon S3)）着重于简易性和稳健性的最小功能集【具体信息跳转到 亚马逊 S3 技术介绍页面】： 创建存储桶 – 创建和命名存储数据的存储桶。存储桶是 Amazon S3 中用于数据存储的基础容器 存储数据 – 在存储桶中存储无限量的数据。 …</description><content:encoded><![CDATA[<h2 id="0x00-s3">0x00 S3</h2>
+<p>S3（Amazon Simple Storage Service (Amazon S3)）着重于简易性和稳健性的最小功能集【具体信息跳转到 <a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/dev/Introduction.html">亚马逊 S3</a> 技术介绍页面】：</p>
+<ul>
+<li>创建存储桶 – 创建和命名存储数据的存储桶。存储桶是 Amazon S3 中用于数据存储的基础容器</li>
+<li>存储数据 – 在存储桶中存储无限量的数据。可将所需数量的对象上传到 Amazon S3 存储桶。每个对象可包含最多 5 TB 的数据。使用开发人员分配的唯一键值存储和检索每个对象</li>
+<li>下载数据 – 下载您的数据或允许其他人进行下载。随时下载您的数据或允许其他人进行下载</li>
+<li>权限 – 对于要在您的 Amazon S3 存储桶中上传或下载数据的其他人员，您可以授予其访问权限或拒绝其访问。将上传和下载的许可授予三种类型的用户。身份验证机制可帮助确保数据安全，以防未授权访问</li>
+<li>标准接口 – 使用基于标准的 REST 和 SOAP 接口，它们可与任何 Internet 开发工具包搭配使用</li>
+</ul>
+<blockquote>
+<p>个人使用</p>
+</blockquote>
+<ul>
+<li>集中式标准接口：S3:// + backup + 文件路径 + AK/SK</li>
+<li>精确 ACL 访问控制（主要是配合 AWS IAM 场景好用，minio 是按照 ak/sk 做的）</li>
+<li>KV 方式存储对象元数据信息，提供 sql 或类似接口查询</li>
+<li>多媒体在线访问：如 图片、视频、音频等</li>
+</ul>
+<h2 id="0x01-minio">0x01 MINio</h2>
+<p><a href="https://min.io/">minio</a> 开源（Apache License v2.0）、兼容 S3 协议、部署运维轻量化、高性能的对象存储服务。文档可以阅读 <a href="https://docs.min.io/docs/minio-quickstart-guide.html">minio docs</a>，<a href="https://github.com/minio/minio">Github MinIO</a></p>
+<p>安装部署支持 amd64、arm 、Windows 系统架构，支持 docker、binary 等安装方式。</p>
+<blockquote>
+<p>测试 TiDB &ndash; BR 时需要用到一个集中式存储服务，可以是 NFS 或者 S3 服务。</p>
+</blockquote>
+<p>参考 <a href="https://docs.min.io/docs/minio-docker-quickstart-guide.html">Minio Docs</a> 内容：</p>
+<pre><code class="language-shell" data-lang="shell">docker run -p 99:9000 \
+    -v /data3/tmpuser/minio:/data \
+    --name s3minio -d minio/minio server /data    \
+    -e &#34;MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE&#34; \
+    -e &#34;MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY&#34;
+</code></pre><p>docker 启动参数中不使用 <code>MINIO_ACCESS_KEY</code> 和 <code>MINIO_SECRET_KEY</code> 的情况下，AK/SK 默认为 <code>minioadmin/minioadmin</code>；启动后可以通过 <code>docker log 容器ID</code> 查看到运行信息。</p>
+<h2 id="0x02-分布式">0x02 分布式</h2>
+<p>minio 支持分布式部署，目前还未测试成功，持续在报错。。。</p>
+]]></content:encoded><h:time datetime="2020-06-12T00:00:00+08:00">2020-06-12 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200612-24-minio/">软件测试 - S3 协议与 minio</h:a></item><item><title>TiDB - CDC RC1 测试</title><link>https://atman.ihx.cc/post/20200601-23-cdc-4.0rc1/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200601-23-cdc-4.0rc1/</guid><pubDate>Mon, 01 Jun 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>AirPlan</category><category>CDC</category><category>TiDB</category><description>0x00 CDC 嗯，同场竞技 Binlog 与 CDC 组件 本页内容仅针对 v4.0.0-rc.1-25 版本，不对后续版本做任何预测性的评论 // 最终解释权归制图者 参考各种文档 官网文档 安装部署 Github Repo TiCDC Improve usability in cdc client Issue 542 官网文档 TiKV GC 机制介 …</description><content:encoded><![CDATA[<h2 id="0x00-cdc">0x00 CDC</h2>
+<blockquote>
+<p>嗯，同场竞技 Binlog 与 CDC 组件<br>
+本页内容仅针对 v4.0.0-rc.1-25 版本，不对后续版本做任何预测性的评论 //  最终解释权归制图者</p>
+</blockquote>
+<ul>
+<li>参考各种文档
+<ul>
+<li>官网文档 <a href="https://pingcap.com/docs-cn/stable/ticdc/ticdc-overview/">安装部署</a></li>
+<li>Github Repo <a href="https://github.com/pingcap/ticdc">TiCDC</a>
+<ul>
+<li>Improve usability in cdc client <a href="https://github.com/pingcap/ticdc/issues/542">Issue 542</a></li>
+</ul>
+</li>
+<li>官网文档 TiKV <a href="https://pingcap.com/docs-cn/stable/garbage-collection-overview/">GC 机制介绍</a></li>
+<li>官网文档 <a href="https://pingcap.com/docs-cn/stable/tidb-binlog/tidb-binlog-overview/">TiDB Binlog 简介</a></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://atman.ihx.cc/post/20200601-23-cdc-4.0rc1/CDC.png" alt="CDC 测试脑图" loading="lazy" decoding="async">
+</p>
+<ul>
+<li>测试状态 lastdate 20200707
+<ul>
+<li><input disabled="" type="checkbox"> 主从跨机房部署</li>
+<li><input disabled="" type="checkbox"> 事物一致性还原（过程一致性、最终一致性）</li>
+<li><input disabled="" type="checkbox"> 主备灾难时 CDC 状态</li>
+<li><input checked="" disabled="" type="checkbox"> CDC 自定义数据源输出；支持 canal 协议「写入到 kafka」</li>
+<li><input checked="" disabled="" type="checkbox"> db/table 过滤；支持完整的 <a href="https://github.com/pingcap/tidb-tools/blob/master/pkg/table-filter/README.md#wildcards">Wildcards</a></li>
+<li><input checked="" disabled="" type="checkbox"> 支持环形复制</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x01-gc-safepoint">0x01 GC safepoint</h2>
+<blockquote>
+<p>通过 <code>max(tikv_gcworker_autogc_safe_point) by (instance) / (2^18)</code> 可以在 Grafana 或者 Prometheus 查看 TiKV 最后一次的 GC 时间。<br>
+或者在数据库中通过 <code>select * from mysql.tidb</code> 查询</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20200601-23-cdc-4.0rc1/gc-safepoint.png" alt="gc-safepoint" loading="lazy" decoding="async">
+</p>
+<p>当 CDC 运行状态中，<strong>checkpoint ts &gt; gc safe point ts</strong> 正常现象，默认 “启动 CDC server 时可以通过 gc-ttl 指定 GC safepoint 的 TTL，这个值的含义是当 TiCDC 服务全部挂掉后，由 TiCDC 在 PD 所设置的 GC safepoint 保存的最长时间，该值默认为 86400 秒。（<a href="https://pingcap.com/docs-cn/stable/ticdc/troubleshoot-ticdc/#gc-ttl-%E5%92%8C%E6%96%87%E4%BB%B6%E6%8E%92%E5%BA%8F">来自 PingCAP 官网</a>）”<br>
+该场景可能会导致 <strong>TiKV_GC_can_not_work</strong> 告警 <code>sum(increase(tikv_gcworker_gc_tasks_vec{task=&quot;gc&quot;}[1d])) &lt; 1</code> ; 该告警提示最近 1 天 TiKV GC 没有工作，可能会造成过多的 MVCC 版本从而影响读性能</p>
+<p><img src="https://atman.ihx.cc/post/20200601-23-cdc-4.0rc1/GC.png" alt="GC" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>通过 etcd-ctl 获取 ctcd 中的信息，etcd-ctl 通过 <a href="https://github.com/etcd-io/etcd/releases">Github etcd</a> 下载<br>
+执行命令：<code>./etcdctl --endpoints=http://10.10.10.10:14379 get /tidb/cdc --prefix</code></p>
+</blockquote>
+<pre><code class="language-json" data-lang="json">/tidb/store/gcworker/saved_safe_point
+416997967863480321
+</code></pre><h2 id="0x02-case">0x02 CASE</h2>
+<ul>
+<li>
+<p>创建一个同步任务</p>
+<ul>
+<li>tpcc.history 表没有 PK 或者 UK，CDC 无法同步类似表</li>
+</ul>
+<pre><code class="language-json" data-lang="json">./cdc cli --pd http://10.10.10.10:14379 changefeed create --sink-uri=&#34;mysql://root:root@127.0.0.1:44/?worker-count=1&amp;max-txn-row=50&#34;
+[WARN] some tables are not eligible to replicate, []entry.TableName{entry.TableName{Schema:&#34;tpcc&#34;, Table:&#34;history&#34;}}
+Could you agree to ignore those tables, and continue to replicate [Y/N]
+y
+Create changefeed successfully!
+ID: ac6d034a-c2b4-41bf-801a-798bb1390734
+Info: {&#34;sink-uri&#34;:&#34;mysql://root:root@127.0.0.1:44/?worker-count=1\u0026max-txn-row=50&#34;,&#34;opts&#34;:{},&#34;create-time&#34;:&#34;2020-05-27T16:14:08.529050855+08:00&#34;,&#34;start-ts&#34;:416957660797337610,&#34;target-ts&#34;:0,&#34;admin-job-type&#34;:0,&#34;sort-engine&#34;:&#34;memory&#34;,&#34;sort-dir&#34;:&#34;.&#34;,&#34;config&#34;:{&#34;ddl-white-list&#34;:null,&#34;filter-case-sensitive&#34;:false,&#34;filter-rules&#34;:null,&#34;ignore-txn-commit-ts&#34;:null,&#34;sink-dispatch-rules&#34;:null,&#34;mounter-worker-num&#34;:0}}
+</code></pre></li>
+<li>
+<p>各种查看</p>
+<ul>
+<li>capture / 间接等于一个 CDC server</li>
+<li>change feed / 等于一个同步任务</li>
+</ul>
+<pre><code class="language-json" data-lang="json">$ ./cdc cli --pd http://10.10.10.10:14379 capture list
+[
+  {
+    &#34;id&#34;: &#34;7a8e4800-56ae-46a5-a1a6-3eb57b6ce935&#34;,
+    &#34;is-owner&#34;: true,
+    &#34;address&#34;: &#34;10.10.10.10:14800&#34;
+  }
+]
+
+$ ./cdc cli --pd http://10.10.10.10:14379 changefeed list
+[
+  {
+    &#34;id&#34;: &#34;ac6d034a-c2b4-41bf-801a-798bb1390734&#34;
+  }
+]
+</code></pre></li>
+<li>
+<p>查看上下游同步延迟</p>
+<pre><code class="language-json" data-lang="json">./cdc cli --pd http://10.10.10.10:14379 changefeed statistics  --changefeed-id=&#34;ac6d034a-c2b4-41bf-801a-798bb1390734&#34;
+{
+  &#34;ops&#34;: 0,
+  &#34;count&#34;: 0,
+  &#34;sink_gap&#34;: &#34;1389300ms&#34;,
+  &#34;replication_gap&#34;: &#34;1391250ms&#34;
+}
+{
+  &#34;ops&#34;: 0,
+  &#34;count&#34;: 0,
+  &#34;sink_gap&#34;: &#34;1399300ms&#34;,
+  &#34;replication_gap&#34;: &#34;1401250ms&#34;
+}
+{
+  &#34;ops&#34;: 0,
+  &#34;count&#34;: 0,
+  &#34;sink_gap&#34;: &#34;1409351ms&#34;,
+  &#34;replication_gap&#34;: &#34;1411250ms&#34;
+}
+</code></pre></li>
+<li>
+<p>delete meta 操作</p>
+<ul>
+<li>cdc stop 时不会删除 change feed 信息，会删除 capture 信息</li>
+<li><strong>操作不可逆，谨慎执行</strong>，主要是 checkpoint ts 信息</li>
+</ul>
+<pre><code class="language-json" data-lang="json"> ./cdc cli --pd http://10.10.10.10:14379 changefeed list
+[
+  {
+    &#34;id&#34;: &#34;f96916c7-1f55-41b5-9d16-406e51aab6d4&#34;
+  },
+  {
+    &#34;id&#34;: &#34;3e943df4-6950-4568-84c8-d81fd83de2d8&#34;
+  },
+  {
+    &#34;id&#34;: &#34;7de99356-8389-4644-b71b-dc7b6ba7389e&#34;
+  }
+]
+ ./cdc cli --pd http://10.10.10.10:14379 meta delete
+already truncate all meta in etcd!
+
+ ./cdc cli --pd http://10.10.10.10:14379 changefeed list
+[]
+</code></pre><pre><code class="language-json" data-lang="json">/tidb/cdc/changefeed/info/3e943df4-6950-4568-84c8-d81fd83de2d8
+{&#34;sink-uri&#34;:&#34;mysql://root:root@127.0.0.1:44/?worker-count=16\u0026max-txn-row=50&#34;,&#34;opts&#34;:{},&#34;create-time&#34;:&#34;2020-05-28T17:36:26.62800987+08:00&#34;,&#34;start-ts&#34;:416981604520427521,&#34;target-ts&#34;:0,&#34;admin-job-type&#34;:2,&#34;sort-engine&#34;:&#34;memory&#34;,&#34;sort-dir&#34;:&#34;.&#34;,&#34;config&#34;:{&#34;ddl-white-list&#34;:null,&#34;filter-case-sensitive&#34;:false,&#34;filter-rules&#34;:{&#34;do-tables&#34;:null,&#34;do-dbs&#34;:[&#34;br&#34;],&#34;ignore-tables&#34;:[{&#34;db-name&#34;:&#34;br&#34;,&#34;tbl-name&#34;:&#34;history&#34;}],&#34;ignore-dbs&#34;:[&#34;tpcc&#34;,&#34;tpch&#34;,&#34;mysql&#34;,&#34;test&#34;]},&#34;ignore-txn-commit-ts&#34;:[],&#34;sink-dispatch-rules&#34;:null,&#34;mounter-worker-num&#34;:0}}
+/tidb/cdc/changefeed/info/7de99356-8389-4644-b71b-dc7b6ba7389e
+{&#34;sink-uri&#34;:&#34;mysql://root:root@127.0.0.1:44/?worker-count=16\u0026max-txn-row=50&#34;,&#34;opts&#34;:{},&#34;create-time&#34;:&#34;2020-05-29T11:24:24.682842675+08:00&#34;,&#34;start-ts&#34;:416997967863480321,&#34;target-ts&#34;:0,&#34;admin-job-type&#34;:0,&#34;sort-engine&#34;:&#34;memory&#34;,&#34;sort-dir&#34;:&#34;.&#34;,&#34;config&#34;:{&#34;ddl-white-list&#34;:null,&#34;filter-case-sensitive&#34;:false,&#34;filter-rules&#34;:{&#34;do-tables&#34;:null,&#34;do-dbs&#34;:[&#34;br&#34;],&#34;ignore-tables&#34;:[{&#34;db-name&#34;:&#34;br&#34;,&#34;tbl-name&#34;:&#34;history&#34;}],&#34;ignore-dbs&#34;:[&#34;tpcc&#34;,&#34;tpch&#34;,&#34;mysql&#34;,&#34;test&#34;]},&#34;ignore-txn-commit-ts&#34;:[],&#34;sink-dispatch-rules&#34;:null,&#34;mounter-worker-num&#34;:0}}
+/tidb/cdc/changefeed/info/f96916c7-1f55-41b5-9d16-406e51aab6d4
+{&#34;sink-uri&#34;:&#34;mysql://root:root@127.0.0.1:44/?worker-count=16\u0026max-txn-row=50&#34;,&#34;opts&#34;:{},&#34;create-time&#34;:&#34;2020-06-01T10:52:23.204398589+08:00&#34;,&#34;start-ts&#34;:416997967863480321,&#34;target-ts&#34;:0,&#34;admin-job-type&#34;:0,&#34;sort-engine&#34;:&#34;memory&#34;,&#34;sort-dir&#34;:&#34;.&#34;,&#34;config&#34;:{&#34;ddl-white-list&#34;:null,&#34;filter-case-sensitive&#34;:false,&#34;filter-rules&#34;:{&#34;do-tables&#34;:null,&#34;do-dbs&#34;:[&#34;br&#34;],&#34;ignore-tables&#34;:[{&#34;db-name&#34;:&#34;br&#34;,&#34;tbl-name&#34;:&#34;history&#34;}],&#34;ignore-dbs&#34;:[&#34;tpcc&#34;,&#34;tpch&#34;,&#34;mysql&#34;,&#34;test&#34;]},&#34;ignore-txn-commit-ts&#34;:[],&#34;sink-dispatch-rules&#34;:null,&#34;mounter-worker-num&#34;:0}}
+/tidb/cdc/job/0240d5b9-a81f-417c-834b-e16329eba09b
+{&#34;resolved-ts&#34;:416958926651392001,&#34;checkpoint-ts&#34;:416958926389248001,&#34;admin-job-type&#34;:3}
+/tidb/cdc/job/3e943df4-6950-4568-84c8-d81fd83de2d8
+{&#34;resolved-ts&#34;:416997967863480321,&#34;checkpoint-ts&#34;:416997967863480321,&#34;admin-job-type&#34;:0}
+/tidb/cdc/job/6281d51f-f62c-46c6-b10e-33013470fbaa
+{&#34;resolved-ts&#34;:416974641884037174,&#34;checkpoint-ts&#34;:416974641884037174,&#34;admin-job-type&#34;:3}
+/tidb/cdc/job/7de99356-8389-4644-b71b-dc7b6ba7389e
+{&#34;resolved-ts&#34;:416997967863480321,&#34;checkpoint-ts&#34;:416997967863480321,&#34;admin-job-type&#34;:0}
+/tidb/cdc/job/ac6d034a-c2b4-41bf-801a-798bb1390734
+{&#34;resolved-ts&#34;:416958671598387201,&#34;checkpoint-ts&#34;:416957660797337610,&#34;admin-job-type&#34;:3}
+/tidb/cdc/job/e01adb9c-70ad-4600-b4de-d20da914bd9a
+{&#34;resolved-ts&#34;:416975975436779549,&#34;checkpoint-ts&#34;:416975975436779549,&#34;admin-job-type&#34;:3}
+/tidb/cdc/job/f96916c7-1f55-41b5-9d16-406e51aab6d4
+{&#34;resolved-ts&#34;:416997967863480321,&#34;checkpoint-ts&#34;:416997967863480321,&#34;admin-job-type&#34;:0}
+/tidb/cdc/task/position/a99683bc-4af4-45d3-aa7b-5bbd398fb6b5/3e943df4-6950-4568-84c8-d81fd83de2d8
+{&#34;checkpoint-ts&#34;:417002603526225942,&#34;resolved-ts&#34;:416997967863480321,&#34;count&#34;:0}
+/tidb/cdc/task/position/a99683bc-4af4-45d3-aa7b-5bbd398fb6b5/7de99356-8389-4644-b71b-dc7b6ba7389e
+{&#34;checkpoint-ts&#34;:416997967863480321,&#34;resolved-ts&#34;:416997967863480321,&#34;count&#34;:0}
+/tidb/cdc/task/position/a99683bc-4af4-45d3-aa7b-5bbd398fb6b5/f96916c7-1f55-41b5-9d16-406e51aab6d4
+{&#34;checkpoint-ts&#34;:417002603526225942,&#34;resolved-ts&#34;:416997967863480321,&#34;count&#34;:0}
+/tidb/cdc/task/status/a99683bc-4af4-45d3-aa7b-5bbd398fb6b5/3e943df4-6950-4568-84c8-d81fd83de2d8
+{&#34;table-infos&#34;:[{&#34;id&#34;:7441,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7443,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7445,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7449,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7451,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7453,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7455,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7457,&#34;start-ts&#34;:416997967863480321}],&#34;table-p-lock&#34;:{&#34;ts&#34;:417160718610857984,&#34;creator-id&#34;:&#34;a99683bc-4af4-45d3-aa7b-5bbd398fb6b5&#34;,&#34;checkpoint-ts&#34;:0},&#34;table-c-lock&#34;:{&#34;ts&#34;:417160718610857984,&#34;creator-id&#34;:&#34;&#34;,&#34;checkpoint-ts&#34;:417002603526225942},&#34;admin-job-type&#34;:0}
+/tidb/cdc/task/status/a99683bc-4af4-45d3-aa7b-5bbd398fb6b5/7de99356-8389-4644-b71b-dc7b6ba7389e
+{&#34;table-infos&#34;:[{&#34;id&#34;:7441,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7443,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7445,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7449,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7451,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7453,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7455,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7457,&#34;start-ts&#34;:416997967863480321}],&#34;table-p-lock&#34;:{&#34;ts&#34;:417160718611382272,&#34;creator-id&#34;:&#34;a99683bc-4af4-45d3-aa7b-5bbd398fb6b5&#34;,&#34;checkpoint-ts&#34;:0},&#34;table-c-lock&#34;:{&#34;ts&#34;:417160718611382272,&#34;creator-id&#34;:&#34;&#34;,&#34;checkpoint-ts&#34;:416997967863480321},&#34;admin-job-type&#34;:0}
+/tidb/cdc/task/status/a99683bc-4af4-45d3-aa7b-5bbd398fb6b5/f96916c7-1f55-41b5-9d16-406e51aab6d4
+{&#34;table-infos&#34;:[{&#34;id&#34;:7441,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7443,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7445,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7449,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7451,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7453,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7455,&#34;start-ts&#34;:416997967863480321},{&#34;id&#34;:7457,&#34;start-ts&#34;:416997967863480321}],&#34;table-p-lock&#34;:{&#34;ts&#34;:417160718611644416,&#34;creator-id&#34;:&#34;a99683bc-4af4-45d3-aa7b-5bbd398fb6b5&#34;,&#34;checkpoint-ts&#34;:0},&#34;table-c-lock&#34;:{&#34;ts&#34;:417160718611644416,&#34;creator-id&#34;:&#34;&#34;,&#34;checkpoint-ts&#34;:417002603526225942},&#34;admin-job-type&#34;:0}
+</code></pre></li>
+</ul>
+<h2 id="0x03-faq">0x03 FAQ</h2>
+<blockquote>
+<p>测试时问题处理思路</p>
+</blockquote>
+<ul>
+<li>GC not work 告警
+<ul>
+<li>影响：MVCC 版本过多，TikV 数据存储空间变大</li>
+<li>原因：changefeed 依赖 TiKV MVCC + Raft log 解析数据，mvcc 数据在未同步到下游时被 GC 删除会导致数据同步丢失；
+<ul>
+<li>场景 1：changefeed 同步的快慢与 GC worker 有关系，怎么解决 change feed 同步速度问题；手下要了解 change feed 怎么来的
+<ol>
+<li>CDC 链接 PD 获取 TiKV 节点信息</li>
+<li>CDC 创建 change feed，change feed 信息存储在 PD etcd 中「cdc 高可用中心节点」</li>
+<li>CDC 接受 TiKV 主动推送数据「与 change feed 有关系」放在 <strong>cdc 内存</strong> 里解析、转换 SQL「数据量过大可能造成 OOM，官网有解决方案」「此处非全局有序（单个 change feed 可以放在多个 CDC 上负载方式运行）」</li>
+<li>CDC 将 SQL 写入到下游 TiDB「并发由 worker-count&amp;max-txn-row 控制」「不支持同步无主键或无唯一索引的表」</li>
+<li>回顾下：CDC 个数、下游的吞吐能力、上下游网络延迟 决定了同步速度快慢（隐藏条件 CDC 内存处理性能）</li>
+</ol>
+</li>
+<li>场景 2：CDC 创建多个 change feed 任务，其中有任务状态为 pause（<a href="https://pingcap.com/docs-cn/stable/ticdc/manage-ticdc/#%E6%9F%A5%E8%AF%A2%E7%89%B9%E5%AE%9A%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1">admin job type</a> = 1）；
+<ul>
+<li>pause 状态下防止丢失“数据窗口”信息，会停止 MVCC 数据 GC 直到状态更改为 remove（3）或者等 resume（2）正常消费</li>
+<li>使用 <code>cdc cli changefeed query</code> 查看</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>其他</p>
+</blockquote>
+<ul>
+<li>创建一条 changefeed 过程</li>
+</ul>
+<pre><code class="language-go" data-lang="go">[owner.go:822] [&#34;watch capture exited&#34;]
+[server.go:159] [&#34;campaign owner successfully&#34;] [capture=fde93803-d051-42f6-92c9-dfa7896a4b71]
+[client.go:141] [&#34;[pd] create pd client with endpoints&#34;] [pd-address=&#34;[http://172.16.4.51:14379]&#34;]
+[base_client.go:242] [&#34;[pd] switch leader&#34;] [new-leader=http://172.16.4.51:14379] [old-leader=]
+[base_client.go:92] [&#34;[pd] init cluster id&#34;] [cluster-id=6826949771068502967]
+[owner.go:810] [&#34;start to watch captures&#34;]
+[owner.go:740] [&#34;monitoring captures&#34;] [key=/tidb/cdc/capture] [rev=1574342]
+[owner.go:416] [&#34;handle admin job&#34;] [changefeed=6281d51f-f62c-46c6-b10e-33013470fbaa] [type=&#34;resume changefeed&#34;]
+[owner.go:159] [&#34;Find new changefeed&#34;] [info=&#34;{\&#34;sink-uri\&#34;:\&#34;mysql://root:root@127.0.0.1:44/?worker-count=1\\u0026max-txn-row=50\&#34;,\&#34;opts\&#34;:{},\&#34;create-time\&#34;:\&#34;2020-05-27T17:34:43.836728552+08:00\&#34;,\&#34;start-ts\&#34;:416958928342220801,\&#34;target-ts\&#34;:0,\&#34;admin-job-type\&#34;:2,\&#34;sort-engine\&#34;:\&#34;memory\&#34;,\&#34;sort-dir\&#34;:\&#34;.\&#34;,\&#34;config\&#34;:{\&#34;ddl-white-list\&#34;:null,\&#34;filter-case-sensitive\&#34;:false,\&#34;filter-rules\&#34;:{\&#34;do-tables\&#34;:null,\&#34;do-dbs\&#34;:[\&#34;ddcc\&#34;],\&#34;ignore-tables\&#34;:null,\&#34;ignore-dbs\&#34;:[\&#34;tpcc\&#34;,\&#34;tpch\&#34;,\&#34;mysql\&#34;,\&#34;test\&#34;]},\&#34;ignore-txn-commit-ts\&#34;:[],\&#34;sink-dispatch-rules\&#34;:null,\&#34;mounter-worker-num\&#34;:0}}&#34;] [id=6281d51f-f62c-46c6-b10e-33013470fbaa] [&#34;checkpoint ts&#34;=416974641884037174]
+[store.go:68] [&#34;new store&#34;] [path=&#34;tikv://172.16.4.51:14379?disableGC=true&#34;]
+[client.go:141] [&#34;[pd] create pd client with endpoints&#34;] [pd-address=&#34;[172.16.4.51:14379]&#34;]
+[base_client.go:242] [&#34;[pd] switch leader&#34;] [new-leader=http://172.16.4.51:14379] [old-leader=]
+[base_client.go:92] [&#34;[pd] init cluster id&#34;] [cluster-id=6826949771068502967]
+[store.go:74] [&#34;new store with retry success&#34;]
+[client_batch.go:628] [&#34;recycle idle connection&#34;] [target=172.16.4.53:15160]
+[client_batch.go:628] [&#34;recycle idle connection&#34;] [target=172.16.4.52:15160]
+[client_batch.go:628] [&#34;recycle idle connection&#34;] [target=172.16.4.51:14160]
+</code></pre><ul>
+<li>指定一个错误或者小于当前 savepoint 的方式启动 CDC changefeed
+<ul>
+<li><code>GC life time is shorter than transaction duration, transaction starts at 2020-05-28 10:13:46.23 +0800 CST, GC safe point is 2020-05-28 11:38:33.33 +0800 CST</code></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-go" data-lang="go">[2020/05/28 17:02:26.760 +08:00] [ERROR] [owner.go:539] [&#34;owner exited with error&#34;] [error=&#34;create change feed 6281d51f-f62c-46c6-b10e-33013470fbaa: [tikv:9006]GC life time is shorter than transaction duration, transaction starts at 2020-05-28 10:13:46.23 +0800 CST, GC safe point is 2020-05-28 11:38:33.33 +0800 CST&#34;] [errorVerbose=&#34;[tikv:9006]GC life time is shorter than transaction duration, transaction starts at 2020-05-28 10:13:46.23 +0800 CST, GC safe point is 2020-05-28 11:38:33.33 +0800 CST\ngithub.com/pingcap/errors.AddStack\n\tgithub.com/pingcap/errors@v0.11.5-0.20190809092503-95897b64e011/errors.go:174\ngithub.com/pingcap/parser/terror.(*Error).GenWithStackByArgs\n\tgithub.com/pingcap/parser@v0.0.0-20200422082501-7329d80eaf2c/terror/terror.go:243\ngithub.com/pingcap/tidb/store/tikv.(*tikvStore).CheckVisibility\n\tgithub.com/pingcap/tidb@v1.1.0-beta.0.20200424111313-5e4a6948977f/store/tikv/kv.go:189\ngithub.com/pingcap/tidb/store/tikv.(*Scanner).getData\n\tgithub.com/pingcap/tidb@v1.1.0-beta.0.20200424111313-5e4a6948977f/store/tikv/scan.go:227\ngithub.com/pingcap/tidb/store/tikv.(*Scanner).Next\n\tgithub.com/pingcap/tidb@v1.1.0-beta.0.20200424111313-5e4a6948977f/store/tikv/scan.go:101\ngithub.com/pingcap/tidb/store/tikv.newScanner\n\tgithub.com/pingcap/tidb@v1.1.0-beta.0.20200424111313-5e4a6948977f/store/tikv/scan.go:59\ngithub.com/pingcap/tidb/store/tikv.(*tikvSnapshot).Iter\n\tgithub.com/pingcap/tidb@v1.1.0-beta.0.20200424111313-5e4a6948977f/store/tikv/snapshot.go:390\ngithub.com/pingcap/tidb/structure.(*TxStructure).iterateHash\n\tgithub.com/pingcap/tidb@v1.1.0-beta.0.20200424111313-5e4a6948977f/structure/hash.go:259\ngithub.com/pingcap/tidb/structure.(*TxStructure).HGetAll\n\tgithub.com/pingcap/tidb@v1.1.0-beta.0.20200424111313-5e4a6948977f/structure/hash.go:208\ngithub.com/pingcap/tidb/meta.(*Meta).ListDatabases\n\tgithub.com/pingcap/tidb@v1.1.0-beta.0.20200424111313-5e4a6948977f/meta/meta.go:494\ngithub.com/pingcap/ticdc/cdc/entry.newSchemaSnapshotFromMeta\n\tgithub.com/pingcap/ticdc@/cdc/entry/schema_storage.go:81\ngithub.com/pingcap/ticdc/cdc/entry.NewSingleSchemaSnapshotFromMeta\n\tgithub.com/pingcap/ticdc@/cdc/entry/schema_storage.go:63\ngithub.com/pingcap/ticdc/cdc.(*Owner).newChangeFeed\n\tgithub.com/pingcap/ticdc@/cdc/owner.go:171\ngithub.com/pingcap/ticdc/cdc.(*Owner).loadChangeFeeds\n\tgithub.com/pingcap/ticdc@/cdc/owner.go:303\ngithub.com/pingcap/ticdc/cdc.(*Owner).run\n\tgithub.com/pingcap/ticdc@/cdc/owner.go:584\ngithub.com/pingcap/ticdc/cdc.(*Owner).Run\n\tgithub.com/pingcap/ticdc@/cdc/owner.go:536\ngithub.com/pingcap/ticdc/cdc.(*Server).campaignOwnerLoop\n\tgithub.com/pingcap/ticdc@/cdc/server.go:167\ngithub.com/pingcap/ticdc/cdc.(*Server).run.func1\n\tgithub.com/pingcap/ticdc@/cdc/server.go:199\ngolang.org/x/sync/errgroup.(*Group).Go.func1\n\tgolang.org/x/sync@v0.0.0-20190911185100-cd5d95a43a6e/errgroup/errgroup.go:57\nruntime.goexit\n\truntime/asm_amd64.s:1357\ncreate change feed 6281d51f-f62c-46c6-b10e-33013470fbaa&#34;]
+</code></pre><ul>
+<li>下游未创建目标数据库
+<ul>
+<li><code>Error 1146: Table 'tpcc.district' doesn't exist</code></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-go" data-lang="go">[INFO] [client.go:642] [&#34;start new request&#34;] [request=&#34;{\&#34;header\&#34;:{\&#34;cluster_id\&#34;:6826949771068502967},\&#34;region_id\&#34;:56301,\&#34;region_epoch\&#34;:{\&#34;conf_ver\&#34;:14,\&#34;version\&#34;:203},\&#34; checkpoint_ts\&#34;:416957675215257608,\&#34;start_key\&#34;:\&#34;dIAAAAAAAAD/PV9ygAAAAAj/aLrDAAAAAAD6\&#34;,\&#34;end_key\&#34;:\&#34;dIAAAAAAAAD/PV9ygAAAAAj/bdPyAAAAAAD6\&#34;,\&#34;request_id\&#34;:988}&#34;] [addr=172.16.4.52:15160]
+[WARN] [mysql.go:445] [&#34;execute DMLs with error, retry later&#34;] [error=&#34;Error 1146: Table &#39;tpcc.district&#39; doesn&#39;t exist&#34;] [errorVerbose=&#34;Error 1146: Table &#39;tpcc.district&#39; doesn&#39;t exist\ngithub.com/pingcap/errors.AddStack\n\tgithub.com/pingcap/errors@v0.11.5-0.20190809092503-95897b64e011/errors.go:174\ngithub.com/pingcap/errors.Trace\n\tgithub.com/pingcap/errors@v0.11.5-0.20190809092503 -95897b64e011/juju_adaptor.go:15\ngithub.com/pingcap/ticdc/cdc/sink.(*mysqlSink).execDMLWithMaxRetries.func2.2\n\tgithub.com/pingcap/ticdc@/cdc/sink/mysql.go:461\ngithub.com/pingcap/ticdc/cdc/sink.(*Statistics) .RecordBatchExecution\n\tgithub.com/pingcap/ticdc@/cdc/sink/statistics.go:47\ngithub.com/pingcap/ticdc/cdc/sink.(*mysqlSink).execDMLWithMaxRetries.func2\n\tgithub.com/pingcap/ticdc@/cdc/sink/mysql.go:453\ngithu b.com/pingcap/ticdc/pkg/retry.Run.func1\n\tgithub.com/pingcap/ticdc@/pkg/retry/retry.go:31\ngithub.com/cenkalti/backoff.RetryNotify\n\tgithub.com/cenkalti/backoff@v2.2.1+incompatible/retry.go:37\ngithub.com/cen kalti/backoff.Retry\n\tgithub.com/cenkalti/backoff@v2.2.1+incompatible/retry.go:24\ngithub.com/pingcap/ticdc/pkg/retry.Run\n\tgithub.com/pingcap/ticdc@/pkg/retry/retry.go:30\ngithub.com/pingcap/ticdc/cdc/sink.( *mysqlSink).execDMLWithMaxRetries\n\tgithub.com/pingcap/ticdc@/cdc/sink/mysql.go:448\ngithub.com/pingcap/ticdc/cdc/sink.(*mysqlSink).execDMLs\n\tgithub.com/pingcap/ticdc@/cdc/sink/mysql.go:506\ngithub.com/pingc ap/ticdc/cdc/sink.(*mysqlSinkWorker).run\n\tgithub.com/pingcap/ticdc@/cdc/sink/mysql.go:399\nruntime.goexit\n\truntime/asm_amd64.s:1357&#34;]
+</code></pre><ul>
+<li>附图两张</li>
+</ul>
+<p><img src="https://atman.ihx.cc/post/20200601-23-cdc-4.0rc1/cdc-memory.png" alt="cdc-memroy ap.tidb.cc" title="cdc ap.tidb.cc" loading="lazy" decoding="async">
+<br>
+<img src="https://atman.ihx.cc/post/20200601-23-cdc-4.0rc1/cdc-uptime.png" alt="cdc-uptime ap.tidb.cc" title="ap.tidb.cc cdc" loading="lazy" decoding="async">
+</p>
+]]></content:encoded><h:time datetime="2020-06-01T00:00:00+08:00">2020-06-01 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200601-23-cdc-4.0rc1/">TiDB - CDC RC1 测试</h:a></item><item><title>TiDB - 4.0 版图分析</title><link>https://atman.ihx.cc/post/20200529-22-tidb-4.0/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200529-22-tidb-4.0/</guid><pubDate>Fri, 29 May 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>AirPlan</category><category>TiDB</category><description>0x00 History TiDB 1.0 2017 年 10 月 16 日 TiDB 2.0 2018 年 4 月 27 日 TiDB 2.1 2018 年 11 月 30 日 TiDB 3.0 2019 年 6 月 28 日 TiDB 3.1 2020 年 4 月 16 日 TiDB 4.0 2020 年 5 月 28 日 0x01 4.0 没有故事可 …</description><content:encoded><![CDATA[<h2 id="0x00-history">0x00 History</h2>
+<ul>
+<li>TiDB 1.0 2017 年 10 月 16 日</li>
+<li>TiDB 2.0 2018 年 4 月 27 日</li>
+<li>TiDB 2.1 2018 年 11 月 30 日</li>
+<li>TiDB 3.0 2019 年 6 月 28 日</li>
+<li>TiDB 3.1 2020 年 4 月 16 日</li>
+<li>TiDB 4.0 2020 年 5 月 28 日</li>
+</ul>
+<h2 id="0x01-40">0x01 4.0</h2>
+<blockquote>
+<p>没有故事可讲，看图吧<br>
+根据上一篇文档 <a href="https://atman.ihx.cc/post/20200504-19-tidb4.0/">TiDB 4.0 新特性</a>和各种猜测揣摩构图<br>
+<strong>本图不代表 TiDB 官方解答，部分组件还未 GA ，请勿直接引用复制</strong><br>
+<strong>本图不代表 TiDB 官方解答，部分组件还未 GA ，请勿直接引用复制</strong><br>
+<strong>本图不代表 TiDB 官方解答，部分组件还未 GA ，请勿直接引用复制</strong></p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20200529-22-tidb-4.0/TiDB-4.0.png" alt="TiDB-4.0 版图分析" title="TiDB-4.0 版图分析" loading="lazy" decoding="async">
+</p>
+<h2 id="0x02-未来可期">0x02 未来可期</h2>
+<blockquote>
+<p>一些组成故事和场景的关键词，具体故事内容自行脑补</p>
+</blockquote>
+<ol>
+<li>online DDL</li>
+<li>scale out</li>
+<li>region schedule
+<ul>
+<li>hot region
+<ul>
+<li>follower read（部分）</li>
+</ul>
+</li>
+<li>静默 region</li>
+</ul>
+</li>
+<li>超大容量</li>
+<li>高可用
+<ul>
+<li>Raft</li>
+<li>无状态组件</li>
+</ul>
+</li>
+<li>未来可期
+<ul>
+<li>文档、工具、生态</li>
+<li>代码开源</li>
+<li>成本：支出 &amp; 收益
+<ul>
+<li>硬件支出与用户量线性可控</li>
+<li>收益 与 “平台” 互相扩展</li>
+</ul>
+</li>
+<li>员工幸福度</li>
+</ul>
+</li>
+<li>平台化、标准化
+<ul>
+<li>精细可控、水到渠成</li>
+<li>打包、共享、自主、灵活</li>
+</ul>
+</li>
+<li>路程 == 不同硬件场景适配
+<ul>
+<li>从传统到共有云</li>
+<li>从共有云回归私有云</li>
+<li>从私有云到 K8S</li>
+<li>从人造肉故障到自动化运维</li>
+<li>顺应时代的变迁</li>
+</ul>
+</li>
+<li>心砺 == 不同软件场景适配
+<ul>
+<li>金融、保险、证券；厂商 mysql  protocols 保底</li>
+<li>互联网快速迭代，粮草满足战场</li>
+</ul>
+</li>
+<li>大、快、稳
+<ul>
+<li>大数据量到来了</li>
+<li>快速分析需求到来了</li>
+<li>同时跑起来还要稳起来</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://atman.ihx.cc/post/20200529-22-tidb-4.0/bigfish.jpeg" alt="大鱼吃小鱼的故事" loading="lazy" decoding="async">
+</p>
+]]></content:encoded><h:time datetime="2020-05-29T00:00:00+08:00">2020-05-29 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200529-22-tidb-4.0/">TiDB - 4.0 版图分析</h:a></item><item><title>监控组件 - Provisioning Grafana</title><link>https://atman.ihx.cc/post/20200513-20-provisioning-grafana/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200513-20-provisioning-grafana/</guid><pubDate>Wed, 13 May 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>AirPlan</category><category>Grafana</category><category>Monitoring</category><description>0x00 话不多说 Grafana 用于 TiDB-cluster 集群监控展示功能（如果不了解的同学可以看下以前的文档），如果每套集群都部署一个 Grafana，使用不方便且运维也繁琐。因此想通过单套 Grafana 管理多个 TiDB-cluster 集群。 辣么大概是以下结构： 0x01 想 通过 Google 一顿搜索发现其他人也有类似想法 I’ve …</description><content:encoded><![CDATA[<h2 id="0x00-话不多说">0x00 话不多说</h2>
+<p>Grafana 用于 TiDB-cluster 集群监控展示功能（如果不了解的同学可以看下以前的文档），如果每套集群都部署一个 Grafana，使用不方便且运维也繁琐。因此想通过单套 Grafana 管理多个 TiDB-cluster 集群。<br>
+辣么大概是以下结构：</p>
+<p><img src="https://atman.ihx.cc/post/20200513-20-provisioning-grafana/Provisioning-Grafana.png" alt="Provisioning Grafana " title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<h2 id="0x01-想">0x01 想</h2>
+<p>通过 Google 一顿搜索发现其他人也有类似想法 <a href="https://stackoverflow.com/questions/54776604/how-can-i-change-the-datasource-for-a-grafana-dashboard">I&rsquo;ve got a new datasource I would like an existing dashboard to use.</a>、<a href="https://github.com/grafana/grafana/issues/2748">Dashboard Level Datasource #2748</a> 等、还在 Github 发现了一些 sqllite3 修改 grafana.db 的黑科技。<br>
+但是这些都不太适合懒人且还需要二次修改定制化，不方便随时随地操作。<br>
+抽着烟，试图在 Grafana docs 找到神迹……</p>
+<p><img src="https://atman.ihx.cc/global/smoke.jpeg" alt="抽着烟，试图在 Grafana docs 找到神迹……  " loading="lazy" decoding="async">
+</p>
+<p>偶然机会看见别人讨论 tidb-ansible 4.0 安装 grafana 删除 dashboard 的问题，挖掘 tidb-ansible &amp; tidb-cluster 等代码后发现 Grafana 6.1 版本的新功能 <a href="https://grafana.com/docs/grafana/latest/administration/provisioning/">Provisioning</a>；用过 tidb-ansible 应该知道 tidb-ansible/scripts 下面有个 grafana-copy.py  脚本，该脚本通过 Grafana API 把 datasource &amp; dashboard 导入进 Grafana 服务做初始化步骤。但是经常会报错出现问题……</p>
+<h2 id="0x02-动动">0x02 动动</h2>
+<p>然后进入了测试阶段：</p>
+<ol>
+<li>
+<p>部署一个 Grafana 6.1 以上的版本</p>
+</li>
+<li>
+<p>按照模板写 datasource</p>
+<ul>
+<li>具体解释可以看 Grafana 官网 <a href="https://grafana.com/docs/grafana/latest/administration/provisioning/#example-datasource-config-file">Example Datasource Config File</a></li>
+</ul>
+<pre><code class="language-yaml" data-lang="yaml">apiVersion: 1
+deleteDatasources:
+  - name: cluster-1  # 此处传递的 tidb-ansible inventory.ini 文件中的 cluster-name
+datasources:
+  - name: cluster-1  # datasource 名称，在配置文件中唯一
+    type: prometheus
+    access: proxy
+    url: http://10.10.10.4:14090
+    withCredentials: false
+    isDefault: false
+    tlsAuth: false
+    tlsAuthWithCACert: false
+    version: 1
+    editable: true
+  - name: cluster-2 # 这个是测试手写的
+    type: prometheus
+    access: proxy
+    url: http://10.10.10.4:14090
+    withCredentials: false
+    isDefault: false
+    tlsAuth: false
+    tlsAuthWithCACert: false
+    version: 1
+    editable: true
+</code></pre></li>
+<li>
+<p>dashboard 配置文件</p>
+<ul>
+<li>具体解释可以看 Grafana 官网 <a href="https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards">Dashboards</a></li>
+</ul>
+<pre><code class="language-yaml" data-lang="yaml">apiVersion: 1
+providers:
+  - name: cluster-1
+    folder: cluster-1  # 在 Grafana 页面中显示
+    type: file
+    disableDeletion: false
+    editable: true
+    updateIntervalSeconds: 30
+    options:
+    path: /home/tmpuser/tidb-deploy/grafana-14409/cluster-1
+  - name: cluster-2
+    folder: cluster-2
+    type: file
+    disableDeletion: false
+    editable: true
+    updateIntervalSeconds: 30
+    # &lt;bool&gt; allow updating provisioned dashboards from the UI
+    allowUiUpdates: false # 该功能需要 6.7 以上版本支持
+    options:
+    path: /home/tmpuser/tidb-deploy/grafana-14409/cluster-2
+</code></pre></li>
+<li>
+<p>Grafana 目录结构大致如下</p>
+<ul>
+<li>运行目录 /home/user
+<ul>
+<li>bin/grafana-server</li>
+<li>conf/grafana.ini</li>
+<li>provisioning/dashboards/dashboard.yml</li>
+<li>provisioning/datasources/datasource.yml</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">// bin/bin/grafana-server
+├── bin
+│   ├── bin
+│   │   └── grafana-server  # 运行程序
+│   ├── node.json           # dashboard 模版
+│   ├── public
+├── conf
+│   ├── dashboard.yml       # provisioning/dashboard 模版
+│   ├── datasource.yml      # provisioning/datasources 模版
+│   └── grafana.ini
+├── cluster-1               # 要导入集群 1 的 dashboard
+│   ├── node.json
+├── cluster-2               # 要导入集群 2 的 dashboard
+│   └── node.json
+├── data                    # Grafana sqllite3 数据库
+│   ├── grafana.db
+│   └── png
+├── logs                    # 日志目录
+│   ├── grafana.log
+├── plugins
+├── provisioning            # 默认 provisioning 实际生效的地方
+│   ├── dashboards
+│   │   └── dashboard.yml
+│   └── datasources
+│   │   └── datasource.yml
+└── scripts
+    └── run_grafana.sh
+</code></pre></li>
+</ol>
+<h3 id="run-grafana-sh">Run Grafana sh</h3>
+<p>Grafana 启动脚本，脚本中的 mkdir、cp、find + send 选配，非必选项。</p>
+<pre><code class="language-bash" data-lang="bash"># 新建 dashboard、provisioning 相关目录
+mkdir -p /home/tmpuser/tidb-deploy/grafana-14409/plugins
+mkdir -p /home/tmpuser/tidb-deploy/grafana-14409/dashboards
+mkdir -p /home/tmpuser/tidb-deploy/grafana-14409/provisioning/dashboards
+mkdir -p /home/tmpuser/tidb-deploy/grafana-14409/provisioning/datasources
+
+# copy 模版文件到 provisioning 相关目录
+cp /home/tmpuser/tidb-deploy/grafana-14409/bin/*.json /home/tmpuser/tidb-deploy/grafana-14409/dashboards/
+cp /home/tmpuser/tidb-deploy/grafana-14409/conf/datasource.yml /home/tmpuser/tidb-deploy/grafana-14409/provisioning/datasources
+cp /home/tmpuser/tidb-deploy/grafana-14409/conf/dashboard.yml /home/tmpuser/tidb-deploy/grafana-14409/provisioning/dashboards
+
+# 批量修改 &amp; 替换 json 模版文件中的关键词【方便在页面观赏】
+find /home/tmpuser/tidb-deploy/grafana-14409/dashboards/ -type f -exec sed -i &#34;s/\${DS_.*-CLUSTER}/cluster-1/g&#34; {} \;
+find /home/tmpuser/tidb-deploy/grafana-14409/dashboards/ -type f -exec sed -i &#34;s/\${DS_LIGHTNING}/cluster-1/g&#34; {} \;
+find /home/tmpuser/tidb-deploy/grafana-14409/dashboards/ -type f -exec sed -i &#34;s/test-cluster/cluster-1/g&#34; {} \;
+find /home/tmpuser/tidb-deploy/grafana-14409/dashboards/ -type f -exec sed -i &#34;s/Test-Cluster/cluster-1/g&#34; {} \;
+
+# 启动命令
+LANG=en_US.UTF-8 \
+exec bin/bin/grafana-server \
+    --homepath=&#34;/home/tmpuser/tidb-deploy/grafana-14409/bin&#34; \
+    --config=&#34;/home/tmpuser/tidb-deploy/grafana-14409/conf/grafana.ini&#34;
+</code></pre><h3 id="start-log">Start log</h3>
+<pre><code class="language-js" data-lang="js">lvl=info msg=&#34;Starting Grafana&#34; logger=server version=6.1.6 commit=cf9cb45 branch=HEAD compiled=2019-04-29T21:29:28+0800
+lvl=info msg=&#34;Config loaded from&#34; logger=settings file=/home/tmpuser/tidb-deploy/grafana-14409/bin/conf/defaults.ini
+lvl=info msg=&#34;Config loaded from&#34; logger=settings file=/home/tmpuser/tidb-deploy/grafana-14409/conf/grafana.ini
+lvl=info msg=&#34;Path Home&#34; logger=settings path=/home/tmpuser/tidb-deploy/grafana-14409/bin
+lvl=info msg=&#34;Path Data&#34; logger=settings path=/home/tmpuser/tidb-deploy/grafana-14409/data
+lvl=info msg=&#34;Path Logs&#34; logger=settings path=/home/tmpuser/tidb-deploy/grafana-14409/logs
+lvl=info msg=&#34;Path Plugins&#34; logger=settings path=/home/tmpuser/tidb-deploy/grafana-14409/plugins
+lvl=info msg=&#34;Path Provisioning&#34; logger=settings path=/home/tmpuser/tidb-deploy/grafana-14409/provisioning
+lvl=info msg=&#34;App mode production&#34; logger=settings
+lvl=info msg=&#34;Initializing HTTPServer&#34; logger=server
+lvl=info msg=&#34;Initializing SqlStore&#34; logger=server
+lvl=info msg=&#34;Connecting to DB&#34; logger=sqlstore dbtype=sqlite3
+lvl=info msg=&#34;Starting DB migration&#34; logger=migrator
+lvl=info msg=&#34;Initializing InternalMetricsService&#34; logger=server
+lvl=info msg=&#34;Initializing SearchService&#34; logger=server
+lvl=info msg=&#34;Initializing PluginManager&#34; logger=server
+lvl=info msg=&#34;Starting plugin search&#34; logger=plugins
+lvl=info msg=&#34;Initializing RenderingService&#34; logger=server
+lvl=info msg=&#34;Initializing AlertingService&#34; logger=server
+lvl=info msg=&#34;Initializing DatasourceCacheService&#34; logger=server
+lvl=info msg=&#34;Initializing HooksService&#34; logger=server
+lvl=info msg=&#34;Initializing LoginService&#34; logger=server
+lvl=info msg=&#34;Initializing QuotaService&#34; logger=server
+lvl=info msg=&#34;Initializing RemoteCache&#34; logger=server
+lvl=info msg=&#34;Initializing ServerLockService&#34; logger=server
+lvl=info msg=&#34;Initializing TracingService&#34; logger=server
+lvl=info msg=&#34;Initializing UsageStatsService&#34; logger=server
+lvl=info msg=&#34;Initializing UserAuthTokenService&#34; logger=server
+lvl=info msg=&#34;Initializing CleanUpService&#34; logger=server
+lvl=info msg=&#34;Initializing NotificationService&#34; logger=server
+lvl=info msg=&#34;Initializing ProvisioningService&#34; logger=server
+
+# 响应配置文件需求，每次启动的时候都会删除并重新注册 cluster-1
+lvl=info msg=&#34;deleted datasource based on configuration&#34; logger=provisioning.datasources name=cluster-1  
+lvl=info msg=&#34;inserting datasource from configuration &#34; logger=provisioning.datasources name=cluster-1
+
+# 注册 cluster-2 datasource 信息
+lvl=info msg=&#34;inserting datasource from configuration &#34; logger=provisioning.datasources name=cluster-2
+
+# provisioning 支持三个功能：datasources、dashboard、alert notifiers，然而我这里没有配置告警信息；但是不影响启动
+lvl=eror msg=&#34;Can&#39;t read alert notification provisioning files from directory&#34; logger=provisioning.notifiers path=/home/tmpuser/tidb-deploy/grafana-14409/provisioning/notifiers error=&#34;open /home/tmpuser/tidb-deploy/grafana-14409/provisioning/notifiers: no such file or directory&#34;
+
+lvl=info msg=&#34;Initializing Stream Manager&#34;
+lvl=info msg=&#34;HTTP Server Listen&#34; logger=http.server address=0.0.0.0:14409 protocol=http subUrl= socket=
+</code></pre><h2 id="0x04-issue">0x04 issue</h2>
+<blockquote>
+<p>使用 provisioning/datasources/datasource.yml 该功能注意事项<br>
+Could not find datasource Data source not found 告警<br>
+<img src="https://atman.ihx.cc/post/20200513-20-provisioning-grafana/alert-1.png" alt="alert Could not find datasource Data source not found" loading="lazy" decoding="async">
+</p>
+</blockquote>
+<p>添加 Datasources 会占用一个 DatasourcesID，Datasources 无法使用重复名字。  deleteDatasources 是执行删除 Datasources 操作（此时 datasource ID 1 被删除了）。重复执行 deleteDatasources 就会导致以上现象。</p>
+<pre><code class="language-yaml" data-lang="yaml">apiVersion: 1
+deleteDatasources:
+    - name: cluster-1
+</code></pre><p>从 Grafana repo 粗略看了下 alert 绑定了 DatasourceID。<br>
+<code>systemdctl restart grafana-3000</code> 操作从内容看只会重复执行 <code>datasource.yml</code> ，没有执行 dashboard.yml 文件。老的 dashboard 绑定的信息还是 <code>datasource ID = 1</code>，所以会提示 <code>Could not find datasource Data source not found</code>。</p>
+<pre><code class="language-go" data-lang="go">// AlertQuery contains information about what datasource a query
+// should be sent to and the query object.
+type AlertQuery struct {
+    Model        *simplejson.Json
+    DatasourceID int64
+    From         string
+    To           string
+}
+</code></pre><blockquote>
+<p>解决方案</p>
+</blockquote>
+<ol>
+<li>
+<p>停止 grafana-service</p>
+</li>
+<li>
+<p>删掉 <code>{{deploy_dir}}/data/grafana.db</code>「删除后所有自定义设置丢失」</p>
+</li>
+<li>
+<p>将 <code>{{deploy_dir}}/conf/datasource.yml</code> 文件中的以下内容注视或者删除</p>
+<pre><code class="language-yaml" data-lang="yaml">deleteDatasources:
+  - name: temp
+</code></pre></li>
+<li>
+<p>重新启动 grafana-service</p>
+</li>
+</ol>
+]]></content:encoded><h:time datetime="2020-05-13T00:00:00+08:00">2020-05-13 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200513-20-provisioning-grafana/">监控组件 - Provisioning Grafana</h:a></item><item><title>TiDB - 2PC &amp; Backoff</title><link>https://atman.ihx.cc/post/20190606-23-backoff/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20190606-23-backoff/</guid><pubDate>Wed, 05 Jun 2019 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>AirPlan</category><category>2PC</category><category>backoff</category><category>TiDB</category><description>0x00 源 TiDB to TiKV 之间的网络状态(图片来自与 PingCAP 官网锁冲突)「该图包含悲观锁逻辑，来自 2020 年的 PingCAP 官网」；部分内容来自 Google Percolator 的事务模型。 0x01 2PC 2PC (Two-phaseCommit) 是指在计算机网络以及数据库领域内，为了使基于分布式系统架构下的所有节点 …</description><content:encoded><![CDATA[<h2 id="0x00-源">0x00 源</h2>
+<p>TiDB to TiKV 之间的网络状态(图片来自与 PingCAP 官网<a href="https://docs.pingcap.com/zh/tidb/stable/troubleshoot-lock-conflicts">锁冲突</a>)「该图包含悲观锁逻辑，来自 2020 年的 PingCAP 官网」；部分内容来自 <a href="https://github.com/ngaut/builddatabase/blob/master/percolator/README.md">Google Percolator 的事务模型</a>。</p>
+<p><img src="https://atman.ihx.cc/post/20190606-23-backoff/troubleshooting-lock-pic-05.png" alt="TiDB to TiKV" loading="lazy" decoding="async">
+</p>
+<h2 id="0x01-2pc">0x01 2PC</h2>
+<p>2PC (Two-phaseCommit) 是指在计算机网络以及数据库领域内，为了使基于分布式系统架构下的所有节点在进行事务提交时保持一致性而设计的一种算法 (Algorithm)。第一阶段：准备阶段(投票阶段)和第二阶段：提交阶段（执行阶段）。</p>
+<p>在分布式系统中，每个节点虽然可以知晓自己的操作时成功或者失败，却无法知道其他节点的操作的成功或失败。</p>
+<p>当一个事务跨越多个节点时，为了保持事务的 ACID 特性，需要引入一个作为协调者的组件来统一掌控所有节点(称作参与者) 的操作结果，并最终指示这些节点是否要把操作结果进行真正的提交(比如将更新后的数据写入磁盘等等)，参与者将操作成败通知协调者，再由协调者根据所有参与者的反馈情报决定各参与者是否要提交操作还是中止操作。</p>
+<blockquote>
+<p>see store/tikv/2pc.go // 内容过于复杂，没有理解
+2PC 模型</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20190606-23-backoff/2pc.webp" alt="2pc (Two-phaseCommit)" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>乐观锁 2PC in TiDB</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20190606-23-backoff/troubleshooting-lock-pic-01.png" alt="TiDB-2PC" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>悲观锁 2PC in TiDB</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20190606-23-backoff/troubleshooting-lock-pic-06.png" alt="TiDB-2PC-Pessimistic-lock" loading="lazy" decoding="async">
+</p>
+<h2 id="0x02-rpc">0x02 RPC</h2>
+<p>RPC（Remote Procedure Call Protocol 远程过程调用）是分布式架构的核心之一</p>
+<ul>
+<li>TiDB 2.0 之后使用的 Google RPC 协议 <a href="https://godoc.org/google.golang.org/grpc">gRPC</a>
+<ul>
+<li>同步调用：客户端调用服务方方法，等待直到服务方返回结果或者超时，再继续自己的操作</li>
+<li>异步调用：客户端把消息发送给中间件，不再等待服务端返回，直接继续自己的操作</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://atman.ihx.cc/post/20190606-23-backoff/rpc.jpg" alt="Remote Procedure Call Protocol" loading="lazy" decoding="async">
+</p>
+<h2 id="0x03-backoff">0x03 Backoff</h2>
+<p>网络之间建立链接会产生各种各样的状态，只做重连机制会造成网络拥堵或者网络风暴，backoff 机制降低资源开销「CPU、时间」，提高网络资源再次链接成功率。</p>
+<ul>
+<li>RPC 网络交互之间需要一个 backoff 机制 <a href="https://godoc.org/google.golang.org/grpc/backoff">gRPC backoff</a>
+<ul>
+<li>Backoff 文档解释 <a href="https://github.com/grpc/grpc/blob/master/doc/connection-backoff.md">gRPC backoff protocol</a></li>
+<li>Backoff Full jitter、Equal jitter、Decorrelated jitter、no jitter 性能测试 <a href="https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/">Exponential Backoff And Jitter</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="0x04-resolve-lock">0x04 Resolve lock</h2>
+<blockquote>
+<p>see store/tikv/lock_resolver.go</p>
+</blockquote>
+<p>对应监控图 tidb dashboard &ndash; kv error 中的 resolve lock 部分 <code>sum(rate(tidb_tikvclient_lock_resolver_actions_total[1m])) by (type)</code></p>
+<p><img src="https://atman.ihx.cc/post/20190606-23-backoff/TXN%20.png" alt="ap.tidb.cc txn resolve lock status" loading="lazy" decoding="async">
+</p>
+]]></content:encoded><h:time datetime="2019-06-05T00:00:00+08:00">2019-06-05 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20190606-23-backoff/">TiDB - 2PC &amp; Backoff</h:a></item><item><title>系统调优 - numactl cpubind</title><link>https://atman.ihx.cc/post/20190313-11-numactl/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20190313-11-numactl/</guid><pubDate>Wed, 13 Mar 2019 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>AirPlan</category><category>numactl</category><description>0x00 CCC 单个不够，数量来凑，太多人跑也会不规划好跑道容易干架；使用 Linux 软件 numactl 将服务进程绑定在目标 CPU 上，支持按 Vcore、物理 CPU 绑定。 0x01 numactl numactl –show 查看当前调度策略，主要看 policy &amp;amp; preferred node policy: default …</description><content:encoded><![CDATA[<h2 id="0x00-ccc">0x00 CCC</h2>
+<p>单个不够，数量来凑，太多人跑也会不规划好跑道容易干架；使用 Linux 软件 numactl 将服务进程绑定在目标 CPU 上，支持按 Vcore、物理 CPU 绑定。</p>
+<p><img src="https://atman.ihx.cc/post/20190313-11-numactl/cpu.png" alt="cpu &amp;amp; ram" loading="lazy" decoding="async">
+</p>
+<h2 id="0x01-numactl">0x01 numactl</h2>
+<blockquote>
+<p>numactl &ndash;show<br>
+查看当前调度策略，主要看 policy &amp; preferred node</p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">policy: default
+preferred node: current
+physcpubind: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39
+cpubind: 0 1
+nodebind: 0 1
+membind: 0 1
+</code></pre><blockquote>
+<p>numactl &ndash;hardware 可以看到该服务器 CPU 插槽数量、计算核心信息、CPU &amp; RAM 亲和关系</p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">available: 2 nodes (0-1)
+node 0 cpus: 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38
+node 0 size: 98210 MB
+node 0 free: 22647 MB
+node 1 cpus: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39
+node 1 size: 98304 MB
+node 1 free: 38192 MB
+node distances:
+node   0   1
+  0:  10  21
+  1:  21  10
+</code></pre><blockquote>
+<p>numactl &ndash;physcpubind=1,2,3,4 / &ndash;physcpubind=1-4 / &ndash;physcpubind=1,2-6,7-8 ${program}<br>
+此处填写的是 numactl &ndash;hardware 中看见的 node cpus，也就是 0 - 39 这些数字</p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">exec numactl --physcpubind=39  bin/tidb-server \
+    -P 4444 \
+    --status=&#34;14080&#34;
+</code></pre><blockquote>
+<p>numactl &ndash;cpunodebind=0 / &ndash;cpunodebind=1<br>
+此处填写的是 numactl &ndash;hardware 中看见的 nodes ，也就是 0 - 1 ，该服务器只有两个物理 CPU<br>
+使用 cpu node bind 时，需要配合 &ndash;membind=0 / 1 使用，在硬件物理上做到亲和性调优</p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">exec env GODEBUG=madvdontneed=1 numactl --cpunodebind=0 --membind=0 bin/tidb-server \
+    -P 4444 \
+    --status=&#34;14080&#34;
+</code></pre><blockquote>
+<p>不建议使用 &ndash;localalloc 锁定内存参数，该参数一般配合 &ndash;preferred （预分配内存）</p>
+</blockquote>
+<h3 id="亲和性">亲和性</h3>
+<blockquote>
+<p>图片引用 <a href="http://www.nacad.ufrj.br/online/sgi/007-5646-002/sgi_html/ch05.html">Chapter 5. Data Placement Tools</a></p>
+</blockquote>
+<p>双 CPU 服务器配合 8 条内存，单个 CPU 直系亲属为 4 条，分派 CPU 左右；隔壁 4 条内存可以通过共享使用。 cpu node bind = 1 、mem bind = 0 ，此时 cpu 使用内存时就要去邻居家才能用得到。</p>
+<p><img src="https://atman.ihx.cc/post/20190313-11-numactl/UV_node_board_BD.gif" alt="亲和性" loading="lazy" decoding="async">
+</p>
+<h2 id="0x02-numastat">0x02 numastat</h2>
+<pre><code class="language-bash" data-lang="bash">[tmpuser@jumphost scripts]$ numastat
+                           node0           node1
+numa_hit              1723819933      1011464781
+numa_miss                      0               0
+numa_foreign                   0               0
+interleave_hit             60914           60922
+local_node            1723800894      1011407642
+other_node                 19039           57139
+</code></pre><blockquote>
+<p>miss 值和 foreign 值越高，就要考虑绑定的问题</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>l</th>
+<th>r</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>numa_hit</td>
+<td>为这个节点成功的分配尝试数</td>
+</tr>
+<tr>
+<td>numa_miss</td>
+<td>把内存访问分配到另一个 Node 节点的内存大小，这个值和另一个 Node 的 numa_foreign 相对应。</td>
+</tr>
+<tr>
+<td>numa_foreign</td>
+<td>另一个 Node 访问我的内存大小，与对方 Node 的 numa_miss 相对应</td>
+</tr>
+<tr>
+<td>interleave_hit</td>
+<td>成功分配给这个节点的尝试交错策略数</td>
+</tr>
+<tr>
+<td>local_node</td>
+<td>这个节点的进程成功在这个节点上分配内存访问的大小</td>
+</tr>
+<tr>
+<td>other_node</td>
+<td>这个节点的进程在其它节点上分配的内存访问大小</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>numastat -m<br>
+显示每个节点中，系统范围内使用内存的情况</p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">[tmpuser@jumphost scripts]$ numastat -m
+
+Per-node system memory usage (in MBs):
+                          Node 0          Node 1           Total
+                 --------------- --------------- ---------------
+MemTotal                98210.35        98304.00       196514.35
+MemFree                 22488.77        38474.79        60963.56
+MemUsed                 75721.59        59829.21       135550.79
+Active                  50895.23        37680.84        88576.07
+Inactive                17754.17        15100.92        32855.09
+Active(anon)             8650.44         4834.63        13485.07
+Inactive(anon)            943.71          442.16         1385.87
+Active(file)            42244.79        32846.21        75091.00
+Inactive(file)          16810.46        14658.76        31469.22
+Unevictable                 0.00            0.00            0.00
+Mlocked                     0.00            0.00            0.00
+Dirty                       0.10            0.25            0.35
+Writeback                   0.00            0.00            0.00
+FilePages               61853.27        48834.27       110687.54
+Mapped                    129.42          195.33          324.75
+AnonPages                6796.43         3947.70        10744.13
+Shmem                    2798.00         1329.29         4127.30
+KernelStack                48.03           46.22           94.25
+PageTables                 82.55           73.25          155.80
+NFS_Unstable                0.00            0.00            0.00
+Bounce                      0.00            0.00            0.00
+WritebackTmp                0.00            0.00            0.00
+Slab                     4346.52         4646.79         8993.30
+SReclaimable             3976.43         4234.94         8211.37
+SUnreclaim                370.09          411.84          781.93
+AnonHugePages            5438.00         2968.00         8406.00
+HugePages_Total             0.00            0.00            0.00
+HugePages_Free              0.00            0.00            0.00
+HugePages_Surp              0.00            0.00            0.00
+</code></pre><blockquote>
+<p>numastat -p PID<br>
+将 tidb-server 绑定到 cpus 39 上的效果【cpu1 的最后一个核心】</p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">[tmpuser@jumphost scripts]$ numastat -p PID
+
+Per-node process memory usage (in MBs) for PID 8059 (tidb-server)
+                           Node 0          Node 1           Total
+                  --------------- --------------- ---------------
+Huge                         0.00            0.00            0.00
+Heap                         0.00            0.01            0.01
+Stack                        0.00            0.02            0.02
+Private                      0.01           58.82           58.83
+----------------  --------------- --------------- ---------------
+Total                        0.01           58.84           58.86
+</code></pre><h2 id="0x03-taskset">0x03 taskset</h2>
+<blockquote>
+<p>针对当前已经运行的进程操作 cpubind</p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">[tmpuser@jumphost scripts]$ taskset -p 8059
+pid 8059&#39;s current affinity mask: 8000000000
+
+[tmpuser@jumphost scripts]$ taskset -pc 36,38 8059
+pid 8059&#39;s current affinity list: 39
+pid 8059&#39;s new affinity list: 36,38
+
+[tmpuser@jumphost scripts]$ taskset -p 8059
+pid 8059&#39;s current affinity mask: 5000000000
+</code></pre>]]></content:encoded><h:time datetime="2019-03-13T00:00:00+08:00">2019-03-13 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20190313-11-numactl/">系统调优 - numactl cpubind</h:a></item><item><title>入库检查 - 物理机 &amp; 系统安装数据库前预检查</title><link>https://atman.ihx.cc/post/20190306-10-precheck/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20190306-10-precheck/</guid><pubDate>Wed, 06 Mar 2019 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>AirPlan</category><description>0x01 precheck 本篇文档产生原因来自 Step 7: Configure the CPUfreq governor mode on the target machine 根据 TiDB-ansible 安装时的报错反推物理机安装 TiDB 时需要干点啥…… 0x02 OS 结合官方文档 使用 TiDB Ansible 部署 TiDB 集群 文档先 …</description><content:encoded><![CDATA[<h2 id="0x01-precheck">0x01 precheck</h2>
+<blockquote>
+<p>本篇文档产生原因来自 <a href="https://github.com/pingcap/docs/blob/master/how-to/deploy/orchestrated/ansible.md#step-7-configure-the-cpufreq-governor-mode-on-the-target-machine" title="ap.tidb.cc tidb airplan">Step 7: Configure the CPUfreq governor mode on the target machine</a><br>
+根据 TiDB-ansible 安装时的报错反推物理机安装 TiDB 时需要干点啥……</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/global/helpertools.jpg" alt="help-tools-man" loading="lazy" decoding="async">
+</p>
+<h2 id="0x02-os">0x02 OS</h2>
+<blockquote>
+<p>结合官方文档 <a href="https://pingcap.com/docs-cn/stable/how-to/deploy/orchestrated/ansible/">使用 TiDB Ansible 部署 TiDB 集群</a> 文档先整理已知信息</p>
+</blockquote>
+<h3 id="net--port">Net / Port</h3>
+<p>物理机、虚拟机、云主机部署时，一定要确保内网防火墙开通以下端口，如果不了解 <strong>源地址</strong> 和 <strong>目的地地址</strong> 可以在内网 <strong>any to any</strong> 放行。</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>端口变量</th>
+<th>默认端口</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TiDB</td>
+<td>tidb_port</td>
+<td>4000</td>
+<td>应用及 DBA 工具访问通信端口</td>
+</tr>
+<tr>
+<td>TiDB</td>
+<td>tidb_status_port</td>
+<td>10080</td>
+<td>TiDB 状态信息上报通信端口【与 Prometheus 通信】</td>
+</tr>
+<tr>
+<td>TiKV</td>
+<td>tikv_port</td>
+<td>20160</td>
+<td>TiKV 通信端口</td>
+</tr>
+<tr>
+<td>TiKV</td>
+<td>tikv_status_port</td>
+<td>20180</td>
+<td>上报 TiKV 状态的通信端口【与 Prometheus 通信】</td>
+</tr>
+<tr>
+<td>PD</td>
+<td>pd_client_port</td>
+<td>2379</td>
+<td>提供 TiDB 和 PD 通信端口【与 Prometheus 通信】</td>
+</tr>
+<tr>
+<td>PD</td>
+<td>pd_peer_port</td>
+<td>2380</td>
+<td>PD 集群节点间通信端口</td>
+</tr>
+<tr>
+<td>Pump</td>
+<td>pump_port</td>
+<td>8250</td>
+<td>Pump 通信端口【Binlog 组件】、【与 Prometheus 通信】</td>
+</tr>
+<tr>
+<td>Prometheus</td>
+<td>prometheus_port</td>
+<td>9090</td>
+<td>Prometheus 服务通信端口</td>
+</tr>
+<tr>
+<td>Node_exporter</td>
+<td>node_exporter_port</td>
+<td>9100</td>
+<td>TiDB 集群每个节点的系统信息上报通信端口</td>
+</tr>
+<tr>
+<td>Blackbox_exporter</td>
+<td>blackbox_exporter_port</td>
+<td>9115</td>
+<td>Blackbox_exporter 通信端口，用于 TiDB 集群端口监控</td>
+</tr>
+<tr>
+<td>Grafana</td>
+<td>grafana_port</td>
+<td>3000</td>
+<td>Web 监控服务对外服务和客户端(浏览器)访问端口</td>
+</tr>
+<tr>
+<td>Kafka_exporter</td>
+<td>kafka_exporter_port</td>
+<td>9308</td>
+<td>Kafka_exporter 通信端口，用于监控 binlog Kafka 集群【默认不安装】</td>
+</tr>
+<tr>
+<td>Pushgateway</td>
+<td>pushgateway_port</td>
+<td>9091</td>
+<td>TiDB， TiKV， PD 监控聚合和上报端口【默认不安装】</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ssh-key">SSH-key</h3>
+<p>按照文档中<a href="https://pingcap.com/docs-cn/stable/how-to/deploy/orchestrated/ansible/#%E7%AC%AC-2-%E6%AD%A5%E5%9C%A8%E4%B8%AD%E6%8E%A7%E6%9C%BA%E4%B8%8A%E5%88%9B%E5%BB%BA-tidb-%E7%94%A8%E6%88%B7%E5%B9%B6%E7%94%9F%E6%88%90-ssh-key">第 2 步：在中控机上创建 tidb 用户，并生成 SSH key</a> 做好 <strong>中控机</strong> 到 <strong>部署节点</strong> <strong>SSH-key 免密互信</strong>，做这一步时需要 linux root 用户密码权限；如果公司内部使用 <a href="https://github.com/jumpserver/jumpserver">jump server</a> 堡垒机，辣么可能需要手动<strong>创建一个小用户</strong>并设置 <strong>sudo 免密</strong>了【jump server 管理员可以批量创建用户】</p>
+<p>如果不让配置 ssh-key 互信 &amp; sudo 免密，那就需要了解下 ansible 的使用技巧了。比如：</p>
+<ul>
+<li>
+<p>如果目标密码统一可以使用 -k 参数传递 ssh-remote user 密码</p>
+<pre><code class="language-bash" data-lang="bash">-k, --ask-pass      ask for connection password
+-u REMOTE_USER, --user=REMOTE_USER
+</code></pre></li>
+<li>
+<p>如果密码不统一，可以在 inventory 配置密码</p>
+<ul>
+<li>此处使用明文密码，密码中包含 <code>#  $ !</code> 等特殊字符可能会导致 ssh 登陆失败</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">ansible_host=192.168.1.10 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant10
+ansible_host=192.168.1.11 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant11
+ansible_host=192.168.1.12 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant12
+</code></pre></li>
+<li>
+<p>remote user 提权参数</p>
+<ul>
+<li>注意区分 sudo 与 su 的使用姿势，以及 sudo 目标用户</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">-s, --sudo          run operations with sudo (nopasswd) (deprecated, use
+                    become)
+-U SUDO_USER, --sudo-user=SUDO_USER
+                    desired sudo user (default=root) (deprecated, use
+                    become)
+-S, --su            run operations with su (deprecated, use become)
+-R SU_USER, --su-user=SU_USER
+                    run operations with su as this user (default=None)
+                    (deprecated, use become)
+-b, --become        run operations with become (does not imply password
+                    prompting)
+-K, --ask-become-pass
+</code></pre></li>
+</ul>
+<h3 id="ntp">NTP</h3>
+<p>centos 7 ntp 默认服务换成了 Chrony 服务；然 tidb-ansible 中使用的是 ntpd 服务。<br>
+如果公司主机系统内网已经有 NTP server 信息了，可以在 <code>tidb-ansible/inventory.ini</code> 中设置 enable_ntpd = True 变量为 False。<br>
+如果公司内网没有 NTP ，且内网没有 Yum 源，辣么就需要手动安装该服务了。</p>
+<p><del>分布式系统需要一个隐藏性标准用来做信息实时判断，时间显然是最好的判断方式</del></p>
+<h3 id="cpu-mode">CPU mode</h3>
+<p>为了让 CPU 发挥最大性能，请将 CPUfreq 调节器模式设置为 performance 模式。如需了解 CPUfreq 的更多信息，可查看使用 <a href="https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/power_management_guide/cpufreq_governors#cpufreq_setup">CPUFREQ 调控器</a>文档。</p>
+<p>通过 bios 调整主板参数，如果不方便重启服务器时可以通过以下命令暂时规避（重启后服务器后失效）</p>
+<p><code>ansible all -m shell -a &quot;cpupower frequency-set --governor performance&quot; -b</code></p>
+<h3 id="disk-mount">Disk mount</h3>
+<ul>
+<li>tikv 数据目录挂载属性必须包含 nodelalloc 参数</li>
+</ul>
+<p><code>UUID=c51eb23b-195c-4061-92a9-3fad812cc12f /data1 ext4 defaults,nodelalloc,noatime 0 2</code></p>
+<h3 id="disk-fio">Disk fio</h3>
+<p>磁盘性能检测，通过学习 ansible-playbook / tidb 看下是怎么操作的，代码块在这里 tidb-ansible/role/<a href="https://github.com/pingcap/tidb-ansible/tree/master/roles/machine_benchmark/tasks" title="ap.tibd.cc tidb-ansible fio 磁盘检测">machine benchmark</a>。</p>
+<blockquote>
+<p>该检测项仅针对 tikv_servers 主机</p>
+</blockquote>
+<ul>
+<li>
+<p>default values (roles/machine_benchmark/defaults/main.yml)</p>
+<pre><code class="language-yaml" data-lang="yaml"># fio randread iops
+min_ssd_randread_iops: 40000
+
+# fio mixed randread and sequential write
+min_ssd_mix_randread_iops: 10000
+min_ssd_mix_write_iops: 10000
+
+# fio mixed randread and sequential write lat
+max_ssd_mix_randread_lat: 250000
+max_ssd_mix_write_lat: 30000
+
+# fio test file size
+benchmark_size: 10G
+</code></pre></li>
+</ul>
+<blockquote>
+<p>测试使用 fio 命令，使用 psync IO 引擎，使用绕过内存缓存读写，使用基准 32k 大小，</p>
+</blockquote>
+<ul>
+<li>
+<p>随机读测试 fio_randread.yml</p>
+<ul>
+<li>如果测试结果中 iops 小于 40000 将会报错</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">./fio -ioengine=psync -bs=32k -fdatasync=1 -thread -rw=randread -size={{ benchmark_size }} -filename=fio_randread_test.txt -name=&#39;fio randread test&#39; -iodepth=4 -runtime=60 -numjobs=4 -group_reporting --output-format=json --output=fio_randread_result.json
+</code></pre></li>
+<li>
+<p>混合场景：随机读 顺序写 fio_randread_write.yml</p>
+<ul>
+<li>随机读 iops 小于 10000 、顺序写小于 10000</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">./fio -ioengine=psync -bs=32k -fdatasync=1 -thread -rw=randrw -percentage_random=100,0 -size={{ benchmark_size }} -filename=fio_randread_write_test.txt -name=&#39;fio mixed randread and sequential write test&#39; -iodepth=4 -runtime=60 -numjobs=4 -group_reporting --output-format=json --output=fio_randread_write_test.json
+</code></pre></li>
+<li>
+<p>混合场景读写延迟：fio_randread_write_latency.yml</p>
+<ul>
+<li>随机读大于 25w ns（0.25 毫秒）、顺序写大于 30000 ns（0.03 毫秒）</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">./fio -ioengine=psync -bs=32k -fdatasync=1 -thread -rw=randrw -percentage_random=100,0 -size={{ benchmark_size }} -filename=fio_randread_write_latency_test.txt -name=&#39;fio mixed randread and sequential write test&#39; -iodepth=1 -runtime=60 -numjobs=1 -group_reporting --output-format=json --output=fio_randread_write_latency_test.json&#34;
+</code></pre></li>
+</ul>
+<h3 id="sysctl">sysctl</h3>
+<blockquote>
+<p>关注 roles/bootstrap/tasks/<a href="https://github.com/pingcap/tidb-ansible/blob/master/roles/bootstrap/tasks/root_tasks.yml">root_tasks.yml</a>，学习 tidb-ansible 修改了那些系统参数</p>
+</blockquote>
+<ul>
+<li>
+<p>selinux</p>
+<pre><code class="language-bash" data-lang="bash">cat /etc/selinux/config
+# 查看 selinux 状态
+vi /etc/selinux/config
+# 编辑 selinux 配置文件，将以下参数调整为 disable / 重启系统后生效
+SELINUX=disabled
+</code></pre></li>
+<li>
+<p>Firewalld</p>
+<pre><code class="language-bash" data-lang="bash">systemctl status firewalld.service
+# 查看防火墙状态
+systemctl stop firewalld.service
+# 关闭防火墙服务
+systemctl disable firewalld.service
+# 关闭开机启动
+
+iptable-save
+# 查看 iptable 配置，按需清理 iptable 规则
+</code></pre></li>
+<li>
+<p>swap</p>
+<pre><code class="language-bash" data-lang="bash">swapoff -a
+# 使用命令关闭 swap 服务
+# 修改 /etc/fstab 卸载 swap 分区
+</code></pre></li>
+<li>
+<p>sysctl</p>
+<pre><code class="language-bash" data-lang="bash">{ name: &#39;net.core.somaxconn&#39;, value: 32768 }
+{ name: &#39;vm.swappiness&#39;, value: 0 }
+{ name: &#39;net.ipv4.tcp_syncookies&#39;, value: 0 }
+{ name: &#39;fs.file-max&#39;, value: 1000000 }
+{ name: &#39;net.ipv4.tcp_tw_recycle&#39;, value: 0 }
+</code></pre></li>
+<li>
+<p>[never]表示透明大页禁用</p>
+<pre><code class="language-bash" data-lang="bash">echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled
+echo never &gt; /sys/kernel/mm/transparent_hugepage/defrag
+</code></pre></li>
+<li>
+<p>irqbalance</p>
+<ul>
+<li>Irqbalance is a daemon to help balance the cpu load generated by interrupts across all of a systems cpus.</li>
+</ul>
+</li>
+<li>
+<p>ulimit</p>
+<pre><code class="language-bash" data-lang="bash">{{ deploy_user }}        soft        nofile        1000000
+{{ deploy_user }}        hard        nofile        1000000
+{{ deploy_user }}        soft        stack         10240
+</code></pre></li>
+</ul>
+<h2 id="0x03-vip">0x03 VIP</h2>
+<blockquote>
+<p>手动测试 / 如果需要跨机房部署就需要针对性测试网络延迟、网络带宽等信息</p>
+</blockquote>
+<h3 id="net-nc">Net nc</h3>
+<p>假设机房分别部署在 <strong>上海</strong> &amp; <strong>北京</strong> 两地，由于距离较远；而分布式应用对网络质量要求比较高。所以可以通过 ping、nc、iftop 等工具手动复检。</p>
+<pre><code class="language-bash" data-lang="bash">nc -l -p 1234 &lt; /dev/zero
+# 上海机房启动 server 端用于制造数据
+
+nc 192.168.0.11 1234 &gt; /dev/null
+# 北京机房启动命令，填写 server 端 IP &amp; Port 信息接受网络数据
+
+安装 iftop 命令或者用 dstat 命令在双方服务器查看网络流量信息
+</code></pre><h2 id="0x04-demo">0x04 Demo</h2>
+<blockquote>
+<p>intel P4610 磁盘性能测试</p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">[root@jumphost bin]# ./fio -ioengine=psync -bs=32k -fdatasync=1 -thread -rw=randrw -percentage_random=100,0 -size=10G -filename=/data4/fio_randread_test.txt -name=&#39;fio randread test&#39; -iodepth=4 -runtime=60 -numjobs=4 -group_reporting
+fio randread test: (g=0): rw=randrw, bs=(R) 32.0KiB-32.0KiB, (W) 32.0KiB-32.0KiB, (T) 32.0KiB-32.0KiB, ioengine=psync, iodepth=4
+...
+fio-3.8
+Starting 4 threads
+fio randread test: Laying out IO file (1 file / 10240MiB)
+Jobs: 4 (f=4): [m(4)][97.2%][r=814MiB/s,w=823MiB/s][r=26.1k,w=26.3k IOPS][eta 00m:01s]
+fio randread test: (groupid=0, jobs=4): err= 0: pid=1349: Wed May 13 16:57:53 2020
+   read: IOPS=18.7k, BW=586MiB/s (614MB/s)(19.0GiB/34923msec)
+    clat (usec): min=3, max=2480, avg=111.13, stdev=168.36
+     lat (usec): min=3, max=2480, avg=111.24, stdev=168.36
+    clat percentiles (usec):
+     |  1.00th=[    7],  5.00th=[    7], 10.00th=[    7], 20.00th=[    8],
+     | 30.00th=[    8], 40.00th=[    8], 50.00th=[    9], 60.00th=[    9],
+     | 70.00th=[  163], 80.00th=[  212], 90.00th=[  330], 95.00th=[  474],
+     | 99.00th=[  717], 99.50th=[  816], 99.90th=[ 1090], 99.95th=[ 1270],
+     | 99.99th=[ 1696]
+   bw (  KiB/s): min=93568, max=241856, per=25.02%, avg=150055.38, stdev=36947.18, samples=274
+   iops        : min= 2924, max= 7558, avg=4689.19, stdev=1154.60, samples=274
+  write: IOPS=18.8k, BW=587MiB/s (616MB/s)(20.0GiB/34923msec)
+    clat (usec): min=7, max=140, avg=22.46, stdev=10.45
+     lat (usec): min=8, max=142, avg=25.41, stdev=10.96
+    clat percentiles (nsec):
+     |  1.00th=[10176],  5.00th=[10944], 10.00th=[11968], 20.00th=[14144],
+     | 30.00th=[15424], 40.00th=[17280], 50.00th=[19072], 60.00th=[21120],
+     | 70.00th=[25984], 80.00th=[31360], 90.00th=[36608], 95.00th=[44800],
+     | 99.00th=[54016], 99.50th=[60160], 99.90th=[67072], 99.95th=[70144],
+     | 99.99th=[74240]
+   bw (  KiB/s): min=94400, max=242752, per=25.02%, avg=150419.79, stdev=37342.50, samples=274
+   iops        : min= 2950, max= 7586, avg=4700.58, stdev=1166.95, samples=274
+  lat (usec)   : 4=0.01%, 10=31.10%, 20=27.91%, 50=21.30%, 100=1.10%
+  lat (usec)   : 250=11.00%, 500=5.54%, 750=1.66%, 1000=0.32%
+  lat (msec)   : 2=0.07%, 4=0.01%
+  fsync/fdatasync/sync_file_range:
+    sync (nsec): min=756, max=1383.8k, avg=34933.13, stdev=25435.09
+    sync percentiles (nsec):
+     |  1.00th=[   956],  5.00th=[  1096], 10.00th=[  1176], 20.00th=[  1480],
+     | 30.00th=[ 28032], 40.00th=[ 31872], 50.00th=[ 34048], 60.00th=[ 38144],
+     | 70.00th=[ 42752], 80.00th=[ 50432], 90.00th=[ 65280], 95.00th=[ 78336],
+     | 99.00th=[117248], 99.50th=[130560], 99.90th=[154624], 99.95th=[162816],
+     | 99.99th=[189440]
+  cpu          : usr=5.38%, sys=29.77%, ctx=2365485, majf=0, minf=739
+  IO depths    : 1=200.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, &gt;=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, &gt;=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, &gt;=64=0.0%
+     issued rwts: total=654644,656076,0,0 short=1310712,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=4
+
+Run status group 0 (all jobs):
+   READ: bw=586MiB/s (614MB/s), 586MiB/s-586MiB/s (614MB/s-614MB/s), io=19.0GiB (21.5GB), run=34923-34923msec
+  WRITE: bw=587MiB/s (616MB/s), 587MiB/s-587MiB/s (616MB/s-616MB/s), io=20.0GiB (21.5GB), run=34923-34923msec
+
+Disk stats (read/write):
+  nvme1n1: ios=243805/930966, merge=0/132, ticks=66016/21901, in_queue=87969, util=95.36%
+</code></pre><blockquote>
+<p>某 PCIe SATA 6Gb/s 磁盘背板挂载 SSD 测试</p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">root@tidb-04:/data1# /root/fio -ioengine=psync -bs=32k -fdatasync=1 -thread -rw=randrw -percentage_random=100,0 -size=10G -filename=/data1/fio_randread_test.txt -name=&#39;fio randread test&#39; -iodepth=4 -runtime=60 -numjobs=4 -group_reporting
+fio randread test: (g=0): rw=randrw, bs=(R) 32.0KiB-32.0KiB, (W) 32.0KiB-32.0KiB, (T) 32.0KiB-32.0KiB, ioengine=psync, iodepth=4
+...
+fio-3.8
+Starting 4 threads
+fio randread test: Laying out IO file (1 file / 10240MiB)
+Jobs: 2 (f=2): [E(1),m(1),E(1),m(1)][100.0%][r=97.7MiB/s,w=95.9MiB/s][r=3127,w=3069 IOPS][eta 00m:00s]
+fio randread test: (groupid=0, jobs=4): err= 0: pid=51784: Wed May 13 16:52:38 2020
+   read: IOPS=2263, BW=70.7MiB/s (74.2MB/s)(4245MiB/60003msec)
+    clat (usec): min=7, max=51915, avg=1036.31, stdev=923.09
+     lat (usec): min=8, max=51916, avg=1036.96, stdev=923.09
+    clat percentiles (usec):
+     |  1.00th=[    9],  5.00th=[    9], 10.00th=[   10], 20.00th=[   11],
+     | 30.00th=[   12], 40.00th=[  840], 50.00th=[ 1139], 60.00th=[ 1319],
+     | 70.00th=[ 1467], 80.00th=[ 1745], 90.00th=[ 2180], 95.00th=[ 2573],
+     | 99.00th=[ 3458], 99.50th=[ 3818], 99.90th=[ 4555], 99.95th=[ 4883],
+     | 99.99th=[10159]
+   bw (  KiB/s): min= 8832, max=26944, per=24.96%, avg=18083.41, stdev=3456.47, samples=478
+   iops        : min=  276, max=  842, avg=565.09, stdev=108.01, samples=478
+  write: IOPS=2269, BW=70.9MiB/s (74.4MB/s)(4256MiB/60003msec)
+    clat (usec): min=8, max=9672, avg=16.64, stdev=49.33
+     lat (usec): min=10, max=9674, avg=18.53, stdev=49.33
+    clat percentiles (usec):
+     |  1.00th=[   10],  5.00th=[   11], 10.00th=[   11], 20.00th=[   13],
+     | 30.00th=[   13], 40.00th=[   15], 50.00th=[   16], 60.00th=[   17],
+     | 70.00th=[   18], 80.00th=[   20], 90.00th=[   24], 95.00th=[   28],
+     | 99.00th=[   35], 99.50th=[   38], 99.90th=[   48], 99.95th=[   64],
+     | 99.99th=[  104]
+   bw (  KiB/s): min=10432, max=25536, per=24.96%, avg=18129.09, stdev=3458.77, samples=478
+   iops        : min=  326, max=  798, avg=566.51, stdev=108.08, samples=478
+  lat (usec)   : 10=11.21%, 20=45.86%, 50=9.87%, 100=0.04%, 250=0.01%
+  lat (usec)   : 500=0.37%, 750=1.88%, 1000=2.98%
+  lat (msec)   : 2=20.95%, 4=6.67%, 10=0.16%, 20=0.01%, 50=0.01%
+  lat (msec)   : 100=0.01%
+  fsync/fdatasync/sync_file_range:
+    sync (usec): min=14, max=28325, avg=346.05, stdev=407.58
+    sync percentiles (usec):
+     |  1.00th=[   18],  5.00th=[   19], 10.00th=[   21], 20.00th=[  101],
+     | 30.00th=[  151], 40.00th=[  190], 50.00th=[  237], 60.00th=[  269],
+     | 70.00th=[  338], 80.00th=[  486], 90.00th=[  914], 95.00th=[ 1123],
+     | 99.00th=[ 1614], 99.50th=[ 1942], 99.90th=[ 2671], 99.95th=[ 3097],
+     | 99.99th=[ 9765]
+  cpu          : usr=1.46%, sys=6.18%, ctx=680612, majf=0, minf=379
+  IO depths    : 1=200.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, &gt;=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, &gt;=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, &gt;=64=0.0%
+     issued rwts: total=135831,136197,0,0 short=272023,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=4
+
+Run status group 0 (all jobs):
+   READ: bw=70.7MiB/s (74.2MB/s), 70.7MiB/s-70.7MiB/s (74.2MB/s-74.2MB/s), io=4245MiB (4451MB), run=60003-60003msec
+  WRITE: bw=70.9MiB/s (74.4MB/s), 70.9MiB/s-70.9MiB/s (74.4MB/s-74.4MB/s), io=4256MiB (4463MB), run=60003-60003msec
+
+Disk stats (read/write):
+  sdb: ios=89553/406331, merge=0/41, ticks=137840/62920, in_queue=200510, util=99.27%
+</code></pre>]]></content:encoded><h:time datetime="2019-03-06T00:00:00+08:00">2019-03-06 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20190306-10-precheck/">入库检查 - 物理机 &amp; 系统安装数据库前预检查</h:a></item><item><title>Linux - Transfer.sh 一键文件服务器</title><link>https://atman.ihx.cc/post/20170809-transfer.sh/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20170809-transfer.sh/</guid><pubDate>Wed, 09 Aug 2017 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>Transfer</category><category>AirPlan</category><description>0x00 起源 平常需要各种传输日志文件，TiDB 部署进程比较多，打包后可能超过 100MB（微信最大支持 100MB 附件传输），发送人和接受人不是同平台时，文件切割什么的真不好用； 寻找到这么一个横跨多平台（伪）使用的文件服务器工具，支持浏览器、命令行方式上传下载数据文件。 transfer.sh 需要一个支持高速下载与上传的 Linux 服务器，否则 …</description><content:encoded><![CDATA[<h2 id="0x00-起源">0x00 起源</h2>
+<blockquote>
+<p>平常需要各种传输日志文件，TiDB 部署进程比较多，打包后可能超过 100MB（微信最大支持 100MB 附件传输），发送人和接受人不是同平台时，文件切割什么的真不好用；
+寻找到这么一个横跨多平台（伪）使用的文件服务器工具，支持浏览器、命令行方式上传下载数据文件。
+transfer.sh 需要一个支持高速下载与上传的 Linux 服务器，否则效率大大降低；另外需要定期清理已上传数据内容（temp-path 参数），工具不自带 GC 功能</p>
+</blockquote>
+<h2 id="0x01-介绍">0x01 介绍</h2>
+<ul>
+<li><a href="https://transfer.sh/" title="Easy and fast file sharing from the command-line.">Transfer.sh</a> 项目官网</li>
+<li>Github <a href="https://github.com/dutchcoders/transfer.sh/">Transfer.sh</a> Repo 地址</li>
+</ul>
+<p>从命令行轻松快速地共享文件。Transfer.sh 可直接启动一个文件共享服务器，使用 curl 命令发送数据 (HTTP 协议) 到 Transfer 服务器，通过 Transfer.sh 共享链接 (HTTP 协议) 下载数据。</p>
+<p>Transfer.sh 支持 S3 协议的对象云存储 (Amazon S3)、谷歌网盘 (Google Drive)、系统本地存储 (local) 作为存储资源池。</p>
+<h2 id="0x02-安装">0x02 安装</h2>
+<blockquote>
+<p>相关服务使用 Golang 编写<br>
+官方提供 docker images，通过 <code>docker pull dutchcoders/transfer.sh</code> 获取镜像，国内可使用 <code>docker pull registry.docker-cn.com/dutchcoders/transfer.sh</code> 获取镜像</p>
+</blockquote>
+<ul>
+<li>
+<p>安装 docker (centos 7.4)</p>
+<ul>
+<li><code>yum install docker -y</code></li>
+</ul>
+</li>
+<li>
+<p>启动 dcoker，并设置为开机启动</p>
+<ul>
+<li><code>systemctl start docker</code></li>
+<li><code>systemctl enable docker</code></li>
+</ul>
+</li>
+<li>
+<p>获取镜像 (国内)</p>
+<ul>
+<li><code>docker pull registry.docker-cn.com/dutchcoders/transfer.sh</code></li>
+<li>通过这个方式获取到的镜像名为 <code>registry.docker-cn.com/dutchcoders/transfer.sh</code></li>
+</ul>
+</li>
+<li>
+<p>查看镜像信息</p>
+<ul>
+<li><code>docker images</code></li>
+</ul>
+</li>
+<li>
+<p>启动 <code>transfer.sh</code> 服务前准备</p>
+<ul>
+<li>需要使用 root 用户执行 docker run 命令</li>
+<li>需要提前关闭 selinux，使用 getenforce 查看 selinux 状态；如果开启状态，使用 <code>setenforce 0</code> 临时关闭 selinux</li>
+<li>在 centos 7 创建 <code>/data/transfer_dir/</code> 数据目录，稍后映射到 docker 容器内</li>
+</ul>
+</li>
+<li>
+<p>启动 <code>transfer.sh</code> 服务</p>
+<ul>
+<li>命令中 -d 为后台运行，初次运行时建议去掉；启动成功后再次添加，如果第二次启动失败，可以执行 <code>docker rm -f transfer</code></li>
+<li><code>docker run --publish 8000:8080 --name transfer -d -v /data/transfer_dir/:/tmp/ registry.docker-cn.com/dutchcoders/transfer.sh:latest --provider local --basedir /tmp/</code>
+<ul>
+<li>docker 容器内默认监听 8080 端口，通过 8000 端口映射后对外提供服务</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>启动成功后，使用 <code>docker logs transfer</code> 可以看到以下日志信息</p>
+<pre><code class="language-fallback" data-lang="fallback">[root@Jeff-VM1 data]# docker logs 298d8dbd3cdf
+2019/02/15 08:41:57 Transfer.sh server started.
+using temp folder: /tmp/
+using storage provider: local
+2019/02/15 08:41:57 listening on port: :8080
+2019/02/15 08:41:57 ---------------------------
+</code></pre></li>
+</ul>
+<h3 id="transfersh-命令行参数">Transfer.sh 命令行参数</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Value</th>
+<th>Env</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>listener</td>
+<td>port to use for http (:80)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>profile-listener</td>
+<td>port to use for profiler (:6060)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>force-https</td>
+<td>redirect to https</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
+<td>tls-listener</td>
+<td>port to use for https (:443)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>tls-listener-only</td>
+<td>flag to enable tls listener only</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>tls-cert-file</td>
+<td>path to tls certificate</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>tls-private-key</td>
+<td>path to tls private key</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>http-auth-user</td>
+<td>user for basic http auth on upload</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>http-auth-pass</td>
+<td>pass for basic http auth on upload</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>temp-path</td>
+<td>path to temp folder</td>
+<td>system temp</td>
+<td></td>
+</tr>
+<tr>
+<td>web-path</td>
+<td>path to static web files (for development)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ga-key</td>
+<td>google analytics key for the front end</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>uservoice-key</td>
+<td>user voice key for the front end</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>provider</td>
+<td>which storage provider to use</td>
+<td>(s3, grdrive or local)</td>
+<td></td>
+</tr>
+<tr>
+<td>aws-access-key</td>
+<td>aws access key</td>
+<td></td>
+<td>AWS_ACCESS_KEY</td>
+</tr>
+<tr>
+<td>aws-secret-key</td>
+<td>aws access key</td>
+<td></td>
+<td>AWS_SECRET_KEY</td>
+</tr>
+<tr>
+<td>bucket</td>
+<td>aws bucket</td>
+<td></td>
+<td>BUCKET</td>
+</tr>
+<tr>
+<td>basedir</td>
+<td>path storage for local/gdrive provider</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>gdrive-client-json-filepath</td>
+<td>path to client json config for gdrive provider</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>gdrive-local-config-path</td>
+<td>path to local transfer.sh config cache for gdrive provider</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>lets-encrypt-hosts</td>
+<td>hosts to use for lets encrypt certificates (comma seperated)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>log</td>
+<td>path to log file</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="ssl">SSL</h3>
+<p>如果要开启 SSL (默认使用 <a href="https://letsencrypt.org" title="Let’s Encrypt is a free, automated, and open Certificate Authority.">Let&rsquo;s Encrypt</a> 证书)，需要开启 force-https 并设置 tls-listener 参数，默认 tls-listener 端口 443，需要根据 Let&rsquo;s Encrypt 给的信息设置 lets-encrypt-hosts 参数</p>
+<p>如果使用自己的 SSL 证书，需要设置 tls-listener 参数，默认为 :443 ；开启 force-https 参数，设置 tls-cert=file 与 tls-private-key 参数</p>
+<h2 id="0x03-测试">0x03 测试</h2>
+<h3 id="命令行上传">命令行上传</h3>
+<blockquote>
+<p>该工具没有断点续传，请注意客户端与服务器端的网络质量</p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">Upload:
+  curl --upload-file ./hello.txt https://transfer.sh/hello.txt
+
+Encrypt &amp; upload:
+  cat /tmp/hello.txt|gpg -ac -o-|curl -X PUT --upload-file &#34;-&#34; https://transfer.sh/test.txt
+
+Download &amp; decrypt:
+  curl https://transfer.sh/1lDau/test.txt|gpg -o- &gt; /tmp/hello.txt
+
+Upload to virustotal:
+  curl -X PUT --upload-file nhgbhhj https://transfer.sh/test.txt/virustotal
+</code></pre><h3 id="网页上传">网页上传</h3>
+<blockquote>
+<p>如果是使用上面步骤的启动命令，可通过 <code>http://IP:3000/</code> 打开网页，如下图</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20170809-transfer.sh/180802-transfer-windows-upload.jpg" alt="transfer-windows-upload" title="transfer 浏览器上传文件 ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<p><img src="https://atman.ihx.cc/post/20170809-transfer.sh/180802-transfer-windows-upload-2.jpg" alt="transfer-windows-upload" title="transfer 浏览器上传文件 ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<p><img src="https://atman.ihx.cc/post/20170809-transfer.sh/180802-transfer-windows-upload-3.jpg" alt="transfer-windows-upload" title="transfer 浏览器上传文件 ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<h2 id="0x04-faq">0x04 FAQ</h2>
+<ul>
+<li>调试时出现 <code>2018/08/01 03:08:38 mkdir /tmp/u5fJW: permission denied</code>，上传文件失败
+<ul>
+<li>centos 7 默认开启 selinux ，使用 -v 挂载映射存储时，docker 无法正确映射该存储</li>
+<li>解决办法由两种，一种是关闭 selinux ，一种时启动时添加超级权限 <code>--privileged=true</code>，建议关闭 selinux</li>
+</ul>
+</li>
+<li>调试时出现 401 错误
+<ul>
+<li>因为添加了 http-auth-user / http-auth-pass 参数，在网页上传时，没有鉴权功能。</li>
+<li>可使用 curl 命令携带鉴权信息</li>
+</ul>
+</li>
+</ul>
+<h3 id="linux-alias">Linux alias</h3>
+<blockquote>
+<p>添加到用户 .bashrc or .zshrc 文件内<br>
+添加完成后需要使用 source .bashrc or .zshrc 重新加载环境变量</p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash">transfer() {
+    curl --progress-bar --upload-file $1 https://transfer.sh/$(basename $1) | tee /dev/null;
+}
+
+alias transfer=transfer
+</code></pre>]]></content:encoded><h:time datetime="2017-08-09T00:00:00+08:00">2017-08-09 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20170809-transfer.sh/">Linux - Transfer.sh 一键文件服务器</h:a></item><item><title>负载均衡 - HAProxy &amp; TiDB 配合食用</title><link>https://atman.ihx.cc/post/20170610-haproxy/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20170610-haproxy/</guid><pubDate>Sat, 10 Jun 2017 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>TiDB</category><category>HAProxy</category><category>AirPlan</category><description>0x01 介绍 Haproxy 官网 百家饭内容，将测试环境的最终结果整理了下 0x02 功能 负载均衡：L4(TCP) 和 L7(HTTP/HTTPS) 两种模式，支持 RR(roundrobin) / 静态 RR / LC / IP Hash/ URI Hash/ URL_PARAM Hash/ HTTP_HEADER Hash 等丰富的负载均衡算法 健 …</description><content:encoded><![CDATA[<h2 id="0x01-介绍">0x01 介绍</h2>
+<ul>
+<li>Haproxy <a href="http://www.haproxy.org" title="ap.tidb.cc 负载均衡 - HAProxy &amp; TiDB 配合食用">官网</a></li>
+</ul>
+<blockquote>
+<p>百家饭内容，将测试环境的最终结果整理了下</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20170610-haproxy/haproxy-1.png" alt="Haproxy 逻辑架构" title="ap.tidb.cc 负载均衡 - HAProxy &amp; TiDB 配合食用" loading="lazy" decoding="async">
+</p>
+<h2 id="0x02-功能">0x02 功能</h2>
+<ul>
+<li>负载均衡：L4(TCP) 和 L7(HTTP/HTTPS) 两种模式，支持 RR(roundrobin) / 静态 RR / LC / IP Hash/ URI Hash/ URL_PARAM Hash/ HTTP_HEADER Hash 等丰富的负载均衡算法</li>
+<li>健康检查：支持 TCP 和 HTTP 两种健康检查模式</li>
+<li>会话保持：对于未实现会话共享的应用集群，可通过 Insert Cookie / Rewrite Cookie / Prefix Cookie，以及上述的多种 Hash 方式实现会话保持</li>
+<li>SSL：HAProxy 可以解析 HTTPS 协议，并能够将请求解密为 HTTP 后向后端传输</li>
+<li>HTTP：请求重写与重定向</li>
+<li>监控与统计：HAProxy 提供了基于 Web 的统计信息页面，展现健康状态和流量数据。基于此功能，使用者可以开发监控程序来监控 HAProxy 的状态</li>
+</ul>
+<h3 id="balance">balance</h3>
+<ul>
+<li>HAProxy 的算法现在也越来越多了，具体有如下：
+<ul>
+<li>roundrobin，表示简单的轮询，这个不多说，这个是负载均衡基本都具备的</li>
+<li>static-rr，表示根据权重，建议关注</li>
+<li>leastconn，表示最少连接者先处理，建议关注</li>
+<li>ource，表示根据请求源 IP，这个跟 Nginx 的 IP_hash 机制类似，我们用其作为解决 session 问题的一种方法，建议关注</li>
+<li>ri，表示根据请求的 URI</li>
+<li>rl_param，表示根据请求的 URl 参数&rsquo;balance url_param&rsquo; requires an URL parameter name</li>
+<li>hdr(name)，表示根据 HTTP 请求头来锁定每一次 HTTP 请求</li>
+<li>rdp-cookie(name)，表示根据 cookie(name) 来锁定并哈希每一次 TCP 请求</li>
+</ul>
+</li>
+</ul>
+<h3 id="real-server">real server</h3>
+<pre><code class="language-yaml" data-lang="yaml">server tidb-3 172.16.18.13:4000 check port 4000 inter 2000 rise 2 fall 3
+</code></pre><ul>
+<li>port 4000  : 对目标机器 22 号端口健康检查；按照以下规则探测</li>
+<li>inter 2000  : 指间隔 2 秒做一次状态检测</li>
+<li>rise 2      : 检测 2 次状态为成功，恢复对该 RS 的流量转发</li>
+<li>fall 3      : 连续 3 次检测失败会被踢掉流量转发</li>
+</ul>
+<h2 id="0x03-配置文件示例">0x03 配置文件示例</h2>
+<blockquote>
+<p>TiDB or MySQL 需要使用 L4 (OSI) TCP 层模式</p>
+</blockquote>
+<ul>
+<li>使用以下配置文件，可以通过 <code>http://hostIP:1111</code> 查看 HAProxy 运行状态</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">#---------------------------------------------------------------------
+# Example configuration for a possible web application.  See the
+# full configuration options online.
+#
+#   http://haproxy.1wt.eu/download/1.4/doc/configuration.txt
+#
+#---------------------------------------------------------------------
+
+#---------------------------------------------------------------------
+# Global settings
+#---------------------------------------------------------------------
+global
+    # to have these messages end up in /var/log/haproxy.log you will
+    # need to:
+    #
+    # 1) configure syslog to accept network log events.  This is done
+    #    by adding the &#39;-r&#39; option to the SYSLOGD_OPTIONS in
+    #    /etc/sysconfig/syslog
+    #
+    # 2) configure local2 events to go to the /var/log/haproxy.log
+    #   file. A line like the following can be added to
+    #   /etc/sysconfig/syslog
+    #
+    #    local2.*                       /var/log/haproxy.log
+    #
+    log         127.0.0.1 local2
+
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     4000  # 最大连接数
+    nbproc      1     # haproxy 进程数，默认为单进程
+    user        haproxy
+    group       haproxy
+    daemon
+
+    # turn on stats unix socket
+    stats socket /var/lib/haproxy/stats
+
+defaults
+    log global
+    retries 2
+  timeout connect  2s       # 连接超时
+  timeout client 30000s     # 客户端超时
+  timeout server 30000s     # 服务器超时
+  option abortonclose       # 当服务器负载很高的时候，自动结束掉当队列处理比较久的链接【不建议使用】
+  option redispatch         # 当 serverId 对应的服务器挂掉后，强制定向到其他健康的服务器【不建议使用】
+
+listen admin_stats
+  bind 0.0.0.0:1111               # 监控页面地址 &amp; 端口
+  mode http
+  option httplog                  # 采用 http 日志格式
+  maxconn 4000                    # 默认的最大连接数
+  stats refresh 30s               # 统计页面自动刷新时间
+  stats uri /haproxy              # 统计页面 url
+  stats realm Haproxy             # 统计页面密码框上提示文本
+  stats auth admin:pingcap123     # 设置监控页面的用户和密码: admin, 可以设置多个用户名
+  stats hide-version              # 隐藏统计页面上 HAProxy 的版本信息
+  stats  admin if TRUE            # 设置手工启动 / 禁用，后端服务器 (haproxy-1.4.9 以后版本)
+
+
+listen tidb-cluster
+    bind 0.0.0.0:3306     # 对外 vip【virtual ip】 端口
+    mode tcp              # 后端 mysql/tidb 需要使用 tcp / OSI L4 协议转发流量
+    balance roundrobin    # 轮询转发流量
+    server tidb-1 172.16.18.11:4000 check port 4000 inter 2000 rise 2 fall 3
+    server tidb-2 172.16.18.12:4000 check port 4000 inter 2000 rise 2 fall 3
+    server tidb-3 172.16.18.13:4000 check port 4000 inter 2000 rise 2 fall 3
+</code></pre><h2 id="0x04-faq">0x04 FAQ</h2>
+<p>如果不能转发流量，你可以检查下这里：在配置内核参数开发转发功能，在 <code>/etc/sysctl.conf</code> 文件中底部添加 <code>net.ipv4.ip_forward = 1</code>；最后执行 <code>sysctl -p</code> 命令使其生效</p>
+<h3 id="ha">HA</h3>
+<p>Haproxy 的 HA 服务需要一个 keepalived 支持，这个 keepalived 主要作用是给 Linux 加了个灵活的网卡。方便主机切换网卡使用。</p>
+<p><img src="https://atman.ihx.cc/post/20170610-haproxy/haproxy-ha.png" alt="haproxy HA" title="ap.tidb.cc 负载均衡 - HAProxy &amp; TiDB 配合食用" loading="lazy" decoding="async">
+</p>
+<p>除 keep alived 服务之外其实还有 ospf + haproxy / ospf + lvs 架构，还有 ospf + lvs &amp; haproxy 高级组网方式。【这里的 ospf + lvs 中的 lvs 需要使用 fullnet 流量转发策略】</p>
+<p><img src="https://atman.ihx.cc/post/20170610-haproxy/ospf-lvs.png" alt="ospf &#43; lvs" title="ap.tidb.cc 负载均衡 - HAProxy &amp; TiDB 配合食用" loading="lazy" decoding="async">
+</p>
+]]></content:encoded><h:time datetime="2017-06-10T00:00:00+08:00">2017-06-10 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20170610-haproxy/">负载均衡 - HAProxy &amp; TiDB 配合食用</h:a></item><item><title>Linux - Tmux 多窗口敏捷工具</title><link>https://atman.ihx.cc/post/20090102-tmux/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20090102-tmux/</guid><pubDate>Fri, 02 Jan 2009 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>Tmux</category><category>AirPlan</category><description>0x00 起源 screen 热键激活用的 ctrl + a，该热键同时是跳转到行首的快捷键； 试图寻找第二款类似 screen 的工具；找到了 tmux 这种 linux 平台办公利器，尤其是在没有扩展屏情况下测试 Linux 平台产品时爽的飞起。 0x01 Tmux Tmux 使用手册 Arch linux Tmux (简体中文) man Tmux …</description><content:encoded><![CDATA[<h2 id="0x00-起源">0x00 起源</h2>
+<blockquote>
+<p>screen 热键激活用的 ctrl + a，该热键同时是跳转到行首的快捷键；
+试图寻找第二款类似 screen 的工具；找到了 tmux 这种 linux 平台办公利器，尤其是在没有扩展屏情况下测试 Linux 平台产品时爽的飞起。</p>
+</blockquote>
+<h2 id="0x01-tmux">0x01 Tmux</h2>
+<ul>
+<li><a href="http://louiszhai.github.io/2017/09/30/tmux/">Tmux 使用手册</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Tmux_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">Arch linux Tmux (简体中文)</a></li>
+<li><a href="http://man7.org/linux/man-pages/man1/tmux.1.html">man Tmux</a></li>
+</ul>
+<h3 id="安装">安装</h3>
+<ul>
+<li>Ubuntu</li>
+</ul>
+<p><code>sudo apt-get install tmux</code></p>
+<ul>
+<li>Centos</li>
+</ul>
+<p><code>yum install tmux -y</code></p>
+<h3 id="会话窗口面板">会话&gt;窗口&gt;面板</h3>
+<p>根据 tmux 的定义，在开启了 tmux 服务器后，会首先创建一个会话，而这个会话则会首先创建一个 窗口，其中仅包含一个面板；也就是说，这里看到的所谓终端控制台应该称作 tmux 的一个面板， 虽然其使用方法与终端控制台完全相同。</p>
+<p>tmux 使用 C/S 模型构建，主要包括以下单元模块：</p>
+<ul>
+<li>server 服务器。输入 tmux 命令时就开启了一个服务器。</li>
+<li>session 会话。一个服务器可以包含多个会话</li>
+<li>window 窗口。一个会话可以包含多个窗口。</li>
+<li>pane 面板。一个窗口可以包含多个面板。</li>
+</ul>
+<h3 id="初体验">初体验</h3>
+<p>启动新会话</p>
+<pre><code>tmux [new -s 会话名 -n 窗口名]
+tmux new -s test -n tmux
+</code></pre>
+<p>保存会话退出</p>
+<pre><code>tmux detach # 断开当前会话，会话在后台运行
+Ctrl + b  d # 快捷键保存退出当前会话
+</code></pre>
+<p>列出所有会话</p>
+<pre><code>tmux list-session
+tmux ls
+</code></pre>
+<p>恢复会话</p>
+<pre><code>tmux a [-t 会话名]
+tmux attach-session -t session-name     # 连接指定会话
+tmux a -t session-name                  # 连接指定会话
+tmux a                                  # 在上次保存退出位置登陆
+</code></pre>
+<p>关闭会话</p>
+<pre><code>tmux kill-session           # 关闭服务，所有会话退出
+tmux kill-session -t 会话名  # 指定会话退出
+Ctrl + c                    # 在会话内强制退出
+</code></pre>
+<p>关闭所有会话</p>
+<pre><code>tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs kill
+</code></pre>
+<h2 id="0x02-快捷键">0x02 快捷键</h2>
+<blockquote>
+<p>tmux 的所有指令，都包含同一个前缀，默认为 Ctrl+b，输入完前缀过后，控制台激活，命令按键才能生效。</p>
+</blockquote>
+<h3 id="系统快捷键">系统快捷键</h3>
+<table>
+<thead>
+<tr>
+<th>前缀</th>
+<th>指令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl+b</td>
+<td>?</td>
+<td>显示快捷键帮助文档；按 q 返回</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>d</td>
+<td>断开当前会话；这样可以暂时返回 Shell 界面，输入 tmux attach 能够重新进入之前的会话</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>D</td>
+<td>选择要断开的会话；在同时开启了多个会话时使用</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>Ctrl+z</td>
+<td>挂起当前会话</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>r</td>
+<td>强制重载当前会话</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>s</td>
+<td>显示会话列表用于选择并切换；在同时开启了多个会话时使用</td>
+</tr>
+<tr>
+<td>Ctrl + b</td>
+<td>$</td>
+<td>重命名当前会话</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>:</td>
+<td>进入命令行模式；此时可以输入支持的命令，例如 kill-server 可以关闭服务器</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>[</td>
+<td>进入复制模式；此时的操作与 vi/emacs 相同，按 q 退出</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>]</td>
+<td>粘贴复制模式中复制的文本</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>~</td>
+<td>列出提示信息缓存；其中包含了之前 tmux 返回的各种提示信息</td>
+</tr>
+</tbody>
+</table>
+<h3 id="窗口快捷键">窗口快捷键</h3>
+<table>
+<thead>
+<tr>
+<th>前缀</th>
+<th>指令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl+b</td>
+<td>c</td>
+<td>新建窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>&amp;</td>
+<td>关闭当前窗口（关闭前需输入 y or n 确认）</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>0 ~ 9</td>
+<td>切换到指定窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>p</td>
+<td>切换到上一窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>n</td>
+<td>切换到下一窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>w</td>
+<td>打开窗口列表，用于且切换窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>,</td>
+<td>重命名当前窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>.</td>
+<td>修改当前窗口编号（适用于窗口重新排序）</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>f</td>
+<td>快速定位到窗口（输入关键字匹配窗口名称）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="面板快捷键">面板快捷键</h3>
+<table>
+<thead>
+<tr>
+<th>前缀</th>
+<th>指令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl+b</td>
+<td>&quot;</td>
+<td>当前面板上下一分为二，下侧新建面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>%</td>
+<td>当前面板左右一分为二，右侧新建面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>o</td>
+<td>选择下一面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>x</td>
+<td>关闭当前面板（关闭前需输入 y or n 确认）</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>z</td>
+<td>最大化当前面板，再重复一次按键后恢复正常（v1.8 版本新增）</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>!</td>
+<td>将当前面板移动到新的窗口打开（原窗口中存在两个及以上面板有效）</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>;</td>
+<td>切换到最后一次使用的面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>q</td>
+<td>显示面板编号，在编号消失前输入对应的数字可切换到相应的面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>{</td>
+<td>向前置换当前面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>}</td>
+<td>向后置换当前面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>Ctrl+o</td>
+<td>顺时针旋转当前窗口中的所有面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>alt +o</td>
+<td>逆时针旋转当前窗口中的所有面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>方向键</td>
+<td>移动光标切换面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>空格键</td>
+<td>在自带的面板布局中循环切换；依次包括even-horizontal、even-vertical、main-horizontal、main-vertical、tiled</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>Alt + 方向键</td>
+<td>以 5 个单元格为单位调整当前面板边缘</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>Ctrl + 方向键</td>
+<td>以 1 个单元格为单位调整当前面板边缘（Mac 下被系统快捷键覆盖）</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>t</td>
+<td>显示时钟</td>
+</tr>
+</tbody>
+</table>
+<h3 id="调整窗口排序">调整窗口排序</h3>
+<pre><code>swap-window -s 3 -t 1  交换 3 号和 1 号窗口
+swap-window -t 1       交换当前和 1 号窗口
+move-window -t 1       移动当前窗口到 1 号
+</code></pre>
+<h3 id="同步窗格">同步窗格</h3>
+<p>这么做可以切换到想要的窗口，输入 Tmux 前缀和一个冒号呼出命令提示行，然后输入：</p>
+<p><code>:setw synchronize-panes</code></p>
+<p>你可以指定开或关，否则重复执行命令会在两者间切换。
+这个选项值针对某个窗口有效，不会影响别的会话和窗口。
+完事儿之后再次执行命令来关闭。<a href="http://blog.sanctum.geek.nz/sync-tmux-panes/">帮助</a></p>
+<h3 id="调整窗格尺寸">调整窗格尺寸</h3>
+<p>如果你不喜欢默认布局，可以重调窗格的尺寸。虽然这很容易实现，但一般不需要这么干。这几个命令用来调整窗格：</p>
+<pre><code>PREFIX : resize-pane -D          当前窗格向下扩大 1 格
+PREFIX : resize-pane -U          当前窗格向上扩大 1 格
+PREFIX : resize-pane -L          当前窗格向左扩大 1 格
+PREFIX : resize-pane -R          当前窗格向右扩大 1 格
+PREFIX : resize-pane -D 20       当前窗格向下扩大 20 格
+PREFIX : resize-pane -t 2 -L 20  编号为 2 的窗格向左扩大 20 格
+</code></pre>
+<h3 id="文本复制模式">文本复制模式</h3>
+<p>按下 <strong>crtl+b [</strong> 进入文本复制模式。可以使用方向键在屏幕中移动光标。默认情况下，方向键是启用的。在配置文件中启用 Vim 键盘布局来切换窗口、调整窗格大小。Tmux 也支持 Vi 模式。要是想启用 Vi 模式，只需要把下面这一行添加到 .tmux.conf 中：</p>
+<pre><code>setw -g mode-keys vi
+</code></pre>
+<p>启用这条配置后，就可以使用 h、j、k、l 来移动光标了。</p>
+<p>想要退出文本复制模式的话，按下回车键就可以了。一次移动一格效率低下，在 Vi 模式启用的情况下，可以辅助一些别的快捷键高效工作。</p>
+<p>例如，可以使用 w 键逐词移动，使用 b 键逐词回退。使用 f 键加上任意字符跳转到当前行第一次出现该字符的位置，使用 F 键达到相反的效果。</p>
+<pre><code>vi             emacs        功能
+^              M-m          反缩进
+Escape         C-g          清除选定内容
+Enter          M-w          复制选定内容
+j              Down         光标下移
+h              Left         光标左移
+l              Right        光标右移
+L                           光标移到尾行
+M              M-r          光标移到中间行
+H              M-R          光标移到首行
+k              Up           光标上移
+d              C-u          删除整行
+D              C-k          删除到行末
+$              C-e          移到行尾
+:              g            前往指定行
+C-d            M-Down       向下滚动半屏
+C-u            M-Up         向上滚动半屏
+C-f            Page down    下一页
+w              M-f          下一个词
+p              C-y          粘贴
+C-b            Page up      上一页
+b              M-b          上一个词
+q              Escape       退出
+C-Down or J    C-Down       向下翻
+C-Up or K      C-Up         向下翻
+n              n            继续搜索
+?              C-r          向前搜索
+/              C-s          向后搜索
+0              C-a          移到行首
+Space          C-Space      开始选中
+               C-t          字符调序
+</code></pre>
+<h3 id="杂项">杂项</h3>
+<pre><code>d  退出 tmux（tmux 仍在后台运行）
+t  窗口中央显示一个数字时钟
+?  列出所有快捷键
+:  命令提示符
+</code></pre>
+<h3 id="配置选项">配置选项</h3>
+<pre><code># 鼠标支持 - 设置为 on 来启用鼠标
+* setw -g mode-mouse off
+* set -g mouse-select-pane off
+* set -g mouse-resize-pane off
+* set -g mouse-select-window off
+
+# 设置默认终端模式为 256color
+set -g default-terminal &quot;screen-256color&quot;
+
+# 启用活动警告
+setw -g monitor-activity on
+set -g visual-activity on
+
+# 居中窗口列表
+set -g status-justify centre
+
+# 最大化 / 恢复窗格
+unbind Up bind Up new-window -d -n tmp \; swap-pane -s tmp.1 \; select-window -t tmp
+unbind Down
+bind Down last-window \; swap-pane -s tmp.1 \; kill-window -t tmp
+</code></pre>
+<h2 id="0x03-配置文件">0x03 配置文件</h2>
+<blockquote>
+<p>百家饭之配置文件 demo， 默认位置（~/.tmux.conf）
+由于频繁更换 Linux Server，还是默认的省事；自定义优化只能针对个人电脑，切换到远程机器后无法匹配肌肉记忆，因此产生矛盾；（见仁见智见场景的东东）</p>
+</blockquote>
+<pre><code class="language-bash" data-lang="bash"># 基础设置
+set -g default-terminal &#34;screen-256color&#34;
+set -g display-time 3000
+set -g escape-time 0
+set -g history-limit 65535
+set -g base-index 1
+set -g pane-base-index 1
+
+# 前缀绑定 (Ctrl+a)
+set -g prefix ^a
+unbind ^b
+bind a send-prefix
+
+# 分割窗口
+unbind &#39;&#34;&#39;
+bind - splitw -v
+unbind %
+bind | splitw -h
+
+# 选中窗口
+bind-key k select-pane -U
+bind-key j select-pane -D
+bind-key h select-pane -L
+bind-key l select-pane -R
+
+# copy-mode 将快捷键设置为 vi 模式
+setw -g mode-keys vi
+
+# 启用鼠标 (Tmux v2.1)
+set -g mouse on
+
+# 更新配置文件
+bind r source-file ~/.tmux.conf \; display &#34;已更新&#34;
+
+#&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+# Tmux Plugin Manager(Tmux v2.1)
+# Tmux Resurrect
+set -g @plugin &#39;tmux-plugins/tmux-resurrect&#39;
+
+# List of plugins
+set -g @plugin &#39;tmux-plugins/tpm&#39;
+set -g @plugin &#39;tmux-plugins/tmux-sensible&#39;
+
+# Other examples:
+# set -g @plugin &#39;github_username/plugin_name&#39;
+# set -g @plugin &#39;git@github.com/user/plugin&#39;
+# set -g @plugin &#39;git@bitbucket.com/user/plugin&#39;
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run &#39;~/.tmux/plugins/tpm/tpm&#39;
+#&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+</code></pre>]]></content:encoded><h:time datetime="2009-01-02T00:00:00+08:00">2009-01-02 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20090102-tmux/">Linux - Tmux 多窗口敏捷工具</h:a></item><item><title>Linux - Screen 进程守护</title><link>https://atman.ihx.cc/post/20090101-screen/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20090101-screen/</guid><pubDate>Thu, 01 Jan 2009 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>Screen</category><category>AirPlan</category><description>0x00 起源 百家饭内容：常用参数速查 主要用于 Linux 运行常驻命令守护，screen 创建窗口后运行程序，相比 nohub 命令使用上心安理得一些。 如果作为办公多窗口使用，推荐使用 tmux 工具 0x01 快速安装 _____ / ___/_____________ ___ ____ \__ \/ ___/ ___/ _ \/ _ \/ __ …</description><content:encoded><![CDATA[<h2 id="0x00-起源">0x00 起源</h2>
+<blockquote>
+<p>百家饭内容：常用参数速查
+主要用于 Linux 运行常驻命令守护，screen 创建窗口后运行程序，相比 nohub 命令使用上心安理得一些。
+如果作为办公多窗口使用，推荐使用 tmux 工具</p>
+</blockquote>
+<h2 id="0x01-快速安装">0x01 快速安装</h2>
+<pre><code class="language-bash" data-lang="bash">   _____
+  / ___/_____________  ___  ____
+  \__ \/ ___/ ___/ _ \/ _ \/ __ \
+ ___/ / /__/ /  /  __/  __/ / / /
+/____/\___/_/   \___/\___/_/ /_/
+</code></pre><p>Quick install:</p>
+<ol>
+<li>
+<p>Screen
+login as root:
+sudo su -
+yum -y install screen</p>
+</li>
+<li>
+<p>start screen
+screen</p>
+</li>
+<li>
+<p>create a new screen
+CTRL-A  c</p>
+</li>
+<li>
+<p>go to next screen
+CTRL-A n,   CTRL-A p</p>
+</li>
+<li>
+<p>detatch from a screen
+CTRL-A d</p>
+</li>
+<li>
+<p>reattach to screen
+sceen -r</p>
+</li>
+<li>
+<p>list screen
+screen -list</p>
+</li>
+<li>
+<p>Log
+CTRL-A H</p>
+</li>
+<li>
+<p>look for activity
+&ldquo;Ctrl-a&rdquo; &ldquo;M&rdquo;</p>
+</li>
+<li>
+<p>look for in activity
+&ldquo;Ctrl-a&rdquo; &ldquo;_&rdquo;</p>
+</li>
+</ol>
+<h2 id="0x02-帮助手册">0x02 帮助手册</h2>
+<pre><code class="language-bash" data-lang="bash">Options:
+-a            Force all capabilities into each window&#39;s termcap.
+-A -[r|R]     Adapt all windows to the new display width &amp; height.
+-c file       Read configuration file instead of &#39;.screenrc&#39;.
+-d (-r)       Detach the elsewhere running screen (and reattach here).
+-dmS name     Start as daemon: Screen session in detached mode.
+-D (-r)       Detach and logout remote (and reattach here).
+-D -RR        Do whatever is needed to get a screen session.
+-e xy         Change command characters.
+-f            Flow control on, -fn = off, -fa = auto.
+-h lines      Set the size of the scrollback history buffer.
+-i            Interrupt output sooner when flow control is on.
+-l            Login mode on (update /var/run/utmp), -ln = off.
+-list         or -ls. Do nothing, just list our SockDir.
+-L            Turn on output logging.
+-m            ignore $STY variable, do create a new screen session.
+-O            Choose optimal output rather than exact vt100 emulation.
+-p window     Preselect the named window if it exists.
+-q            Quiet startup. Exits with non-zero return code if unsuccessful.
+-r            Reattach to a detached screen process.
+-R            Reattach if possible, otherwise start a new session.
+-s shell      Shell to execute rather than $SHELL.
+-S sockname   Name this session &lt;pid&gt;.sockname instead of &lt;pid&gt;.&lt;tty&gt;.&lt;host&gt;.
+-t title      Set title. (window&#39;s name).
+-T term       Use term as $TERM for windows, rather than &#34;screen&#34;.
+-U            Tell screen to use UTF-8 encoding.
+-v            Print &#34;Screen version 4.00.02 (FAU) 5-Dec-03&#34;.
+-wipe         Do nothing, just clean up SockDir.
+-x            Attach to a not detached screen. (Multi display mode).
+-X            Execute &lt;cmd&gt; as a screen command in the specified session.
+</code></pre><pre><code class="language-bash" data-lang="bash">Basic
+=====
+    ctrl a c              -&gt; cre­ate new win­dow
+    ctrl a A              -&gt; set win­dow name
+    ctrl a w              -&gt; show all win­dow
+    ctrl a 1|2|3|…        -&gt; switch to win­dow n
+    ctrl a ”              -&gt; choose win­dow
+    ctrl a ctrl a         -&gt; switch between win­dow
+    ctrl a d              -&gt; detach win­dow
+    ctrl a ?              -&gt; help
+    ctrl a [              -&gt; start copy, move cur­sor to the copy
+                             loca­tion, press ENTER, select the chars,
+                             press ENTER to copy the selected
+                             char­ac­ters to the buffer
+    ctrl a ]              -&gt; paste from buffer
+
+
+How to start screen
+===================
+    screen –DR            -&gt; list of detached screen
+    screen –r PID         -&gt; attach detached screen ses­sion
+    screen –dmS MySes­sion -&gt; start a detached screen ses­sion
+    screen –r MySes­sion   -&gt; attach screen ses­sion with name MySession
+
+
+Advanced
+========
+    ctrl a S              -&gt; cre­ate split screen
+    ctrl a TAB            -&gt; switch between split screens
+
+    ctrl a Q              -&gt; Kill all regions but the cur­rent one.
+    ctrl a X              -&gt; remove active win­dow from split screen
+    ctrl a O              -&gt; logout active win­dow (dis­able out­put)
+    ctrl a I              -&gt; login active win­dow (enable output)
+</code></pre><h2 id="0x03-场景">0x03 场景</h2>
+<blockquote>
+<p>待补充</p>
+</blockquote>
+]]></content:encoded><h:time datetime="2009-01-01T00:00:00+08:00">2009-01-01 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20090101-screen/">Linux - Screen 进程守护</h:a></item></channel></rss>

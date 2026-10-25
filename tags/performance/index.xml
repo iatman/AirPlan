@@ -1,1 +1,423 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>performance on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/performance/</link><description>Recent content in performance on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Thu, 16 Apr 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/performance/index.xml" rel="self" type="application/rss+xml"/><item><title>沙盘点将 - TiDB 监控知识初始化</title><link>https://atman.ihx.cc/post/20200416-16-init-monitoring-map/</link><pubDate>Thu, 16 Apr 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200416-16-init-monitoring-map/</guid><description>0x00 点点滴滴 之前有篇文档是 纸上谈兵 - TiDB 性能调优，仅仅这篇文档无法承载想表达的豪言壮语，因此出现了一话三联内容，分别是 纸上谈兵（性能调优逻辑、S</description></item><item><title>纸上谈兵 - TiDB 性能调优</title><link>https://atman.ihx.cc/post/20200311-11-performance-map/</link><pubDate>Wed, 11 Mar 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20200311-11-performance-map/</guid><description>0x00 缘 妙不可言 开局一张图，其他全靠编。本文内容中 performance map 基于 TiDB 2.1 &amp;amp; TiDB 3.0 构建；部分内容与新版本不适配，具体以官方解释为准（e.g: TiDB 4.0 Titan engine 读写与本文</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>performance · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/performance/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Thu, 16 Apr 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/performance/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>performance · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 2 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/performance/index.xml">https://atman.ihx.cc/tags/performance/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>沙盘点将 - TiDB 监控知识初始化</title><link>https://atman.ihx.cc/post/20200416-16-init-monitoring-map/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200416-16-init-monitoring-map/</guid><pubDate>Thu, 16 Apr 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>TiDB</category><category>performance</category><category>Monitoring</category><description>0x00 点点滴滴 之前有篇文档是 纸上谈兵 - TiDB 性能调优，仅仅这篇文档无法承载想表达的豪言壮语，因此出现了一话三联内容，分别是 纸上谈兵（性能调优逻辑、SQL 资源过五关斩六将一路顺风）、沙盘点将（监控概要、踏马观花一目十行的机密所在）、九死一生（问题处理、千军万马一将在，探囊取物有何难？） 三部曲，本次将通过少量图文描述下监控围观方式。 本文内 …</description><content:encoded><![CDATA[<h2 id="0x00-点点滴滴">0x00 点点滴滴</h2>
+<p>之前有篇文档是 <a href="https://atman.ihx.cc/post/20200311-11-performance-map/" title="ap.tidb.cc">纸上谈兵 - TiDB 性能调优</a>，仅仅这篇文档无法承载想表达的豪言壮语，因此出现了一话三联内容，分别是 纸上谈兵（性能调优逻辑、SQL 资源过五关斩六将一路顺风）、沙盘点将（监控概要、踏马观花一目十行的机密所在）、九死一生（问题处理、千军万马一将在，探囊取物有何难？） 三部曲，本次将通过少量图文描述下监控围观方式。</p>
+<blockquote>
+<p>本文内容来自 PingCAP 官方培训，然后文字话简述下（不要问我要视频，我没有）# 2020 年 3 月左右的官方活动</p>
+</blockquote>
+<h2 id="0x01-监控">0x01 监控</h2>
+<p><img src="https://atman.ihx.cc/post/20200416-16-init-monitoring-map/monitoring-ace.png" alt="监控架构" title="ap.tidb.cc tidb metrics" loading="lazy" decoding="async">
+</p>
+<p>Grafana Prometheus 的监控平台架构本次不在多说了，这部分内容可以看浏览下以往文档<a href="https://atman.ihx.cc/tags/monitoring/">站内分类 - monitoring</a></p>
+<h3 id="那些事">那些事</h3>
+<blockquote>
+<p>以下内容原文手打翻译</p>
+</blockquote>
+<ul>
+<li>
+<p>清理 Prometheus 中残留的 TiKV 监控数据</p>
+<ul>
+<li>使用 Prometheus 2.1 以上版本</li>
+<li>打开 &ndash;web.enable-admin-api 参数；详情看官网 <a href="https://prometheus.io/docs/prometheus/latest/querying/api/#tsdb-admin-apis">Prometheus Admin api</a></li>
+<li><code>curl -X POST -g 'http://127.0.0.1:9090/api/v1/admin/tsdb/delete_series?match[]={instance=&quot;10.0.1.4:20181&quot;,job=&quot;tikv&quot;}'</code></li>
+</ul>
+</li>
+<li>
+<p>Prometheus 是否可以做审计场景</p>
+<ul>
+<li>此处跳过 / 以前文档有说明</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Grafana 看不到数据</p>
+</blockquote>
+<ul>
+<li>metrics 本身没有数据
+<ul>
+<li>事物运行时没有触发到 metrics 逻辑</li>
+</ul>
+</li>
+<li>网络防火墙阻断（下方默认端口列表）
+<ul>
+<li>云虚拟机检查 安全组 规则</li>
+<li>物理机环境检查 硬件防火墙 规则</li>
+</ul>
+</li>
+<li>配置文件不正确
+<ul>
+<li>依次检查 tidb metrics-status port、prometheus 配置文件、grafana 配置参数</li>
+</ul>
+</li>
+<li>目标组件进程退出
+<ul>
+<li>进入 tidb-ansible 目录【使用前建议先阅读 ansible 文档，不要像我一样差点折腾挂集群】</li>
+<li><code>ansible tidb_servers -m shell -a “ps aux ｜ grep tidb-server”</code> 依次查看 tidb pd tikv 组件</li>
+</ul>
+</li>
+<li>目标组件端口冲突
+<ul>
+<li>TiDB、TiKV metrics-status 端口冲突不影响启动，会影响监控数据展示</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>默认端口</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TiDB</td>
+<td>4000</td>
+<td>应用及 DBA 工具访问通信端口</td>
+</tr>
+<tr>
+<td>TiDB</td>
+<td>10080</td>
+<td>TiDB 状态信息上报通信端口</td>
+</tr>
+<tr>
+<td>TiKV</td>
+<td>20160</td>
+<td>TiKV 通信端口</td>
+</tr>
+<tr>
+<td>PD</td>
+<td>2379</td>
+<td>提供 TiDB 和 PD 通信端口</td>
+</tr>
+<tr>
+<td>PD</td>
+<td>2380</td>
+<td>PD 集群节点间通信端口</td>
+</tr>
+<tr>
+<td>Pump</td>
+<td>8250</td>
+<td>Pump 通信端口</td>
+</tr>
+<tr>
+<td>Drainer</td>
+<td>8249</td>
+<td>Drainer 通信端口</td>
+</tr>
+<tr>
+<td>Prometheus</td>
+<td>9090</td>
+<td>Prometheus 服务通信端口</td>
+</tr>
+<tr>
+<td>Pushgateway</td>
+<td>9091</td>
+<td>tikv-importer 聚合和上报端口</td>
+</tr>
+<tr>
+<td>Node_exporter</td>
+<td>9100</td>
+<td>TiDB 集群每个节点的系统信息上报通信端口</td>
+</tr>
+<tr>
+<td>Blackbox_exporter</td>
+<td>9115</td>
+<td>Blackbox_exporter 通信端口，用于 TiDB 集群端口监控</td>
+</tr>
+<tr>
+<td>Grafana</td>
+<td>3000</td>
+<td>Web 监控服务对外服务和客户端(浏览器)访问端口</td>
+</tr>
+<tr>
+<td>Grafana</td>
+<td>8686</td>
+<td>grafana_collector 通信端口，用于将 Dashboard 导出为 PDF 格式</td>
+</tr>
+<tr>
+<td>Kafka_exporter</td>
+<td>9308</td>
+<td>Kafka_exporter 通信端口，用于监控 binlog kafka 集群</td>
+</tr>
+</tbody>
+</table>
+<h3 id="资料片">资料片</h3>
+<ul>
+<li>TiKV in Prometheus【中文】描述如何在 TiKV 中设置“检查点”用于统计、收集 TiKV-server 运行信息
+<ul>
+<li><a href="https://pingcap.com/blog-cn/tikv-source-code-reading-3/" title="ap.tidb.cc">TiKV 源码解析系列文章（三）Prometheus（上）</a></li>
+<li><a href="https://pingcap.com/blog-cn/tikv-source-code-reading-4/" title="ap.tidb.cc">TiKV 源码解析系列文章（四）Prometheus（下）</a></li>
+<li><a href="https://pingcap.com/blog-cn/use-grafana-to-monitor-and-analyze-tidb-metrics/" title="ap.tidb.cc">如何高效利用 Grafana 监控分析 TiDB 指标</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="0x02-星星点灯">0x02 星星点灯</h2>
+<blockquote>
+<p>TiDB 监控千千万万，只有理解了这些监控才能做到天下万物为我所用的“成就色霸气”<br>
+通过三小步理解来分解人类三大疑问：监控怎么来的？监控怎么用？监控干了啥？<br>
+先放张图理解下啥叫丰富多彩？</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20200416-16-init-monitoring-map/xingxingdiandeng.png" alt="星星点灯" title="ap.tidb.cc tidb metrics" loading="lazy" decoding="async">
+</p>
+<h3 id="in-client">in Client</h3>
+<blockquote>
+<p>首先需要知道 Metrics 是怎么来的。比如以下这条数据</p>
+</blockquote>
+<ul>
+<li><code>tidb_server_handle_query_duration_seconds_bucket</code>
+<ul>
+<li>从名字切割分析下这个 metrics</li>
+<li><code>tidb_</code>    来自 TiDB 服务</li>
+<li><code>server_</code>  TiDB 服务中的 server subsystem</li>
+<li><code>handle_query_duration_seconds_bucket</code> 记录查询语句处理时间的桶状直方图</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>同时需要知道这条 Metrics 代表了什么意思</p>
+</blockquote>
+<ul>
+<li>
+<p>Metrics 帮助信息还可以通过浏览器访问 <code>http://tidbIP:10080/metrics</code> 获取</p>
+<pre><code class="language-yaml" data-lang="yaml"># HELP tidb_server_handle_query_duration_seconds Bucketed histogram of processing time (s) of handled queries.
+# TYPE tidb_server_handle_query_duration_seconds histogram
+tidb_server_handle_query_duration_seconds_bucket{sql_type=&#34;Begin&#34;,le=&#34;0.0005&#34;} 0
+</code></pre></li>
+</ul>
+<blockquote>
+<p>在 Github TiDB repo 搜索 handle_query_duration_seconds 可以获取更多代码逻辑<br>
+PPT 截图、Golang 大佬可自主常识搜索<br>
+从内容上看完整的 metrics 是拼接出来的，所以不要搜完整 metrics<br>
+另外我常识搜索 PD / TiKV metrics 有搜不出来的现象，可能需要强撸代码「大佬们可以试下 tikv_pd_heartbeat_tick_total」</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20200416-16-init-monitoring-map/tidb-metrics-go-1.png" alt="TiDB - Metrics" title="ap.tidb.cc tidb metrics" loading="lazy" decoding="async">
+
+<img src="https://atman.ihx.cc/post/20200416-16-init-monitoring-map/tidb-metrics-go-2.png" alt="TiDB - Metrics" title="ap.tidb.cc tidb metrics" loading="lazy" decoding="async">
+</p>
+<h3 id="p-sql">P-SQL</h3>
+<blockquote>
+<p>Prometheus SQL 查询类似 SQL92 标准，主要有 函数、运算符、metrics 主体、时间字段等构造而成（更多信息可以阅读官网：<a href="https://prometheus.io/docs/prometheus/latest/querying/basics/" title="ap.tidb.cc">Prometheus - query basics</a>）。比如下面这条：</p>
+</blockquote>
+<ul>
+<li>理解 Prometheus SQL
+<ul>
+<li><code>histogram_quantile(0.999, sum(rate(tidb_server_handle_query_duration_seconds_bucket[1m])) by (le))</code></li>
+<li>直方图函数（数据采样比，数据运算（数据窗口范围（数据 metrics bucket [时间范围] ）by （分组）））</li>
+<li>该直方图计算后得知 TiDB query duration 信息，比如 P999、P99、P95、P80，在不同数据采样比情况下会有不同的误差；此时根据业务对 query durtion 的延迟要求，比如 5000 tps/sec 并发情况下 duration 50ms，可以从 80 &gt; 99 &gt; 999 逐级分析</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>可以按照 Prometheus 官网 functions 页面，多多常识其他函数，比如 sum()、deriv()、irate()、rate()、year()；我看官方 Dashboard 中主要用了这么几个函数<br>
+可以在 Prometheus web 页面测试完成后添加到 Grafana dashboard 中。Prometheus web 页面地址是 IP:9090</p>
+</blockquote>
+<h3 id="dashboard">Dashboard</h3>
+<p>官方有篇文档 <a href="https://pingcap.com/blog-cn/use-grafana-to-monitor-and-analyze-tidb-metrics/">如何高效利用 Grafana 监控分析 TiDB 指标</a>，介绍了如何使用 dashboard 中各项 metrics 进行各种自定义查询（利用 metrics 精美的图表查到自己最想要的东西），所以这里就不重复造轮子了<br>
+但是有个东西貌似还要口译下，就是那张繁星点点的图，这部分在上述文档中没有说</p>
+<p><img src="https://atman.ihx.cc/post/20200416-16-init-monitoring-map/dashboard.png" alt="TiDB ansible grafana dashboard" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>通过 tidb-ansible 安装的 4.0 版本，安装打开监控会看到以下监控 dashboard 页面（早期 2.0 版本的至少包含 tidb、tikv、pd、overview dashboard 页面），简单说几个重要的页面</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>dashboard</th>
+<th>info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PD</td>
+<td>PD 服务监控页面，主要查 PD 运行状态、region 数据量、Region 调度信息等</td>
+</tr>
+<tr>
+<td>TiDB</td>
+<td>TiDB 服务监控：QPS、QPS 延迟、主机资源占用、DDL 信息、KV client 信息等</td>
+</tr>
+<tr>
+<td>TiKV-details</td>
+<td>TiKV 监控服务页面：内容太多放下面了 <a href="https://atman.ihx.cc/post/20200416-16-init-monitoring-map/#tikv">TikV dashboard info</a></td>
+</tr>
+<tr>
+<td>overview</td>
+<td>overview ，你懂的。官方已经做了解释，可以看 <a href="https://pingcap.com/docs-cn/stable/reference/key-monitoring-metrics/overview-dashboard/#overview-%E9%9D%A2%E6%9D%BF%E9%87%8D%E8%A6%81%E7%9B%91%E6%8E%A7%E6%8C%87%E6%A0%87%E8%AF%A6%E8%A7%A3" title="ap.tidb.cc">Overview 面板重要监控指标详解</a></td>
+</tr>
+<tr>
+<td>node export</td>
+<td>主机监控，主要查询主机 cpu、内存、磁盘、网络等占用</td>
+</tr>
+<tr>
+<td>black export</td>
+<td>网络探测，如 ping 监控主机状态和主机之间的延迟、port 端口服务探活</td>
+</tr>
+<tr>
+<td>disk-preformance</td>
+<td>详细的磁盘监控信息，磁盘 IO util、IO 流量等资源占用信息</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>其他面板是对特定场景的整理，纵览上看 metrics 是重复的。特定 dashboard 比较利于排查问题</p>
+</blockquote>
+<h4 id="pd">PD</h4>
+<p><img src="https://atman.ihx.cc/post/20200416-16-init-monitoring-map/PD.png" alt="PD dashboard ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>PD 页面打开后是上面这样，具体 metrics 信息可以看这篇文档 <a href="https://pingcap.com/docs-cn/stable/reference/key-monitoring-metrics/pd-dashboard/" title="ap.tidb.cc">PD-dashboard</a> 个人经验是这么看的：</p>
+</blockquote>
+<ol>
+<li>先查看 PD 目前运行状态，通过 <code>cluster tab</code> 可以看到 PD leader 信息、TiDB 集群存储资源、TiKV 节点状态</li>
+<li>继续查看 Region 在各 TiKV 数量信息，比如 <code>balance【调度纵览】、hotregion【读写热点数据】、schedule【调度数据】、operator【操作时间】</code> 这几个 tab 可以查看相关信息</li>
+<li>如果 PD 出问题了，可以通过 <code>etcd</code> 查看 PD 刷写数据到磁盘的性能</li>
+<li>如果 TiKV 和 PD 之间有异常，比如 region 数量在 tikv 和 PD 中显示的不一样，可以关注 PD leader 状态，然后查看 <code>heartbeat</code> + <code>GRPC</code> 信息</li>
+<li>如果 TiDB 向 PD 获取 tso 慢，可以查看 <code>TiDB</code> tab 信息</li>
+</ol>
+<h4 id="tidb">TiDB</h4>
+<p><img src="https://atman.ihx.cc/post/20200416-16-init-monitoring-map/tidb.png" alt="TiDB dashboard ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>TiDB 页面打开后是上面这样，具体 metrics 信息可以看这篇文档 <a href="https://pingcap.com/docs-cn/stable/reference/key-monitoring-metrics/tidb-dashboard/" title="ap.tidb.cc">TiDB-dashboard</a> 个人经验是这么看的：</p>
+</blockquote>
+<ol>
+<li>如果出现 slow query 现象：顺序检查 TiDB 页面中的 <code>QPS</code>、<code>QPS P80、P99 延迟</code>、<code>slow query</code>、<code>server【TiDB 占用主机资源信息】</code>、<code>kv error【TiDB 中的 kv client 与 kv 交互出现错误的统计】</code>，查看是否有高于其他时间段的<code>凸起</code>、<code>毛刺</code>、<code>断崖</code> 等现象</li>
+<li>性能排查还会看：<code>executor【上文中说的 TiDB SQL 执行器】</code>、<code>ditsql【优化其中的下推算子统计（tablescan、indexscan 等一堆东东）】</code>、<code>PD client【观察 TSO 获取时间】</code>、<code>KV count【SQL 与 KV 查询比例】</code>、<code>KV error【resolve lock 锁冲突量】</code>、<code>KV Duration【到每个 TiKV 查询 KV 的耗时】</code> 这些信息，可以综合判断目前 SQL 执行时压力是在 TiDB 还是 TiKV 服务，如过是 TiKV 服务还要具体分析 TiKV 组件信息</li>
+<li>DDL 问题可以直接看：<code>DDL【记录 DDL owner、DDL 执行数量、DDL 排队数量等】</code></li>
+<li>TiDB 早期有个错误叫 <code>Information schema is out of date</code> 错误，这时候就可以看下  <code>schema load</code> tab （<a href="https://pingcap.com/docs-cn/stable/faq/tidb/#3314-%E8%A7%A6%E5%8F%91-information-schema-is-out-of-date-%E9%94%99%E8%AF%AF%E7%9A%84%E5%8E%9F%E5%9B%A0">FAQ</a> &ldquo;ap.tidb.cc&rdquo;）</li>
+<li>剩下几个大家满满挖掘吧</li>
+</ol>
+<h4 id="tikv">TiKV</h4>
+<blockquote>
+<p>TiKV-detail 页面打开后是上面这样，具体 metrics 信息可以看这篇文档 <a href="https://pingcap.com/docs-cn/stable/reference/key-monitoring-metrics/tikv-dashboard/" title="ap.tidb.cc">TiKV-dashboard</a> 个人经验是这么看的：</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20200416-16-init-monitoring-map/tikv.png" alt="TiKV dashboard ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<p>TiKV 内容是最多的，看监控前先区分下两个东西。虽然无关紧要 / TiKV 中有两个 Rockdb 分别存储 Raft-log 和数据库 KV 数据。<br>
+TiKV 监控与上篇文档（<a href="https://atman.ihx.cc/post/20200311-11-performance-map/">纸上谈兵 - TiDB 性能调优</a>）中的 performance map 结合食用是最好不过了。</p>
+<ol>
+<li>TiKV 由于面板比较多，查问题讲究连贯性。如果是性能问题或者巡检会首先看 <code>GRPC【TiKV 接受到的 TiDB 读写数据请求信息】</code>、<code>thread cpu【TiKV server 线程池资源占用情况】</code>、<code>error 【TiKV 运行期间 ERROR 统计】</code>、<code>cluster 【TiKV 集群运行状态信息纵览、包含 CPU、DISK、带宽等信息】</code>、<code>server 【TiKV server 占用主机资源信息】</code> 这几组监控来判断目前 TiDB to TiKV 资源压力占用情况</li>
+<li>如果是协助 TiDB slow query 场景，先检查 <code>GRPC【TiKV 接受到的 TiDB 读写数据请求信息】</code>、<code>thread cpu【TiKV server 线程池资源占用情况】</code>，然后是 <code>coprocess 【 TiDB 聚合下推算子处理器，就是查询会消耗这个资源】</code>，进阶版之后还有 <code>task 【TiKV server 中的队列服务】</code>、<code>RocksDB - KV【TIKV 中用于存储数据的 rocksDB】</code> 等监控</li>
+<li>如果出现 TiKV 写入慢的情况，先检查 <code>GRPC【TiKV 接受到的 TiDB 读写数据请求信息】</code>、<code>thread cpu【TiKV server 线程池资源占用情况】</code>，然后是 <code>schedule-prewrite 【2pc 第一个阶段】</code> &amp; <code>schedule-commit 【2pc 第二个阶段】</code> 等 schedule 开头的监控；以及 disk-prefoemance dashboard 页面；随后还有 <code>raft-io 【raft 协议运输数据产生的 IO 和资源消耗 】</code> 等 <code>raft 开头</code>的监控</li>
+<li>其他高阶功能根据运维场景结合 <a href="https://atman.ihx.cc/post/20200311-11-performance-map/#0x02-awsl" title="ap.tibd.cc">performance map</a> 食用</li>
+</ol>
+<h2 id="0x03-sql-life">0x03 SQL Life</h2>
+<blockquote>
+<p>PPT 有讲解如何使用监控对 TiDB 集群做调优（<a href="https://atman.ihx.cc/post/20200311-11-performance-map/">纸上谈兵 - TiDB 性能调优</a>）</p>
+</blockquote>
+<p>这部分没啥想说的了，调优前需要了解 SQL 运行逻辑，上篇文档已经说了。大家可以回顾下，然后按照本文再学习下监控和组件的关系</p>
+]]></content:encoded><h:time datetime="2020-04-16T00:00:00+08:00">2020-04-16 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200416-16-init-monitoring-map/">沙盘点将 - TiDB 监控知识初始化</h:a></item><item><title>纸上谈兵 - TiDB 性能调优</title><link>https://atman.ihx.cc/post/20200311-11-performance-map/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20200311-11-performance-map/</guid><pubDate>Wed, 11 Mar 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>TiDB</category><category>performance</category><description>0x00 缘 妙不可言 开局一张图，其他全靠编。本文内容中 performance map 基于 TiDB 2.1 &amp;amp; TiDB 3.0 构建；部分内容与新版本不适配，具体以官方解释为准（e.g: TiDB 4.0 Titan engine 读写与本文流程会有区别 ） 本页内容中 performance map 来自 PingCAP/TiDB-map 项目， …</description><content:encoded><![CDATA[<h2 id="0x00-缘-妙不可言">0x00 缘 妙不可言</h2>
+<blockquote>
+<p>开局一张图，其他全靠编。本文内容中 performance map 基于 TiDB 2.1 &amp; TiDB 3.0 构建；部分内容与新版本不适配，具体以官方解释为准（e.g: TiDB 4.0 Titan engine 读写与本文流程会有区别 ）<br>
+本页内容中 performance map 来自 <a href="https://github.com/pingcap/tidb-map/">PingCAP/TiDB-map</a> 项目，最终所有权&amp;解释权归 PingCAP 所有。</p>
+<ul>
+<li>阅读本文前请先围观以下文档（本文内容来自以下文档的<del>复制、黏贴、串改、汇总</del>）：
+<ul>
+<li><a href="https://pingcap.com/blog-cn/tidb-source-code-reading-3/">SQL 的一生</a> ✨</li>
+<li><a href="https://pingcap.com/blog-cn/#TiDB-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB">TiDB 源码阅读</a></li>
+<li><a href="https://pingcap.com/blog-cn/#TiKV-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90">TiKV 源码阅读</a></li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="0x01-开局">0x01 开局</h2>
+<blockquote>
+<p>首先了解下 TiDB 整体的架构</p>
+</blockquote>
+<ul>
+<li>TiDB（产品）三大金刚组件：PD、TiDB、TiKV
+<ul>
+<li>TiDB-server 负责 session 链接管理、SQL 解析 &amp; 执行、使用 SQL 语言读写 TiKV 中的 KV 数据</li>
+<li>PD 负责 region 调度 &amp; region 信息统计、TiKV 状态管理、TSO 分发（类似 SCN / GTID 的东东）</li>
+<li>TiKV 负责存储数据以及部分<strong>下推 SQL</strong> 的计算（数据格式为 Key-value）
+<ul>
+<li>三副本强一致概念实现 <a href="https://pingcap.com/blog-cn/tikv-source-code-reading-2/">raft-rs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>合体后的姿势是这样的（暂时忽略掉 tispark，本文不涉及这部分）：</p>
+<p><img src="https://atman.ihx.cc/post/20200311-11-performance-map/tidb-architecture.png" alt="TiDB 架构图" loading="lazy" decoding="async">
+</p>
+<h3 id="txn">TXN</h3>
+<p>如果链接到 TiDB，执行一条 insert 语句差不多是这么一个流程（图片中好像少了一部分，让我们继续往后看）</p>
+<blockquote>
+<p>该图来自于 <a href="https://pingcap.com/blog-cn/tikv-source-code-reading-12/">分布式事物</a></p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20200311-11-performance-map/tikv-txn.png" alt="事物流程" loading="lazy" decoding="async">
+</p>
+<h3 id="sql">SQL</h3>
+<p>而事物在 TiDB 经历了什么呢？</p>
+<blockquote>
+<p>该图来自于 TiDB <a href="https://pingcap.com/blog-cn/tidb-source-code-reading-3/">SQL 的一生</a></p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20200311-11-performance-map/tidb-sql.png" alt="TiDB &lt;a href=&#34;https://pingcap.com/blog-cn/tidb-source-code-reading-3/&#34;&gt;SQL 的一生&lt;/a&gt;" loading="lazy" decoding="async">
+</p>
+<p>从图片中可以看到 TiDB 通过 conn.go 建立 session 链接，随后接收 SQL text 内容交由 session.go 来处理。<br>
+session.go 收到 SQL text 后将数据发送给 parser 验证 SQL text 格式、内容是否有效；验证成功后发送给 plan 两兄弟（plan.preprocess &amp; plan optimize），兄弟两个一个是用来思考怎么帮助用户规划路径，另一个兄弟是思考如何才能最快的去执行任务拿到数据。<br>
+兄弟两个合拍之后出了报告发送给 executor.build 大佬，大佬专业押镖数十年，由该大佬去 TiKV 存储层获取目标数据。</p>
+<blockquote>
+<p>辣么 <a href="https://pingcap.com/blog-cn/tidb-source-code-reading-5/">parser 是怎么检测 sql text</a> 的呢？ <a href="https://pingcap.com/blog-cn/tidb-source-code-reading-23/">executor 是怎么拿到数据的</a>？plan 两兄弟又出的什么主意呢（<a href="https://pingcap.com/blog-cn/tidb-source-code-reading-7/">基于规则的优化</a>&amp; <a href="https://pingcap.com/blog-cn/tidb-source-code-reading-8/">基于代价的优化</a>）？<br>
+《走进科学》专业人士与你慢慢细谈</p>
+</blockquote>
+<h3 id="tikv-server">TiKV server</h3>
+<p>TiDB 接收到了 SQL ，怎么送到的 TiKV 、TiKV 又是怎么回复的？或许这是未来 <em>TiDB 十万个为什么</em> 必备题吧<br>
+这里没找到图，暂时也没作图，先挖个坑吧，或者看文章也是可以的，比如 <a href="https://pingcap.com/blog-cn/tidb-source-code-reading-18/">TiKV client in TiDB 上</a> &amp; <a href="https://pingcap.com/blog-cn/tidb-source-code-reading-19/">TiKV client in TiDB 下</a></p>
+<ul>
+<li>本部分信息挖坑
+<ul>
+<li>grpc 线程池</li>
+<li>raftstore</li>
+<li>apply sync</li>
+<li>mvcc</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>改图来自于 <a href="https://pingcap.com/blog-cn/tikv-source-code-reading-9/">TiKV-server</a></p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20200311-11-performance-map/tikv-server.png" alt="TiKV server " loading="lazy" decoding="async">
+</p>
+<h3 id="tikv-coprocessor">TiKV coprocessor</h3>
+<blockquote>
+<p>改图来自于 <a href="https://pingcap.com/blog-cn/tikv-source-code-reading-14/">TiKV coprocess 概览</a><br>
+storage readpool 与 coprocessor 负责处理不同场景的 <strong>读</strong>，负责读的还有另一兄弟 kv_get</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20200311-11-performance-map/tikv-select.png" alt="tikv coprocessor 读流程" loading="lazy" decoding="async">
+</p>
+<h3 id="tikv-schedule">TiKV schedule</h3>
+<blockquote>
+<p>此处暂无内容</p>
+</blockquote>
+<h2 id="0x02-awsl">0x02 awsl</h2>
+<blockquote>
+<p>看完上面内容迷路了么？如果迷路了这里有份 <em><a href="https://github.com/pingcap/tidb-map/blob/master/maps/performance-map.png">鸟瞰图</a></em> 可以拿去看看<br>
+齿轮部分是可以用与调优的地方，需要区分读写两个流程哟（读写各有不同的调优参数）<br>
+rocksDB 内的参数谨慎调试、调了需要一定时间才有反应（非即时反馈）</p>
+</blockquote>
+<ul>
+<li>参数调证
+<ul>
+<li>TiDB 调整 <a href="https://pingcap.com/docs-cn/stable/reference/configuration/tidb-server/configuration-file/">tidb.toml</a>&amp; <a href="https://pingcap.com/docs-cn/stable/reference/configuration/tidb-server/tidb-specific-variables/#tidb-%E4%B8%93%E7%94%A8%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F%E5%92%8C%E8%AF%AD%E6%B3%95">TiDB session variable</a>，如果想了解 session variable 的调整，还需要先阅读这篇文档 <a href="https://pingcap.com/blog-cn/tidb-source-code-reading-10/">Chunk 和执行框架简介</a></li>
+<li>TiKV 调整 <a href="https://pingcap.com/docs-cn/stable/reference/configuration/tikv-server/configuration-file/">tikv.toml</a>
+<ul>
+<li><a href="https://pingcap.com/blog-cn/tikv-source-code-reading-7/">Grpc 线程池</a> 介绍</li>
+</ul>
+</li>
+<li>可能还需要 PD 配合，比如 <a href="https://pingcap.com/docs-cn/stable/reference/tools/pd-control/">PD-ctl</a>，而不是 pd.toml 文件</li>
+</ul>
+</li>
+<li>是不是懵逼，即时知道了调那些参数，也不知道该调多少数值？因为少了一部分知识体系：《监控-资源使用》</li>
+</ul>
+<p><img src="https://atman.ihx.cc/post/20200311-11-performance-map/performance-map.png" alt="TiDB performance map" loading="lazy" decoding="async">
+</p>
+<h2 id="0x03-坑">0x03 坑</h2>
+<blockquote>
+<p>本文坑有些多，先记录下能想到的坑 #顺着网线过来打我也没用</p>
+</blockquote>
+<ul>
+<li><input disabled="" type="checkbox"> coprocessor &amp; schedule 描述</li>
+<li><input disabled="" type="checkbox"> 各组件 client</li>
+<li><input disabled="" type="checkbox"> 性能监控</li>
+<li><input disabled="" type="checkbox"> tikv server</li>
+</ul>
+]]></content:encoded><h:time datetime="2020-03-11T00:00:00+08:00">2020-03-11 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20200311-11-performance-map/">纸上谈兵 - TiDB 性能调优</h:a></item></channel></rss>

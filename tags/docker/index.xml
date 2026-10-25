@@ -1,1 +1,81 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/docker/</link><description>Recent content in Docker on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Mon, 23 Nov 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker - MySQL SSL &amp; Binlog</title><link>https://atman.ihx.cc/post/20201123-49-docker-mysql-ssl-binlog/</link><pubDate>Mon, 23 Nov 2020 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20201123-49-docker-mysql-ssl-binlog/</guid><description>0x00 init 测试要求：需要 MySQL 开启 SSL 与 ROW format Binlog 功能 0x01 Docker command // 忽略安装 docker-ce 步骤 搜索网络资料，使用以下命令方式启动：「Docker 指定 &amp;ndash;ssl=1 参数时，docker 内已</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>Docker · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/docker/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Mon, 23 Nov 2020 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/docker/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>Docker · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 1 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/docker/index.xml">https://atman.ihx.cc/tags/docker/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>Docker - MySQL SSL &amp; Binlog</title><link>https://atman.ihx.cc/post/20201123-49-docker-mysql-ssl-binlog/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20201123-49-docker-mysql-ssl-binlog/</guid><pubDate>Mon, 23 Nov 2020 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>Docker</category><description>0x00 init 测试要求：需要 MySQL 开启 SSL 与 ROW format Binlog 功能 0x01 Docker command // 忽略安装 docker-ce 步骤 搜索网络资料，使用以下命令方式启动：「Docker 指定 –ssl=1 参数时，docker 内已经封装的 mysql_ssl_rsa_setup 会自动生成 TLS 证 …</description><content:encoded><![CDATA[<h2 id="0x00-init">0x00 init</h2>
+<p>测试要求：需要 MySQL 开启 SSL 与 ROW format Binlog 功能</p>
+<h2 id="0x01-docker-command">0x01 Docker command</h2>
+<p>// 忽略安装 docker-ce 步骤</p>
+<p>搜索网络资料，使用以下命令方式启动：「Docker 指定 &ndash;ssl=1 参数时，docker 内已经封装的 mysql_ssl_rsa_setup 会自动生成 TLS 证书，该证书不带有 SAN/CN 扩展属性 」、「参数中不支持使用 &ndash;tls-version=&ldquo;TLSv1,TLSv1.2&rdquo;，因为中间少 TLSv1.1」</p>
+<pre><code class="language-shell" data-lang="shell">docker run --name TSQL \
+    -v /home/tidb/TSQL:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=root -p 36:3306 \
+    -d mysql:5.7 \
+    --ssl=1 --tls-version &#34;TLSv1.2&#34; \
+    --server-id=1 \
+    --binlog-format=ROW \
+    --gtid-mode=ON \
+    --log-bin=mysql-bin \
+    --enforce-gtid-consistency=ON
+</code></pre><blockquote>
+<p>以下部分信息来源于 <a href="https://dev.mysql.com/doc/refman/5.7/en/using-encrypted-connections.html">MySQL 官网</a></p>
+</blockquote>
+<ul>
+<li>链接方式
+<ul>
+<li>创建 SSL 扩展属性用户，登录时默认检查 SSL 方式
+<ul>
+<li><code>CREATE USER 'remote_user'@'mysql_client_IP' IDENTIFIED BY 'password' REQUIRE X509;</code></li>
+</ul>
+</li>
+<li>mysql 链接时执行打开 SSL 方式链接
+<ul>
+<li>参考以下方案</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用 mysql client 链接验证「不同 client 参数不同」
+<ul>
+<li>mysql client 使用 <code>mysql --ssl=1 --ssl-mode=required --ssl-ca=ca.pem --ssl-cert=client-cert.pem --ssl-key=client-key.pem</code>
+<ul>
+<li>disable // 非 TLS 方式链接</li>
+<li>required // 如果服务器支持加密连接则加密连接；如果无法构建加密连接，则连接尝试非加密方式「取决用户是否强制加了 require x509 扩展」</li>
+<li>VERIFY_CA // 对照配置的 CA 证书验证服务器证书颁发机构(CA)证书。如果找不到有效的匹配 CA 证书，则连接尝试将失败。</li>
+<li>VERIFY_IDENTITY // 对照服务器发送给 Client 端的证书中的身份检查 Client 端用于连接到服务器的主机名来执行主机名身份验证</li>
+</ul>
+</li>
+<li>mariadb client 使用  <code>mysql --ssl=1 --ssl-ca=ca.pem --ssl-cert=client-cert.pem --ssl-key=client-key.pem</code>
+<ul>
+<li>木有 ssl-mode 参数</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>执行 <code>show variables like '%ssl%'</code> 查看 ssl 信息，执行 <code>\s</code> 获取链接信息。</p>
+<p>// have_ssl &amp; have_openssl 必须为 YES。</p>
+<p><img src="https://atman.ihx.cc/post/20201123-49-docker-mysql-ssl-binlog/20201123-mysql-binlog-ssl-1.png" alt="mysql binlog ssl" loading="lazy" decoding="async">
+</p>
+<h2 id="0x02-error">0x02 Error</h2>
+<p>验证与第三方工具链接时，对方工具不认可 mysql setup ssl 工具生成的 TLS 证书；需要 Docker 指定 openssl 手动生成的 TLS 证书启动。</p>
+<pre><code class="language-shell" data-lang="shell">docker run --name TSQL \
+    -v /home/tidb/TSQL:/var/lib/mysql \
+    -v /opt/ssl.bak:/etc/mysql/cert \
+    -e MYSQL_ROOT_PASSWORD=root -p 142:3306 \
+    -d mysql:5.7 \
+    --ssl=1 --tls-version &#34;TLSv1.2&#34; \
+    --server-id=1 \
+    --binlog-format=ROW \
+    --gtid-mode=ON \
+    --log-bin=mysql-bin \
+    --enforce-gtid-consistency=ON \
+    --ssl-ca=&#34;/etc/mysql/cert/root.crt&#34; \
+    --ssl-cert=&#34;/etc/mysql/cert/server.crt&#34; \
+    --ssl-key=&#34;/etc/mysql/cert/server.key1&#34;
+</code></pre><p>SSL 链接登陆检查时发现可以看到证书信息，但服务并没有启动 SSL 功能「使用  <code>\s</code> 查不到链接加密信息」。</p>
+<p><img src="https://atman.ihx.cc/post/20201123-49-docker-mysql-ssl-binlog/20201123-mysql-binlog-ssl-2.png" alt="mysql binlog ssl" loading="lazy" decoding="async">
+</p>
+<p>随后在 <code>docker logs TSQL</code> 查看 MySQL 服务启动日志信息，看到以下问题</p>
+<p><code>2020-10-21T07:32:22.180801Z 0 [Warning] CA certificate /etc/mysql/cert/root.crt is self signed.</code></p>
+<p>参考<a href="https://askubuntu.com/questions/194074/enabling-ssl-in-mysql">网上资料</a>，需要将 openssl 1.0 以后版本生成的证书是二次转换。</p>
+<p><code>openssl rsa -in server-key.pem -out server-key.pem</code></p>
+<p><img src="https://atman.ihx.cc/post/20201123-49-docker-mysql-ssl-binlog/20201123-mysql-binlog-ssl-3.png" alt="mysql binlog ssl" loading="lazy" decoding="async">
+</p>
+]]></content:encoded><h:time datetime="2020-11-23T00:00:00+08:00">2020-11-23 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20201123-49-docker-mysql-ssl-binlog/">Docker - MySQL SSL &amp; Binlog</h:a></item></channel></rss>

@@ -1,1 +1,261 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>TSO on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/tso/</link><description>Recent content in TSO on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Fri, 01 Feb 2019 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/tso/index.xml" rel="self" type="application/rss+xml"/><item><title>序列化事物 ID 策略 - TSO</title><link>https://atman.ihx.cc/post/20190201-5-pd-tso/</link><pubDate>Fri, 01 Feb 2019 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20190201-5-pd-tso/</guid><description>0x00 院子 MySQL 有个东东的叫 GTID（GTID = server_uuid:transaction_id）；它在 Binlog 文件中大概长这样【3E11FA55-7</description></item><item><title>School - Binlog &amp; TSO</title><link>https://atman.ihx.cc/post/20181029-44-binlog-tso/</link><pubDate>Mon, 29 Oct 2018 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20181029-44-binlog-tso/</guid><description>0x00 事前 维护该 Binlog 架构下的问题之一 “GC 数据问题” 0x01 FAQ-1 某天巡检发现以下现象，pump 还在工作、Drainer 写入出现中断 查看 Drainer 日志 1 2 3 4 5 6 pump.go:433:</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>TSO · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/tso/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Fri, 01 Feb 2019 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/tso/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>TSO · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 2 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/tso/index.xml">https://atman.ihx.cc/tags/tso/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>序列化事物 ID 策略 - TSO</title><link>https://atman.ihx.cc/post/20190201-5-pd-tso/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20190201-5-pd-tso/</guid><pubDate>Fri, 01 Feb 2019 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>TSO</category><category>PD</category><category>TiDB</category><description>0x00 院子 MySQL 有个东东的叫 GTID（GTID = server_uuid:transaction_id）；它在 Binlog 文件中大概长这样【3E11FA55-71CA-99E1-9E10-C80AA9444562:10】.用于管理 MySQL 事物的状态和校验数据在事物之间的正确性。 TiDB 数据库有个类似的东东，由 PD 组件管理和发 …</description><content:encoded><![CDATA[<h2 id="0x00-院子">0x00 院子</h2>
+<p>MySQL 有个东东的叫 GTID（GTID = server_uuid:transaction_id）；它在 Binlog 文件中大概长这样【3E11FA55-71CA-99E1-9E10-C80AA9444562:10】.用于管理 MySQL 事物的状态和校验数据在事物之间的正确性。</p>
+<p>TiDB 数据库有个类似的东东，由 PD 组件管理和发放。它叫做 TSO（timestamp oracle），长成这样的一个东东【395181938313123110】，是由 physical time + logical time 信息组合计算得到的东东。</p>
+<blockquote>
+<p>PD 的 TSO 使用的是中心式的混合逻辑时钟。PD 通过集成了 etcd ，保证了持久化数据的强一致性并且可以做到 auto failover，解决了集中式服务带来的单点故障问题。<br>
+<img src="https://atman.ihx.cc/post/20190201-5-pd-tso/pd-auto-failover.png" alt="pd-auto-failover" title="ap.tidb.cc 序列化事物 ID 策略 - TSO" loading="lazy" decoding="async">
+<br>
+其使用 64 位表示一个时间，其中低 18 位代表逻辑时钟部分，剩余部分代表物理时钟部分，其结构如下图所示。由于其逻辑部分为 18 位，因此理论上每秒可以分配时间戳为 218 * 1000 = 262144000 个，即每秒可以产生 2.6 亿个时间戳。<br>
+<img src="https://atman.ihx.cc/post/20190201-5-pd-tso/tso.png" alt="tso" title="ap.tidb.cc 序列化事物 ID 策略 - TSO" loading="lazy" decoding="async">
+</p>
+</blockquote>
+<h3 id="灌水">灌水</h3>
+<p>分布式数据库要实现全局一致性快照，需要解决不同节点之间时钟一致的问题。工业界目前有3种解决方案：</p>
+<ol>
+<li>全局集中式授时服务，对网络要求比较高，不能跨地域，理论上可以做到外部一致性【TSO 家族】</li>
+<li>混合逻辑时钟（HLC），可以保证同一个进程内部事件的时钟顺序，但是解决不了系统外事件发生的逻辑前后顺序与物理时间前后顺序的一致性，因此做不到 Linearizability，也就做不到外部一致性【比如隔壁小强家】</li>
+<li>Google 的物理时钟 Turetime API，可以做到外部一致性，同时能做到全球化部署【土豪专属：卫星 GPS + 原子钟（硬件设备）】</li>
+</ol>
+<h2 id="0x01-院中">0x01 院中</h2>
+<blockquote>
+<p>本文没 TSO 原理，聊聊使用场景就好了。</p>
+</blockquote>
+<ul>
+<li><input disabled="" type="checkbox"> 放空</li>
+</ul>
+<h2 id="0x02-烧水">0x02 烧水</h2>
+<ul>
+<li>
+<p>通过 tso 解析为物理时间</p>
+<ul>
+<li>通过 pd-ctl 工具可以解析 tso 信息，并且可以得到 logic 位置点</li>
+</ul>
+<pre><code class="language-bash" data-lang="bash">&gt;&gt; tso 395181938313123110
+
+system:  2017-10-09 05:50:59 +0800 CST
+logic:  120102
+</code></pre></li>
+<li>
+<p>通过物理时间模糊计算 TSO 范围</p>
+<ul>
+<li><code>timestamp * (2^18*10^3)</code> 可以得到一个模糊的 TSO</li>
+<li>比如 <code>1588232534 * (2^18*10^3) = 416345629392896000</code></li>
+<li>linux 命令可以用 <code>date -d '01/12/2019 07:21:22' +&quot;%s&quot;</code></li>
+<li>macos 可以用 <code>date -j -f &quot;%Y-%m-%d %H:%M:%S&quot; &quot;2019-01-13 18:02:00&quot; &quot;+%s&quot;</code></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://atman.ihx.cc/global/helpertools.jpg" alt="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+]]></content:encoded><h:time datetime="2019-02-01T00:00:00+08:00">2019-02-01 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20190201-5-pd-tso/">序列化事物 ID 策略 - TSO</h:a></item><item><title>School - Binlog &amp; TSO</title><link>https://atman.ihx.cc/post/20181029-44-binlog-tso/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20181029-44-binlog-tso/</guid><pubDate>Mon, 29 Oct 2018 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Binlog</category><category>TSO</category><category>Troubleshooting</category><description>0x00 事前 维护该 Binlog 架构下的问题之一 “GC 数据问题” 0x01 FAQ-1 某天巡检发现以下现象，pump 还在工作、Drainer 写入出现中断 查看 Drainer 日志 pump.go:433: ESC[0;37m[info] [pump 10-30-1-9:8250] consume from topic …</description><content:encoded><![CDATA[<h2 id="0x00-事前">0x00 事前</h2>
+<blockquote>
+<p>维护该 Binlog 架构下的问题之一 “GC 数据问题”</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/1-binlog.png" alt="ap.tidb.cc" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<h2 id="0x01-faq-1">0x01 FAQ-1</h2>
+<blockquote>
+<p>某天巡检发现以下现象，pump 还在工作、Drainer 写入出现中断</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/2-pump.png" alt="ap.tidb.cc" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/3-drainer.png" alt="ap.tidb.cc" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>查看 Drainer 日志</p>
+</blockquote>
+<pre><code class="language-fallback" data-lang="fallback">pump.go:433: ESC[0;37m[info] [pump 10-30-1-9:8250] consume from topic 6502327210476397260_10-30-1-9_8250 partition 0 offset 71500ESC[0m
+pump.go:436: ESC[0;33m[warning] [pump 10-30-1-9:8250] get consumer partition client error kafka server: The requested offset is outside the range of offsets maintained by the server for the given topic/partition.ESC[0m
+pump.go:433: ESC[0;37m[info] [pump 10-30-1-10:8250] consume from topic 6502327210476397260_10-30-1-10_8250 partition 0 offset 4633751ESC[0m
+pump.go:436: ESC[0;33m[warning] [pump 10-30-1-10:8250] get consumer partition client error kafka server: The requested offset is outside the range of offsets maintained by the server for the given topic/partition.ESC[0m
+pump.go:433: ESC[0;37m[info] [pump 10-30-1-11:8250] consume from topic 6502327210476397260_10-30-1-11_8250 partition 0 offset 3693588ESC[0m
+pump.go:436: ESC[0;33m[warning] [pump 10-30-1-11:8250] get consumer partition client error kafka server: The requested offset is outside the range of offsets maintained by the server for the given topic/partition.ESC[0m
+</code></pre><h3 id="过程">过程</h3>
+<p>Drainer 链接 Kafka 获取指定 offset 数据时，发现超出 kafka 内实际数据范围。该现象分头部越界与尾部越界：</p>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/4-offset.png" alt="ap.tidb.cc Drainer kafka offset" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<p>造成数据超越界限的情况有两种：</p>
+<ol>
+<li>人工主动删除 Kafka 内的数据，</li>
+<li>Kafka GC 机制主动删除了过期数据；
+<ul>
+<li>Kafka 配置文件中的 retention 参数控制</li>
+<li>例如 <code>log.retention.bytes=1024</code> 只保留 1024 个字节，<code>log.retention.hours=1</code> 只保留最近 1 小时数据；</li>
+<li>如果配置两个参数，任何一个达到阈值都会被 Kafka 执行</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>Binlog 2.0<br>
+Pump 先将数据 Push 到 Kafka；Drainer 读取 Kafka 内的数据进行消费，如果 Kafka 内数据 <strong>GC 阈值不合理</strong>或者被<strong>人工主动删除</strong>，会出现以上问题。</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/5-ts.png" alt="ap.tidb.cc Drainer kafka offset" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>按照全量+增量从头再来一遍</p>
+</blockquote>
+<h2 id="0x02-faq-2">0x02 FAQ-2</h2>
+<blockquote>
+<p>该条 FAQ 来源于上条 Drainer 重新启动失败</p>
+</blockquote>
+<ul>
+<li>API 获取 PUMP 节点状态</li>
+</ul>
+<pre><code class="language-json" data-lang="json">curl http:// PUMPip:PUMPport/status
+curl http://10.30.1.10:8250/status
+
+{
+	&#34;LatestBinlog&#34;: {
+		&#34;10-30-1-10:8250&#34;: {
+			&#34;file-position&#34;: {
+				&#34;suffix&#34;: 297,
+				&#34;offset&#34;: 254175949
+			},
+			&#34;kafka-position&#34;: {
+				&#34;offset&#34;: 14535476
+			}
+		},
+		&#34;10-30-1-10:8251&#34;: {
+			&#34;file-position&#34;: {
+				&#34;offset&#34;: 7939251
+			},
+			&#34;kafka-position&#34;: {
+				&#34;offset&#34;: 173037
+			}
+		},
+		&#34;10-30-1-11:8250&#34;: {
+			&#34;file-position&#34;: {
+				&#34;suffix&#34;: 308,
+				&#34;offset&#34;: 292719018
+			},
+			&#34;kafka-position&#34;: {
+				&#34;offset&#34;: 13891570
+			}
+		},
+		&#34;10-30-1-11:8251&#34;: {
+			&#34;file-position&#34;: {
+				&#34;offset&#34;: 8005580
+			},
+			&#34;kafka-position&#34;: {
+				&#34;offset&#34;: 172300
+			}
+		},
+		&#34;10-30-1-9:8250&#34;: {
+			&#34;file-position&#34;: {
+				&#34;suffix&#34;: 476,
+				&#34;offset&#34;: 466616386
+			},
+			&#34;kafka-position&#34;: {
+				&#34;offset&#34;: 93158361
+			}
+		},
+		&#34;10-30-1-9:8251&#34;: {
+			&#34;file-position&#34;: {
+				&#34;offset&#34;: 8029075
+			},
+			&#34;kafka-position&#34;: {
+				&#34;offset&#34;: 173146
+			}
+		}
+	},
+	&#34;CommitTS&#34;: 403911906584952955,
+	&#34;Checkpoint&#34;: {
+		&#34;suffix&#34;: 8,
+		&#34;offset&#34;: 143423140
+	},
+	&#34;ErrMsg&#34;: &#34;&#34;
+}
+</code></pre><ul>
+<li>Kafka tools 工具查看 Kafka 消息信息
+<ul>
+<li>PUMP 自动创建的 topic 格式为： <code>clusterID + 主机名 + 端口</code></li>
+<li>例如：<code>6502327210476397260_10-30-1-10_8250</code></li>
+<li>或者使用以下工具获取所有 topic name</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-json" data-lang="json">./kafka-topics.sh  --list --zookeeper zk.xxxyyy.com:2181
+</code></pre><blockquote>
+<p>综上信息以及监控信息结合判断 PUMP 最新状态是正常的；持续在向 local disk 写入数据<br>
+查看日志发现了新的问题</p>
+</blockquote>
+<ul>
+<li>PUMP 日志提示推送到 Kafka 的消息过大，无法成功写入到 Kafka</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">kafka_binlogger.go:74: ESC[0;31m[error] write binlog into kafka 13891570 error kafka: Failed to deliver 1 messages.ESC[0m
+proxy_binlogger.go:148: ESC[0;31m[error] write binlog to replicate error kafka: Failed to deliver 1 messages. payload length 1918645ESC[0m
+proxy_binlogger.go:164: ESC[0;31m[error] master walk error kafka: Failed to deliver 1 messages.
+    /home/jenkins/workspace/build_tidb_binlog_master/go/src/github.com/pingcap/tidb-binlog/pump/encoder.go:111:
+    /home/jenkins/workspace/build_tidb_binlog_master/go/src/github.com/pingcap/tidb-binlog/pump/kafka_binlogger.go:80:
+    /home/jenkins/workspace/build_tidb_binlog_master/go/src/github.com/pingcap/tidb-binlog/pump/proxy_binlogger.go:149:
+    /home/jenkins/workspace/build_tidb_binlog_master/go/src/github.com/pingcap/tidb-binlog/pump/binlogger.go:336: ESC[0m
+binlogger.go:252: ESC[0;37m[info] [binlogger] walk from position {Suffix:7 Offset:480977849}ESC[0m
+encoder.go:101: ESC[0;31m[error] [encoder] produce meesage error kafka: Failed to deliver 1 messages.ESC[0m
+encoder.go:105: ESC[0;31m[error] [encode] produce message kafka: Failed to produce message to topic 6502327210476397260_10-30-1-11_8250: kafka server: Message was too large, server rejected it to avoid allocation error., now retry No. 1ESC[0m
+encoder.go:101: ESC[0;31m[error] [encoder] produce meesage error kafka: Failed to deliver 1 messages.ESC[0m
+</code></pre><blockquote>
+<p>此处检查 kafka 配置文件中的 <code>message.max.bytes=1073741824</code> 参数，目前官方推荐 1073741824  大小<br>
+调整后 PUMP 日志显示正在写入数据</p>
+</blockquote>
+<h2 id="0x03-faq-3">0x03 FAQ-3</h2>
+<blockquote>
+<p>本条 FAQ 来自上一条中的人工复检：PUMP 本地 Binlog 文件数量核对
+检查发现 PUMP 本地磁盘中 Binlog 文件以超过 PUMP GC 阈值但未被 GC 删除<br>
+tips：Binlog 2.0 架构中 PUMP 接收到事物数据先存储到本地磁盘，然后推送到 Kafka 后删除本地文件</p>
+</blockquote>
+<ul>
+<li>文件创建时间是 10 月 23 日，修复时间是 10 月 29 日，GC 时间参数是 5 天，该文件实际超过了 GC 时间</li>
+</ul>
+<pre><code class="language-shell" data-lang="shell">[root@localhost]#  stat binlog-0000000000000008-20181023115001
+  File: ‘binlog-0000000000000008-20181023115001’
+  Size: 539246691   Blocks: 1053232    IO Block: 4096   regular file
+Device: 811h/2065d  Inode: 12845065    Links: 1
+Access: (0600/-rw-------)  Uid: ( 1000/     ops)   Gid: ( 1000/     ops)
+Access: 2018-10-29 16:58:17.197615887 +0800
+Modify: 2018-10-23 11:59:31.930792955 +0800
+Change: 2018-10-23 11:59:31.930792955 +0800
+ Birth: -
+</code></pre><ul>
+<li>查看 PUMP 日志，提示该文件还未推送到 Kafka 服务</li>
+</ul>
+<pre><code class="language-shell" data-lang="shell">binlogger.go:387: [warning] binlog file /data1/deploy/data.pump/clusters/6502327210476397260/binlog-0000000000000043-20181024160016 is already reach the gc time, but data is not send to kafka, position is {8 142486881}
+binlogger.go:387: [warning] binlog file /data1/deploy/data.pump/clusters/6502327210476397260/binlog-0000000000000044-20181024162025 is already reach the gc time, but data is not send to kafka, position is {8 142486881}
+binlogger.go:387: [warning] binlog file /data1/deploy/data.pump/clusters/6502327210476397260/binlog-0000000000000045-20181024163951 is already reach the gc time, but data is not send to kafka, position is {8 142486881}
+</code></pre><blockquote>
+<p>以上场景在修复 kafka message size 之后逐渐恢复正常</p>
+</blockquote>
+<h2 id="0x04-撒花">0x04 撒花</h2>
+<blockquote>
+<p>观察监控 ing</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/6-kafka.png" alt="ap.tidb.cc" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/7-k-p.png" alt="ap.tidb.cc" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<h3 id="小结">小结</h3>
+<ol>
+<li>
+<p>PUMP 长时间写数据到 Kafka 失败，未能及时告警发现</p>
+<ul>
+<li>写入失败原因是 Kafka <code>message.max.bytes</code> 参数太小，binlog 数据写入失败</li>
+</ul>
+<pre><code class="language-yaml" data-lang="yaml"># 在 kafka 的文件 server.properties 中检查如下三个个配置项
+
+#broker 能接收消息的最大字节数
+message.max.bytes=1073741824
+#broker 可复制的消息的最大字节数
+replica.fetch.max.bytes=1073741824
+# 消费者端的可读取的最大消息
+fetch.message.max.bytes=1073741824
+</code></pre></li>
+<li>
+<p>Drainer 启动时出现指定 TSO 信息超出 Kafka topic 范围；没有 Kafka 监控，未能及时判定 Drainer 需要读取的数据是否存在</p>
+</li>
+<li>
+<p>Drainer 需要等待启动原因是 PUMP 目前正在推送 binlog 数据到 Kafka ，Drainer 后续要去 Kafka 内读取</p>
+<ul>
+<li>如果 Drainer 现在要立即启动，只能指定 10 月 23 日 的 commit-ts 信息，因为目前 Kafka 内数据范围是从 10 月 23 日 开始的</li>
+</ul>
+</li>
+</ol>
+]]></content:encoded><h:time datetime="2018-10-29T00:00:00+08:00">2018-10-29 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20181029-44-binlog-tso/">School - Binlog &amp; TSO</h:a></item></channel></rss>

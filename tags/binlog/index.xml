@@ -1,1 +1,574 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Binlog on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/binlog/</link><description>Recent content in Binlog on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Mon, 29 Oct 2018 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/binlog/index.xml" rel="self" type="application/rss+xml"/><item><title>School - Binlog &amp; TSO</title><link>https://atman.ihx.cc/post/20181029-44-binlog-tso/</link><pubDate>Mon, 29 Oct 2018 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20181029-44-binlog-tso/</guid><description>0x00 事前 维护该 Binlog 架构下的问题之一 “GC 数据问题” 0x01 FAQ-1 某天巡检发现以下现象，pump 还在工作、Drainer 写入出现中断 查看 Drainer 日志 1 2 3 4 5 6 pump.go:433:</description></item><item><title>Drainer &amp; Binlog crc mismatch</title><link>https://atman.ihx.cc/post/20180512-drainer-crc/</link><pubDate>Sat, 12 May 2018 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20180512-drainer-crc/</guid><description>0x00 借口 该问题出现时间为 2018 年 5 月 12 日，影响版本范围在 1.0.x &amp;amp; 2.0 附近；基本上算运维事故，一定要配置告警啊，就算系统不重要 现象总结 出现 crc mismatch 可能是 pump binlog 数</description></item><item><title>TiDB - Binlog 数据同步架构测试</title><link>https://atman.ihx.cc/post/20171108-40-testing-binlog/</link><pubDate>Sun, 08 Oct 2017 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20171108-40-testing-binlog/</guid><description>0x00 测试 前段时间部署了一套 TiDB 数据库，只有单纯的数据库放养是肯定不行的。还要一些灾备方案满足删库跑路之后的恢复工作。 按照以往（mysql）经验有</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>Binlog · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/binlog/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Mon, 29 Oct 2018 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/binlog/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>Binlog · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 3 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/binlog/index.xml">https://atman.ihx.cc/tags/binlog/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>School - Binlog &amp; TSO</title><link>https://atman.ihx.cc/post/20181029-44-binlog-tso/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20181029-44-binlog-tso/</guid><pubDate>Mon, 29 Oct 2018 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Binlog</category><category>TSO</category><category>Troubleshooting</category><description>0x00 事前 维护该 Binlog 架构下的问题之一 “GC 数据问题” 0x01 FAQ-1 某天巡检发现以下现象，pump 还在工作、Drainer 写入出现中断 查看 Drainer 日志 pump.go:433: ESC[0;37m[info] [pump 10-30-1-9:8250] consume from topic …</description><content:encoded><![CDATA[<h2 id="0x00-事前">0x00 事前</h2>
+<blockquote>
+<p>维护该 Binlog 架构下的问题之一 “GC 数据问题”</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/1-binlog.png" alt="ap.tidb.cc" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<h2 id="0x01-faq-1">0x01 FAQ-1</h2>
+<blockquote>
+<p>某天巡检发现以下现象，pump 还在工作、Drainer 写入出现中断</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/2-pump.png" alt="ap.tidb.cc" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/3-drainer.png" alt="ap.tidb.cc" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>查看 Drainer 日志</p>
+</blockquote>
+<pre><code class="language-fallback" data-lang="fallback">pump.go:433: ESC[0;37m[info] [pump 10-30-1-9:8250] consume from topic 6502327210476397260_10-30-1-9_8250 partition 0 offset 71500ESC[0m
+pump.go:436: ESC[0;33m[warning] [pump 10-30-1-9:8250] get consumer partition client error kafka server: The requested offset is outside the range of offsets maintained by the server for the given topic/partition.ESC[0m
+pump.go:433: ESC[0;37m[info] [pump 10-30-1-10:8250] consume from topic 6502327210476397260_10-30-1-10_8250 partition 0 offset 4633751ESC[0m
+pump.go:436: ESC[0;33m[warning] [pump 10-30-1-10:8250] get consumer partition client error kafka server: The requested offset is outside the range of offsets maintained by the server for the given topic/partition.ESC[0m
+pump.go:433: ESC[0;37m[info] [pump 10-30-1-11:8250] consume from topic 6502327210476397260_10-30-1-11_8250 partition 0 offset 3693588ESC[0m
+pump.go:436: ESC[0;33m[warning] [pump 10-30-1-11:8250] get consumer partition client error kafka server: The requested offset is outside the range of offsets maintained by the server for the given topic/partition.ESC[0m
+</code></pre><h3 id="过程">过程</h3>
+<p>Drainer 链接 Kafka 获取指定 offset 数据时，发现超出 kafka 内实际数据范围。该现象分头部越界与尾部越界：</p>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/4-offset.png" alt="ap.tidb.cc Drainer kafka offset" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<p>造成数据超越界限的情况有两种：</p>
+<ol>
+<li>人工主动删除 Kafka 内的数据，</li>
+<li>Kafka GC 机制主动删除了过期数据；
+<ul>
+<li>Kafka 配置文件中的 retention 参数控制</li>
+<li>例如 <code>log.retention.bytes=1024</code> 只保留 1024 个字节，<code>log.retention.hours=1</code> 只保留最近 1 小时数据；</li>
+<li>如果配置两个参数，任何一个达到阈值都会被 Kafka 执行</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>Binlog 2.0<br>
+Pump 先将数据 Push 到 Kafka；Drainer 读取 Kafka 内的数据进行消费，如果 Kafka 内数据 <strong>GC 阈值不合理</strong>或者被<strong>人工主动删除</strong>，会出现以上问题。</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/5-ts.png" alt="ap.tidb.cc Drainer kafka offset" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>按照全量+增量从头再来一遍</p>
+</blockquote>
+<h2 id="0x02-faq-2">0x02 FAQ-2</h2>
+<blockquote>
+<p>该条 FAQ 来源于上条 Drainer 重新启动失败</p>
+</blockquote>
+<ul>
+<li>API 获取 PUMP 节点状态</li>
+</ul>
+<pre><code class="language-json" data-lang="json">curl http:// PUMPip:PUMPport/status
+curl http://10.30.1.10:8250/status
+
+{
+	&#34;LatestBinlog&#34;: {
+		&#34;10-30-1-10:8250&#34;: {
+			&#34;file-position&#34;: {
+				&#34;suffix&#34;: 297,
+				&#34;offset&#34;: 254175949
+			},
+			&#34;kafka-position&#34;: {
+				&#34;offset&#34;: 14535476
+			}
+		},
+		&#34;10-30-1-10:8251&#34;: {
+			&#34;file-position&#34;: {
+				&#34;offset&#34;: 7939251
+			},
+			&#34;kafka-position&#34;: {
+				&#34;offset&#34;: 173037
+			}
+		},
+		&#34;10-30-1-11:8250&#34;: {
+			&#34;file-position&#34;: {
+				&#34;suffix&#34;: 308,
+				&#34;offset&#34;: 292719018
+			},
+			&#34;kafka-position&#34;: {
+				&#34;offset&#34;: 13891570
+			}
+		},
+		&#34;10-30-1-11:8251&#34;: {
+			&#34;file-position&#34;: {
+				&#34;offset&#34;: 8005580
+			},
+			&#34;kafka-position&#34;: {
+				&#34;offset&#34;: 172300
+			}
+		},
+		&#34;10-30-1-9:8250&#34;: {
+			&#34;file-position&#34;: {
+				&#34;suffix&#34;: 476,
+				&#34;offset&#34;: 466616386
+			},
+			&#34;kafka-position&#34;: {
+				&#34;offset&#34;: 93158361
+			}
+		},
+		&#34;10-30-1-9:8251&#34;: {
+			&#34;file-position&#34;: {
+				&#34;offset&#34;: 8029075
+			},
+			&#34;kafka-position&#34;: {
+				&#34;offset&#34;: 173146
+			}
+		}
+	},
+	&#34;CommitTS&#34;: 403911906584952955,
+	&#34;Checkpoint&#34;: {
+		&#34;suffix&#34;: 8,
+		&#34;offset&#34;: 143423140
+	},
+	&#34;ErrMsg&#34;: &#34;&#34;
+}
+</code></pre><ul>
+<li>Kafka tools 工具查看 Kafka 消息信息
+<ul>
+<li>PUMP 自动创建的 topic 格式为： <code>clusterID + 主机名 + 端口</code></li>
+<li>例如：<code>6502327210476397260_10-30-1-10_8250</code></li>
+<li>或者使用以下工具获取所有 topic name</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-json" data-lang="json">./kafka-topics.sh  --list --zookeeper zk.xxxyyy.com:2181
+</code></pre><blockquote>
+<p>综上信息以及监控信息结合判断 PUMP 最新状态是正常的；持续在向 local disk 写入数据<br>
+查看日志发现了新的问题</p>
+</blockquote>
+<ul>
+<li>PUMP 日志提示推送到 Kafka 的消息过大，无法成功写入到 Kafka</li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">kafka_binlogger.go:74: ESC[0;31m[error] write binlog into kafka 13891570 error kafka: Failed to deliver 1 messages.ESC[0m
+proxy_binlogger.go:148: ESC[0;31m[error] write binlog to replicate error kafka: Failed to deliver 1 messages. payload length 1918645ESC[0m
+proxy_binlogger.go:164: ESC[0;31m[error] master walk error kafka: Failed to deliver 1 messages.
+    /home/jenkins/workspace/build_tidb_binlog_master/go/src/github.com/pingcap/tidb-binlog/pump/encoder.go:111:
+    /home/jenkins/workspace/build_tidb_binlog_master/go/src/github.com/pingcap/tidb-binlog/pump/kafka_binlogger.go:80:
+    /home/jenkins/workspace/build_tidb_binlog_master/go/src/github.com/pingcap/tidb-binlog/pump/proxy_binlogger.go:149:
+    /home/jenkins/workspace/build_tidb_binlog_master/go/src/github.com/pingcap/tidb-binlog/pump/binlogger.go:336: ESC[0m
+binlogger.go:252: ESC[0;37m[info] [binlogger] walk from position {Suffix:7 Offset:480977849}ESC[0m
+encoder.go:101: ESC[0;31m[error] [encoder] produce meesage error kafka: Failed to deliver 1 messages.ESC[0m
+encoder.go:105: ESC[0;31m[error] [encode] produce message kafka: Failed to produce message to topic 6502327210476397260_10-30-1-11_8250: kafka server: Message was too large, server rejected it to avoid allocation error., now retry No. 1ESC[0m
+encoder.go:101: ESC[0;31m[error] [encoder] produce meesage error kafka: Failed to deliver 1 messages.ESC[0m
+</code></pre><blockquote>
+<p>此处检查 kafka 配置文件中的 <code>message.max.bytes=1073741824</code> 参数，目前官方推荐 1073741824  大小<br>
+调整后 PUMP 日志显示正在写入数据</p>
+</blockquote>
+<h2 id="0x03-faq-3">0x03 FAQ-3</h2>
+<blockquote>
+<p>本条 FAQ 来自上一条中的人工复检：PUMP 本地 Binlog 文件数量核对
+检查发现 PUMP 本地磁盘中 Binlog 文件以超过 PUMP GC 阈值但未被 GC 删除<br>
+tips：Binlog 2.0 架构中 PUMP 接收到事物数据先存储到本地磁盘，然后推送到 Kafka 后删除本地文件</p>
+</blockquote>
+<ul>
+<li>文件创建时间是 10 月 23 日，修复时间是 10 月 29 日，GC 时间参数是 5 天，该文件实际超过了 GC 时间</li>
+</ul>
+<pre><code class="language-shell" data-lang="shell">[root@localhost]#  stat binlog-0000000000000008-20181023115001
+  File: ‘binlog-0000000000000008-20181023115001’
+  Size: 539246691   Blocks: 1053232    IO Block: 4096   regular file
+Device: 811h/2065d  Inode: 12845065    Links: 1
+Access: (0600/-rw-------)  Uid: ( 1000/     ops)   Gid: ( 1000/     ops)
+Access: 2018-10-29 16:58:17.197615887 +0800
+Modify: 2018-10-23 11:59:31.930792955 +0800
+Change: 2018-10-23 11:59:31.930792955 +0800
+ Birth: -
+</code></pre><ul>
+<li>查看 PUMP 日志，提示该文件还未推送到 Kafka 服务</li>
+</ul>
+<pre><code class="language-shell" data-lang="shell">binlogger.go:387: [warning] binlog file /data1/deploy/data.pump/clusters/6502327210476397260/binlog-0000000000000043-20181024160016 is already reach the gc time, but data is not send to kafka, position is {8 142486881}
+binlogger.go:387: [warning] binlog file /data1/deploy/data.pump/clusters/6502327210476397260/binlog-0000000000000044-20181024162025 is already reach the gc time, but data is not send to kafka, position is {8 142486881}
+binlogger.go:387: [warning] binlog file /data1/deploy/data.pump/clusters/6502327210476397260/binlog-0000000000000045-20181024163951 is already reach the gc time, but data is not send to kafka, position is {8 142486881}
+</code></pre><blockquote>
+<p>以上场景在修复 kafka message size 之后逐渐恢复正常</p>
+</blockquote>
+<h2 id="0x04-撒花">0x04 撒花</h2>
+<blockquote>
+<p>观察监控 ing</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/6-kafka.png" alt="ap.tidb.cc" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<p><img src="https://atman.ihx.cc/post/20181029-44-binlog-tso/7-k-p.png" alt="ap.tidb.cc" title="ap.tidb.cc" loading="lazy" decoding="async">
+</p>
+<h3 id="小结">小结</h3>
+<ol>
+<li>
+<p>PUMP 长时间写数据到 Kafka 失败，未能及时告警发现</p>
+<ul>
+<li>写入失败原因是 Kafka <code>message.max.bytes</code> 参数太小，binlog 数据写入失败</li>
+</ul>
+<pre><code class="language-yaml" data-lang="yaml"># 在 kafka 的文件 server.properties 中检查如下三个个配置项
+
+#broker 能接收消息的最大字节数
+message.max.bytes=1073741824
+#broker 可复制的消息的最大字节数
+replica.fetch.max.bytes=1073741824
+# 消费者端的可读取的最大消息
+fetch.message.max.bytes=1073741824
+</code></pre></li>
+<li>
+<p>Drainer 启动时出现指定 TSO 信息超出 Kafka topic 范围；没有 Kafka 监控，未能及时判定 Drainer 需要读取的数据是否存在</p>
+</li>
+<li>
+<p>Drainer 需要等待启动原因是 PUMP 目前正在推送 binlog 数据到 Kafka ，Drainer 后续要去 Kafka 内读取</p>
+<ul>
+<li>如果 Drainer 现在要立即启动，只能指定 10 月 23 日 的 commit-ts 信息，因为目前 Kafka 内数据范围是从 10 月 23 日 开始的</li>
+</ul>
+</li>
+</ol>
+]]></content:encoded><h:time datetime="2018-10-29T00:00:00+08:00">2018-10-29 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20181029-44-binlog-tso/">School - Binlog &amp; TSO</h:a></item><item><title>Drainer &amp; Binlog crc mismatch</title><link>https://atman.ihx.cc/post/20180512-drainer-crc/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20180512-drainer-crc/</guid><pubDate>Sat, 12 May 2018 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Binlog</category><category>Drainer</category><category>PUMP</category><category>Troubleshooting</category><description>0x00 借口 该问题出现时间为 2018 年 5 月 12 日，影响版本范围在 1.0.x &amp;amp; 2.0 附近；基本上算运维事故，一定要配置告警啊，就算系统不重要 现象总结 出现 crc mismatch 可能是 pump binlog 数据损坏，drainer 对 binlog 内容校验失败 tidb 进程存在，业务端口不可用, 当 pump 不可用 …</description><content:encoded><![CDATA[<h2 id="0x00-借口">0x00 借口</h2>
+<blockquote>
+<p>该问题出现时间为 2018 年 5 月 12 日，影响版本范围在 1.0.x &amp; 2.0 附近；基本上算运维事故，一定要配置告警啊，就算系统不重要</p>
+</blockquote>
+<ul>
+<li>现象总结
+<ul>
+<li>出现 crc mismatch 可能是 pump binlog 数据损坏，drainer 对 binlog 内容校验失败</li>
+<li>tidb 进程存在，业务端口不可用, 当 pump 不可用后，tidb 自动丢掉业务端口
+<ul>
+<li><code>listener stopped, waiting for manual kill</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>触发原因可能是
+<ul>
+<li>服务器重启</li>
+<li>kill -9</li>
+<li>磁盘写满</li>
+</ul>
+</li>
+</ul>
+<h3 id="drainer-log">Drainer Log</h3>
+<blockquote>
+<p>Drainer 服务日志持续刷以下日志<br>
+Drainer 需要去每个 PUMP 节点收集 Binlog 数据，汇总时按照时许排序并做一致性校验，根据提示看时数据校验未通过</p>
+</blockquote>
+<pre><code class="language-fallback" data-lang="fallback">2018/01/08 15:44:59 pump.go:386: [warning] [stream] node ip-10-0-70-42:8250, pos {Suffix:351 Offset:520960160}, error rpc error: code = Unknown desc = binlogger: crc mismatch
+2018/01/08 15:45:00 pump.go:386: [warning] [stream] node ip-10-0-70-40:8250, pos {Suffix:354 Offset:182450922}, error rpc error: code = Unknown desc = binlogger: crc mismatch
+</code></pre><h3 id="pump-log">PUMP Log</h3>
+<blockquote>
+<p>在 drainer 出现问题集群中发现一个 PUMP 磁盘写满的现象，猜测可能是这里先出现写满然后导致部分数据未写入成功</p>
+</blockquote>
+<pre><code class="language-fallback" data-lang="fallback">2018/01/05 11:54:28 server.go:364: ^[[0;31m[error] generate forward binlog, write binlog err write /data1/deploy/data.pump/clusters/6485556578803970722/binlog-0000000000000354: no space left on device^[[0m
+</code></pre><h3 id="修复">修复</h3>
+<p>根据官方指导，这种情况只能通过重新搭建 Binlog 架构进行修复。重新开始做以下流程：</p>
+<ol>
+<li>Binlog 重新搭建，根据数据情况调整 PUMP 节点 GC 参数，默认 7 天开始 GC Binlog</li>
+<li>获取上游主库的 tso 时间点，也就是断点信息</li>
+<li>数据的全量导出：使用 mydumper 工具导出，数据导出时间视数据量、并发数、磁盘读写速度、网络速度而定</li>
+<li>全量导入：使用的官方 loader 工具，没办法使用 myloader 或者 mysqlload 工具，因为事物大小问题无法提交</li>
+<li>开启 Drainer 服务：使用第二步获取的 tso 断点信息，如果遇见重复数据，drainer 开启时有个 5 分钟的 safe mode 模式可以强制刷写下游数据
+<ul>
+<li>其实就是开启了 sql 转换，比如 insert 转 replace、update 转 delete + replace</li>
+</ul>
+</li>
+<li>注意观察监控，比如 binlog 上下游延迟、binlog tps 消费速度、磁盘空间大小，最后设置下告警</li>
+</ol>
+<h2 id="0x01-买一送一">0x01 买一送一</h2>
+<blockquote>
+<p>Drainer 同步下游是个 mysql 数据库，Drainer 同步采用的是高并发提交事物模式写入数据，偶遇一个死锁错误<br>
+这种错误只能靠人工清理了，备库无业务流量，选择了直接重启处理 死锁 deadlock</p>
+</blockquote>
+<pre><code class="language-fallback" data-lang="fallback">2018/01/08 20:09:23 syncer.go:517: [fatal] Error 1213: Deadlock found when trying to get lock; try restarting transaction
+/home/pingcap/go/src/github.com/pingcap/tidb-binlog/drainer/executor/util.go:72:
+/home/pingcap/go/src/github.com/pingcap/tidb-binlog/drainer/executor/util.go:52:
+</code></pre><h2 id="0x02-再送一条存货">0x02 再送一条存货</h2>
+<blockquote>
+<p>Drainer 数据同步下游慢，PUMP GC Binlog 的惨案</p>
+</blockquote>
+<p>早起刚做 Binlog 同步时，上游是 <code>TiDB * 4、PD * 3、TiKV * 9</code> 规模的集群，下游使用 8U 16G 虚拟机外加 2T sas 磁盘安装了一个 mysql 服务做数据同步。当初没有考虑同步性能，刚开始数据量比较小，虽然有些延迟但是能忍。<br>
+逐渐逐渐发现越来越慢，终于有一天业务提示下游备库查不到数据了（刚开始也没有配置同步链路告警，被踢了一觉）。<br>
+然后开始排查 Drainer &amp; PUMP 日志，看见 PUMP 日志中提示 <code>commitTs(396914383516074000) of binlog exceeds the lower boundary of window 396981384481603586, may miss processing, ITEM(&amp;{0xc50ebf8980 {75 0} tidb-online-tidb-2:8250 &lt;nil&gt;})ESC[0m</code> 信息，看的我一脸懵逼。咨询官方后说是 PUMP 已经 GC binlog 了，Drainer 拿不到数据所以同步就断了。<br>
+详细的解释就是下面这样：</p>
+<ol>
+<li>a b c 三个 pump 共存储了 100 条数据，每个 pump 隔三差五的存了一些数据</li>
+<li>Drainer 同步到了 77 ，想要 78 的时候发现是在 a pump 节点</li>
+<li>a pump gc 时间到了，在早些时间已经把 78 数据删除了</li>
+<li>Drainer 拿不到数据啊，就炸火了</li>
+<li>优化方案两种，第一个是调整 PUMP GC 时间、第二个是改善下游机器配置
+<ul>
+<li>因为 xx 原因，先把 PUMP GC 时间调大了…… ，然后就出现上面的惨案，磁盘写满</li>
+</ul>
+</li>
+</ol>
+<h3 id="drainer-log2">Drainer log2</h3>
+<pre><code class="language-fallback" data-lang="fallback">2017/12/27 07:40:06 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-1:8250, pos {Suffix:80 Offset:495074285}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/27 08:14:25 pump.go:386: ESC[0;33m[warning] [stream] node ip-10-10-8-6:8250, pos {Suffix:76 Offset:392531590}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/27 09:59:30 pump.go:386: ESC[0;33m[warning] [stream] node ip-10-10-8-7:8250, pos {Suffix:80 Offset:39373906}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/27 12:14:59 pump.go:386: ESC[0;33m[warning] [stream] node ip-10-10-8-6:8250, pos {Suffix:76 Offset:472984304}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/27 15:12:19 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-1:8250, pos {Suffix:81 Offset:111758786}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/27 16:36:42 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-2:8250, pos {Suffix:77 Offset:26308812}, error rpc error: code = Internal desc = transport is closingESC[0m
+2017/12/27 16:36:42 pump.go:386: ESC[0;33m[warning] [stream] node ip-10-10-8-6:8250, pos {Suffix:77 Offset:26308812}, error rpc error: code = Internal desc = transport is closingESC[0m
+2017/12/27 16:36:45 collector.go:184: ESC[0;37m[info] node(tidb-online-tidb-2:8250) of cluster(6493070954582498647)  has been removed and release the connection to itESC[0m
+2017/12/27 16:36:45 pump.go:378: ESC[0;33m[warning] [Get pull binlogs stream ip-10-10-8-6:8250] rpc error: code = Unavailable desc = grpc: the connection is unavailableESC[0m
+2017/12/27 16:36:48 pump.go:378: ESC[0;33m[warning] [Get pull binlogs stream ip-10-10-8-6:8250] rpc error: code = Unavailable desc = grpc: the connection is unavailableESC[0m
+2017/12/27 16:36:51 pump.go:378: ESC[0;33m[warning] [Get pull binlogs stream ip-10-10-8-6:8250] rpc error: code = Unavailable desc = grpc: the connection is unavailableESC[0m
+2017/12/27 16:36:54 pump.go:378: ESC[0;33m[warning] [Get pull binlogs stream ip-10-10-8-6:8250] rpc error: code = Unavailable desc = grpc: the connection is unavailableESC[0m
+2017/12/27 16:36:57 pump.go:378: ESC[0;33m[warning] [Get pull binlogs stream ip-10-10-8-6:8250] rpc error: code = Unavailable desc = grpc: the connection is unavailableESC[0m
+2017/12/27 16:37:00 pump.go:378: ESC[0;33m[warning] [Get pull binlogs stream ip-10-10-8-6:8250] rpc error: code = Unavailable desc = grpc: the connection is unavailableESC[0m
+2017/12/27 16:37:03 pump.go:378: ESC[0;33m[warning] [Get pull binlogs stream ip-10-10-8-6:8250] rpc error: code = Unavailable desc = grpc: the connection is unavailableESC[0m
+2017/12/27 16:37:05 collector.go:166: ESC[0;37m[info] node tidb-online-tidb-2:8250 get save point {75 0}ESC[0m
+2017/12/27 16:37:05 pump.go:378: ESC[0;33m[warning] [Get pull binlogs stream tidb-online-tidb-2:8250] rpc error: code = Unavailable desc = grpc: the connection is unavailableESC[0m
+2017/12/27 16:37:06 pump.go:378: ESC[0;33m[warning] [Get pull binlogs stream ip-10-10-8-6:8250] rpc error: code = Unavailable desc = grpc: the connection is unavailableESC[0m
+2017/12/27 16:37:08 pump.go:284: ESC[0;31m[error] FATAL ERROR: commitTs(396914383516074000) of binlog exceeds the lower boundary of window 396981384481603586, may miss processing, ITEM(&amp;{0xc50ebf8980 {75 0} tidb-online-tidb-2:8250 &lt;nil&gt;})ESC[0m
+2017/12/27 16:37:08 pump.go:284: ESC[0;31m[error] FATAL ERROR: commitTs(396914383542288387) of binlog exceeds the lower boundary of window 396981384481603586, may miss processing, ITEM(&amp;{0xc50201cf80 {75 1105} tidb-online-tidb-2:8250 &lt;nil&gt;})ESC[0m
+2017/12/27 16:37:08 pump.go:284: ESC[0;31m[error] FATAL ERROR: commitTs(396914383542288392) of binlog exceeds the lower boundary of window 396981384481603586, may miss processing, ITEM(&amp;{0xc50201d580 {75 1865} tidb-online-tidb-2:8250 &lt;nil&gt;})ESC[0m
+2017/12/27 16:37:08 pump.go:284: ESC[0;31m[error] FATAL ERROR: commitTs(396914383555395593) of binlog exceeds the lower boundary of window 396981384481603586, may miss processing, ITEM(&amp;{0xc4f4b98580 {75 2599} tidb-online-tidb-2:8250 &lt;nil&gt;})ESC[0m
+2017/12/27 17:28:35 pump.go:386: ESC[0;33m[warning] [stream] node ip-10-10-8-7:8250, pos {Suffix:80 Offset:210137628}, error rpc error: code = Canceled desc = context canceledESC[0m
+2017/12/27 17:28:38 collector.go:184: ESC[0;37m[info] node(ip-10-10-8-7:8250) of cluster(6493070954582498647)  has been removed and release the connection to itESC[0m
+2017/12/27 17:28:58 pump.go:386: ESC[0;33m[warning] [stream] node ip-10-10-8-6:8250, pos {Suffix:77 Offset:26341996}, error rpc error: code = Canceled desc = context canceledESC[0m
+2017/12/27 17:29:01 collector.go:184: ESC[0;37m[info] node(ip-10-10-8-6:8250) of cluster(6493070954582498647)  has been removed and release the connection to itESC[0m
+2017/12/27 17:58:47 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-1:8250, pos {Suffix:81 Offset:177552746}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/27 18:34:29 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-3:8250, pos {Suffix:80 Offset:273173616}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/27 19:16:06 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-1:8250, pos {Suffix:81 Offset:212949758}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/27 19:28:17 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-4:8250, pos {Suffix:80 Offset:526663116}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/29 11:58:13 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-4:8250, pos {Suffix:81 Offset:480434923}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/29 12:38:00 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-1:8250, pos {Suffix:82 Offset:184323012}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/29 14:25:16 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-4:8250, pos {Suffix:82 Offset:3389669}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/29 18:50:41 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-1:8250, pos {Suffix:82 Offset:365276552}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/12 20:38:38 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-1:8250, pos {Suffix:70 Offset:517918272}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/12 20:59:17 pump.go:386: ESC[0;33m[warning] [stream] node tidb-online-tidb-3:8250, pos {Suffix:69 Offset:505588696}, error rpc error: code = Unknown desc = unexpected EOFESC[0m
+2017/12/12 23:52:17 util.go:161: ESC[0;31m[error] close db failed - driver: bad connectionESC[0m
+</code></pre><p><img src="https://atman.ihx.cc/global/helpertools.jpg" alt="helper-tools" title="ap.tidb.cc helper tools" loading="lazy" decoding="async">
+</p>
+]]></content:encoded><h:time datetime="2018-05-12T00:00:00+08:00">2018-05-12 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20180512-drainer-crc/">Drainer &amp; Binlog crc mismatch</h:a></item><item><title>TiDB - Binlog 数据同步架构测试</title><link>https://atman.ihx.cc/post/20171108-40-testing-binlog/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20171108-40-testing-binlog/</guid><pubDate>Sun, 08 Oct 2017 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Binlog</category><category>testing</category><category>etcd-ctl</category><category>pd-ctl</category><category>TiDB</category><description>0x00 测试 前段时间部署了一套 TiDB 数据库，只有单纯的数据库放养是肯定不行的。还要一些灾备方案满足删库跑路之后的恢复工作。 按照以往（mysql）经验有物理（文件冷存）备份（xbackup）&amp;amp; 逻辑（热备）备份（ SQL 语句同步）；然 TiDB 底层与 mysql 不一样，没有类似 xbackup 类似的工具做物理备份（测试过程是发现一个奇技淫巧 …</description><content:encoded><![CDATA[<h2 id="0x00-测试">0x00 测试</h2>
+<p>前段时间部署了一套 TiDB 数据库，只有单纯的数据库放养是肯定不行的。还要一些灾备方案满足删库跑路之后的恢复工作。<br>
+按照以往（mysql）经验有物理（文件冷存）备份（xbackup）&amp; 逻辑（热备）备份（ SQL 语句同步）；然 TiDB 底层与 mysql 不一样，没有类似 xbackup 类似的工具做物理备份（测试过程是发现一个<del>奇技淫巧</del>做<em>类物理备份</em>）；那么接下来还有逻辑备份测试，这部分有 PingCAP 官方提供的 TiDB-Binlog 组件来支持。<br>
+没玩过的东西先找个小环境随意折腾下，折腾到死位置……</p>
+<blockquote>
+<p>先看下 TiDB-binlog 架构，如图（20171008 复制于官方网站）:</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/post/20171108-40-testing-binlog/binlog-1.0-architecture.jpeg" alt="Binlog 1.0 tidb pump socket drainer" loading="lazy" decoding="async">
+</p>
+<h3 id="组件">组件</h3>
+<blockquote>
+<p>直接复制官网内容</p>
+</blockquote>
+<p>TiDB-Binlog 支持以下功能场景:</p>
+<p>数据同步: 同步 TiDB 集群数据到其他数据库<br>
+实时备份和恢复: 备份 TiDB 集群数据，同时可以用于 TiDB 集群故障时恢复</p>
+<p>PUMP：Pump 是一个守护进程，在每个 TiDB 的主机上后台运行。他的主要功能是实时记录 TiDB 产生的 Binlog 并顺序写入磁盘文件</p>
+<p>Drainer：Drainer 从各个 Pump 节点收集 Binlog，并按照在 TiDB 中事务的提交顺序转化为指定数据库兼容的 SQL 语句，最后同步到目的数据库或者写到顺序文件</p>
+<blockquote>
+<p>⚠️ 需要为一个 TiDB 集群中的每台 TiDB server 部署一个 pump，目前 TiDB server 只支持以 unix socket 方式的输出 binlog</p>
+</blockquote>
+<h2 id="0x01-部署">0x01 部署</h2>
+<h3 id="ansible">ansible</h3>
+<blockquote>
+<p>通过修改 inventory.ini 文件中的 enable_binlog 开关确定是否部署 Binlog，针对第一次部署时方便<br>
+如果已经部署了 TiDB-server ，就要使用 deploy + stop + start 三板斧解决了</p>
+</blockquote>
+<h3 id="manual">manual</h3>
+<blockquote>
+<p>先部署 PUMP 服务，并在启动参数生命 unix-socket 信息，相当于生命了一个服务端接口<br>
+然后配置 TiDB 启动参数，填写 PUMP 的 unix-socket 路径信息，TiDB &amp; PUMP 只能一对一服务，不能跨机器、不能一对多使用<br>
+启动优先级为： PUMP &gt; TiDB<br>
+停止优先级为 TiDB &gt; PUMP</p>
+</blockquote>
+<h2 id="0x02-常规">0x02 常规</h2>
+<p>当 PUMP &amp; TiDB 都启动后，启动 Drainer ；按照官方手册写配置文件输出到下游的一个 mysql 节点（此处省略 mysql 启动方式，docker run 最省事）。<br>
+然后在上游执行各种 CDUR / 增删改查 DML 工作、DDL 工作，看下游响应。</p>
+<blockquote>
+<p>此处⚠️一个事情：Drainer 有个 <code>ignore-schemas = &quot;INFORMATION_SCHEMA,PERFORMANCE_SCHEMA,mysql&quot;</code> 参数，默认这里是不同步 mysql 修改的，如果使用 update 语句修改 user 密码，下游不会更改。<br>
+还有一个参数是 <code>replicate-do-db</code> 只同步那些库，这个优先级比上面那个 ignore 要高，并且设置了这个后就只同步这个数据库了……（按照语义理解貌似没啥毛病，不吐槽了）<br>
+⚠️ PS：如果有不同的数据库同步到不同的下游，需要启动多个 Drainer 来工作才能完成这个场景</p>
+</blockquote>
+<p>主机性能有限，官方文档说通过 <code>txn-batch = 1</code> &amp; <code>worker-count = 1</code> 可以配置同步速度流控，简单用 sysbench 创建了 15 张表，每张表 10w 数据，上游很畅快的插入成功；然后默默看着 mysql 数据的同步、反正总会有些延迟。【我这上下游都是配置 Binlog 后产生的新数据，不存在老数据 mydumper + loader 的过程，这部分和 mysql 的 mysql dumper + mysql laod 是一样的，就不测试了】</p>
+<h3 id="宅男">宅男</h3>
+<p>简单的灾难场景简单测试了下：</p>
+<ol>
+<li>比如某个 PUMP 挂掉了，因为有多个 TiDB-server，必须要每个 TiDB-server 配置一个 PUMP；单个 PUMP 挂掉之后 TiDB-server 也就挂掉了……（好吧，我忍了，毕竟官方说如果不停 TiDB-server 那么 PUMP 故障后的 SQL BINLOG 就丢失记录了，可是我业务也断掉了。这里并没有提供啥子选择。比如我想做个好人）</li>
+<li>PUMP 所在机器磁盘坏掉了，解决方案就是重新做一套 Binlog 流程。（mysql 貌似也是这样）</li>
+<li>Drainer 需要链接 PD 获取到 PUMP 信息，如果 PD 地址写错了，辣么要么失败、要么写错数据，貌似没啥校验行为</li>
+<li>Drainer 启动时有个 init tso 的参数，提示从哪里开始同步。如果写错了辣么数据就不得而知了 （和 mysql 一个行为，木的啥问题）</li>
+<li>数据过滤行为只在 Drainer 上有，PUMP 上木有；如果上游 100 个库，只有一个库同步。辣么你懂的。</li>
+<li>跨机房行为，比如 PUMP &amp; Drainer 在两个机房，会出现延迟加大（与 mysql 一样，一样可以断点续传，毕竟这是增量同步基本功能），其他就是有可能时断时连，drainer 的断是进程挂掉，所以 ansible 里有个 supervise 的东西一直一直一直的等他挂掉，然后又一直一直一直的拉起他。即时 draienr 不是因为网络挂掉，比如 DDL 、DML 卡住了……（然后、貌似、大概、可能、似乎告警就延迟了）</li>
+</ol>
+<p>后面暂时想不到了，就不测了，这套流程太长了；折腾坏了之后要研究半个多小时才能修好……</p>
+<h2 id="0x03-折腾">0x03 折腾</h2>
+<blockquote>
+<p>既然是折腾，总需要一些手段查问题，在与官方研发沟通中总结出来的东东</p>
+</blockquote>
+<p>出问题排查流程大致分以下几步：</p>
+<ol>
+<li>先查 TiDB-Server &amp; PUMP 之间的状态
+<ol>
+<li>PUMP 磁盘写满了么</li>
+<li>TiDB-server 使用 unix-socket 参数了么</li>
+</ol>
+</li>
+<li>在查 PUMP &amp; Drainer 链接
+<ol>
+<li>Drainer PD URL 写对了么</li>
+<li>Drainer 配置文件中的 ignore、replicate-do-db、写正确了么</li>
+<li>查 Drainer data-dir 目录下是否有 savepoint 文件，内容是否更新（有时候数据一直同步，但是文件不更新）</li>
+<li>Drainer 不确定是否工作，那就调成 PD 模式吧，先看看有木有 PB 文件（这个 PB 是个文本编码格式，用 vi 打开就是乱码，需要解码才能看，搜 protobuf</li>
+</ol>
+</li>
+<li>查 PD 中的一些信息
+<ol>
+<li>需要用到一个 etcd-ctl 工具，读取 PUMP、Drainer 在 PD 中的状态</li>
+<li>使用 pd-ctl 工具查 PD cluster id ，判断 Drainer 同步的那个集群</li>
+</ol>
+</li>
+</ol>
+<h3 id="status-api">status api</h3>
+<ul>
+<li>获取 pump binlog 文件数量信息，请求地址为 pump ip:port
+<ul>
+<li><code>curl  10.10.1.4:8250/status</code></li>
+</ul>
+</li>
+<li>获取 Drainer 同步信息，以及同步位置断点记录
+<ul>
+<li><code>curl  10.10.1.4:8249/status</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="case-one">case one</h3>
+<blockquote>
+<p>分享一个因为做了很多遍的🦐测试，造成 Drainer 无法启动的排查过程</p>
+</blockquote>
+<ul>
+<li>
+<p>通过 drainer 获取 savepoint 报错</p>
+<ul>
+<li>
+<p><code>./bin/drainer -gen-savepoint -data-dir ./s -pd-urls &quot;http://10.10.1.6:2379&quot;</code></p>
+</li>
+<li>
+<p>通过 Drainer 先行获取 tso 断点信息时失败，提示有个 pump 节点 ip-10-10-1-6:8250 是离线状态 【只有所有 PUMP 都在线时，Drainer 才可以启动，这样可以保证数据完整性】</p>
+<pre><code class="language-shell" data-lang="shell">INFO[0000] new store
+INFO[0000] [pd] create pd client with endpoints [10.30.1.6:2379]
+INFO[0000] [pd] leader switches to: http://10.30.1.5:2379, previous:
+INFO[0000] [pd] init cluster id 6493070954582498647
+2017/12/27 16:35:15 main.go:31: [fatal] fail to generate savepoint error pump &amp;{NodeID:ip-10-10-1-6:8250 Host:10.30.1.6:8250 IsAlive:false LatestBinlogFile:binlog-0000000000000000} is offline
+</code></pre></li>
+</ul>
+</li>
+<li>
+<p>通过 curl 命令请求 PUMP 状态得到以下结果【PUMP 状态接口可以看到邻居的状态】</p>
+<ul>
+<li><code>curl  10.10.1.6:8250/status</code></li>
+<li>看到邻居兄弟都是存活的……</li>
+</ul>
+<pre><code class="language-shell" data-lang="shell">{&#34;LatestBinlog&#34;:{&#34;ip-10-10-1-6:8250&#34;:{},&#34;ip-10-10-1-7:8250&#34;:{},&#34;tidb-online-tidb-1:8250&#34;:{&#34;suffix&#34;:81},&#34;tidb-online-tidb-2:8250&#34;:{&#34;suffix&#34;:77},&#34;tidb-online-tidb-3:8250&#34;:{&#34;suffix&#34;:80},&#34;tidb-online-tidb-4:8250&#34;:{&#34;suffix&#34;:80}},&#34;CommitTS&#34;:396981399817027585,&#34;ErrMsg&#34;:&#34;&#34;}
+</code></pre></li>
+<li>
+<p>官方大佬提示：观察 data.pump 下 node 文件内容</p>
+<ul>
+<li>此处的 .node  文件内容就是 PUMP ID 信息；回顾下报错日志 <code>pump &amp;{NodeID:ip-10-10-1-6:8250 Host:10.30.1.6:8250</code> ，发现文件内容与报错对不起来。看起来是这个问题</li>
+</ul>
+<pre><code class="language-shell" data-lang="shell">cat /data1/tidb/deploy/data.pump/.node
+tidb-online-tidb-2:8250
+</code></pre></li>
+<li>
+<p>需要用到一个神奇的工（ etcd-ctl）去 PD-server 删除这个无效的 ID 信息</p>
+<ul>
+<li>通过 etcd 删除 <code>ip-10-10-1-6:8250</code> 与 <code>ip-10-10-1-7:8250</code></li>
+</ul>
+<pre><code class="language-fallback" data-lang="fallback">export ETCDCTL_API=3 // 配置 etcd api 版本信息
+
+#在 github etcd repo 下载 etcd-v3.2.9-linux-amd64.tar.gz
+
+./etcdctl --endpoints=http://10.10.1.6:2379 get --prefix  tidb-binlog  
+  // 获取所有 tidb-binlog key信息
+
+./etcdctl --endpoints=http://10.10.1.6:2379 get tidb-binlog/pumps/ip-10-10-1-6:8250/object
+  // 获取指定 object 信息，验证其是否存在、是否还有子集
+
+./etcdctl --endpoints=http://10.10.1.6:2379 del tidb-binlog/pumps/ip-10-10-1-6:8250/object 
+  // 删除指定 object 信息
+</code></pre></li>
+<li>
+<p>总结</p>
+<ul>
+<li>造成这种问题的原因大概是：没有正常的停止 PUMP 节点，比如使用 kill -9 的方式停止，PUMP 进程在正常退出的时候会自动去 PD 节点执行 offline 和清理自身 ID 的动作，但异常情况下无法清理，辣么造成的垃圾数据就会影响 Drainer 的运行了。</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x04-忒傻">0x04 忒傻</h2>
+<h3 id="监控">监控</h3>
+<blockquote>
+<p>比较重要的几个监控项（实际上就看到了这几个）</p>
+</blockquote>
+<ul>
+<li>
+<p>RPC QPS(pump)</p>
+<ul>
+<li><code>irate(binlog_pump_rpc_counter[1m])</code></li>
+<li>pump rpc 接口平均每分钟调用次数</li>
+</ul>
+</li>
+<li>
+<p>95% RPC Latency(pump)</p>
+<ul>
+<li>pump rpc 请求 95% 平均延迟</li>
+<li><code>histogram_quantile(0.95, rate(binlog_pump_rpc_duration_seconds_bucket[1m]))</code></li>
+</ul>
+</li>
+<li>
+<p>slave  lower boundary</p>
+<ul>
+<li>drainer 已经排序处理的事务的最大 TS （也可以理解为最大事务 ID）</li>
+<li><code>binlog_drainer_window{marker=\&quot;lower\&quot;, }/(2^18*10^3)</code></li>
+</ul>
+</li>
+<li>
+<p>slave position</p>
+<ul>
+<li>drainer 同步到 ts</li>
+<li><code>binlog_drainer_position{}/((2^18)*1000)</code></li>
+</ul>
+</li>
+<li>
+<p>error binlogs</p>
+<ul>
+<li>错误的 binlog 个数</li>
+<li><code>binlog_drainer_error_binlog_count{}</code></li>
+</ul>
+</li>
+<li>
+<p>slave tikv query</p>
+<ul>
+<li>drainer 查询 tikv 请求数量</li>
+<li><code>binlog_drainer_query_tikv_count{}</code></li>
+</ul>
+</li>
+<li>
+<p>synchronization delay</p>
+<ul>
+<li>drainer 数据同步延迟时间，单位秒</li>
+<li><code>(binlog_drainer_window{marker=\&quot;upper\&quot;, } - ignoring(marker)binlog_drainer_position{})/(2^18*10^3)</code></li>
+</ul>
+</li>
+<li>
+<p>Drainer Event</p>
+<ul>
+<li>drainer 数据同步 sql 语句类型的数量</li>
+<li><code>rate(binlog_drainer_event{}[1m])</code></li>
+</ul>
+</li>
+<li>
+<p>99% drainer txn latency</p>
+<ul>
+<li>.99 同步 binlog txn 延迟时间</li>
+<li><code>histogram_quantile(0.99, rate(binlog_drainer_txn_duration_time_bucket[1m]))</code></li>
+</ul>
+</li>
+<li>
+<p>Goroutine</p>
+<ul>
+<li>binlog 目前存在的go routines数量。</li>
+<li><code>go_goroutines{job=\&quot;binlog\&quot;}</code></li>
+</ul>
+</li>
+<li>
+<p>Memory</p>
+<ul>
+<li>查看 Binlog 组件占用的内存数量，使用的 go 内置统计，而非 linux 系统统计</li>
+<li><code>go_memstats_heap_inuse_bytes{job=\&quot;binlog\&quot;}</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="0x05-工具人">0x05 工具人</h2>
+<blockquote>
+<p>我是一个冷酷无情的工具人，蒸腾到死了</p>
+</blockquote>
+<p><img src="https://atman.ihx.cc/global/helpertools.jpg" alt="折腾到死方休止" loading="lazy" decoding="async">
+</p>
+]]></content:encoded><h:time datetime="2017-10-08T00:00:00+08:00">2017-10-08 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20171108-40-testing-binlog/">TiDB - Binlog 数据同步架构测试</h:a></item></channel></rss>

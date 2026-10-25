@@ -1,1 +1,168 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DDL on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/ddl/</link><description>Recent content in DDL on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Fri, 24 Aug 2018 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/ddl/index.xml" rel="self" type="application/rss+xml"/><item><title>School - TiDB table info &amp; DDL history</title><link>https://atman.ihx.cc/post/20190116-3-ddl-history/</link><pubDate>Fri, 24 Aug 2018 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20190116-3-ddl-history/</guid><description>0x00 元 tidb ddl 3.0 版本之前只有一个队列提供服务，所有 ddl 都要在这个队列阻塞 多个 TiDB-server 会先选举 DDL owner TiDB 配置文件中的 run-ddl = false 该节点不支持运行 DDL DDL owner 处理所有 DDL 信息 更</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>DDL · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/ddl/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Fri, 24 Aug 2018 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/ddl/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>DDL · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 1 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/ddl/index.xml">https://atman.ihx.cc/tags/ddl/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>School - TiDB table info &amp; DDL history</title><link>https://atman.ihx.cc/post/20190116-3-ddl-history/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20190116-3-ddl-history/</guid><pubDate>Fri, 24 Aug 2018 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>DDL</category><category>Troubleshooting</category><description>0x00 元 tidb ddl 3.0 版本之前只有一个队列提供服务，所有 ddl 都要在这个队列阻塞 多个 TiDB-server 会先选举 DDL owner TiDB 配置文件中的 run-ddl = false 该节点不支持运行 DDL DDL owner 处理所有 DDL 信息 更多可阅读 TiDB 异步 schema 变更实现 文档 add …</description><content:encoded><![CDATA[<h2 id="0x00-元">0x00 元</h2>
+<blockquote>
+<p>tidb ddl 3.0 版本之前只有一个队列提供服务，所有 ddl 都要在这个队列阻塞</p>
+</blockquote>
+<ul>
+<li>多个 TiDB-server 会先选举 DDL owner
+<ul>
+<li>TiDB 配置文件中的 <code>run-ddl = false</code> 该节点不支持运行 DDL</li>
+</ul>
+</li>
+<li>DDL owner 处理所有 DDL 信息
+<ul>
+<li>更多可阅读 <a href="https://github.com/ngaut/builddatabase/blob/master/f1/schema-change-implement.md">TiDB 异步 schema 变更实现</a> 文档</li>
+<li>add index 是所有 DDL 中最耗时的</li>
+<li>其他 DDL 均为修改元数据信息，秒级以内可返回</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://atman.ihx.cc/post/20190116-3-ddl-history/3-ddl.jpg" alt="ap.tidb.cc TiDB 异步 schema 变更实现" title="ap.tidb.cc TiDB 异步 schema 变更实现" loading="lazy" decoding="async">
+</p>
+<blockquote>
+<p>ddl history 功能来自 <a href="https://github.com/pingcap/tidb/blob/master/docs/tidb_http_api.md">TiDB-API</a></p>
+</blockquote>
+<ul>
+<li>通过 API 获取到指定 tidb cluster 集群“自搭建成功”到“现在运行”的所有 DDL 记录
+<ul>
+<li>早前版本数据输出时所有数据「json」都在一行，通过 jq 命令或者 python 格式化之后会比较方便查看信息</li>
+<li><a href="https://github.com/pingcap/tidb/pull/9104">PR #9104</a> 之后的版本优化了「大一行」输出</li>
+<li><del>ddl/history 早前版本获取到 DDL 的信息「不完整」，信息记录了 truncate 当前版本的变更，没有记录 truncate 变更后的信息；问题早已修复</del></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-json" data-lang="json">#Get all TiDB DDL job history information.
+
+curl http://{TiDBIP}:10080/ddl/history
+
+#Get count {number} TiDB DDL job history information.
+
+curl http://{TiDBIP}:10080/ddl/history?limit={number}
+</code></pre><ul>
+<li>通过 API 获取指定 db 下所有表、指定 table id、指定 db.table 的 json 元信息</li>
+</ul>
+<pre><code class="language-json" data-lang="json"># Get schema Information about db
+
+curl http://{TiDBIP}:10080/schema/{db}
+
+
+# Get schema Information about db.table, and you can get schema info by tableID (tableID is the unique identifier of table in TiDB)
+
+curl http://{TiDBIP}:10080/schema/{db}/{table}
+
+curl http://{TiDBIP}:10080/schema?table_id={tableID}
+</code></pre><h2 id="0x01-admin-show-ddl">0x01 Admin show ddl</h2>
+<p>TiDB-server 除 API 功能还有个 <a href="https://docs.pingcap.com/tidb/stable/sql-statement-admin#admin-show-ddl">admin show ddl jobs 与 admin show ddl jobs 100</a>(该语句需要 3.0 版本以上，输出最近 100 条信息)</p>
+<p><img src="https://atman.ihx.cc/post/20190116-3-ddl-history/2-admin.png" alt="ap.tidb.cc truncare table ddl admin show ddl jobs " title="ap.tidb.cc truncare table ddl admin show ddl jobs" loading="lazy" decoding="async">
+</p>
+<h2 id="0x02-truncate">0x02 Truncate</h2>
+<ul>
+<li>truncate table DDL 操作是通过 DROP table + Create table 组成实现，table id 会紧随更改 「DDL 操作 “元信息” 数据」
+<ul>
+<li>图片中的首行 ID 是 DDL job ID</li>
+<li>每次 truncate table 后的 table_id 会变化「scheme id、table id 、ddl job id 共用同一套计数器」</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://atman.ihx.cc/post/20190116-3-ddl-history/1-truncate.png" alt="ap.tidb.cc truncare table ddl" title="ap.tidb.cc truncare table ddl" loading="lazy" decoding="async">
+</p>
+<h2 id="0x03-json">0x03 Json</h2>
+<ul>
+<li>以下为某张表的元信息展示「通过 tidb 4.0 补测」</li>
+</ul>
+<pre><code class="language-json" data-lang="json">{
+ &#34;id&#34;: 47,          // table id
+ &#34;name&#34;: {
+  &#34;O&#34;: &#34;sbtest1&#34;,  // 原始输入展示
+  &#34;L&#34;: &#34;sbtest1&#34;   // 程序强转小写展示
+ },
+ &#34;charset&#34;: &#34;utf8mb4&#34;,
+ &#34;collate&#34;: &#34;utf8mb4_bin&#34;,
+ &#34;cols&#34;: [
+  {
+   &#34;id&#34;: 1,         // 列 id
+   &#34;name&#34;: {        // 列名
+    &#34;O&#34;: &#34;k&#34;,
+    &#34;L&#34;: &#34;k&#34;
+   },
+   &#34;offset&#34;: 0,     // 以下为 列关键特性
+   &#34;origin_default&#34;: null,
+   &#34;origin_default_bit&#34;: null,
+   &#34;default&#34;: null,
+   &#34;default_bit&#34;: null,
+   &#34;default_is_expr&#34;: false,
+   &#34;generated_expr_string&#34;: &#34;&#34;,
+   &#34;generated_stored&#34;: false,
+   &#34;dependences&#34;: null,
+   &#34;type&#34;: {
+    &#34;Tp&#34;: 3,
+    &#34;Flag&#34;: 515,
+    &#34;Flen&#34;: 11,
+    &#34;Decimal&#34;: 0,
+    &#34;Charset&#34;: &#34;binary&#34;,
+    &#34;Collate&#34;: &#34;binary&#34;,
+    &#34;Elems&#34;: null
+   },
+   &#34;state&#34;: 5,
+   &#34;comment&#34;: &#34;&#34;,
+   &#34;hidden&#34;: false,
+   &#34;version&#34;: 2
+  },
+
+ ],
+ &#34;index_info&#34;: [        // index 信息
+  {
+   &#34;id&#34;: 1,
+   &#34;idx_name&#34;: {
+    &#34;O&#34;: &#34;k_1&#34;,
+    &#34;L&#34;: &#34;k_1&#34;
+   },
+   &#34;tbl_name&#34;: {
+    &#34;O&#34;: &#34;&#34;,
+    &#34;L&#34;: &#34;&#34;
+   },
+   &#34;idx_cols&#34;: [
+    {
+     &#34;name&#34;: {
+      &#34;O&#34;: &#34;k&#34;,
+      &#34;L&#34;: &#34;k&#34;
+     },
+     &#34;offset&#34;: 1,
+     &#34;length&#34;: -1
+    }
+   ],
+   &#34;state&#34;: 5,
+   &#34;comment&#34;: &#34;&#34;,
+   &#34;index_type&#34;: 1,
+   &#34;is_unique&#34;: false,
+   &#34;is_primary&#34;: false,
+   &#34;is_invisible&#34;: false,
+   &#34;is_global&#34;: false
+  }
+ ],                             // 以下为 tidb 在 table 级别的特性
+ &#34;constraint_info&#34;: null,       // 4.0 的新字符集架构
+ &#34;fk_info&#34;: null,               // 盲猜 foreign key
+ &#34;state&#34;: 5,
+ &#34;pk_is_handle&#34;: true,          // int 类型的 PK == true
+ &#34;is_common_handle&#34;: false,     // varchar 类型的 PK 或者联合主键 == true
+                    // 表未设置主键时 pk_is_handle &amp; is_common_handle 均为 false
+ &#34;comment&#34;: &#34;&#34;,
+ &#34;auto_inc_id&#34;: 0,          // AUTO_INCREMENT 功能
+ &#34;auto_id_cache&#34;: 0,        // AUTO_ID_CACHE 自增 ID 缓存功能
+ &#34;auto_rand_id&#34;: 0,         // AUTO_RANDOM 功能
+ &#34;max_col_id&#34;: 4,
+ &#34;max_idx_id&#34;: 1,
+ &#34;max_cst_id&#34;: 0,
+ &#34;update_timestamp&#34;: 418539877049565193,
+ &#34;ShardRowIDBits&#34;: 0,       // SHARD_ROW_ID_BITS 功能
+ &#34;max_shard_row_id_bits&#34;: 0,
+ &#34;auto_random_bits&#34;: 0,     // 与 shard row id bits 结合使用
+ &#34;pre_split_regions&#34;: 0,    // pre split 预打散 table region 功能
+ &#34;partition&#34;: null,         // 是否为分区表
+ &#34;compression&#34;: &#34;&#34;,         // 该表是否启用 「COMPRESSION [=] {&#39;ZLIB&#39;|&#39;LZ4&#39;|&#39;NONE&#39;}」 属性
+ &#34;view&#34;: null,              // 视图功能
+ &#34;sequence&#34;: null,          // sequence 功能
+ &#34;Lock&#34;: null,              // 盲猜 table lock，无证实
+ &#34;version&#34;: 3,
+ &#34;tiflash_replica&#34;: null    // tiflash 列存副本
+}
+</code></pre>]]></content:encoded><h:time datetime="2018-08-24T00:00:00+08:00">2018-08-24 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20190116-3-ddl-history/">School - TiDB table info &amp; DDL history</h:a></item></channel></rss>

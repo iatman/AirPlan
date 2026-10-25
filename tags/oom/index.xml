@@ -1,1 +1,64 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OOM on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/oom/</link><description>Recent content in OOM on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Sun, 19 Nov 2017 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/oom/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux - OOM > out of memory</title><link>https://atman.ihx.cc/post/20171119-46-linux-oom-killer/</link><pubDate>Sun, 19 Nov 2017 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20171119-46-linux-oom-killer/</guid><description>0x00 开头 测试机器环境配置比较低，使用 TiDB Join 表连接查询时偶尔会出现重启现象，按照官方指导查看问题原因说时 TiDB-server OOM 了，那么 OOM 是什么呢？为什么 OOM 啊？怎么才</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>OOM · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/oom/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Sun, 19 Nov 2017 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/oom/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>OOM · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 1 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/oom/index.xml">https://atman.ihx.cc/tags/oom/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>Linux - OOM > out of memory</title><link>https://atman.ihx.cc/post/20171119-46-linux-oom-killer/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20171119-46-linux-oom-killer/</guid><pubDate>Sun, 19 Nov 2017 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>TiDB</category><category>OOM</category><category>Troubleshooting</category><description>0x00 开头 测试机器环境配置比较低，使用 TiDB Join 表连接查询时偶尔会出现重启现象，按照官方指导查看问题原因说时 TiDB-server OOM 了，那么 OOM 是什么呢？为什么 OOM 啊？怎么才能避免 OOM 呢？ 思考这个现象的时候在网上搜到了一些内容，在本文总结下（从其他家复制到自己家） 0x01 现象 TiDB-server 运行在 …</description><content:encoded><![CDATA[<h2 id="0x00-开头">0x00 开头</h2>
+<p>测试机器环境配置比较低，使用 TiDB Join 表连接查询时偶尔会出现重启现象，按照官方指导查看问题原因说时 TiDB-server OOM 了，那么 OOM 是什么呢？为什么 OOM 啊？怎么才能避免 OOM 呢？<br>
+思考这个现象的时候在网上搜到了一些内容，在本文总结下（<del>从其他家复制到自己家</del>）</p>
+<h2 id="0x01-现象">0x01 现象</h2>
+<p>TiDB-server 运行在一个 8U 8G 的虚拟机上，有时候 BDA 写出一些神奇的 SQL 在 TiDB-server 上运行的会导致内存瞬间上涨；根据需要查询的数据量级，可能会瞬间导致内存爆炸然后触发 TiDB-server 重启。<br>
+通过以下三种方式交叉验证 TiDB-server 是否是 OOM：</p>
+<ol>
+<li>内存在用状态可以在监控上看到一个上涨趋势，位置在 <code>TiDB-dashboard &gt; server &gt; memory</code> 查看，出现重启的现象就是内存瞬间上涨然后出现断崖式下降。</li>
+<li>链接 TiDB-server 的 mysql 客户端会出现一条信息返回 <code>ERROR 2013 (HY000): Lost connection to MySQL server during query</code></li>
+<li>使用 root 用户登录 Linux 系统，然后执行 <code>dmesg -T | grep -i oom</code> 命令，查看是否有相应信息返回
+<ul>
+<li>dmesg 记录了硬件启动后自检信息、kernel 系统运行信息</li>
+</ul>
+</li>
+</ol>
+<h2 id="0x02-原因">0x02 原因</h2>
+<p>TiDB-server 相比 mysql ，木有临时物理表、木有中间数据转存磁盘。所以当 client 发起请求从 TiDB 获取大量数据时，TiDB 需要从 TiKV 获取数据然后在 TiDB-server 内存中做计算，此处的计算会造成写放大，然后内存爆炸导致触发 Linux OOM 机制。</p>
+<p>这个现象影响程度不定，如果是在线联机服务遇见这种情况就是日了🐶啦，如果是测试或者内部人员使用还好，大家重新执行个查询就好了。该现象木有啥完美解决方案，可以考虑找个超大内存机器部署 TiDB-server 、或者让 DBA 处理数据时缩小范围（不明所以）。</p>
+<h2 id="0x03-oom">0x03 OOM</h2>
+<blockquote>
+<p>linux OOM killer（Out Of Memory killer）这个东西会在系统内存耗尽的情况下跳出来，选择性的干掉一些进程以求释放一些内存（<del>不负责的个人经验：这把刀杀的是压死骆驼的最后一根稻草，并不是捅刀子最多的人</del>）<br>
+Linux 下每个进程都有个 OOM 权重，在 <code>/proc/&lt;pid&gt;/oom_adj</code> 里面，权重是 -17 ~~ +15<br>
+同时 OOM killer 会计算一个叫 score 的东东 <code>/proc/&lt;pid&gt;/oom_score</code> ，天黑闭眼之后用来确定要被杀的人；这个值是系统收集 进程的内存消耗量（计算时：父进程会承包所有子进程的内存占用）、CPU 时间 (utime + stime)、生存时间 (uptime - start time)、oom_adj 综合计算之后的结果<br>
+消耗内存越多分越高，存活时间越长分越低 == “损失最少的工作，释放最大的内存同时不伤及无辜的用了很大内存的进程，并且杀掉的进程数尽量少”</p>
+</blockquote>
+<p>友好方式人工控制降低被杀几率，辣么就是控制进程的权重，比如这样调整 <code>echo -17 &gt; /proc/$PID/oom_adj</code> “源码说 -17 可以禁止进程被 OOM，15 会最大几率被打死”</p>
+<p>还有个不那么友好的方案：</p>
+<ul>
+<li>修改参数 <code>/proc/sys/vm/overcommit_memory</code> 可以控制进程对内存过量使用的应对策略
+<ul>
+<li><code>overcommit_memory=0</code> 允许进程轻微过量使用内存，但对于瞬间大容量内存占用请求则不允许【默认值】
+<ul>
+<li>单次申请的内存大小不能超过 【free memory + free swap + pagecache 大小 + SLAB 中可回收的部分】，否则本次申请失败。</li>
+</ul>
+</li>
+<li><code>overcommit_memory=1</code> 永远允许进程 overcommit</li>
+<li><code>overcommit_memory=2</code> 永远禁止 overcommit</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>本段内容复制于 <a href="http://linuxperf.com/?p=102">LINUX MEMORY OVERCOMMIT</a></p>
+</blockquote>
+<p>overcommit 还有个延伸内容，那就是怎么判断什么是 overcommit？Linux 内核设置了个内存阈值开关，超过开关后直接干掉。所以配置成 overvcommit 时注意修改参数 <code>/proc/meminfo</code></p>
+<pre><code class="language-shell" data-lang="shell"># grep -i commit /proc/meminfo
+CommitLimit:     5967744 kB
+Committed_AS:    5363236 kB
+</code></pre><p>CommitLimit 就是 overcommit 的阈值，申请的内存总数超过 CommitLimit 的话就算是 overcommit。<br>
+这个阈值是如何计算出来的呢？它既不是物理内存的大小，也不是 free memory 的大小，它是通过内核参数 vm.overcommit_ratio 或 vm.overcommit_kbytes 间接设置的，公式如：<code>CommitLimit = (Physical RAM * vm.overcommit_ratio / 100) + Swap</code></p>
+<p>vm.overcommit_ratio 是内核参数，缺省值是 50，表示物理内存的 50%。如果你不想使用比率，也可以直接指定内存的字节数大小，通过另一个内核参数 vm.overcommit_kbytes 即可.
+如果使用了 huge pages，那么需要从物理内存中减去，公式变成：<code>CommitLimit = ([total RAM] – [total huge TLB RAM]) * vm.overcommit_ratio / 100 + swap</code>
+参见 <a href="https://access.redhat.com/solutions/665023">https://access.redhat.com/solutions/665023</a></p>
+<p>/proc/meminfo 中的 Committed_AS 表示所有进程已经申请的内存总大小，（注意是已经申请的，不是已经分配的），如果 Committed_AS 超过 CommitLimit 就表示发生了 overcommit，超出越多表示 overcommit 越严重。Committed_AS 的含义换一种说法就是，如果要绝对保证不发生 OOM (out of memory) 需要多少物理内存。</p>
+<p>查看内存使用状况的常用工具 sar -r ，输出结果中有两个与 overcommit 有关，kbcommit 和 %commit</p>
+<ul>
+<li>kbcommit 对应 / proc/meminfo 中的 Committed_AS</li>
+<li>%commit 的计算公式并没有采用 CommitLimit 作分母，而是 Committed_AS/(MemTotal+SwapTotal)，意思是_内存申请_占_物理内存与交换区之和_的百分比</li>
+</ul>
+<pre><code class="language-shell" data-lang="shell">$ sar -r
+
+05:00:01 PM kbmemfree kbmemused  %memused kbbuffers  kbcached  kbcommit   %commit  kbactive   kbinact   kbdirty
+05:10:01 PM    160576   3648460     95.78         0   1846212   4939368     62.74   1390292   1854880         4
+</code></pre><p>课外阅读 <a href="https://www.oracle.com/technical-resources/articles/it-infrastructure/dev-oom-killer.html">How to Configure the Linux Out-of-Memory Killer</a></p>
+]]></content:encoded><h:time datetime="2017-11-19T00:00:00+08:00">2017-11-19 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20171119-46-linux-oom-killer/">Linux - OOM > out of memory</h:a></item></channel></rss>

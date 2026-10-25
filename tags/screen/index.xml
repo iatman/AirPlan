@@ -1,1 +1,127 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>screen on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/screen/</link><description>Recent content in screen on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Thu, 01 Jan 2009 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/screen/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux - Screen 进程守护</title><link>https://atman.ihx.cc/post/20090101-screen/</link><pubDate>Thu, 01 Jan 2009 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20090101-screen/</guid><description>0x00 起源 百家饭内容：常用参数速查 主要用于 Linux 运行常驻命令守护，screen 创建窗口后运行程序，相比 nohub 命令使用上心安理得一些。 如果作为办公多窗口使</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>Screen · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/screen/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Thu, 01 Jan 2009 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/screen/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>Screen · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 1 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/screen/index.xml">https://atman.ihx.cc/tags/screen/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>Linux - Screen 进程守护</title><link>https://atman.ihx.cc/post/20090101-screen/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20090101-screen/</guid><pubDate>Thu, 01 Jan 2009 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>Linux</category><category>Screen</category><category>AirPlan</category><description>0x00 起源 百家饭内容：常用参数速查 主要用于 Linux 运行常驻命令守护，screen 创建窗口后运行程序，相比 nohub 命令使用上心安理得一些。 如果作为办公多窗口使用，推荐使用 tmux 工具 0x01 快速安装 _____ / ___/_____________ ___ ____ \__ \/ ___/ ___/ _ \/ _ \/ __ …</description><content:encoded><![CDATA[<h2 id="0x00-起源">0x00 起源</h2>
+<blockquote>
+<p>百家饭内容：常用参数速查
+主要用于 Linux 运行常驻命令守护，screen 创建窗口后运行程序，相比 nohub 命令使用上心安理得一些。
+如果作为办公多窗口使用，推荐使用 tmux 工具</p>
+</blockquote>
+<h2 id="0x01-快速安装">0x01 快速安装</h2>
+<pre><code class="language-bash" data-lang="bash">   _____
+  / ___/_____________  ___  ____
+  \__ \/ ___/ ___/ _ \/ _ \/ __ \
+ ___/ / /__/ /  /  __/  __/ / / /
+/____/\___/_/   \___/\___/_/ /_/
+</code></pre><p>Quick install:</p>
+<ol>
+<li>
+<p>Screen
+login as root:
+sudo su -
+yum -y install screen</p>
+</li>
+<li>
+<p>start screen
+screen</p>
+</li>
+<li>
+<p>create a new screen
+CTRL-A  c</p>
+</li>
+<li>
+<p>go to next screen
+CTRL-A n,   CTRL-A p</p>
+</li>
+<li>
+<p>detatch from a screen
+CTRL-A d</p>
+</li>
+<li>
+<p>reattach to screen
+sceen -r</p>
+</li>
+<li>
+<p>list screen
+screen -list</p>
+</li>
+<li>
+<p>Log
+CTRL-A H</p>
+</li>
+<li>
+<p>look for activity
+&ldquo;Ctrl-a&rdquo; &ldquo;M&rdquo;</p>
+</li>
+<li>
+<p>look for in activity
+&ldquo;Ctrl-a&rdquo; &ldquo;_&rdquo;</p>
+</li>
+</ol>
+<h2 id="0x02-帮助手册">0x02 帮助手册</h2>
+<pre><code class="language-bash" data-lang="bash">Options:
+-a            Force all capabilities into each window&#39;s termcap.
+-A -[r|R]     Adapt all windows to the new display width &amp; height.
+-c file       Read configuration file instead of &#39;.screenrc&#39;.
+-d (-r)       Detach the elsewhere running screen (and reattach here).
+-dmS name     Start as daemon: Screen session in detached mode.
+-D (-r)       Detach and logout remote (and reattach here).
+-D -RR        Do whatever is needed to get a screen session.
+-e xy         Change command characters.
+-f            Flow control on, -fn = off, -fa = auto.
+-h lines      Set the size of the scrollback history buffer.
+-i            Interrupt output sooner when flow control is on.
+-l            Login mode on (update /var/run/utmp), -ln = off.
+-list         or -ls. Do nothing, just list our SockDir.
+-L            Turn on output logging.
+-m            ignore $STY variable, do create a new screen session.
+-O            Choose optimal output rather than exact vt100 emulation.
+-p window     Preselect the named window if it exists.
+-q            Quiet startup. Exits with non-zero return code if unsuccessful.
+-r            Reattach to a detached screen process.
+-R            Reattach if possible, otherwise start a new session.
+-s shell      Shell to execute rather than $SHELL.
+-S sockname   Name this session &lt;pid&gt;.sockname instead of &lt;pid&gt;.&lt;tty&gt;.&lt;host&gt;.
+-t title      Set title. (window&#39;s name).
+-T term       Use term as $TERM for windows, rather than &#34;screen&#34;.
+-U            Tell screen to use UTF-8 encoding.
+-v            Print &#34;Screen version 4.00.02 (FAU) 5-Dec-03&#34;.
+-wipe         Do nothing, just clean up SockDir.
+-x            Attach to a not detached screen. (Multi display mode).
+-X            Execute &lt;cmd&gt; as a screen command in the specified session.
+</code></pre><pre><code class="language-bash" data-lang="bash">Basic
+=====
+    ctrl a c              -&gt; cre­ate new win­dow
+    ctrl a A              -&gt; set win­dow name
+    ctrl a w              -&gt; show all win­dow
+    ctrl a 1|2|3|…        -&gt; switch to win­dow n
+    ctrl a ”              -&gt; choose win­dow
+    ctrl a ctrl a         -&gt; switch between win­dow
+    ctrl a d              -&gt; detach win­dow
+    ctrl a ?              -&gt; help
+    ctrl a [              -&gt; start copy, move cur­sor to the copy
+                             loca­tion, press ENTER, select the chars,
+                             press ENTER to copy the selected
+                             char­ac­ters to the buffer
+    ctrl a ]              -&gt; paste from buffer
+
+
+How to start screen
+===================
+    screen –DR            -&gt; list of detached screen
+    screen –r PID         -&gt; attach detached screen ses­sion
+    screen –dmS MySes­sion -&gt; start a detached screen ses­sion
+    screen –r MySes­sion   -&gt; attach screen ses­sion with name MySession
+
+
+Advanced
+========
+    ctrl a S              -&gt; cre­ate split screen
+    ctrl a TAB            -&gt; switch between split screens
+
+    ctrl a Q              -&gt; Kill all regions but the cur­rent one.
+    ctrl a X              -&gt; remove active win­dow from split screen
+    ctrl a O              -&gt; logout active win­dow (dis­able out­put)
+    ctrl a I              -&gt; login active win­dow (enable output)
+</code></pre><h2 id="0x03-场景">0x03 场景</h2>
+<blockquote>
+<p>待补充</p>
+</blockquote>
+]]></content:encoded><h:time datetime="2009-01-01T00:00:00+08:00">2009-01-01 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20090101-screen/">Linux - Screen 进程守护</h:a></item></channel></rss>

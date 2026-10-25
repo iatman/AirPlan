@@ -1,1 +1,229 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>files on AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/files/</link><description>Recent content in files on AirPlan - A biger solution</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>DataBase - biger.cc</copyright><lastBuildDate>Fri, 15 Aug 2025 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/files/index.xml" rel="self" type="application/rss+xml"/><item><title>通过 pipes 配合 insert into select files 增量导入</title><link>https://atman.ihx.cc/post/20250815-starrocks-pipe-files-json/</link><pubDate>Fri, 15 Aug 2025 00:00:00 +0800</pubDate><guid>https://atman.ihx.cc/post/20250815-starrocks-pipe-files-json/</guid><description>测试目的 json 文件数据导入到 StarRocks 数据指定表并按列存储字段 json 文件所在 s3 目录新增文件后，数据库自动导入新增文件 json 文件数据避免重复 测试过程 部署 1 套 v3.3.14 版本</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/css" href="/css/feed.min.862ab8f8bb15f1f3203a5b9e6a474b6fcd7e7137c22209e346175b0856acfd97.css"?><rss data-theme="dark" data-theme-default="dark" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:h="http://www.w3.org/1999/xhtml"><channel><title>files · atman · ihx.cc | AirPlan - A biger solution</title><link>https://atman.ihx.cc/tags/files/</link><description>君子不器，日日自新。一處關於技術、生活與自我探索的行記。</description><language>zh-CN</language><generator>Hugo</generator><copyright>DataBase - Atman as @man</copyright><lastBuildDate>Fri, 15 Aug 2025 00:00:00 +0800</lastBuildDate><atom:link href="https://atman.ihx.cc/tags/files/index.xml" rel="self" type="application/rss+xml"/><h:script src="/js/theme.min.e9b6d7597dde98fbf1181117d7e72cec3c16ab35de5b3f3bdb17dbd866e0c62c.js" type="text/javascript" defer="defer"/><h:header class="feed-header"><h:nav><h:a href="https://atman.ihx.cc/">首页</h:a><h:a href="https://atman.ihx.cc/archive/">Archive</h:a><h:button id="theme-toggle" class="feed-theme-toggle" type="button" aria-label="暗色模式" aria-pressed="true" title="切换亮暗风格">亮 / 暗</h:button></h:nav><h:p class="feed-eyebrow">RSS / 全文订阅</h:p><h:h1>files · atman · ihx.cc | AirPlan - A biger solution</h:h1><h:p>将下面的地址粘贴到 RSS 阅读器，即可订阅更新。这里展示最近 1 篇文章的摘要，阅读器中可阅读文章全文。</h:p><h:a class="feed-address" href="https://atman.ihx.cc/tags/files/index.xml">https://atman.ihx.cc/tags/files/index.xml</h:a><h:p class="feed-note">包含 post 和 look 中的文章 · 按发布时间倒序</h:p></h:header><item><title>通过 pipes 配合 insert into select files 增量导入</title><link>https://atman.ihx.cc/post/20250815-starrocks-pipe-files-json/</link><guid isPermaLink="true">https://atman.ihx.cc/post/20250815-starrocks-pipe-files-json/</guid><pubDate>Fri, 15 Aug 2025 00:00:00 +0800</pubDate><dc:creator>Atman</dc:creator><category>S3</category><category>StarRocks</category><category>files</category><description>测试目的 json 文件数据导入到 StarRocks 数据指定表并按列存储字段 json 文件所在 s3 目录新增文件后，数据库自动导入新增文件 json 文件数据避免重复 测试过程 部署 1 套 v3.3.14 版本 StarRocks 集群（单节点 FE、BE） pipes 功能请看官网文档 异步调度工具 支持分辨数据目录内文件的变更状态 files …</description><content:encoded><![CDATA[<h2 id="测试目的">测试目的 </h2>
+<ol>
+<li>json 文件数据导入到 StarRocks 数据指定表并按列存储字段</li>
+<li>json 文件所在 s3 目录新增文件后，数据库自动导入新增文件</li>
+<li>json 文件数据避免重复</li>
+</ol>
+<h2 id="测试过程">测试过程</h2>
+<ol>
+<li>部署 1 套 v3.3.14 版本 StarRocks 集群（单节点 FE、BE）
+<ol>
+<li>pipes 功能请看<a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/CREATE_PIPE/">官网文档</a>
+<ol>
+<li>异步调度工具</li>
+<li>支持分辨数据目录内文件的变更状态</li>
+</ol>
+</li>
+<li>files 表函数功能<a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-functions/table-functions/files/">官网文档</a>
+<ol>
+<li>支持 S3 对象存储、NFS、Hdfs、本地文件</li>
+<li>支持 导入和导出</li>
+<li>支持 orc、parquet、csv、avro 格式</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>部署 1 套 Minio 服务（本地 binary 启动）</li>
+</ol>
+<h3 id="测试数据样本">测试数据样本</h3>
+<ol>
+<li>csv 文件数据样本，保存到部署 StarRocks 的节点 1 份</li>
+</ol>
+<pre><code class="language-json" data-lang="json">{&#34;category&#34;:&#34;C++&#34;,&#34;author&#34;:&#34;avc&#34;,&#34;title&#34;:&#34;C++ primer&#34;,&#34;price&#34;:89.5}
+{&#34;category&#34;:&#34;Java&#34;,&#34;author&#34;:&#34;avc&#34;,&#34;title&#34;:&#34;Effective Java&#34;,&#34;price&#34;:95}
+{&#34;category&#34;:&#34;Linux&#34;,&#34;author&#34;:&#34;avc&#34;,&#34;title&#34;:&#34;Linux kernel&#34;,&#34;price&#34;:195}
+</code></pre><ol start="2">
+<li>需要处理 S3 目录如下场景</li>
+</ol>
+<ul>
+<li>单个目录下可能存在多种文件格式</li>
+<li>单个目录或多个目录存在多个文件（每隔数秒新增 1 个文件）</li>
+<li>目录内已有文件可能存在更新（文件大小的变化）</li>
+</ul>
+<h3 id="starrocks-验证">StarRocks 验证</h3>
+<ol>
+<li>新建数据表，采用 duplicate key 表是为了验证多次创建任务对数据的影响</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">create database test;
+
+CREATE TABLE test.`ooojson` (
+    `category` varchar(100) NOT NULL COMMENT &#34;&#34;,
+    `author` varchar(1048) NULL COMMENT &#34;&#34;,
+    `dt` datetime NULL COMMENT &#34;&#34; -- 写文档是后加的内容，实际验证时未添加
+  ) ENGINE=OLAP 
+  DUPLICATE KEY(category);
+</code></pre><ol start="2">
+<li>使用 select files 基于本地文件测试读取
+<ul>
+<li>更多使用姿势参考 <a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-functions/table-functions/files/">https://docs.starrocks.io/zh/docs/sql-reference/sql-functions/table-functions/files/</a></li>
+<li>json 数据按照 csv 文件放在 /opt/ 目录下</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">SELECT  get_json_string($1,&#34;$.category&#34;) as category,get_json_string($1,&#34;$.author&#34;) as author  FROM FILES
+(
+    &#34;path&#34; = &#34;file:///opt/ooojson.csv&#34;,
+    &#34;format&#34; = &#34;csv&#34;,
+    &#34;csv.column_separator&#34;=&#34;\\x014f&#34;  -- 声明 1 个不存在的分隔符，避免 json 中 \\t 的关键词，导致 json 数据被分割
+    --&#34;csv.enclose&#34;=&#39;&#34;&#39;, 不要声明这个，这个会强制格式掉 json 里的双引号，导致 json 格式不合法
+    --&#34;csv.skip_header&#34;=&#34;1&#34;, -- 如果第一行不是 header，这个参数可忽略
+    -- &#34;csv.escape&#34;=&#34;\\&#34; -- 配合 pipe 使用时存在已知 bug，SQL 格式化丢失 1 个反斜线
+);
+</code></pre><pre><code class="language-sql" data-lang="sql">mysql&gt; 
+mysql&gt; SELECT  get_json_string($1,&#34;$.category&#34;) as category,get_json_string($1,&#34;$.author&#34;) as author  FROM FILES
+    -&gt; (
+    -&gt;     &#34;path&#34; = &#34;file:///opt/ooojson.csv&#34;,
+    -&gt;     &#34;format&#34; = &#34;csv&#34;,
+    -&gt;     &#34;csv.column_separator&#34;=&#34;\\x014f&#34;
+    -&gt;     --&#34;csv.enclose&#34;=&#39;&#34;&#39;,
+    -&gt;     --&#34;csv.skip_header&#34;=&#34;1&#34;
+    -&gt; );
++----------+--------+
+| category | author |
++----------+--------+
+| C++      | avc    |
+| Java     | avc    |
+| Linux    | avc    |
++----------+--------+
+3 rows in set (0.11 sec)
+</code></pre><ol start="3">
+<li>测试将数据配合 insert into 写入到目标表（test.ooojson)
+<ol>
+<li>通过 show load 可以跟踪到该 ETL 任务执行成功</li>
+</ol>
+</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">insert into test.ooojson(category,author)
+
+SELECT  get_json_string($1,&#34;$.category&#34;) as category,get_json_string($1,&#34;$.author&#34;) as author  FROM FILES
+(
+    &#34;path&#34; = &#34;file:///opt/ooojson.csv&#34;,
+    &#34;format&#34; = &#34;csv&#34;,
+    &#34;csv.column_separator&#34;=&#34;\\x014f&#34;  -- 声明 1 个不存在的分隔符，避免 json 中 \\t 的关键词，导致 json 数据被分割
+    --&#34;csv.enclose&#34;=&#39;&#34;&#39;, 不要声明这个，这个会强制格式掉 json 里的双引号，导致 json 格式不合法
+    --&#34;csv.skip_header&#34;=&#34;1&#34;, -- 如果第一行不是 header，这个参数可忽略
+    -- &#34;csv.escape&#34;=&#34;\\&#34; -- 配合 pipe 使用时存在已知 bug，SQL 格式化丢失 1 个反斜线
+);
+</code></pre><ol start="4">
+<li>通过 pipe 循环写入（此时需要使用到 minio）
+<ul>
+<li>语法参考：https://docs.starrocks.io/zh/docs/loading/s3/</li>
+</ul>
+</li>
+<li>创建 pipe 能力，如下方式确定数据范围【如果变化就导入，如果无任何变化不会触发导入】
+<ul>
+<li><code>&quot;path&quot; = &quot;s3://ooopipe/ooojson.csv&quot;,</code> 这个只会监控 ooojson 单个文件，不会判断其他文件</li>
+<li><code>&quot;path&quot; = &quot;s3://ooopipe/ooo*.csv&quot;,</code> 这种会监控 ooo 开头的文件</li>
+<li><code>&quot;path&quot; = &quot;s3://ooopipe/*.csv&quot;,</code>  这会监控所有 csv 结尾的文件</li>
+<li>支持使用通配符匹配路径，比如： <code>&quot;path&quot; = &quot;s3://abc*/dt=*/ooopipe/*.csv&quot;</code></li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">CREATE or replace PIPE user_pipess
+PROPERTIES
+(
+    &#34;AUTO_INGEST&#34; = &#34;TRUE&#34;,
+    &#34;POLL_INTERVAL&#34;=&#34;3&#34; -- 间隔 3 秒捕获 1 次，默认是 300 秒 1 次；频率越快、compact 成本越大
+)
+AS
+INSERT INTO ooojson
+SELECT  get_json_string($1,&#34;$.category&#34;) as category,get_json_string($1,&#34;$.author&#34;) as author  FROM FILES
+(
+    &#34;path&#34; = &#34;s3://ooopipe/ooo*.csv&#34;,
+    &#34;format&#34; = &#34;csv&#34;,
+    &#34;csv.column_separator&#34;=&#34;\\x014f&#34;,
+    &#34;aws.s3.enable_ssl&#34; = &#34;false&#34;,
+    &#34;aws.s3.endpoint&#34; = &#34;http://127.0.0.1:9000&#34;,
+    &#34;aws.s3.access_key&#34; = &#34;minioadmin&#34;,
+    &#34;aws.s3.secret_key&#34; = &#34;minioadmin&#34;
+);
+</code></pre><ol start="6">
+<li>查看 pipe 异步任务执行状态
+<ul>
+<li>通过 show pipes 查看任务运行状态‘</li>
+<li>或者 <code>select * from information_schema.pipe_files</code> 查看文件导入历史记录</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-sql" data-lang="sql">
+mysql&gt; show pipes\G;
+*************************** 1. row ***************************
+DATABASE_NAME: test
+      PIPE_ID: 278645
+    PIPE_NAME: user_pipess
+        STATE: RUNNING
+   TABLE_NAME: test.ooojson
+  LOAD_STATUS: {&#34;loadedFiles&#34;:3,&#34;loadedBytes&#34;:627,&#34;loadingFiles&#34;:0,&#34;lastLoadedTime&#34;:&#34;2025-08-14 15:52:37&#34;}
+   LAST_ERROR: NULL
+ CREATED_TIME: 2025-08-14 15:52:35
+1 row in set (0.00 sec)
+
+-- 通过 meta 数据库查看
+mysql&gt; select * from information_schema.pipe_files \G;
+*************************** 10. row ***************************
+         JobId: 278650
+         Label: pipe-user_pipess-task-278647-0
+         State: FINISHED
+      Progress: ETL:100%; LOAD:100%
+          Type: INSERT
+      Priority: NORMAL
+      ScanRows: 9
+  FilteredRows: 0
+UnselectedRows: 0
+      SinkRows: 9
+       EtlInfo: NULL
+      TaskInfo: resource:N/A; timeout(s):3600; max_filter_ratio:0.0
+      ErrorMsg: NULL
+    CreateTime: 2025-08-14 15:52:37
+  EtlStartTime: 2025-08-14 15:52:37
+ EtlFinishTime: 2025-08-14 15:52:37
+ LoadStartTime: 2025-08-14 15:52:37
+LoadFinishTime: 2025-08-14 15:52:37
+   TrackingSQL: 
+    JobDetails: {&#34;All backends&#34;:{&#34;a4ec15ee-78e3-11f0-a387-260aca8fc881&#34;:[10001]},&#34;FileNumber&#34;:3,&#34;FileSize&#34;:627,&#34;InternalTableLoadBytes&#34;:193,&#34;InternalTableLoadRows&#34;:9,&#34;ScanBytes&#34;:666,&#34;ScanRows&#34;:9,&#34;TaskNumber&#34;:1,&#34;Unfinished backends&#34;:{&#34;a4ec15ee-78e3-11f0-a387-260aca8fc881&#34;:[]}}
+     Warehouse: 
+10 rows in set (0.01 sec)
+</code></pre><ol start="7">
+<li>pipe 已知信息
+<ol>
+<li>以官网文档为准 <a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/CREATE_PIPE/">官网文档</a></li>
+<li>当 S3 一次新增多个文件时候
+<ol>
+<li>默认：文件个数不大于 BATCH_FILES = 256 个，文件大小不超过 BATCH_SIZE = 1GB 的时候，多个文件会占用 1 个 insert into select 导入能力加载到数据库</li>
+<li>当新增文件体量超过如上任意条件时，会切分成多个 pipe 任务导入；参考：<code>fe/fe-core/src/main/java/com/starrocks/load/pipe/FilePipeSource.java</code>
+<ol>
+<li>假设新增 100 个文件，总加起来不超过 1G ，会使用 1 个 task 并发；path 可以设置一次导入多个文件</li>
+<li>假设新增 50 个文件 &amp;&amp; 超过 1G ，会使用多个 task 并发</li>
+<li>假设新增 500 个文件 &amp;&amp; 不超过 1G ，会使用多个 task 并发</li>
+<li>并发个数被 FE 参数管理：<code>task_runs_concurrency=4</code> ；参考：<code>fe/fe-core/src/main/java/com/starrocks/scheduler/TaskRunScheduler.java</code></li>
+</ol>
+</li>
+</ol>
+</li>
+<li>pipe 任务与数据导入
+<ol>
+<li>可查看：<code>fe/fe-core/src/main/java/com/starrocks/load/pipe/Pipe.java</code></li>
+<li>任务删除后，已经导入的记录会被删除</li>
+<li>重新创建任务，会使用 files() 函数内的 path 信息重新匹配，数据可能存在重复导入
+<ol>
+<li>当 sink table 是 primary key 表时，该行为可以保证最终幂等性，但是数据加载占用的资源不会忽略</li>
+<li>当 sink table 是 duplicate key 表时，该行为导致数据重复导入，数据会出现重复</li>
+</ol>
+</li>
+<li>数据表删除时，pipe 任务会联动删除</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>pipe 相关资料
+<ul>
+<li><a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/SHOW_PIPES/">SHOW PIPES</a></li>
+<li><a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/CREATE_PIPE/">CREATE PIPE</a></li>
+<li><a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/ALTER_PIPE/">ALTER PIPE</a></li>
+<li><a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/DROP_PIPE/">DROP PIPE</a></li>
+<li><a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/SUSPEND_or_RESUME_PIPE/">SUSPEND or RESUME PIPE</a></li>
+<li><a href="https://docs.starrocks.io/zh/docs/sql-reference/sql-statements/loading_unloading/pipe/RETRY_FILE/">RETRY FILE</a></li>
+</ul>
+</li>
+</ol>
+]]></content:encoded><h:time datetime="2025-08-15T00:00:00+08:00">2025-08-15 · post</h:time><h:a class="feed-article-title" href="https://atman.ihx.cc/post/20250815-starrocks-pipe-files-json/">通过 pipes 配合 insert into select files 增量导入</h:a></item></channel></rss>
